@@ -1,4 +1,7 @@
-// Gordon McCreary (January, 2020)
+// Gordon McCreary (January 2020)
+
+/** The standard draw scale that is used across most entities. */
+const STANDARD_DRAW_SCALE = [1.75];
 
 /** The radius of the camera bounding box around the player. */
 const CAMERA_BOUNDING_BOX = 25;
@@ -14,40 +17,47 @@ class Camera {
     constructor(ctx) {
         this._x = 0;
         this._y = 0;
+        this._ctx = ctx;
         this._width = ctx.canvas.width;
         this._height = ctx.canvas.height;
     }
 
     /**
-     * Translates a physical point on the map to a point that's relative to the
-     * camera.
-     * @param {object} physicalPoint The {x: , y: } of the object that you want
-     *      to translate.
+     * Translates game map position into drawing position based on scale.
+     * @param {object} point The {x: #, y: #} point that will be translated.
+     * @param {number} zScale Number scale for additional z-axis scaling.
+     * @returns {object} Returns the {x: #, y: #} point of where to draw on the
+     *      canvas.
      */
-    translate(physicalPoint) {
-        return {x: (physicalPoint.x - this._x) + (this._width / 2), y: (physicalPoint.y - this._y) + (this._height / 2)};
+    drawPosTranslation(point, zScale) {
+        return {x: (point.x - this._x) * STANDARD_DRAW_SCALE[0] * zScale + (this._width / 2),
+                y: (point.y - this._y) * STANDARD_DRAW_SCALE[0] * zScale + (this._height / 2)};
     }
 
     /**
-     * Translates a physical point on the map to a point that's relative to the
-     * camera. Uses scale to simulate a z axis.
-     * @param {object} physicalPoint The {x: , y: } of the object that you want
-     *      to translate.
-     * @param {*} scale The amount that scaling compared to the common objects.
-     *      For example:
-     *          If all the main objects are 32bit and scaled by 5, but the
-     *          object you want to translate is scaled by 6, then pass the
-     *          result of (6 / 5).
+     * Translates a point on the canvas to a point in the game world.
+     * @param {object} point The {x: #, y: #} point that will be translated.
+     * @returns {object} Returns the {x: #, y: #} point in the game world.
      */
-    translateWithScale(physicalPoint, scale) {
-        return {x: ((physicalPoint.x - this._x) * scale) + (this._width / 2), y: ((physicalPoint.y - this._y) * scale) + (this._height / 2)};
+    clickPosTranslation(point) {
+        return {x: ((point.x - (this._width / 2)) / STANDARD_DRAW_SCALE[0]) + this._x,
+                y: ((point.y - (this._height / 2)) / STANDARD_DRAW_SCALE[0]) + this._y};
     }
-    
-    set x(val) {
-        this._x = val;
+
+    draw(ctx){}
+    update(){
+        this._ctx.canvas.width = window.innerWidth;
+        this._ctx.canvas.height = window.innerHeight;
+        this._width = this._ctx.canvas.width;
+        this._height = this._ctx.canvas.height;
+        this._ctx.webkitImageSmoothingEnabled = false;
+        this._ctx.mozImageSmoothingEnabled = false;
+        this._ctx.imageSmoothingEnabled = false;
+        STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / (768 * 576));
     }
-    
-    set y(y) {
-        this._y = y;
-    }
+
+    get x() {return this._x;}
+    get y() {return this._y;}
+    set x(val) {this._x = val;}
+    set y(val) {this._y = val;}
 }

@@ -203,4 +203,11 @@ class Animation {
     isDone () {
         return (this._elapsedTime >= this._totalTime);
     }
+
+    /**
+     * Resets the animation to 0.
+     */
+    resetAnimation() {
+        this._elapsedTime = 0;
+    }
 }
