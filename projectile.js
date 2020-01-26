@@ -1,3 +1,4 @@
+//TODO make this accept an owner parameter (for who shot the projectile) and a startDistance
 function Projectile(game, x, y, dir, speed, lifetime)
 {
 	var fireball = new Animation(game.AM.getAsset("./img/projectiles/Fireball.png"), 16, 16, {x: 0, y: 0}, {x: 3, y: 0}, 10, true, 10);
