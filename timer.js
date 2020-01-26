@@ -1,59 +1,98 @@
-// Maximum time step to avoid big jumps.
-const TIMER_MAX_STEP = 0.05;
+
 
 /*
 Timer
 
-The Timer class is used to keep track of time.
+The timer class is used to track the duration of certain functions.
+Used for animations and timing
 */
-class Timer {
+function Timer(game, time, looping)
+{
+	this.game = game;
+	this.end = time;
+	this.elapsed = 0.0;
+	this.looping = looping;
+	this.removeFromWorld = false;
+	this.paused = false;
+	this.callback =  null;
+}
 
-    /*
-    Default constructor.
-    */
-    constructor() {
-        this._time = 0;
-        this._maxStep = TIMER_MAX_STEP;
-        this._wallLastTimestamp = 0;
-    }
+Timer.prototype.update = function (dt)
+{
+	if(this.paused === false)
+	{
+		//console.log("Timer" + this.id + " Working: " + this.elapsed + " != " + this.end);
+		this.elapsed += dt;
+		if(this.elapsed >= this.end)
+		{
+			if(this.looping === true)
+			{
+				this.elapsed -= this.end;
+			}
+			else
+			{
+				this.destroy();
+			}
+		}
+	}
+}
 
-    /*
-    Updates the timer and returns the time delta. If the time delta is greater
-    than TIMER_MAX_STEP then TIMER_MAX_STEP is returned.
-    */
-    tick() {
-        let wallCurrent = Date.now();
-        let wallDelta = (wallCurrent - this._wallLastTimestamp) / 1000;
-        this._wallLastTimestamp = wallCurrent;
+Timer.prototype.getTime = function ()
+{
+	return this.elapsed;
+}
 
-        let gameDelta = Math.min(wallDelta, this._maxStep);
-        this._time += gameDelta;
-        return gameDelta;
-    }
+Timer.prototype.getPercent = function ()
+{
+	return this.elapsed / this.end;
+}
 
-    /*
-    Returns the current time.
-    */
-    get time() {
-        return this._time;
-    }
+Timer.prototype.destroy = function ()
+{
+	this.removeFromWorld = true;
+}
 
-    /*
-    Changes the current time.
+Timer.prototype.pause = function ()
+{
+	this.paused = true;
+}
 
-    time:
-    The time that you want to be set.
-    */
-    set time(time) {
-        this._time = time;
-    }
+Timer.prototype.unpause = function ()
+{
+	this.paused = false;
+}
 
-    /*
-    Resets the timer.
-    */
-    resetTimer() {
-        this._time = 0;
-        this._maxStep = TIMER_MAX_STEP;
-        this._wallLastTimestamp = 0;
-    }
+Timer.prototype.reset = function ()
+{
+	this.elapsed = 0;
+}
+
+function TimerCallBack(game, time, looping, fn)
+{
+	Timer.call(this, game, time, looping);
+	
+	this.callback = fn;
+}
+
+TimerCallBack.prototype = new Timer();
+TimerCallBack.prototype.constructor = TimerCallBack;
+
+TimerCallBack.prototype.update = function ()
+{
+	if(this.paused === false)
+	{
+		this.elapsed += this.game._clockTick;
+		if(this.elapsed >= this.end)
+		{
+			this.callback();
+			if(this.looping === true)
+			{
+				this.elapsed -= this.end;
+			}
+			else
+			{
+				this.destroy();
+			}
+		}
+	}
 }

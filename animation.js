@@ -94,6 +94,8 @@ class Animation {
         this._firstFrame = firstFrame;
         this._lastFrame = lastFrame;
         this._frameDuration = Infinity;
+		this._setFrame = 0;
+		this._paused = false;
         if (fps !== 0) {
             this._frameDuration = (1 / Math.abs(fps));
         }
@@ -129,6 +131,7 @@ class Animation {
      *      centered on the posX & posY coordinates.
      */
     drawFrame(tick, ctx, posX, posY, center) {
+
         let that = this;
         let drawX = posX;
         let drawY = posY;
@@ -136,14 +139,16 @@ class Animation {
             drawX -= ((that._frameWidth * that._scale) / 2);
             drawY -= ((that._frameHeight * that._scale) / 2);
         }
+		this._center = center;
 
         // Check if still image.
         let cF;
-        if (this._frameDuration === Infinity) {
-            cF = this._firstFrame;
-        } else {
-            cF = this.currentFrame();
-        }  
+		if(this._paused !== true && this._paused !== false)
+		{
+			console.log(this._paused);
+		}
+		cF = this.currentFrame();
+         
 
         // Draw image.
         ctx.drawImage(this._spriteSheet,
@@ -164,6 +169,15 @@ class Animation {
     */
     currentFrame() {
         let frameNum = Math.floor(this._elapsedTime / this._frameDuration);
+		if(this._frameDuration === Infinity || this._paused === true)
+		{
+			//console.log("Test");
+			frameNum = this._setFrame;
+		}
+		else
+		{
+			this._setFrame = frameNum;
+		}
 
         // Calculate row major index of current frame.
         let rmFF = ((this._firstFrame.y * this._sheetWidth) + this._firstFrame.x);
@@ -197,6 +211,45 @@ class Animation {
         return {x: x, y: y};
     }
 
+	getFrame()
+	{
+		let frameNum = Math.floor(this._elapsedTime / this._frameDuration);
+		return frameNum;
+	}
+	
+	getCenter(posX, posY)
+	{
+		if(this.center === true)
+		{
+			return {x: posX, y: posY}; 
+		}
+		else
+		{
+			return {x: posX + this._frameWidth * this._scale/2, y: posY + this._frameHeight * this._scale/2}; 
+		}
+	}
+	
+	// setFrame only matters if the animation is paused.
+	nextFrame()
+	{
+		this._setFrame += 1;
+	}
+	
+	setFrame(theFrame)
+	{
+		this._setFrame = theFrame;
+	}
+	
+	pause()
+	{
+		this._paused = true;
+	}
+	
+	unpause()
+	{
+		this._paused = false;
+	}
+
     /**
      * @return {boolean} Returns true if the animation is done, false otherwise.
      */
@@ -209,5 +262,6 @@ class Animation {
      */
     resetAnimation() {
         this._elapsedTime = 0;
+		this._setFrame = firstFrame;
     }
 }

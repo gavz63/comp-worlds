@@ -28,6 +28,14 @@ class GameEngine {
         this._downAccelStep = 0;
         this._leftAccelStep = 0;
         this._rightAccelStep = 0;
+		
+		this.timers = [];
+		this.click = false;
+		this.hasReticle = false;
+		this.score = 0;
+		this.chars = [];
+		this.keyStack = [];
+		this.lastChar = null;
     }
 
     /**
@@ -39,7 +47,7 @@ class GameEngine {
         this._surfaceWidth = this._ctx.canvas.width;
         this._surfaceHeight = this._ctx.canvas.height;
         this.startInput();
-        this._timer = new Timer();
+        this._clock = new Clock();
     }
 
     /**
@@ -56,7 +64,10 @@ class GameEngine {
     /**
     * Initializes all event listeners for user input.
     */
-    startInput() {
+    startInput = Input; 
+	/* removing this will mess up maincharacter
+	{
+
         let that = this;
         this._ctx.canvas.addEventListener("keydown", function (e) {
             let c = e.code;
@@ -107,7 +118,8 @@ class GameEngine {
             that._clicks.push({x: e.clientX, y: e.clientY, type: "right"});
             e.preventDefault();
         }, false);
-    }
+		
+    }*/
 
     /**
      * Adds the given entity to the list of entities in the requested layer.
@@ -120,20 +132,27 @@ class GameEngine {
      *      Pass 4 or "hud" for layer 4 (HUD);
      */
     addEntity(entity, layer) {
+		entity.layer = layer;
+		let choice = -1; // if an entity is added without a proper layer this will throw an error.
         if (typeof(layer) === "string") {
             if ("floor" === layer) {
-                this._entities[0].push(entity);
+				choice = 0;
             } else if ("enemy" === layer) {
-                this._entities[1].push(entity);
+				choice = 1;
             } else if ("pps" === layer) {
-                this._entities[2].push(entity);
+				choice = 2;
             } else if ("main" === layer) {
-                this._entities[3].push(entity);
+				choice = 3;
             } else if ("hud" === layer) {
-                this._entities[4].push(entity);
+				choice = 4;
             } else {
                 throw "Invalid layer string parameter.";
             }
+			
+			entity.id = this._entities[choice].length;
+			this._entities[choice].push(entity);
+
+			
         } else if (typeof(layer) === "number") {
             if (layer === Math.floor(layer) && layer >= 0 && layer < 5) {
                 this._entities[layer].push(entity);
@@ -144,6 +163,41 @@ class GameEngine {
             throw "Incorrect layer parameter type.";
         }
     }
+	
+	removeEntity (entity, layer) {
+		this.entities[layer][entity.id] = this.entities[layer][this.entities[layer].length-1];
+		this.entities[layer][entity.id].id = entity.id;
+		this.entities[layer][this.entities[layer].length-1] = entity;
+		this.entities[layer].pop();
+	}
+	
+	addTimer(timer) {
+		timer.id = this.timers.length;
+		this.timers.push(timer);
+	}
+	
+	removeTimer(timer) {
+		this.timers[timer.id] = this.timers[this.timers.length-1];
+		this.timers[timer.id].id = timer.id;
+		this.timers[this.timers.length-1] = timer;
+		this.timers.pop();
+	}
+	
+	
+	setReticle(reticle) {
+		//console.log("This");
+		this.reticle = reticle;
+		this.hasReticle = true;
+	}
+
+	setPlayer(player) {
+		this.player = player;
+	}
+
+	setAssetManager(manager) {
+		this.AM = manager;
+	}
+	
 
     /**
     * Calls draw() on every entity in memory.
@@ -156,6 +210,12 @@ class GameEngine {
                 this._entities[i][j].draw(this._ctx);
             }
         }
+		
+		if(this.hasReticle)
+		{
+			this.reticle.draw();
+		}
+		
         this._ctx.restore();
     }
 
@@ -165,6 +225,38 @@ class GameEngine {
      */
     update() {
 
+	for (var i = 0; i < this._entities.length; i++) {
+		let entityCount = this._entities[i].length;
+		for(var j = 0; j < entityCount; j++)
+		{
+			if(this.entities[i][j].removeFromWorld)
+			{
+				this.removeEntity(this.entities[i][j]);
+				entityCount = this.entities[i].length;
+				i--;
+				continue;
+			}
+			
+			this.entities[i][j].update();
+		}
+    }
+	
+	var timersCount = this.timers.length;
+	
+	for (var i = 0; i < timersCount; i++)
+	{
+		let tim = this.timers[i];
+		if(tim.removeFromWorld)
+		{
+			this.removeTimer(tim);
+			timersCount = this.timers.length;
+			i--;
+			continue;
+		}
+		this.timers[i].update(this._clockTick);
+	}
+
+/*
         // Update entities
         for (let i = 0; i < this._entities.length; i++) {
             for (let j = 0; j < this._entities[i].length; j++) {
@@ -178,6 +270,30 @@ class GameEngine {
                 if (this._entities[i][j].removeFromWorld) this._entities[i].splice(j, 1);
             }
         }
+	
+		for (var i = 0; i < this.timers.length; i++)
+		{
+			if(this.timers[i].removeFromWorld === false)
+			{
+				this.timers[i].update(this._clockTick);
+			}
+		}	
+	
+		for (var i = this.timers.length-1; i >= 0; i--)
+		{
+			//console.log(this.timers[i].removeFromWorld);
+			if(this.timers[i].removeFromWorld === true)
+			{
+				//console.log("Deletion Happened!");
+				this.timers.splice(i, 1);
+			}
+		}
+		*/
+		
+		if(this.hasReticle === true)
+		{
+			this.reticle.update(this.mouseX, this.mouseY);
+		}
 
         // Clear input
         this._clicks = [];
@@ -187,7 +303,7 @@ class GameEngine {
     * Loops while calling update() and draw().
     */
     loop() {
-        this._clockTick = this._timer.tick();
+        this._clockTick = this._clock.tick();
         this.update();
         this.draw();
     }
