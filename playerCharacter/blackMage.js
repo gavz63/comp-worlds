@@ -1,7 +1,7 @@
 function BlackMage() {
     //Load in the sprite sheets
     var sideToSide = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageSideToSideSheet.png");
-    var upAndDown = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageUpDown.png");
+    var upAndDown = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageUpDownSheet.png");
     var dmgSheet = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageDmgSheet.png");
 
     //Use to access all animations this character has
@@ -87,7 +87,7 @@ function BlackMage() {
             6, false, STANDARD_DRAW_SCALE[0]),
         specialAttackDown: new Animation(upAndDown,
             32, 32,
-            {x: 0, y: 3}, {x: 7, y: 7},
+            {x: 0, y: 3}, {x: 5, y: 7},
             6, false, STANDARD_DRAW_SCALE[0]),
         dmgFromDown: new Animation(dmgSheet,
             32, 32,

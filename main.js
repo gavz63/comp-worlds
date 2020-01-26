@@ -12,6 +12,13 @@ ASSET_MANAGER.queueDownload("./img/projectiles/Fireball.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseBlue.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseRed.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseGreen.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageSideToSideSheet.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageUpDownSheet.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageDmgSheet.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/LancerSideToSideSheet.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/LancerUpDownSheet.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/LancerSpecialMoveAllDirections.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/LancerDmgSheet.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -25,7 +32,7 @@ ASSET_MANAGER.downloadAll(function () {
     //new MainCharacter(gameEngine);
 	gameEngine.setReticle(new Crosshair(gameEngine));
 	
-	gameEngine.addEntity(new Player(gameEngine), "main");
+	gameEngine.addEntity(new Player(gameEngine, new BlackMage()), "main");
     new Floor(gameEngine);
     new Wall(gameEngine);
 	

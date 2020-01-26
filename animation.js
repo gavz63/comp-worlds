@@ -2,7 +2,7 @@
 
 /**
  * The Animation class is designed to represent 1 animation. For example, you
- * should declare seperate Animations for jumping, walking right, walking left,
+ * should declare separate Animations for jumping, walking right, walking left,
  * etc. 
  */
 class Animation {
@@ -77,7 +77,7 @@ class Animation {
         || lastFrame.y < 0
         || lastFrame.x >= spriteSheet.width / frameWidth
         || lastFrame.y >= spriteSheet.height / frameHeight) {
-            throw "Parameter lastFrame out of bounds!";
+            throw "Parameter lastFrame out of bounds!" + spriteSheet.src + "(" + lastFrame.x + "," + lastFrame.y + ")";
         }
 
         // Check scale.

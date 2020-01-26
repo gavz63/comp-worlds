@@ -1,3 +1,7 @@
+const DIRECTION_LEFT = "LEFT";
+const DIRECTION_RIGHT = "RIGHT";
+const DIRECTION_UP = "UP";
+const DIRECTION_DOWN = "DOWN";
 /**
  * The GameEngine class is the heart our game. It maintains the render-update
  * loop and provides all entities with the resources they need to exist and
