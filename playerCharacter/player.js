@@ -15,7 +15,7 @@ Player.prototype.draw = function () {
     if (this.game.change) {
         if (this.game.keyStack.length > 0) {
             this.animation.unpause();
-            if (this.idleTimer != null) {
+            if (this.idleTimer) {
                 this.idleTimer.pause();
                 this.idleTimer.reset();
             }
@@ -84,6 +84,13 @@ Player.prototype.update = function () {
     if (this.game.d === true) {
         this.velocity.x = 1;
     }
+
+    this.game.entities[2].forEach(function(elem) {
+        if (elem instanceof Projectile) {
+
+        }
+    });
+
     this.velocity = scaleV(normalizeV(this.velocity), this.speed);
 
     this.game._camera.x += this.velocity.x * this.game._clockTick; //
@@ -95,38 +102,38 @@ Player.prototype.update = function () {
     //this.x += this.velocity.x * this.game._clockTick;
     //this.y += this.velocity.y * this.game._clockTick;
 
-    /*first crack at the bounding box
-    let scrolling = false;
+    //first crack at the bounding box
+    // let scrolling = false;
+    //
+    // if(this.x > this.game.ctx.canvas.width * 2/3)
+    // {
+    //     scrolling = true;
+    //     this.x = this.game.ctx.canvas.width * 2/3;
+    // }
+    // if(this.x < this.game.ctx.canvas.width * 1/3)
+    // {
+    //     scrolling = true;
+    //     this.x = this.game.ctx.canvas.width * 1/3;
+    // }
+    // if(this.y > this.game.ctx.canvas.height * 2/3)
+    // {
+    //     scrolling = true;
+    //     this.y = this.game.ctx.canvas.height * 2/3;
+    // }
+    // if(this.y < this.game.ctx.canvas.height * 1/3)
+    // {
+    //     scrolling = true;
+    //     this.y = this.game.ctx.canvas.height * 1/3;
+    // }
+    //
+    // if(scrolling === true)
+    // {
+    //     this.game._camera.x += this.velocity.x * this.game._clockTick;
+    //     this.game._camera.y += this.velocity.y * this.game._clockTick;
+    // }
+    //bounding camera
 
-    if(this.x > this.game.ctx.canvas.width * 2/3)
-    {
-        scrolling = true;
-        this.x = this.game.ctx.canvas.width * 2/3;
-    }
-    if(this.x < this.game.ctx.canvas.width * 1/3)
-    {
-        scrolling = true;
-        this.x = this.game.ctx.canvas.width * 1/3;
-    }
-    if(this.y > this.game.ctx.canvas.height * 2/3)
-    {
-        scrolling = true;
-        this.y = this.game.ctx.canvas.height * 2/3;
-    }
-    if(this.y < this.game.ctx.canvas.height * 1/3)
-    {
-        scrolling = true;
-        this.y = this.game.ctx.canvas.height * 1/3;
-    }
-
-    if(scrolling === true)
-    {
-        this.game._camera.x += this.velocity.x * this.game._clockTick;
-        this.game._camera.y += this.velocity.y * this.game._clockTick;
-    }
-    bounding camera*/
-
-    if (this.game.click === true) {
+    if (this.game.click) {
         this.game.click = false;
         console.log("Creating Projectile at: " + this.x + ", " + this.y);
         let projectile = new Projectile(this.game,
@@ -135,7 +142,7 @@ Player.prototype.update = function () {
             	x: this.game.mouseX,
             	y: this.game.mouseY
         	})),
-			1000, 0.5);
+			1000, 0.5, this);
         this.game.addEntity(projectile, "pps");
     }
 
