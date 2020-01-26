@@ -11,6 +11,7 @@ function Player(game, characterClass) {
     this.speed = characterClass.stats.speed;
     this.hp = characterClass.stats.maxHP;
     this.velocity = {x: 0, y: 0};
+    this.isAttacking = false;
 }
 
 Player.prototype.draw = function () {
@@ -23,17 +24,17 @@ Player.prototype.draw = function () {
             }
             console.log(this.game.lastKey);
             if (this.game.lastKey === "KeyW") {
-            	this.direction = DIRECTION_UP;
+                this.direction = DIRECTION_UP;
                 this.animation = this.characterClass.animation.walkingUp;
             } else if (this.game.lastKey === "KeyA") {
-				this.direction = DIRECTION_LEFT;
-				this.animation = this.characterClass.animation.walkingLeft;
+                this.direction = DIRECTION_LEFT;
+                this.animation = this.characterClass.animation.walkingLeft;
             } else if (this.game.lastKey === "KeyS") {
-				this.direction = DIRECTION_DOWN;
-				this.animation = this.characterClass.animation.walkingDown;
+                this.direction = DIRECTION_DOWN;
+                this.animation = this.characterClass.animation.walkingDown;
             } else if (this.game.lastKey === "KeyD") {
-				this.direction = DIRECTION_RIGHT;
-				this.animation = this.characterClass.animation.walkingRight;
+                this.direction = DIRECTION_RIGHT;
+                this.animation = this.characterClass.animation.walkingRight;
             }
         } else {
             var that = this;
@@ -73,6 +74,27 @@ Player.prototype.draw = function () {
 
 Player.prototype.update = function () {
 
+    if (this.isAttacking && this.animation.isDone()) {
+        this.isAttacking = false;
+        switch (this.direction) {
+            case DIRECTION_LEFT:
+                this.animation = this.characterClass.animation.idleLeft;
+                break;
+            case DIRECTION_RIGHT:
+                this.animation = this.characterClass.animation.idleRight;
+                break;
+            case DIRECTION_DOWN:
+                this.animation = this.characterClass.animation.idleDown;
+                break;
+            case DIRECTION_UP:
+                this.animation = this.characterClass.animation.idleUp;
+                break;
+            default:
+                break;
+        }
+        this.idle();
+    }
+
     this.velocity = {x: 0, y: 0};
     if (this.game.w === true) {
         this.velocity.y = -1;
@@ -88,7 +110,7 @@ Player.prototype.update = function () {
     }
 
     //Enemies
-    this.game.entities[1].forEach(function(elem) {
+    this.game.entities[1].forEach(function (elem) {
         //If we're collided
         if (circleToCircle(this, elem)) {
             this.takeDmg(elem.dmg, elem.direction)
@@ -96,7 +118,7 @@ Player.prototype.update = function () {
     });
 
     //Projectiles and pickups
-    this.game.entities[2].forEach(function(elem) {
+    this.game.entities[2].forEach(function (elem) {
         //If we're collided
         if (circleToCircle(this, elem)) {
             if (elem instanceof Projectile) {
@@ -153,16 +175,7 @@ Player.prototype.update = function () {
     //bounding camera
 
     if (this.game.click) {
-        this.game.click = false;
-        console.log("Creating Projectile at: " + this.x + ", " + this.y);
-        let projectile = new Projectile(this.game,
-			this.x, this.y,
-			normalizeV(dirV(this.animation.getCenter(this.x, this.y), {
-            	x: this.game.mouseX,
-            	y: this.game.mouseY
-        	})),
-			1000, 0.5, this);
-        this.game.addEntity(projectile, "pps");
+        this.regularAttack();
     }
 
     //this.game._camera.x += this.x;
@@ -195,4 +208,47 @@ Player.prototype.takeDmg = function (dmg, direction) {
         case DIRECTION_DOWN:
             this.animation = this.characterClass.dmgFromUp;
     }
+};
+
+Player.prototype.regularAttack = function () {
+    this.isAttacking = true;
+    this.game.click = false;
+    var attackDir = vectorToDir(normalizeV(dirV(
+        this.animation.getCenter(this.x, this.y),
+        {
+            x: this.game.mouseX,
+            y: this.game.mouseY
+        })
+    ));
+    var projectileAnimation = null;
+    switch (attackDir) {
+        case DIRECTION_DOWN:
+            this.animation = this.characterClass.animation.regAttackDown;
+            projectileAnimation = this.characterClass.animation.regProjectileDown;
+            break;
+        case DIRECTION_UP:
+            this.animation = this.characterClass.animation.regAttackUp;
+            projectileAnimation = this.characterClass.animation.regProjectileUp;
+            break;
+        case DIRECTION_LEFT:
+            this.animation = this.characterClass.animation.regAttackLeft;
+            projectileAnimation = this.characterClass.animation.regProjectileLeft;
+            break;
+        case DIRECTION_RIGHT:
+            this.animation = this.characterClass.animation.regAttackRight;
+            projectileAnimation = this.characterClass.animation.regProjectileRight;
+            break;
+        default:
+            break;
+    }
+    this.direction = attackDir;
+    console.log("Creating Projectile at: " + this.x + ", " + this.y);
+    let projectile = new Projectile(this.game,
+        this.x, this.y,
+        normalizeV(dirV(this.animation.getCenter(this.x, this.y), {
+            x: this.game.mouseX,
+            y: this.game.mouseY
+        })),
+        1000, 0.5, this, projectileAnimation);
+    this.game.addEntity(projectile, "pps");
 };

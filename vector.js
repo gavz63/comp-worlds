@@ -48,7 +48,7 @@ function vectorToDir(vector) {
 	}
 
     if (Math.abs(vector.y) > Math.abs(vector.x)) {
-    	if (vector.y < 0) {
+    	if (vector.y > 0) {
     		return DIRECTION_DOWN;
 		} else {
     		return DIRECTION_UP

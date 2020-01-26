@@ -12,6 +12,7 @@ ASSET_MANAGER.queueDownload("./img/projectiles/Fireball.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseBlue.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseRed.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseGreen.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/PureSlash.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageSideToSideSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageDmgSheet.png");

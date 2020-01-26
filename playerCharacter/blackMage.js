@@ -3,6 +3,7 @@ function BlackMage() {
     var sideToSide = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageSideToSideSheet.png");
     var upAndDown = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageUpDownSheet.png");
     var dmgSheet = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageDmgSheet.png");
+    var fireball = ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png");
 
     //Use to access all animations this character has
     this.animation = {
@@ -92,15 +93,26 @@ function BlackMage() {
         dmgFromDown: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 2}, {x: 5, y: 2},
-            6, false, STANDARD_DRAW_SCALE[0])
+            6, false, STANDARD_DRAW_SCALE[0]),
+
+        //Projectile animations
+        regProjectileUp: new Animation(fireball,
+        16, 16,
+        {x: 0, y: 0}, {x: 3, y: 0},
+        6, true, STANDARD_DRAW_SCALE[0]),
+        regProjectileDown: new Animation(fireball,
+            16, 16,
+            {x: 0, y: 0}, {x: 3, y: 0},
+            6, true, STANDARD_DRAW_SCALE[0]),
+        regProjectileLeft: new Animation(fireball,
+            16, 16,
+            {x: 0, y: 0}, {x: 3, y: 0},
+            6, true, STANDARD_DRAW_SCALE[0]),
+        regProjectileRight: new Animation(fireball,
+            16, 16,
+            {x: 0, y: 0}, {x: 3, y: 0},
+            6, true, STANDARD_DRAW_SCALE[0]),
     };
-    //TODO use the projectile class
-    this.projectile = {
-        startDistance: 50,
-        lifetime: 100,
-        speed: 100,
-        radius: 8
-    }
 
     this.stats = {
         maxHP: 3,

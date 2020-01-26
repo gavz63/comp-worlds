@@ -4,6 +4,7 @@ function Lancer() {
     var upAndDown = ASSET_MANAGER.getAsset("./img/player_characters/LancerUpDownSheet.png");
     var specialSheet = ASSET_MANAGER.getAsset("./img/player_characters/LancerSpecialMoveAllDirections.png");
     var dmgSheet = ASSET_MANAGER.getAsset("./img/player_characters/LancerDmgSheet.png");
+    var regSlash = ASSET_MANAGER.getAsset("./img/projectiles/PureSlash.png");
 
     //Use to access all animations this character uses
     this.animation = {
@@ -93,6 +94,24 @@ function Lancer() {
         dmgFromDown: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 2}, {x: 5, y: 2},
+            6, false, STANDARD_DRAW_SCALE[0]),
+
+        //Projectile animations
+        regProjectileUp: new Animation(regSlash,
+            32, 32,
+            {x: 0, y: 2}, {x: 3, y: 2},
+            6, false, STANDARD_DRAW_SCALE[0]),
+        regProjectileDown: new Animation(regSlash,
+            32, 32,
+            {x: 0, y: 3}, {x: 3, y: 3},
+            6, false, STANDARD_DRAW_SCALE[0]),
+        regProjectileLeft: new Animation(regSlash,
+            32, 32,
+            {x: 0, y: 0}, {x: 3, y: 0},
+            6, false, STANDARD_DRAW_SCALE[0]),
+        regProjectileRight: new Animation(regSlash,
+            32, 32,
+            {x: 0, y: 1}, {x: 3, y: 1},
             6, false, STANDARD_DRAW_SCALE[0])
     }
 
