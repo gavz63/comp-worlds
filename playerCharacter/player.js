@@ -1,4 +1,6 @@
 function Player(game, characterClass) {
+    this.game = game;
+
     this.characterClass = characterClass;
     this.direction = DIRECTION_RIGHT;
     this.animation = characterClass.animation.idleRight;
@@ -6,8 +8,8 @@ function Player(game, characterClass) {
 
     this.x = 0;
     this.y = 0;
-    this.speed = 300;
-    this.game = game;
+    this.speed = characterClass.stats.speed;
+    this.hp = characterClass.stats.maxHP;
     this.velocity = {x: 0, y: 0};
 }
 
@@ -85,9 +87,26 @@ Player.prototype.update = function () {
         this.velocity.x = 1;
     }
 
-    this.game.entities[2].forEach(function(elem) {
-        if (elem instanceof Projectile) {
+    //Enemies
+    this.game.entities[1].forEach(function(elem) {
+        //If we're collided
+        if (circleToCircle(this, elem)) {
+            this.takeDmg(elem.dmg, elem.direction)
+        }
+    });
 
+    //Projectiles and pickups
+    this.game.entities[2].forEach(function(elem) {
+        //If we're collided
+        if (circleToCircle(this, elem)) {
+            if (elem instanceof Projectile) {
+                if (elem.owner !== this) {
+                    this.takeDmg(1, vectorToDir(elem.dir));
+                }
+            }
+            // if (elem instanceof Pickup) {
+            //     this.pickup(elem);
+            // }
         }
     });
 
@@ -160,3 +179,20 @@ Player.prototype.idle = function () {
         this.animation.pause();
     }
 }
+
+Player.prototype.takeDmg = function (dmg, direction) {
+    this.hp -= dmg;
+    switch (direction) {
+        case DIRECTION_LEFT:
+            this.animation = this.characterClass.dmgFromRight;
+            break;
+        case DIRECTION_RIGHT:
+            this.animation = this.characterClass.dmgFromLeft;
+            break;
+        case DIRECTION_UP:
+            this.animation = this.characterClass.dmgFromDown;
+            break;
+        case DIRECTION_DOWN:
+            this.animation = this.characterClass.dmgFromUp;
+    }
+};

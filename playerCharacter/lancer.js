@@ -27,7 +27,7 @@ function Lancer() {
         dmgFromLeft: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 1}, {x: 5, y: 1},
-            6, true, STANDARD_DRAW_SCALE[0]),
+            6, false, STANDARD_DRAW_SCALE[0]),
 
         //Right facing animations
         idleRight: new Animation(sideToSide,
@@ -49,7 +49,7 @@ function Lancer() {
         dmgFromRight: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 0}, {x: 5, y: 0},
-            6, true, STANDARD_DRAW_SCALE[0]),
+            6, false, STANDARD_DRAW_SCALE[0]),
 
         //Up facing animations
         idleUp: new Animation(upAndDown,
@@ -71,7 +71,7 @@ function Lancer() {
         dmgFromUp: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 3}, {x: 5, y: 3},
-            6, true, STANDARD_DRAW_SCALE[0]),
+            6, false, STANDARD_DRAW_SCALE[0]),
 
         //Down facing animations
         idleDown: new Animation(upAndDown,
@@ -93,6 +93,11 @@ function Lancer() {
         dmgFromDown: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 2}, {x: 5, y: 2},
-            6, true, STANDARD_DRAW_SCALE[0])
+            6, false, STANDARD_DRAW_SCALE[0])
+    }
+
+    this.stats = {
+        maxHP: 5,
+        speed: 200
     }
 }

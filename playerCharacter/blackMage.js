@@ -26,7 +26,7 @@ function BlackMage() {
         dmgFromLeft: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 1}, {x: 5, y: 1},
-            6, true, STANDARD_DRAW_SCALE[0]),
+            6, false, STANDARD_DRAW_SCALE[0]),
 
         //Right facing animations
         idleRight: new Animation(sideToSide,
@@ -48,7 +48,7 @@ function BlackMage() {
         dmgFromRight: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 0}, {x: 5, y: 0},
-            6, true, STANDARD_DRAW_SCALE[0]),
+            6, false, STANDARD_DRAW_SCALE[0]),
 
         //Up facing animations
         idleUp: new Animation(upAndDown,
@@ -70,7 +70,7 @@ function BlackMage() {
         dmgFromUp: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 3}, {x: 5, y: 3},
-            6, true, STANDARD_DRAW_SCALE[0]),
+            6, false, STANDARD_DRAW_SCALE[0]),
 
         //Down facing animations
         idleDown: new Animation(upAndDown,
@@ -92,7 +92,7 @@ function BlackMage() {
         dmgFromDown: new Animation(dmgSheet,
             32, 32,
             {x: 0, y: 2}, {x: 5, y: 2},
-            6, true, STANDARD_DRAW_SCALE[0])
+            6, false, STANDARD_DRAW_SCALE[0])
     };
     //TODO use the projectile class
     this.projectile = {
@@ -100,5 +100,10 @@ function BlackMage() {
         lifetime: 100,
         speed: 100,
         radius: 8
+    }
+
+    this.stats = {
+        maxHP: 3,
+        speed: 100
     }
 }
