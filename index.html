@@ -25,7 +25,6 @@
     <script type="text/javascript" src="./wall.js"></script>
     <script type="text/javascript" src="./floor.js"></script>
 
-
     <script type="text/javascript" src="./assetmanager.js"></script>
 	<script type="text/javascript" src="enemies/spawner.js"></script>
 
@@ -38,10 +37,15 @@
     <script type="text/javascript" src="./playerCharacter/player.js"></script>
 
     <script type="text/javascript" src="./main.js"></script>
-
-
+    
 </head>
 <body>
+<div id="canvas_div_no_cursor">
     <canvas id="gameWorld" tabindex="1" width="1920" height="1080" autofocus></canvas>
+</div>
+<script type="text/javascript">
+  document.getElementById('canvas_div_no_cursor').style.cursor = "none";
+</script>
+
 </body>
 </html>
