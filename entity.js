@@ -22,7 +22,9 @@ Entity.prototype.update = function () {
 }
 
 Entity.prototype.draw = function () {
-    this.animation.drawFrame(this.game._clockTick, this.ctx, this.x, this.y, false);
+    let worldPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+    
+    this.animation.drawFrame(this.game._clockTick, this.game.ctx, worldPos.x, worldPos.y, true);
 }
 
 Entity.prototype.rotateAndCache = function (image, angle) {

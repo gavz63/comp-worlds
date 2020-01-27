@@ -41,8 +41,10 @@ function Projectile(game, x, y, dir, speed, lifetime, owner, animation, dmg, rad
     this.speed = speed;
     this.ctx = game.ctx;
 
+    let that = this;
+    
     this.game.addTimer(new TimerCallBack(this.game, lifetime, false, function () {
-        this.destroy();
+        that.destroy();
     }));
 }
 

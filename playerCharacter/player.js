@@ -15,6 +15,8 @@ function Player(game, characterClass) {
 
     this.x = 0;
     this.y = 0;
+    this.worldX;
+    this.worldY;
     this.speed = characterClass.stats.speed;
     this.hp = characterClass.stats.maxHP;
     this.velocity = {x: 0, y: 0};
@@ -39,7 +41,7 @@ function Player(game, characterClass) {
  * TODO check if attacking
  */
 Player.prototype.draw = function () {
-    this.animation.drawFrame(this.game._clockTick, this.game.ctx, this.x, this.y, false);
+    this.animation.drawFrame(this.game._clockTick, this.game.ctx, this.x, this.y, false); // do not draw world pos
 };
 /**
  * Part of the game loop, update the player to the position and state it should now be in.
@@ -186,10 +188,12 @@ Player.prototype.update = function () {
 
     this.velocity = scaleV(normalizeV(this.velocity), this.speed);
 
-
     this.game._camera.x += this.velocity.x * this.game._clockTick; //
     this.game._camera.y += this.velocity.y * this.game._clockTick; // Always move the camera
 
+    this.worldX = this.game._camera.x;
+    this.worldY = this.game._camera.y;
+    
     this.x = this.game.ctx.canvas.width / 2; // keep player centered
     this.y = this.game.ctx.canvas.height / 2;
 
@@ -301,13 +305,14 @@ Player.prototype.regularAttack = function () {
     this.animation.resetAnimation();
     this.animation.unpause();
     this.direction = attackDir;
-    console.log("Creating Projectile at: " + this.x + ", " + this.y);
+    console.log("Creating Projectile at: " + this.worldX + ", " + this.worldY);
+    let worldPos = this.animation.getCenter(this.worldX, this.worldY);
     let projectile = new Projectile(this.game,
-        this.x, this.y,
+        worldPos.x, worldPos.y,
         normalizeV(dirV(this.animation.getCenter(this.x, this.y), {
             x: this.game.mouseX,
             y: this.game.mouseY
         })),
-        1000, 0.5, this, projectileAnimation, 1, 20);
+        500, 0.5, this, projectileAnimation, 1, 20); // slowed down projectile for debugging
     this.game.addEntity(projectile, "pps");
 };

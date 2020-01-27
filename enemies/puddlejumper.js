@@ -14,10 +14,6 @@ function PuddleJumper(game, x, y) {
 PuddleJumper.prototype = new Entity();
 PuddleJumper.prototype.constructor = PuddleJumper;
 
-PuddleJumper.prototype.draw = function () {
-    this.animation.drawFrame(this.game._clockTick, this.ctx, this.x, this.y, true);
-}
-
 PuddleJumper.prototype.update = function () {
 	if(this.animation._elapsedTime > this.animation._totalTime * 14/32 &&
 	   this.animation._elapsedTime < this.animation._totalTime * 19/32)

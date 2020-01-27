@@ -15,10 +15,6 @@ function Bat(game, x, y) {
 Bat.prototype = new Entity();
 Bat.prototype.constructor = Bat;
 
-Bat.prototype.draw = function () {
-    this.animation.drawFrame(this.game._clockTick, this.game.ctx, this.x, this.y, true);
-}
-
 Bat.prototype.update = function () {
 	console.log("BAT");
 	this.x += 2;

@@ -235,15 +235,15 @@ class GameEngine {
 		{
 			if(this.entities[i][j].removeFromWorld)
 			{
-				this.removeEntity(this.entities[i][j]);
+				this.removeEntity(this.entities[i][j], i);
 				entityCount = this.entities[i].length;
-				i--;
+				j--;
 				continue;
 			}
 			
 			this.entities[i][j].update();
 		}
-    }
+  }
 	
 	var timersCount = this.timers.length;
 	
