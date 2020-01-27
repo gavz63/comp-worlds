@@ -12,7 +12,7 @@
  * @param dmg, the amount of damage the projectile does on hit.
  * @constructor
  */
-function Projectile(game, x, y, dir, speed, lifetime, owner, animation) {
+function Projectile(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius) {
     // var lightningBalls = [];
     // lightningBalls.push(new Animation(game.AM.getAsset("./img/projectiles/BallPulseBlue.png"), 32, 32, {
     //     x: 0,
@@ -35,8 +35,9 @@ function Projectile(game, x, y, dir, speed, lifetime, owner, animation) {
     {
         this.animation = lightningBalls[choice];
     }*/
-    this.animation.setFrame(0);
+    this.animation.resetAnimation();
     this.dir = dir;
+    this.radius = radius;
     this.speed = speed;
     this.ctx = game.ctx;
 

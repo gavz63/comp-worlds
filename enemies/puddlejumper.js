@@ -6,6 +6,7 @@ function PuddleJumper(game, x, y) {
     this.speed = 100;
     this.game = game;
     this.ctx = game.ctx;
+    this.radius = 20;
 	
 	this.set = true;
 }

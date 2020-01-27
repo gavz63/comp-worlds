@@ -20,7 +20,7 @@ function Lancer() {
         regAttackLeft: new Animation(sideToSide,
             32, 32,
             {x: 0, y: 2}, {x: 5, y: 2},
-            6, false, STANDARD_DRAW_SCALE[0]),
+            24, false, STANDARD_DRAW_SCALE[0]),
         specialAttackLeft: new Animation(specialSheet,
             32, 32,
             {x: 5, y: 0}, {x: 5, y: 0},
@@ -42,7 +42,7 @@ function Lancer() {
         regAttackRight: new Animation(sideToSide,
             32, 32,
             {x: 0, y: 5}, {x: 5, y: 5},
-            6, false, STANDARD_DRAW_SCALE[0]),
+            24, false, STANDARD_DRAW_SCALE[0]),
         specialAttackRight: new Animation(sideToSide,
             32, 32,
             {x: 2, y: 0}, {x: 2, y: 0},
@@ -64,7 +64,7 @@ function Lancer() {
         regAttackUp: new Animation(upAndDown,
             32, 32,
             {x: 0, y: 5}, {x: 5, y: 5},
-            6, false, STANDARD_DRAW_SCALE[0]),
+            24, false, STANDARD_DRAW_SCALE[0]),
         specialAttackUp: new Animation(upAndDown,
             32, 32,
             {x: 3, y: 0}, {x: 3, y: 0},
@@ -86,7 +86,7 @@ function Lancer() {
         regAttackDown: new Animation(upAndDown,
             32, 32,
             {x: 0, y: 2}, {x: 5, y: 2},
-            6, false, STANDARD_DRAW_SCALE[0]),
+            24, false, STANDARD_DRAW_SCALE[0]),
         specialAttackDown: new Animation(upAndDown,
             32, 32,
             {x: 0, y: 0}, {x: 0, y: 0},
@@ -113,7 +113,7 @@ function Lancer() {
             32, 32,
             {x: 0, y: 1}, {x: 3, y: 1},
             6, false, STANDARD_DRAW_SCALE[0])
-    }
+    };
 
     this.stats = {
         maxHP: 5,

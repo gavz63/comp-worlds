@@ -163,20 +163,26 @@ Player.prototype.update = function () {
     //     }
     // });
     //
-    // //Projectiles and pickups
-    // this.game.entities[2].forEach(function (elem) {
-    //     //If we're collided
-    //     if (circleToCircle(this, elem)) {
-    //         if (elem instanceof Projectile) {
-    //             if (elem.owner !== this) {
-    //                 this.takeDmg(1, vectorToDir(elem.dir));
-    //             }
-    //         }
-    //         // if (elem instanceof Pickup) {
-    //         //     this.pickup(elem);
-    //         // }
-    //     }
-    // });
+    //Projectiles and pickups
+    var that = this;
+    this.game.entities[2].forEach(function (p) {
+        if (p instanceof Projectile) {
+            if (p.owner === that) {
+                that.game.entities[1].forEach(function(enemy) {
+                    if (circleToCircle(p, enemy)) {
+                        p.removeFromWorld = true;
+                        enemy.removeFromWorld = true;
+                    }
+                })
+            } else {
+                if (circleToCircle(p, that)) {
+                    this.takeDmg(p.dmg, p.dir);
+                }
+            }
+        } /*else if (p instanceof Pickup) {
+
+        }*/
+    });
 
     this.velocity = scaleV(normalizeV(this.velocity), this.speed);
 
@@ -302,6 +308,6 @@ Player.prototype.regularAttack = function () {
             x: this.game.mouseX,
             y: this.game.mouseY
         })),
-        1000, 0.5, this, projectileAnimation);
+        1000, 0.5, this, projectileAnimation, 1, 20);
     this.game.addEntity(projectile, "pps");
 };
