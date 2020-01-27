@@ -1,3 +1,17 @@
+/**
+ * @author Joel Johnson, Gavin Montes, Gordon McCreary
+ * Fires a projectile from an origin point along a vector.
+ * @param game a reference to the game engine.
+ * @param x the origin point's x value
+ * @param y the origin point's y value
+ * @param dir a VECTOR direction (not a UP,DOWN, LEFT, RIGHT direction)
+ * @param speed, the speed the projectile will travel
+ * @param lifetime, how long in ms before the projectile is destroyed.
+ * @param owner, a reference to the player or enemy that fired the projectile.
+ * @param animation, the projectile's animation.
+ * @param dmg, the amount of damage the projectile does on hit.
+ * @constructor
+ */
 function Projectile(game, x, y, dir, speed, lifetime, owner, animation) {
     // var lightningBalls = [];
     // lightningBalls.push(new Animation(game.AM.getAsset("./img/projectiles/BallPulseBlue.png"), 32, 32, {

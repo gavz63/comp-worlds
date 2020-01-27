@@ -5,6 +5,8 @@ function Input() {
     this.ctx.canvas.addEventListener("mousedown", function (e) {
         that.clicking = true;
 		that.click = true;
+		// //We ought to change to the attack animation if mouse was clicked
+		// that.change = true;
 		that.reticle.animation.setFrame(1);
     }, false);
 	
@@ -13,7 +15,7 @@ function Input() {
 		that.reticle.animation.setFrame(0);
     }, false);
 
-	//Right Click
+	//Right Click TODO make this do the special attack
     this.ctx.canvas.addEventListener("contextmenu", function (e) {
 
     }, false);
