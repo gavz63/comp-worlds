@@ -40,6 +40,7 @@ function Projectile(game, x, y, dir, speed, lifetime, owner, animation, dmg, rad
     this.radius = radius;
     this.speed = speed;
     this.ctx = game.ctx;
+    this.dmg = dmg;
 
     let that = this;
     

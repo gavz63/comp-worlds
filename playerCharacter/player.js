@@ -13,6 +13,7 @@ function Player(game, characterClass) {
     this.animation = characterClass.animation.idleRight;
     this.animation.pause();
 
+
     this.x = 0;
     this.y = 0;
     this.worldX;
@@ -21,7 +22,6 @@ function Player(game, characterClass) {
     this.hp = characterClass.stats.maxHP;
     this.velocity = {x: 0, y: 0};
 
-    this.isMoving = false;
     this.isTakingDmg = false;
     this.isAttacking = false;
     this.isIdling = false;
@@ -38,7 +38,6 @@ function Player(game, characterClass) {
 
 /**
  * Draw the player in the state and position it is currently in.
- * TODO check if attacking
  */
 Player.prototype.draw = function () {
     this.animation.drawFrame(this.game._clockTick, this.game.ctx, this.x, this.y, false); // do not draw world pos
@@ -58,13 +57,12 @@ Player.prototype.update = function () {
     //     }
     // }
 
-    // If we are done attacking, stop the attack animation
-    if (this.isAttacking && this.animation.isDone()) {
-        this.isAttacking = false;
-    }
-
     //If we are done taking damage, we are allowed to do other things
     if (!this.isTakingDmg) {
+        // If we are done attacking, stop the attack animation
+        if (this.isAttacking && this.animation.isDone()) {
+            this.isAttacking = false;
+        }
         //If we have received input we must be moving and/or attacking
         if (this.game.change) {
             //If we're moving
