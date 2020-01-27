@@ -34,6 +34,8 @@ function Player(game, characterClass) {
         }); // Had to do it this way to preserve the this identity.
 
     this.game.addTimer(this.idleTimer);
+    this.radius = 10;
+    this.width = this.radius * 2;
 }
 
 /**
@@ -64,7 +66,7 @@ Player.prototype.update = function () {
             this.isAttacking = false;
         }
         //If we have received input we must be moving and/or attacking
-        if (this.game.change) {
+        if (this.game.change || this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking) {
             //If we're moving
             if (this.game.keyStack.length > 0 && !this.isAttacking) {
 
@@ -155,13 +157,13 @@ Player.prototype.update = function () {
         }
     }
 
-    // //Enemies
-    // this.game.entities[1].forEach(function (elem) {
-    //     //If we're collided
-    //     if (circleToCircle(this, elem)) {
-    //         this.takeDmg(elem.dmg, elem.direction)
-    //     }
-    // });
+    //Enemies
+    this.game.entities[1].forEach(function (elem) {
+        //If we're collided
+        if (circleToCircle(this, elem)) {
+            this.takeDmg(elem.dmg, elem.direction)
+        }
+    });
     //
     //Projectiles and pickups
     var that = this;
