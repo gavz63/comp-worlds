@@ -5,8 +5,8 @@ function Input() {
     this.ctx.canvas.addEventListener("mousedown", function (e) {
         that.clicking = true;
 		that.click = true;
-		// //We ought to change to the attack animation if mouse was clicked
-		// that.change = true;
+		//We ought to change to the attack animation if mouse was clicked
+		that.change = true;
 		that.reticle.animation.setFrame(1);
     }, false);
 	

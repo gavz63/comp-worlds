@@ -261,7 +261,7 @@ class Animation {
      * Resets the animation to 0.
      */
     resetAnimation() {
-        this._elapsedTime = 0.01;
+        this._elapsedTime = 0;
 		this._setFrame = this._firstFrame;
     }
 }

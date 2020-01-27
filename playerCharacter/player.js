@@ -45,7 +45,6 @@ Player.prototype.draw = function () {
  * Part of the game loop, update the player to the position and state it should now be in.
  */
 Player.prototype.update = function () {
-    this.velocity = {x: 0, y: 0};
 
     // // Are we (still) taking damage?
     // if (this.isTakingDmg) {
@@ -57,22 +56,17 @@ Player.prototype.update = function () {
     //     }
     // }
 
-    // // If we are done attacking, stop the attack animation
-    // if (this.isAttacking && this.animation.isDone()) {
-    //     this.isAttacking = false;
-    // }
+    // If we are done attacking, stop the attack animation
+    if (this.isAttacking && this.animation.isDone()) {
+        this.isAttacking = false;
+    }
 
     //If we are done taking damage, we are allowed to do other things
     if (!this.isTakingDmg) {
         //If we have received input we must be moving and/or attacking
         if (this.game.change) {
             //If we're moving
-            if (this.game.keyStack.length > 0) {
-
-                //If we were idle we aren't anymore, so reset the idle timer
-                this.idleTimer.pause();
-                this.idleTimer.reset();
-                this.isIdling = false;
+            if (this.game.keyStack.length > 0 && !this.isAttacking) {
 
                 console.log(this.game.lastKey);
 
@@ -90,22 +84,24 @@ Player.prototype.update = function () {
                     this.direction = DIRECTION_RIGHT;
                     this.animation = this.characterClass.animation.walkingRight;
                 }
-
-                this.animation.unpause();
             }
 
-            // //Attack animation should supersede walking animation, so we can attack while moving
-            // if (this.game.click) {
-            //     this.regularAttack();
-            // }
+            //Attack animation should supersede walking animation, so we can attack while moving
+            if (this.game.click) {
+                this.regularAttack();
+            }
 
             //Reset to false now that we have finished input-based updating
             this.game.change = false;
+
+            //If we were idle we aren't anymore, so reset the idle timer
+            this.idleTimer.pause();
+            this.idleTimer.reset();
+            this.isIdling = false;
+            this.animation.unpause();
         }
         // If game.change was not set, we have been idling
-        else {
-            console.log("Once");
-
+        else if (!(this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking)) {
             //Make sure we're using the proper idle animation
             switch (this.direction) {
                 case DIRECTION_RIGHT:
@@ -142,6 +138,8 @@ Player.prototype.update = function () {
                 this.animation.pause();
             }
         }
+
+        this.velocity = {x: 0, y: 0};
 
         if (this.game.w) {
             this.velocity.y = -1;
@@ -294,6 +292,7 @@ Player.prototype.regularAttack = function () {
         default:
             break;
     }
+    this.animation.resetAnimation();
     this.animation.unpause();
     this.direction = attackDir;
     console.log("Creating Projectile at: " + this.x + ", " + this.y);
