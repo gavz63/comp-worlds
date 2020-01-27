@@ -4,6 +4,7 @@ function Input() {
 	
     this.ctx.canvas.addEventListener("mousedown", function (e) {
         that.clicking = true;
+        console.log(that.mouseX + ", " +that.mouseY);
 		that.click = true;
 		//We ought to change to the attack animation if mouse was clicked
 		that.change = true;

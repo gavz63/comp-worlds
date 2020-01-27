@@ -303,14 +303,18 @@ Player.prototype.regularAttack = function () {
     this.animation.resetAnimation();
     this.animation.unpause();
     this.direction = attackDir;
-    console.log("Creating Projectile at: " + this.worldX + ", " + this.worldY);
+    
+    let playerCenter = this.game._camera.clickPosTranslation(this.animation.getCenter(this.x, this.y));
+    let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
+    
+    let attackVector = normalizeV(dirV(playerCenter, cursorCenter));
+    
+    console.log("Creating Projectile at: " + playerCenter.x + ", " + playerCenter.y);
+    console.log("Firing Projectile at: " + cursorCenter.x + ", " + cursorCenter.y);
     let worldPos = this.animation.getCenter(this.worldX, this.worldY);
     let projectile = new Projectile(this.game,
-        worldPos.x, worldPos.y,
-        normalizeV(dirV(this.animation.getCenter(this.x, this.y), {
-            x: this.game.mouseX,
-            y: this.game.mouseY
-        })),
+        playerCenter.x, playerCenter.y,
+        attackVector,
         500, 0.5, this, projectileAnimation, 1, 20); // slowed down projectile for debugging
     this.game.addEntity(projectile, "pps");
 };

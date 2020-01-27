@@ -8,15 +8,12 @@ function Bat(game, x, y) {
 	this.radius = 20;
 
 	this.set = true;
-	
-	console.log("Created Bat!");
 }
 
 Bat.prototype = new Entity();
 Bat.prototype.constructor = Bat;
 
 Bat.prototype.update = function () {
-	console.log("BAT");
 	this.x += 2;
 	this.y += 2;
 }
