@@ -17,7 +17,7 @@ function Input() {
 
 	//Right Click TODO make this do the special attack
     this._ctx.canvas.addEventListener("contextmenu", function (e) {
-
+		e.preventDefault();
     }, false);
 
 	//Update  mouse Position
