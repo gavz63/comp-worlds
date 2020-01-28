@@ -53,22 +53,22 @@ function Input() {
 		if(that.chars[e.code] !== true)
 		{
 			//opposite directions are set to false, but will be set to true on release if they are still held down.
-			if (e.code === "KeyW")
+			if (e.code === "KeyW" || e.code === "ArrowUp")
 			{
 				that.w = true;
 				that.s = false;
 			}
-			if (e.code === "KeyA")
+			if (e.code === "KeyA" || e.code === "ArrowLeft")
 			{
 				that.a = true;
 				that.d = false;
 			}
-			if (e.code === "KeyS")
+			if (e.code === "KeyS" || e.code === "ArrowDown")
 			{
 				that.s = true;
 				that.w = false;
 			}
-			if (e.code === "KeyD")
+			if (e.code === "KeyD" || e.code === "ArrowRight")
 			{
 				that.d = true;
 				that.a = false;
@@ -82,7 +82,7 @@ function Input() {
 
     this.ctx.canvas.addEventListener("keyup", function (e) {
 		//Set opposites back to true if they are still held down on release.
-		if (e.code === "KeyW")
+		if (e.code === "KeyW" || e.code === "ArrowUp")
 		{
 			that.w = false;
 			if(that.chars["KeyS"] === true)

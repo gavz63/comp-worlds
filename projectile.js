@@ -13,44 +13,42 @@
  * @param radius, the radius of the projectile (used in collision)
  * @constructor
  */
-function Projectile(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius) {
-	Entity.call(this, game, x, y);
+class Projectile extends Entity
+{
+	constructor(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius)
+	{
+		super(game, x, y);
 
-    let choice = Math.ceil((Math.random() * 3) + 0.5) - 1;
-    this.animation = animation;
-    this.animation.resetAnimation();
-    this.dir = dir;
-    this.radius = 1;
-    this.speed = speed;
-    this.ctx = game.ctx;
-    this.dmg = dmg;
-    this.owner = owner;
-    this.x = x;
-    this.y = y;
+		this.dir = dir;
+		this.speed = speed;
+		
+		var that = this;
+		new TimerCallBack(this.game, lifetime, false, function() {	that.destroy();	});
+		
+		this.ctx = game.ctx;
+		this.owner = owner;
+		
+		this.animation = animation;
+		this.animation.resetAnimation();
+		
+		this.dmg = dmg;
+		this.radius = radius;
+	}
 
-    let that = this;
-    
-    this.game.addTimer(new TimerCallBack(this.game, lifetime, false, function () {
-        that.destroy();
-    }));
+	update() 
+	{
+		var that = this;
+		if (this.owner instanceof Player) {
+			//For each enemy
+			this.game.entities[1].forEach(function(elem) {
+				if (circleToCircle(that, elem)) {
+					that.removeFromWorld = true;
+					elem.removeFromWorld = true;
+				}
+			});
+		}
+		
+		this.x += this.dir.x * this.game._clockTick * this.speed;
+		this.y += this.dir.y * this.game._clockTick * this.speed;
+	}
 }
-
-Projectile.prototype = new Entity();
-Projectile.prototype.constructor = Projectile;
-
-Projectile.prototype.update = function () {
-    // AAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHH
-    var that = this;
-    if (this.owner instanceof Player) {
-        //For each enemy
-        this.game.entities[1].forEach(function(elem) {
-            if (circleToCircle(that, elem)) {
-                that.removeFromWorld = true;
-                elem.removeFromWorld = true;
-            }
-        });
-    }
-
-    this.x += this.dir.x * this.game._clockTick * this.speed;
-    this.y += this.dir.y * this.game._clockTick * this.speed;
-};

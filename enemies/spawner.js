@@ -17,7 +17,4 @@ Spawner.prototype.spawn = function () {
 	});
     let choice = Math.ceil(Math.random() * this.spawnList.length) - 1;
     let spawn = Object.create(this.spawnList[choice]);
-    spawn.init(this.game, this.x, this.y);
-
-    this.game.addEntity(spawn, "enemy");
 };
