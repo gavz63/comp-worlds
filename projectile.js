@@ -10,6 +10,7 @@
  * @param owner, a reference to the player or enemy that fired the projectile.
  * @param animation, the projectile's animation.
  * @param dmg, the amount of damage the projectile does on hit.
+ * @param radius, the radius of the projectile (used in collision)
  * @constructor
  */
 function Projectile(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius) {
@@ -41,6 +42,7 @@ function Projectile(game, x, y, dir, speed, lifetime, owner, animation, dmg, rad
     this.speed = speed;
     this.ctx = game.ctx;
     this.dmg = dmg;
+    this.owner = owner;
 
     let that = this;
     
@@ -55,4 +57,15 @@ Projectile.prototype.constructor = Projectile;
 Projectile.prototype.update = function () {
     this.x += this.dir.x * this.game._clockTick * this.speed;
     this.y += this.dir.y * this.game._clockTick * this.speed;
+
+    if (this.owner instanceof Player) {
+        console.log("Player projectile at: (" + this.x + ", " + this.y + ")");
+        //For each enemy
+        this.game.entities[1].forEach(function(elem) {
+            if (circleToCircle(this, elem)) {
+                this.removeFromWorld = true;
+                elem.removeFromWorld = true;
+            }
+        });
+    }
 };

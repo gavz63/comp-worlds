@@ -18,7 +18,6 @@ Entity.prototype.destroy = function() {
 }
 
 Entity.prototype.update = function () {
-	//console.log("hello");
 }
 
 Entity.prototype.draw = function () {

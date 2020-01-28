@@ -37,8 +37,8 @@ ASSET_MANAGER.downloadAll(function () {
     new Floor(gameEngine);
     new Wall(gameEngine);
 	
-	let spawnList = [Bat.prototype, PuddleJumper.prototype];
-	new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
+	let spawnList = [Bat.prototype, /*PuddleJumper.prototype*/];
+	new Spawner(gameEngine, 300, 100, 10, spawnList); // game, x, y, delay, spawnList
  
     gameEngine.init(ctx);
     gameEngine.start();

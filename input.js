@@ -4,7 +4,6 @@ function Input() {
 	
     this.ctx.canvas.addEventListener("mousedown", function (e) {
         that.clicking = true;
-        console.log(that.mouseX + ", " +that.mouseY);
 		that.click = true;
 		//We ought to change to the attack animation if mouse was clicked
 		that.change = true;
@@ -78,9 +77,8 @@ function Input() {
 			that.chars[e.code] = true;
 			that.keyStack.push(e.code); // keystack track the order keys are pressed
 			that.lastKey = e.code;		// This is the last input
-			that.change = true;			// Notify player animator to change animation.
-			console.log("lastKey: " + that.lastKey);
-			console.log(that.keyStack.length);
+			//console.log("lastKey: " + that.lastKey);
+			//console.log(that.keyStack.length);
 		}
     }, false);
 
@@ -123,7 +121,6 @@ function Input() {
 		// Step backwards through the stack to find the last key pressed that is still held down.
 		if(that.lastKey === e.code)
 		{
-			that.change = true;
 			that.keyStack.pop();
 			while(that.keyStack.length > 0)
 			{
@@ -136,8 +133,8 @@ function Input() {
 			}
 		}
 		
-		console.log("lastKey: " + that.lastKey);
-		console.log(that.keyStack.length);
+		//console.log("lastKey: " + that.lastKey);
+		//console.log(that.keyStack.length);
 
     }, false);
 }

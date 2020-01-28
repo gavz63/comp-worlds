@@ -66,11 +66,9 @@ Player.prototype.update = function () {
             this.isAttacking = false;
         }
         //If we have received input we must be moving and/or attacking
-        if (this.game.change || this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking) {
+        if (this.game.click || this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking) {
             //If we're moving
             if (this.game.keyStack.length > 0 && !this.isAttacking) {
-
-                console.log(this.game.lastKey);
 
                 //Set animation to the walking animation
                 if (this.game.lastKey === "KeyW") {
@@ -93,9 +91,6 @@ Player.prototype.update = function () {
                 this.regularAttack();
             }
 
-            //Reset to false now that we have finished input-based updating
-            this.game.change = false;
-
             //If we were idle we aren't anymore, so reset the idle timer
             this.idleTimer.pause();
             this.idleTimer.reset();
@@ -103,7 +98,7 @@ Player.prototype.update = function () {
             this.animation.unpause();
         }
         // If game.change was not set, we have been idling
-        else if (!(this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking)) {
+        else  {
             //Make sure we're using the proper idle animation
             switch (this.direction) {
                 case DIRECTION_RIGHT:
@@ -125,7 +120,6 @@ Player.prototype.update = function () {
             if (this.isIdling) {
                 //If the animation is finished, reset to single frame and reset idleTimer
                 if (this.animation.isDone()) {
-                    console.log("Idle done");
                     this.isIdling = false;
                      this.animation.pause();
                     this.idleTimer.reset();
@@ -157,34 +151,13 @@ Player.prototype.update = function () {
         }
     }
 
-    //Enemies
-    this.game.entities[1].forEach(function (elem) {
-        //If we're collided
-        if (circleToCircle(this, elem)) {
-            this.takeDmg(elem.dmg, elem.direction)
-        }
-    });
-    //
-    //Projectiles and pickups
-    var that = this;
-    this.game.entities[2].forEach(function (p) {
-        if (p instanceof Projectile) {
-            if (p.owner === that) {
-                that.game.entities[1].forEach(function(enemy) {
-                    if (circleToCircle(p, enemy)) {
-                        p.removeFromWorld = true;
-                        enemy.removeFromWorld = true;
-                    }
-                })
-            } else {
-                if (circleToCircle(p, that)) {
-                    this.takeDmg(p.dmg, p.dir);
-                }
-            }
-        } /*else if (p instanceof Pickup) {
-
-        }*/
-    });
+    // //Enemies
+    // this.game.entities[1].forEach(function (elem) {
+    //     //If we're collided
+    //     if (circleToCircle(this, elem)) {
+    //         this.takeDmg(elem.dmg, elem.direction)
+    //     }
+    // });
 
     this.velocity = scaleV(normalizeV(this.velocity), this.speed);
 
@@ -241,7 +214,6 @@ Player.prototype.update = function () {
  * Runs every time the idle timer finishes.
  */
 Player.prototype.idle = function () {
-    console.log("Idle: " + this.animation._paused);
     this.animation.resetAnimation();
     this.animation.unpause();
     this.isIdling = true;
@@ -311,8 +283,6 @@ Player.prototype.regularAttack = function () {
     
     let attackVector = normalizeV(dirV(playerCenter, cursorCenter));
     
-    console.log("Creating Projectile at: " + playerCenter.x + ", " + playerCenter.y);
-    console.log("Firing Projectile at: " + cursorCenter.x + ", " + cursorCenter.y);
     let worldPos = this.animation.getCenter(this.worldX, this.worldY);
     let projectile = new Projectile(this.game,
         playerCenter.x, playerCenter.y,

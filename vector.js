@@ -7,7 +7,6 @@ function lengthV(vector) {
 }
 
 function normalizeV(vector) {
-    //console.log("Normalize: " + vector.x + ", " + vector.y);
     let length = lengthV(vector);
     if (length === 0) {
         return {x: 0, y: 0};
