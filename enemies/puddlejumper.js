@@ -1,6 +1,9 @@
 function PuddleJumper(game, x, y) {
 	Entity.call(this, game, x, y);
-	this.animation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"), 32, 32, {x: 0, y: 0}, {x: 2, y: 5}, 12, true, 5);
+	this.animation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"),
+		STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+		{x: 0, y: 0}, {x: 2, y: 5},
+		12, true, 5);
     this.speed = 100;
     this.radius = 20;
 	
@@ -21,7 +24,10 @@ PuddleJumper.prototype.update = function () {
 
 PuddleJumper.prototype.init = function (game, x, y) {
 	this.game = game;
-	this.animation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"), 32, 32, {x: 0, y: 0}, {x: 2, y: 5}, 12, true, 5);
+	this.animation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"),
+		STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+		{x: 0, y: 0}, {x: 2, y: 5},
+		12, true, 5);
     this.x = x;
     this.y = y;
     this.speed = 100;
