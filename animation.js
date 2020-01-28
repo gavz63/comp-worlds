@@ -214,20 +214,8 @@ class Animation {
 	{
 		let frameNum = Math.floor(this._elapsedTime / this._frameDuration);
 		return frameNum;
-	}
-	
-	getCenter(posX, posY)
-	{
-		if(this.center === true)
-		{
-			return {x: posX, y: posY}; 
-		}
-		else
-		{
-			return {x: posX + this._frameWidth * this._scale/2, y: posY + this._frameHeight * this._scale/2}; 
-		}
-	}
-	
+    }
+    
 	// setFrame only matters if the animation is paused.
 	nextFrame()
 	{

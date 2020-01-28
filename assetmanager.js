@@ -18,7 +18,7 @@ class AssetManager {
      */
     queueDownload(path) {
         this._downloadQueue.push(path);
-        console.log("Queueing " + path);
+        //console.log("Queueing " + path);
     }
 
     /**
@@ -41,7 +41,7 @@ class AssetManager {
             let path = this._downloadQueue[i];
 
             img.addEventListener("load", function () {
-                console.log("Loaded " + this.src);
+                //console.log("Loaded " + this.src);
                 that._successCount++;
                 if (that.isDone()) callback();
             });

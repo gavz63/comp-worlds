@@ -33,8 +33,8 @@ class Entity
 
 	draw()
 	{
-		let worldPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+		let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
 		
-		this.animation.drawFrame(this.game._clockTick, this.game._ctx, worldPos.x, worldPos.y, true);
+		this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true);
 	}
 }

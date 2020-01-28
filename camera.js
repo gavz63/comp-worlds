@@ -4,7 +4,7 @@
 const STANDARD_DRAW_SCALE = [1.75];
 
 /** The radius of the camera bounding box around the player. */
-const CAMERA_BOUNDING_BOX = 25;
+const CAMERA_BOUNDING_BOX = 20;
 
 /**
  * The Camera class is used to change which part of the map is being viewed.

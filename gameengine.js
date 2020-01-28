@@ -167,7 +167,7 @@ class GameEngine {
             throw "Incorrect layer parameter type.";
         }
 		
-		console.log("CREATED ENTITY");
+		//console.log("CREATED ENTITY");
     }
 	
 	removeEntity (entity, layer) {
