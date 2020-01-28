@@ -5,6 +5,7 @@ const CLOCK_MAX_STEP = 0.05;
 Clock
 
 The Clcok class is used to keep track of time.
+This was original the timer class included in gameEngine
 */
 class Clock {
 

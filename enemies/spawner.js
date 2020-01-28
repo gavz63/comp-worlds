@@ -6,7 +6,6 @@ function Spawner(game, x, y, frequency, spawnList) {
 
     this.game = game;
     var that = this;
-    //console.log(x);
     game.addTimer(new TimerCallBack(game, frequency, true, function () {
         that.spawn();
     }));
@@ -17,7 +16,6 @@ Spawner.prototype.spawn = function () {
 		elem.removeFromWorld = true;
 	});
     let choice = Math.ceil(Math.random() * this.spawnList.length) - 1;
-
     let spawn = Object.create(this.spawnList[choice]);
     spawn.init(this.game, this.x, this.y);
 

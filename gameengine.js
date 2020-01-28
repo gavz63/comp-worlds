@@ -229,70 +229,37 @@ class GameEngine {
      */
     update() {
 
-	for (var i = 0; i < this._entities.length; i++) {
-		let entityCount = this._entities[i].length;
-		for(var j = 0; j < entityCount; j++)
-		{
-			if(this.entities[i][j].removeFromWorld)
+		for (var i = 0; i < this._entities.length; i++) {
+			let entityCount = this._entities[i].length;
+			for(var j = 0; j < entityCount; j++)
 			{
-				this.removeEntity(this.entities[i][j], i);
-				entityCount = this.entities[i].length;
-				j--;
+				if(this.entities[i][j].removeFromWorld)
+				{
+					this.removeEntity(this.entities[i][j], i);
+					entityCount = this.entities[i].length;
+					j--;
+					continue;
+				}
+				
+				this.entities[i][j].update();
+			}
+	    }
+		
+		var timersCount = this.timers.length;
+		
+		for (var i = 0; i < timersCount; i++)
+		{
+			let tim = this.timers[i];
+			if(tim.removeFromWorld)
+			{
+				this.removeTimer(tim);
+				timersCount = this.timers.length;
+				i--;
 				continue;
 			}
-			
-			this.entities[i][j].update();
+			this.timers[i].update(this._clockTick);
 		}
-  }
-	
-	var timersCount = this.timers.length;
-	
-	for (var i = 0; i < timersCount; i++)
-	{
-		let tim = this.timers[i];
-		if(tim.removeFromWorld)
-		{
-			this.removeTimer(tim);
-			timersCount = this.timers.length;
-			i--;
-			continue;
-		}
-		this.timers[i].update(this._clockTick);
-	}
 
-/*
-        // Update entities
-        for (let i = 0; i < this._entities.length; i++) {
-            for (let j = 0; j < this._entities[i].length; j++) {
-                if (!(this._entities[i][j].removeFromWorld)) this._entities[i][j].update();
-            }
-        }
-
-        // Remove unnecessary entities
-        for (let i = 0; i < this._entities.length; i++) {
-            for (let j = this._entities[i].length - 1; j >= 0; j--) {
-                if (this._entities[i][j].removeFromWorld) this._entities[i].splice(j, 1);
-            }
-        }
-	
-		for (var i = 0; i < this.timers.length; i++)
-		{
-			if(this.timers[i].removeFromWorld === false)
-			{
-				this.timers[i].update(this._clockTick);
-			}
-		}	
-	
-		for (var i = this.timers.length-1; i >= 0; i--)
-		{
-			//console.log(this.timers[i].removeFromWorld);
-			if(this.timers[i].removeFromWorld === true)
-			{
-				//console.log("Deletion Happened!");
-				this.timers.splice(i, 1);
-			}
-		}
-		*/
 		
 		if(this.hasReticle === true)
 		{

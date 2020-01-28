@@ -31,14 +31,16 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(camera, "hud");
 	gameEngine.AM = ASSET_MANAGER;
     //new MainCharacter(gameEngine);
-	gameEngine.setReticle(new Crosshair(gameEngine));
 	
+	gameEngine.setReticle(new Crosshair(gameEngine));
 	gameEngine.addEntity(new Player(gameEngine, new BlackMage()), "main");
+	new Player(gameEngine, new BlackMage())
+	
     new Floor(gameEngine);
     new Wall(gameEngine);
 	
 	let spawnList = [Bat.prototype, /*PuddleJumper.prototype*/];
-	new Spawner(gameEngine, 300, 100, 10, spawnList); // game, x, y, delay, spawnList
+	new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
  
     gameEngine.init(ctx);
     gameEngine.start();

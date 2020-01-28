@@ -14,28 +14,10 @@
  * @constructor
  */
 function Projectile(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius) {
-    // var lightningBalls = [];
-    // lightningBalls.push(new Animation(game.AM.getAsset("./img/projectiles/BallPulseBlue.png"), 32, 32, {
-    //     x: 0,
-    //     y: 0
-    // }, {x: 3, y: 0}, 10, true, 5));
-    // lightningBalls.push(new Animation(game.AM.getAsset("./img/projectiles/BallPulseRed.png"), 32, 32, {
-    //     x: 0,
-    //     y: 0
-    // }, {x: 3, y: 0}, 10, true, 5));
-    // lightningBalls.push(new Animation(game.AM.getAsset("./img/projectiles/BallPulseGreen.png"), 32, 32, {
-    //     x: 0,
-    //     y: 0
-    // }, {x: 3, y: 0}, 10, true, 5));
-
-    Entity.call(this, game, x, y);
+	Entity.call(this, game, x, y);
 
     let choice = Math.ceil((Math.random() * 3) + 0.5) - 1;
     this.animation = animation;
-    /*if(choice < 3)
-    {
-        this.animation = lightningBalls[choice];
-    }*/
     this.animation.resetAnimation();
     this.dir = dir;
     this.radius = radius;
@@ -59,7 +41,6 @@ Projectile.prototype.update = function () {
     this.y += this.dir.y * this.game._clockTick * this.speed;
 
     if (this.owner instanceof Player) {
-        console.log("Player projectile at: (" + this.x + ", " + this.y + ")");
         //For each enemy
         this.game.entities[1].forEach(function(elem) {
             if (circleToCircle(this, elem)) {

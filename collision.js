@@ -1,3 +1,4 @@
+// if two points are equal they are collding
 function pointToPoint(A, B)
 {
 	if(A.x === B.x && A.y === B.y)
@@ -7,6 +8,7 @@ function pointToPoint(A, B)
 	return false;
 }
 
+//if the distance between a point and a circle is less than the radius of the circle they are colliding
 function pointToCircle(A, B, range)
 {
 	let dist = (B.y - A.y) * (B.y - A.y) + (B.x - A.x) * (B.x - A.x);
@@ -14,13 +16,12 @@ function pointToCircle(A, B, range)
 	
 	if(dist <= range)
 	{
-		//console.log(A.x + ", " + A.y + "; " + B.x + ", " + B.y);
-		//console.log("Dist: " + dist + ", Range: " + range);
 		return true;
 	}
 	return false;
 }
 
+// if two circles are closer than their combined radius they are colliding
 function circleToCircle(A, B)
 {
 	let dist = (B.y - A.y) * (B.y - A.y) + (B.x - A.x) * (B.x - A.x);
@@ -33,6 +34,8 @@ function circleToCircle(A, B)
 	return false;
 }
 
+//Make a big square the size of both squares combined with the center point of A.
+//If B's center point lies within that square, these two squares collide.
 function squareToSquare(A, B)
 {
 	let halfW = (A.width + B.width) / 2;

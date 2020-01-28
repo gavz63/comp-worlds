@@ -1,3 +1,4 @@
+// returns the length of a vector
 function lengthV(vector) {
     let length = vector.x * vector.x + vector.y * vector.y;
     if (length === 0) {
@@ -6,6 +7,7 @@ function lengthV(vector) {
     return Math.sqrt(length);
 }
 
+// Returns a vector with a length of 1.
 function normalizeV(vector) {
     let length = lengthV(vector);
     if (length === 0) {
@@ -14,14 +16,17 @@ function normalizeV(vector) {
     return {x: vector.x / length, y: vector.y / length};
 }
 
+// Scale a vector by a float
 function scaleV(vector, s) {
     return {x: vector.x * s, y: vector.y * s};
 }
 
+// pt B - pt A
 function dirV(A, B) {
     return {x: B.x - A.x, y: B.y - A.y};
 }
 
+// Get a normalized perpendicular vector
 function perpendicularV(vector) {
     return normalizeV({x: vector.y, y: -vector.x});
 }
@@ -59,4 +64,10 @@ function vectorToDir(vector) {
     		return DIRECTION_LEFT;
 		}
 	}
+}
+
+// Returns an object with an x and y component
+function vector(X, Y)
+{
+	return {x: X, y: Y};
 }

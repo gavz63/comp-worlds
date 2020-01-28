@@ -75,10 +75,8 @@ function Input() {
 			}
 			
 			that.chars[e.code] = true;
-			that.keyStack.push(e.code); // keystack track the order keys are pressed
+			that.keyStack.push(e.code); // keystack tracks the order keys are pressed
 			that.lastKey = e.code;		// This is the last input
-			//console.log("lastKey: " + that.lastKey);
-			//console.log(that.keyStack.length);
 		}
     }, false);
 
@@ -132,9 +130,5 @@ function Input() {
 				that.keyStack.pop();
 			}
 		}
-		
-		//console.log("lastKey: " + that.lastKey);
-		//console.log(that.keyStack.length);
-
     }, false);
 }

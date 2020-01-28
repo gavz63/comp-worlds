@@ -4,8 +4,11 @@ function Entity(game, x, y) {
     this.x = x;
     this.y = y;
 	this.id = 0;
-	this.circle = false;
     this.removeFromWorld = false;
+	this.speed = 100;
+	
+	this.circle = false;
+	this.radius = 10;
 }
 
 Entity.prototype.setAnimation = function(spritesheet)
@@ -26,19 +29,21 @@ Entity.prototype.draw = function () {
     this.animation.drawFrame(this.game._clockTick, this.game.ctx, worldPos.x, worldPos.y, true);
 }
 
-Entity.prototype.rotateAndCache = function (image, angle) {
-    var offscreenCanvas = document.createElement('canvas');
-    var size = Math.max(image.width, image.height);
-    offscreenCanvas.width = size;
-    offscreenCanvas.height = size;
-    var offscreenCtx = offscreenCanvas.getContext('2d');
-    offscreenCtx.save();
-    offscreenCtx.translate(size / 2, size / 2);
-    offscreenCtx.rotate(angle);
-    offscreenCtx.translate(0, 0);
-    offscreenCtx.drawImage(image, -(image.width / 2), -(image.height / 2));
-    offscreenCtx.restore();
-    //offscreenCtx.strokeStyle = "red";
-    //offscreenCtx.strokeRect(0,0,size,size);
-    return offscreenCanvas;
+Entity.prototype.init = function(game, x, y)
+{
+	if(this.set !== true)
+	{
+		this.game = game;
+		this.animation = null;
+		this.x = x;
+		this.y = y;
+		this.id = 0;
+		this.removeFromWorld = false;
+		this.speed = 100;
+		
+		this.circle = false;
+		this.radius = 10;
+		
+		this.set = true;
+	}
 }
