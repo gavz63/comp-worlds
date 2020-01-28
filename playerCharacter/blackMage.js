@@ -54,7 +54,7 @@ function BlackMage() {
         //Up facing animations
         idleUp: new Animation(upAndDown,
             32, 32,
-            {x: 0, y: 0}, {x: 1, y: 0},
+            {x: 0, y: 0}, {x: 5, y: 0},
             6, false, STANDARD_DRAW_SCALE[0]),
         walkingUp: new Animation(upAndDown,
             32, 32,

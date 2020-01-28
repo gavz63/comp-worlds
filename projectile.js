@@ -20,11 +20,13 @@ function Projectile(game, x, y, dir, speed, lifetime, owner, animation, dmg, rad
     this.animation = animation;
     this.animation.resetAnimation();
     this.dir = dir;
-    this.radius = radius;
+    this.radius = 1;
     this.speed = speed;
     this.ctx = game.ctx;
     this.dmg = dmg;
     this.owner = owner;
+    this.x = x;
+    this.y = y;
 
     let that = this;
     
@@ -37,16 +39,18 @@ Projectile.prototype = new Entity();
 Projectile.prototype.constructor = Projectile;
 
 Projectile.prototype.update = function () {
-    this.x += this.dir.x * this.game._clockTick * this.speed;
-    this.y += this.dir.y * this.game._clockTick * this.speed;
-
+    // AAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHH
+    var that = this;
     if (this.owner instanceof Player) {
         //For each enemy
         this.game.entities[1].forEach(function(elem) {
-            if (circleToCircle(this, elem)) {
-                this.removeFromWorld = true;
+            if (circleToCircle(that, elem)) {
+                that.removeFromWorld = true;
                 elem.removeFromWorld = true;
             }
         });
     }
+
+    this.x += this.dir.x * this.game._clockTick * this.speed;
+    this.y += this.dir.y * this.game._clockTick * this.speed;
 };

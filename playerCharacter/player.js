@@ -287,6 +287,8 @@ Player.prototype.regularAttack = function () {
     let projectile = new Projectile(this.game,
         playerCenter.x, playerCenter.y,
         attackVector,
-        500, 0.5, this, projectileAnimation, 1, 20); // slowed down projectile for debugging
+        500, 0.5,
+        this, projectileAnimation,
+        1, 20); // slowed down projectile for debugging
     this.game.addEntity(projectile, "pps");
 };

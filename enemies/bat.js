@@ -13,7 +13,7 @@ Bat.prototype.constructor = Bat;
 Bat.prototype.update = function () {
 	this.x += 2;
 	this.y += 2;
-}
+};
 
 // Important for spawned enemies this is effectively a second constructor.
 Bat.prototype.init = function(game, x, y)
@@ -26,7 +26,9 @@ Bat.prototype.init = function(game, x, y)
 		this.speed = 100;
 		this.game = game;
 		this.ctx = game.ctx;
-		
+		this.radius = 32;
+
+
 		this.set = true;
 	}
 }
