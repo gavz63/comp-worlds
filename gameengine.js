@@ -166,6 +166,8 @@ class GameEngine {
         } else {
             throw "Incorrect layer parameter type.";
         }
+		
+		console.log("CREATED ENTITY");
     }
 	
 	removeEntity (entity, layer) {
@@ -257,7 +259,7 @@ class GameEngine {
 				i--;
 				continue;
 			}
-			this.timers[i].update(this._clockTick);
+			this.timers[i].update();
 		}
 
 		

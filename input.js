@@ -2,7 +2,7 @@ function Input() {
 // MOUSE
 	let that = this;
 	
-    this.ctx.canvas.addEventListener("mousedown", function (e) {
+    this._ctx.canvas.addEventListener("mousedown", function (e) {
         that.clicking = true;
 		that.click = true;
 		//We ought to change to the attack animation if mouse was clicked
@@ -10,23 +10,23 @@ function Input() {
 		that.reticle.animation.setFrame(1);
     }, false);
 	
-	this.ctx.canvas.addEventListener("mouseup", function (e) {
+	this._ctx.canvas.addEventListener("mouseup", function (e) {
 		that.clicking = false;
 		that.reticle.animation.setFrame(0);
     }, false);
 
 	//Right Click TODO make this do the special attack
-    this.ctx.canvas.addEventListener("contextmenu", function (e) {
+    this._ctx.canvas.addEventListener("contextmenu", function (e) {
 
     }, false);
 
 	//Update  mouse Position
-    this.ctx.canvas.addEventListener("mousemove", function (e) {
+    this._ctx.canvas.addEventListener("mousemove", function (e) {
 		
 
-		var element = that.ctx.canvas, offsetX = 0, offsetY = 0, mx, my;
+		var element = that._ctx.canvas, offsetX = 0, offsetY = 0, mx, my;
 
-		// Compute the total offset
+		// Compute the total offset, subtracts the space between the canvas and the page.
 		if (element.offsetParent !== undefined) {
 
 				offsetX += element.offsetLeft;
@@ -42,16 +42,18 @@ function Input() {
 
     }, false);
 
-    this.ctx.canvas.addEventListener("mousewheel", function (e) {
+    this._ctx.canvas.addEventListener("mousewheel", function (e) {
 
     }, false);
 
 // KEYBOARD
 
-    this.ctx.canvas.addEventListener("keypress", function (e) {
+    this._ctx.canvas.addEventListener("keydown", function (e) {
 		//Key press counts each key once until it is released.
+		
 		if(that.chars[e.code] !== true)
 		{
+
 			//opposite directions are set to false, but will be set to true on release if they are still held down.
 			if (e.code === "KeyW" || e.code === "ArrowUp")
 			{
@@ -80,38 +82,50 @@ function Input() {
 		}
     }, false);
 
-    this.ctx.canvas.addEventListener("keyup", function (e) {
+    this._ctx.canvas.addEventListener("keyup", function (e) {
 		//Set opposites back to true if they are still held down on release.
 		if (e.code === "KeyW" || e.code === "ArrowUp")
 		{
-			that.w = false;
-			if(that.chars["KeyS"] === true)
+			if(that.chars["KeyW"] !== true || that.chars["ArrowUp"] !== true) // that.chars is set to false after this check so || is ok
 			{
-				that.s = true;
+				that.w = false;
+				if(that.chars["KeyS"] === true || that.chars["ArrowDown"] === true)
+				{
+					that.s = true;
+				}
 			}
 		}
-		if (e.code === "KeyA")
+		if (e.code === "KeyA" || e.code === "ArrowLeft")
 		{
-			that.a = false;
-			if(that.chars["KeyD"] === true)
+			if(that.chars["KeyA"] !== true || that.chars["ArrowLeft"] !== true)
 			{
-				that.d = true;
+				that.a = false;
+				if(that.chars["KeyD"] === true || that.chars["ArrowRight"] === true)
+				{
+					that.d = true;
+				}
 			}
 		}
-		if (e.code === "KeyS")
+		if (e.code === "KeyS" || e.code === "ArrowDown")
 		{
-			that.s = false;
-			if(that.chars["KeyW"] === true)
+			if(that.chars["KeyS"] !== true || that.chars["ArrowDown"] !== true)
 			{
-				that.w = true;
+				that.s = false;
+				if(that.chars["KeyW"] === true || that.chars["ArrowUp"] === true)
+				{
+					that.w = true;
+				}
 			}
 		}
-		if (e.code === "KeyD")
+		if (e.code === "KeyD" || e.code === "ArrowRight")
 		{
-			that.d = false;
-			if(that.chars["KeyA"] === true)
+			if(that.chars["KeyD"] !== true || that.chars["ArrowRight"] !== true)
 			{
-				that.a = true;
+				that.d = false;
+				if(that.chars["KeyA"] === true || that.chars["ArrowLeft"] === true)
+				{
+					that.a = true;
+				}
 			}
 		}
 		

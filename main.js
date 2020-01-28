@@ -6,8 +6,8 @@ ASSET_MANAGER.queueDownload("./img/map/doors.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageSideToSideSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/hud/Crosshair.png");
-ASSET_MANAGER.queueDownload("./img/enemies/Bat.png")
-ASSET_MANAGER.queueDownload("./img/enemies/PuddleJumper.png")
+ASSET_MANAGER.queueDownload("./img/enemies/Bat.png");
+ASSET_MANAGER.queueDownload("./img/enemies/PuddleJumper.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Fireball.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseBlue.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseRed.png");
@@ -32,14 +32,15 @@ ASSET_MANAGER.downloadAll(function () {
 	gameEngine.AM = ASSET_MANAGER;
     //new MainCharacter(gameEngine);
 	
-	gameEngine.setReticle(new Crosshair(gameEngine));
-	gameEngine.addEntity(new Player(gameEngine, new BlackMage()), "main");
-	new Player(gameEngine, new BlackMage())
+	new Crosshair(gameEngine);
+	new Player(gameEngine, new BlackMage());
+	
+	new Bat(gameEngine, 0, 0);
 	
     new Floor(gameEngine);
     new Wall(gameEngine);
 	
-	let spawnList = [/*Bat.prototype, */PuddleJumper.prototype];
+	let spawnList = [Bat.prototype, PuddleJumper.prototype];
 	new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
  
     gameEngine.init(ctx);

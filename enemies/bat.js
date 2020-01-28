@@ -1,40 +1,25 @@
-function Bat(game, x, y) {
-	Entity.call(this, game, x, y);
-	this.animation = new Animation(game.AM.getAsset("./img/Bat.png"),
-		STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-		{x: 0, y: 0}, {x: 3, y: 0},
-		10, true, 5);
-    this.speed = 100;
-	this.radius = 100;
-
-	this.set = true; // used to test if init is necessary
-}
-
-Bat.prototype = new Entity();
-Bat.prototype.constructor = Bat;
-
-Bat.prototype.update = function () {
-	this.x += 2;
-	this.y += 2;
-};
-
-// Important for spawned enemies this is effectively a second constructor.
-Bat.prototype.init = function(game, x, y)
+class Bat extends Entity
 {
-	if(this.set !== true)
+	constructor(game, x, y)
 	{
+		super(game, x, y);
+		console.log("BAT");
+		var animation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"), STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH, {x: 0, y: 0}, {x: 2, y: 5}, 12, true, 5);
 		this.animation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
-			STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-			{x: 0, y: 0}, {x: 3, y: 0},
-			10, true, 5);
-		this.x = x;
-		this.y = y;
+			STANDARD_ENTITY_FRAME_WIDTH,
+			STANDARD_ENTITY_FRAME_WIDTH,
+			{x: 0, y: 0}, {x: 3, y: 0}, 10, true, 5);
 		this.speed = 100;
-		this.game = game;
-		this.ctx = game.ctx;
 		this.radius = STANDARD_ENTITY_RADIUS;
 
+		game.addEntity(this, "enemy");
+	}
 
-		this.set = true;
+	update()
+	{
+		this.x += 2;
+		this.y += 2;
 	}
 }
+
+Bat.prototype.constructor = Bat;

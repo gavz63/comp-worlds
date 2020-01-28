@@ -45,7 +45,6 @@ class Animation {
      *      be drawn with. Throws an exception if scale isn't positive.
      */
     constructor(spriteSheet, frameWidth, frameHeight, firstFrame, lastFrame, fps, loop, scale) {
-
         // Check width.
         let i = 0;
         while (i < spriteSheet.width) {

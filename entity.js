@@ -1,7 +1,8 @@
 const STANDARD_ENTITY_FRAME_WIDTH = 32;
 const STANDARD_ENTITY_RADIUS = 20;
 
-class Entity{
+class Entity
+{
 	constructor(game, x, y)
 	{
 		this.game = game;
@@ -14,8 +15,6 @@ class Entity{
 		
 		this.circle = false;
 		this.radius = 10;
-		
-		this.init();
 	}
 	
 	setAnimation(spritesheet)
@@ -36,10 +35,6 @@ class Entity{
 	{
 		let worldPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
 		
-		this.animation.drawFrame(this.game._clockTick, this.game.ctx, worldPos.x, worldPos.y, true);
+		this.animation.drawFrame(this.game._clockTick, this.game._ctx, worldPos.x, worldPos.y, true);
 	}
-
-	init()
-	{
-	}
-};
+}
