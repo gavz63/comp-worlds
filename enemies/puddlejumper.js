@@ -20,5 +20,3 @@ class PuddleJumper extends Entity
 		}
 	}
 }
-
-PuddleJumper.prototype.constructor = PuddleJumper;

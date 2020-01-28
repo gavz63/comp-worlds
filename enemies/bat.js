@@ -21,5 +21,3 @@ class Bat extends Entity
 		this.y += 2;
 	}
 }
-
-Bat.prototype.constructor = Bat;
