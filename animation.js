@@ -249,6 +249,6 @@ class Animation {
      */
     resetAnimation() {
         this._elapsedTime = 0;
-		this._setFrame = this._firstFrame;
+		this._setFrame = 0;
     }
 }

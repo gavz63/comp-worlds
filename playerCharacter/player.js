@@ -17,7 +17,7 @@ class Player
 
 
 		this.x = 0;
-		this.y = 0;
+		this.y = 128;
 		this.speed = characterClass.stats.speed;
 		this.hp = characterClass.stats.maxHP;
 		this.velocity = {x: 0, y: 0};
@@ -33,7 +33,7 @@ class Player
 			5, true,
 			function () {
 				that.idle();
-			}); // Had to do it this way to preserve the this identity.
+			});
 		this.radius = STANDARD_ENTITY_RADIUS;
 		this.width = this.radius * 2;
 		
@@ -41,13 +41,13 @@ class Player
 	}
 
 	/**
- * Draw the player in the state and position it is currently in.
- */
-draw ()
-{
-	let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
-	this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true); // do not draw world pos
-}
+	 * Draw the player in the state and position it is currently in.
+	 */
+	draw ()
+	{
+		let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+		this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true); // do not draw world pos
+	}
 	
 	/**
 	 * Part of the game loop, update the player to the position and state it should now be in.
@@ -71,6 +71,7 @@ draw ()
 			if (this.isAttacking && this.animation.isDone()) {
 				this.isAttacking = false;
 			}
+			console.log(this.animation._setFrame);
 			//If we have received input we must be moving and/or attacking
 			if (this.game.click || this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking) {
 				//If we're moving
@@ -124,11 +125,12 @@ draw ()
 				/* If idle() has already been called and we are in the middle of
 				playing the idle animation */
 				if (this.isIdling) {
+
 					//If the animation is finished, reset to single frame and reset idleTimer
 					if (this.animation.isDone()) {
 						this.isIdling = false;
-						 this.animation.pause();
 						this.idleTimer.reset();
+						this.animation.pause();
 					} else {
 						//Idle animation should be playing
 						this.animation.unpause();
@@ -279,11 +281,9 @@ draw ()
 				this.animation = this.characterClass.animation.regAttackLeft;
 				projectileAnimation = this.characterClass.animation.regProjectileLeft;
 				break;
-			case DIRECTION_RIGHT:
+			default:
 				this.animation = this.characterClass.animation.regAttackRight;
 				projectileAnimation = this.characterClass.animation.regProjectileRight;
-				break;
-			default:
 				break;
 		}
 		this.animation.resetAnimation();

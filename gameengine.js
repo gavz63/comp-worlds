@@ -259,6 +259,7 @@ class GameEngine {
                 {
                     this.entities[4][i].update();
                 }
+                this.click = false;
 
                 break;
             case GAME_STATES.PLAYING:

@@ -20,6 +20,7 @@ ASSET_MANAGER.queueDownload("./img/player_characters/LancerSideToSideSheet.png")
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerSpecialMoveAllDirections.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerDmgSheet.png");
+ASSET_MANAGER.queueDownload("./img/hud/ControllerTutorial.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -33,8 +34,7 @@ ASSET_MANAGER.downloadAll(function () {
     //new MainCharacter(gameEngine);
 	
 	new Crosshair(gameEngine);
-	//new Player(gameEngine, new BlackMage());
-	
+
 	new Bat(gameEngine, 0, 0);
 	
     new Floor(gameEngine);
@@ -48,7 +48,6 @@ ASSET_MANAGER.downloadAll(function () {
     let y = 0;
     for (var i = 0; i < charClasses.length; i++) {
         gameEngine.addEntity(new NPC(gameEngine, charClasses[i], x, y), "hud");
-        console.log(gameEngine.entities[4].length);
         y += 50;
     }
  
