@@ -10,7 +10,11 @@ class Heart extends Entity
 			STANDARD_ENTITY_FRAME_WIDTH,
 			{x: 0, y: 0}, {x: 3, y: 0}, 10, true, this._myScale);
       
+    this.animation.pause();
+    this.set(true);
+      
     this.game.addEntity(this, "hud");
+
   }
   
   draw()
@@ -23,11 +27,34 @@ class Heart extends Entity
     this.full = fullness;
     if(this.full)
     {
-      this.animation.setFrame(0);
+      this.animation.setFrame(3);
     }
     else
     {
-      this.animation.setFrame(1);
+      this.animation.setFrame(0);
+    }
+  }
+}
+
+class LastHeart extends Heart
+{
+  constructor(game, x, y)
+  {
+    super(game, x, y);
+  }
+  
+  set(fullness)
+  {
+    this.full = fullness;
+    if(this.full)
+    {
+      this.animation.pause();
+      this.animation.setFrame(3);
+    }
+    else
+    {
+      this.animation.unpause();
+      this.animation.reset();
     }
   }
 }

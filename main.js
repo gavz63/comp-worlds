@@ -43,15 +43,17 @@ ASSET_MANAGER.downloadAll(function () {
     new Floor(gameEngine);
     new Wall(gameEngine);
 	
-	let spawnList = [Bat.prototype, PuddleJumper.prototype];
-	new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
+    let spawnList = [Bat.prototype, PuddleJumper.prototype];
+    new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
 
     let charClasses = [new Lancer(), new BlackMage()];
 
     for (var i = 0; i < charClasses.length; i++) {
         gameEngine.addEntity(new NPC(gameEngine, charClasses[i]), "main");
     }
-    new Heart(gameEngine, 100, 100);
+    new LastHeart(gameEngine, 100, 100);
+    new Heart(gameEngine, 250, 100);
+    new Heart(gameEngine, 400, 100);
     new Crosshair(gameEngine);
     gameEngine.init(ctx);
     gameEngine.start();
