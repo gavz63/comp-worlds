@@ -52,19 +52,6 @@ function Input() {
 		
 		if(that.chars[e.code] !== true)
 		{
-			console.log(e.code);
-			if(e.code === "KeyP")
-			{
-				console.log(that.game_state);
-				if(that.game_state === GAME_STATES.CHARACTER_SELECT)
-				{
-					that.game_state = GAME_STATES.PLAYING;
-				}
-				else if(that.game_state === GAME_STATES.PLAYING)
-				{
-					that.game_state = GAME_STATES.CHARACTER_SELECT;
-				}
-			}
 			//opposite directions are set to false, but will be set to true on release if they are still held down.
 			if (e.code === "KeyW" || e.code === "ArrowUp")
 			{
