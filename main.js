@@ -8,6 +8,10 @@ ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/hud/Crosshair.png");
 ASSET_MANAGER.queueDownload("./img/enemies/Bat.png");
 ASSET_MANAGER.queueDownload("./img/enemies/PuddleJumper.png");
+ASSET_MANAGER.queueDownload("./img/enemies/PuddleDeath.png");
+ASSET_MANAGER.queueDownload("./img/enemies/SkeletonWalk.png");
+ASSET_MANAGER.queueDownload("./img/enemies/SkeletonAttack.png");
+ASSET_MANAGER.queueDownload("./img/enemies/SkeletonDeath.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Fireball.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseBlue.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseRed.png");
@@ -32,7 +36,8 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(camera, "hud");
 	gameEngine.AM = ASSET_MANAGER;
     //new MainCharacter(gameEngine);
-	
+    
+    new WallHUD(gameEngine);
 	new Crosshair(gameEngine);
 
 	new Bat(gameEngine, 0, 0);

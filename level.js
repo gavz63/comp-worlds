@@ -21,15 +21,7 @@ class Level {
      *       Pass null for a random level.
      */
     constructor(levelString) {
-        this._map = [];
-        this._width = null;
-        this._height = null;
-        this._spawn = null;
-        this._doors = [];
-        this._exit = null;
-        this._wallType = null;
-        this._floorType = null;
-        this.buildLevel(levelString);
+        this.resetLevel(levelString);
     }
 
     /**
@@ -65,6 +57,12 @@ class Level {
                 if (type === "S") {
                     this._spawn = {x: j, y: i};
                 }
+                if (type === "F") {
+                    this._floors.push({x: j, y: i});
+                }
+                if (type === "W") {
+                    this._walls.push({x: j, y: i});
+                }
                 if (type === "H") {
                     this._doors.push({x: j, y: i, d: "H"});
                 }
@@ -98,6 +96,8 @@ class Level {
         this._width = null;
         this._height = null;
         this._spawn = null;
+        this._floors = [];
+        this._walls = [];
         this._doors = [];
         this._exit = null;
         this._wallType = null;

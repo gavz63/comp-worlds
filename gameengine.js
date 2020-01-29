@@ -39,15 +39,6 @@ class GameEngine {
         this._entities[3] = []; // Playable Characters
         this._entities[4] = []; // HUD
         this._ctx = null;
-        this._up = null;
-        this._down = null;
-        this._left = null;
-        this._right = null;
-        this._clicks = [];
-        this._upAccelStep = 0;
-        this._downAccelStep = 0;
-        this._leftAccelStep = 0;
-        this._rightAccelStep = 0;
 		
 		this.timers = [];
 		this.click = false;
@@ -87,61 +78,6 @@ class GameEngine {
     * Initializes all event listeners for user input.
     */
     startInput = Input; 
-	/* removing this will mess up maincharacter
-	{
-
-        let that = this;
-        this._ctx.canvas.addEventListener("keydown", function (e) {
-            let c = e.code;
-            if (c === "KeyW" || c === "ArrowUp") {
-                that._up = true;
-                that._upAccelStep = 0;
-            }
-            if (c === "KeyS" || c === "ArrowDown") {
-                that._down = true;
-                that._downAccelStep = 0;
-            }
-            if (c === "KeyA" || c === "ArrowLeft") {
-                that._left = true;
-                that._leftAccelStep = 0;
-            }
-            if (c === "KeyD" || c === "ArrowRight") {
-                that._right = true;
-                that._rightAccelStep = 0;
-            }
-            e.preventDefault();
-        }, false);
-        this._ctx.canvas.addEventListener("keyup", function (e) {
-            let c = e.code;
-            if (c === "KeyW" || c === "ArrowUp") {
-                that._up = false;
-                that._upAccelStep = 0;
-            }
-            if (c === "KeyS" || c === "ArrowDown") {
-                that._down = false;
-                that._downAccelStep = 0;
-            }
-            if (c === "KeyA" || c === "ArrowLeft") {
-                that._left = false;
-                that._leftAccelStep = 0;
-            }
-            if (c === "KeyD" || c === "ArrowRight") {
-                that._right = false;
-                that._rightAccelStep = 0;
-            }
-            e.preventDefault();
-        }, false);
-        this._ctx.canvas.addEventListener("click", function (e) {
-            console.log(that._camera.clickPosTranslation({x: e.clientX, y: e.clientY}));
-            that._clicks.push({x: e.clientX, y: e.clientY, type: "left"});
-            e.preventDefault();
-        }, false);
-        this._ctx.canvas.addEventListener("contextmenu", function (e) {
-            that._clicks.push({x: e.clientX, y: e.clientY, type: "right"});
-            e.preventDefault();
-        }, false);
-		
-    }*/
 
     /**
      * Adds the given entity to the list of entities in the requested layer.
@@ -332,18 +268,6 @@ class GameEngine {
     get level() {return this._level;}
     get entities() {return this._entities;}
     get ctx() {return this._ctx;}
-    get up() {return this._up;}
-    get upAccelStep() {return this._upAccelStep;}
-    set upAccelStep(val) {this._upAccelStep = val;}
-    get down() {return this._down;}
-    get downAccelStep() {return this._downAccelStep;}
-    set downAccelStep(val) {this._downAccelStep = val;}
-    get left() {return this._left;}
-    get leftAccelStep() {return this._leftAccelStep;}
-    set leftAccelStep(val) {this._leftAccelStep = val;}
-    get right() {return this._right;}
-    get rightAccelStep() {return this._rightAccelStep;}
-    set rightAccelStep(val) {this._rightAccelStep = val;}
 }
 
 // Used in start() to cap framerate.
