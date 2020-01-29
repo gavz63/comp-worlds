@@ -48,7 +48,7 @@ class Player extends Entity
 			this.game.camera.x = 0;
 			this.game.camera.y = 0;
 			this.game.addEntity(
-				new NPC(this.game, this.characterClass), "hud");
+				new NPC(this.game, this.characterClass), "main");
 			this.destroy();
 			return;
 		}
