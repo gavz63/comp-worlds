@@ -9,7 +9,7 @@ class Player extends Entity
 {
 	constructor(game, characterClass) {
 		super(game, 0, 128);
-
+		game._player = this;
 		this.characterClass = characterClass;
 		this.direction = DIRECTION_RIGHT;
 		this.animation = characterClass.animation.idleRight;

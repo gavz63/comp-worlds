@@ -43,7 +43,7 @@ ASSET_MANAGER.downloadAll(function () {
     new Floor(gameEngine);
     new Wall(gameEngine);
 	
-    let spawnList = [Bat.prototype, PuddleJumper.prototype];
+    let spawnList = [Bat.prototype, PuddleJumper.prototype, Skeleton.prototype];
     new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
 
     let charClasses = [new Lancer(), new BlackMage()];

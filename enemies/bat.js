@@ -3,9 +3,8 @@ class Bat extends Entity
 	constructor(game, x, y)
 	{
 		super(game, x, y);
+		this.circle = Math.floor(Math.random() * 300);
 		this._myScale = [2 * STANDARD_DRAW_SCALE];
-    
-
     
 		this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
 			STANDARD_ENTITY_FRAME_WIDTH,
@@ -30,9 +29,11 @@ class Bat extends Entity
 
 	update()
 	{
-    this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
-    this.x += 2;
-    this.y += 2;
+		this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
+    	let attackVector = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game._player.x + (Math.cos((this.circle / 180) * Math.PI)) * (75), y: this.game._player.y + (Math.sin((this.circle / 180) * Math.PI)) * 75}));
+		this.circle = (this.circle + 1) % 360;
+		this.x += attackVector.x * this.speed * this.game._clockTick;
+    	this.y += attackVector.y * this.speed * this.game._clockTick;
 	}
   
   destroy()
