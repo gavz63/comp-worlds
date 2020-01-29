@@ -47,13 +47,24 @@ function Input() {
     }, false);
 
 // KEYBOARD
-
     this._ctx.canvas.addEventListener("keydown", function (e) {
 		//Key press counts each key once until it is released.
 		
 		if(that.chars[e.code] !== true)
 		{
-
+			console.log(e.code);
+			if(e.code === "KeyP")
+			{
+				console.log(that.game_state);
+				if(that.game_state === GAME_STATES.CHARACTER_SELECT)
+				{
+					that.game_state = GAME_STATES.PLAYING;
+				}
+				else if(that.game_state === GAME_STATES.PLAYING)
+				{
+					that.game_state = GAME_STATES.CHARACTER_SELECT;
+				}
+			}
 			//opposite directions are set to false, but will be set to true on release if they are still held down.
 			if (e.code === "KeyW" || e.code === "ArrowUp")
 			{
@@ -83,6 +94,7 @@ function Input() {
     }, false);
 
     this._ctx.canvas.addEventListener("keyup", function (e) {
+
 		//Set opposites back to true if they are still held down on release.
 		if (e.code === "KeyW" || e.code === "ArrowUp")
 		{

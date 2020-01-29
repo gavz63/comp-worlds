@@ -2,6 +2,21 @@ const DIRECTION_LEFT = "LEFT";
 const DIRECTION_RIGHT = "RIGHT";
 const DIRECTION_UP = "UP";
 const DIRECTION_DOWN = "DOWN";
+
+const GAME_STATES = {
+    CHARACTER_SELECT: "char_select",
+    PLAYING: "playing_level",
+    CHANGING_LEVEL: "changing level"
+};
+
+const LAYERS = {
+    FLOOR: 0,
+    WALL: 1,
+    PICKUPS: 2,
+    PROJECTILES: 3,
+    PCS: 4,
+    HUD: 5
+};
 /**
  * The GameEngine class is the heart our game. It maintains the render-update
  * loop and provides all entities with the resources they need to exist and
@@ -12,6 +27,7 @@ class GameEngine {
     /**
      * @param {Camera} camera The camera that's attached to the main character.
      * @param {Level} level The level being played by the main character.
+     * @param {characterChooser} The chooser that we are using to pick a character.
      */
     constructor(camera, level) {
         this._camera = camera;
@@ -40,6 +56,8 @@ class GameEngine {
 		this.chars = [];
 		this.keyStack = [];
 		this.lastChar = null;
+
+		this.game_state = GAME_STATES.CHARACTER_SELECT;
     }
 
     /**
@@ -231,45 +249,61 @@ class GameEngine {
      */
     update() {
 
-		for (var i = 0; i < this._entities.length; i++) {
-			let entityCount = this._entities[i].length;
-			for(var j = 0; j < entityCount; j++)
-			{
-				if(this.entities[i][j].removeFromWorld)
-				{
-					this.removeEntity(this.entities[i][j], i);
-					entityCount = this.entities[i].length;
-					j--;
-					continue;
-				}
-				
-				this.entities[i][j].update();
-			}
-	    }
-		
-		var timersCount = this.timers.length;
-		
-		for (var i = 0; i < timersCount; i++)
-		{
-			let tim = this.timers[i];
-			if(tim.removeFromWorld)
-			{
-				this.removeTimer(tim);
-				timersCount = this.timers.length;
-				i--;
-				continue;
-			}
-			this.timers[i].update();
-		}
+        switch (this.game_state) {
+            case GAME_STATES.CHARACTER_SELECT:
+                for(var i = 0; i < this._entities[0].length; i++)
+                {
+                    this.entities[0][i].update();
+                }
+                for(var i = 0; i < this._entities[4].length; i++)
+                {
+                    this.entities[4][i].update();
+                }
 
-		
-		if(this.hasReticle === true)
-		{
-			this.reticle.update(this.mouseX, this.mouseY);
-		}
+                break;
+            case GAME_STATES.PLAYING:
+                for (var i = 0; i < this._entities.length; i++) {
+                    let entityCount = this._entities[i].length;
+                    for(var j = 0; j < entityCount; j++)
+                    {
+                        if(this.entities[i][j].removeFromWorld)
+                        {
+                            this.removeEntity(this.entities[i][j], i);
+                            entityCount = this.entities[i].length;
+                            j--;
+                            continue;
+                        }
+
+                        this.entities[i][j].update();
+                    }
+                }
+
+                var timersCount = this.timers.length;
+
+                for (var i = 0; i < timersCount; i++)
+                {
+                    let tim = this.timers[i];
+                    if(tim.removeFromWorld)
+                    {
+                        this.removeTimer(tim);
+                        timersCount = this.timers.length;
+                        i--;
+                        continue;
+                    }
+                    this.timers[i].update();
+                }
+
+                break;
+        }
+
+        if(this.hasReticle === true)
+        {
+            this.reticle.update(this.mouseX, this.mouseY);
+        }
 
         // Clear input
         this._clicks = [];
+
     }
 
     /**

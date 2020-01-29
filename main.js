@@ -33,7 +33,7 @@ ASSET_MANAGER.downloadAll(function () {
     //new MainCharacter(gameEngine);
 	
 	new Crosshair(gameEngine);
-	new Player(gameEngine, new BlackMage());
+	//new Player(gameEngine, new BlackMage());
 	
 	new Bat(gameEngine, 0, 0);
 	
@@ -42,6 +42,15 @@ ASSET_MANAGER.downloadAll(function () {
 	
 	let spawnList = [Bat.prototype, PuddleJumper.prototype];
 	new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
+
+    let charClasses = [new Lancer(), new BlackMage()];
+    let x = -32;
+    let y = 0;
+    for (var i = 0; i < charClasses.length; i++) {
+        gameEngine.addEntity(new NPC(gameEngine, charClasses[i], x, y), "hud");
+        console.log(gameEngine.entities[4].length);
+        y += 50;
+    }
  
     gameEngine.init(ctx);
     gameEngine.start();

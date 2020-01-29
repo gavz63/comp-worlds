@@ -1,3 +1,4 @@
+const ACCELERATION = [15];//Higher = slidey'r
 /**
  * @author Gordon McCreary, Joel Johnson, Gavin Montes
  * @param game, a reference to the game engine
@@ -33,20 +34,20 @@ class Player
 			function () {
 				that.idle();
 			}); // Had to do it this way to preserve the this identity.
-		this.radius = 10;
+		this.radius = STANDARD_ENTITY_RADIUS;
 		this.width = this.radius * 2;
 		
 		this.game.addEntity(this, "main");
 	}
 
 	/**
-	 * Draw the player in the state and position it is currently in.
-	 */
-	draw ()
-	{
-		let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
-		this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true); // do not draw world pos
-	}
+ * Draw the player in the state and position it is currently in.
+ */
+draw ()
+{
+	let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+	this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true); // do not draw world pos
+}
 	
 	/**
 	 * Part of the game loop, update the player to the position and state it should now be in.
@@ -142,7 +143,7 @@ class Player
 
 
 			// Handle player movement.
-			let accelRate = Math.floor(this.speed / 10);
+			let accelRate = Math.floor(this.speed / ACCELERATION);
 			while (Math.sqrt((this.velocity.x * this.velocity.x) + (this.velocity.y * this.velocity.y)) > this.speed) {
 				if (this.velocity.x > 0) {
 					this.velocity.x = this.velocity.x - (Math.floor((Math.abs(this.velocity.x) / accelRate) / 2) * accelRate);
@@ -175,6 +176,17 @@ class Player
 			} else if (this.velocity.x > 0) {
 				this.velocity.x = this.velocity.x - accelRate;
 			}
+
+			if (this.velocity.x > 0) {
+				this.x += Math.ceil(this.velocity.x * this.game._clockTick);
+			} else {
+				this.x += Math.floor(this.velocity.x * this.game._clockTick);
+			}
+			if (this.velocity.y > 0) {
+				this.y += Math.ceil(this.velocity.y * this.game._clockTick);
+			} else {
+				this.y += Math.floor(this.velocity.y * this.game._clockTick);
+			}
 		}
 
 		// //Enemies
@@ -185,21 +197,7 @@ class Player
 		//     }
 		// });
 
-		//this.velocity = scaleV(normalizeV(this.velocity), this.speed);
 
-		if (this.velocity.x > 0) {
-			this.x += Math.ceil(this.velocity.x * this.game._clockTick);
-		} else {
-			this.x += Math.floor(this.velocity.x * this.game._clockTick);
-		}
-		if (this.velocity.y > 0) {
-			this.y += Math.ceil(this.velocity.y * this.game._clockTick);
-		} else {
-			this.y += Math.floor(this.velocity.y * this.game._clockTick);
-		}
-
-		//this.game._camera.x = this.x; //
-		//this.game._camera.y = this.y; // Always move the camera
 
 		let cOffX = this.game._camera.x - this.x;
 		let cOffY = this.game._camera.y - this.y;
@@ -219,45 +217,6 @@ class Player
 			}
 			cOffY = this.game._camera.y - this.y;
 		}
-
-		
-		
-
-		//first crack at the bounding box
-		// let scrolling = false;
-		//
-		// if(this.x > this.game.ctx.canvas.width * 2/3)
-		// {
-		//     scrolling = true;
-		//     this.x = this.game.ctx.canvas.width * 2/3;
-		// }
-		// if(this.x < this.game.ctx.canvas.width * 1/3)
-		// {
-		//     scrolling = true;
-		//     this.x = this.game.ctx.canvas.width * 1/3;
-		// }
-		// if(this.y > this.game.ctx.canvas.height * 2/3)
-		// {
-		//     scrolling = true;
-		//     this.y = this.game.ctx.canvas.height * 2/3;
-		// }
-		// if(this.y < this.game.ctx.canvas.height * 1/3)
-		// {
-		//     scrolling = true;
-		//     this.y = this.game.ctx.canvas.height * 1/3;
-		// }
-		//
-		// if(scrolling === true)
-		// {
-		//     this.game._camera.x += this.velocity.x * this.game._clockTick;
-		//     this.game._camera.y += this.velocity.y * this.game._clockTick;
-		// }
-		//bounding camera
-
-
-		//this.game._camera.x += this.x;
-		//this.game._camera.y += this.y;
-
 	}
 	
 	/**
@@ -301,13 +260,11 @@ class Player
 	{
 		this.isAttacking = true;
 		this.game.click = false;
-		var attackDir = vectorToDir(normalizeV(dirV(
-			{x: this.x, y: this.y},
-			{
-				x: this.game.mouseX,
-				y: this.game.mouseY
-			})
-		));
+		let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
+
+		let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
+
+		var attackDir = vectorToDir(attackVector);
 		var projectileAnimation = null;
 		switch (attackDir) {
 			case DIRECTION_DOWN:
@@ -333,9 +290,7 @@ class Player
 		this.animation.unpause();
 		this.direction = attackDir;
 		
-		let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
-		
-		let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
+
 		let projectile = new Projectile(this.game,
 			this.x, this.y,
 			attackVector,

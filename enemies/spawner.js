@@ -9,7 +9,7 @@ class Spawner
 
 		this.game = game;
 		var that = this;
-		new TimerCallBack(game, frequency, true,
+		this.spawn_timer = new TimerCallBack(game, frequency, true,
 			function () {
 				that.spawn();
 			}
@@ -18,10 +18,15 @@ class Spawner
 
 	spawn()
 	{
-		this.game.entities[1].forEach(function(elem) {
-			elem.removeFromWorld = true;
-		});
 		let choice = Math.ceil(Math.random() * this.spawnList.length) - 1;
 		let spawn = new this.spawnList[choice].constructor(this.game, this.x, this.y);
 	}
+
+	// pause() {
+	// 	this.spawn_timer.pause();
+	// }
+	//
+	// unpause() {
+	// 	this.spawn_timer.unpause();
+	// }
 }

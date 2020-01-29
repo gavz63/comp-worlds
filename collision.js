@@ -34,3 +34,15 @@ function squareToSquare(A, B) {
     }
     return false;
 }
+
+function pointToSquare(A, B) {
+    let halfW = (B.width) / 2;
+    let halfH = (B.height) / 2;
+
+    if (A.x <= B.x + halfW && A.x >= B.x - halfW) {
+        if (A.y <= B.y + halfH && A.y >= B.y - halfH) {
+            return true;
+        }
+    }
+    return false;
+}
