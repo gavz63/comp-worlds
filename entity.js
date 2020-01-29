@@ -15,6 +15,8 @@ class Entity
 		
 		this.circle = false;
 		this.radius = 10;
+    
+    this._myScale = [5 * STANDARD_DRAW_SCALE];
 	}
 	
 	setAnimation(spritesheet)

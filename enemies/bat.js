@@ -5,7 +5,7 @@ class Bat extends Entity
 		super(game, x, y);
 		this._myScale = [2 * STANDARD_DRAW_SCALE];
     
-    this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
+
     
 		this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
 			STANDARD_ENTITY_FRAME_WIDTH,
@@ -30,6 +30,7 @@ class Bat extends Entity
 
 	update()
 	{
+    this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
     this.x += 2;
     this.y += 2;
 	}

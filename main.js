@@ -25,7 +25,8 @@ ASSET_MANAGER.queueDownload("./img/player_characters/LancerUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerSpecialMoveAllDirections.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerDmgSheet.png");
 ASSET_MANAGER.queueDownload("./img/hud/ControllerTutorial.png");
-
+ASSET_MANAGER.queueDownload("./img/hud/menucursor.png");
+ASSET_MANAGER.queueDownload("./img/hud/heart.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
@@ -34,11 +35,10 @@ ASSET_MANAGER.downloadAll(function () {
     let level = new Level("20x20y0w0fWWWWWWWWWWWWWWWWWWWWSFFFFFFFFWWWWFFFWWWWWWFFFWWWFWWWWFFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWFFFFFFFFFWFWWFWWWWWWFWWWWWWWFWFWWFWWWWWWFWFWFWFWFWFFFFWWWWWWFWWFWFWWFWFWWFWWWWWWFWFWFWFWFWFWWFWWWFFFFWWWWWWWFWFWWFFWWFWWFFFFFFFFFWFWWWWWWFWWWWWWWWWWWWFWWWWWWFFFFFFWWWWWFFFWWWWWWWWFFFFWWWWWFWWWWWWWWWWFFFFWWFFFFFWWWWWWWWFFFFWWWFWWWFWWFHFWWWWFFFFWWVWWWVWWFWFWWWWWFFFFFFFFFFFFFFFEWWWWWWWWWWWWWWWWWWWW");
     let gameEngine = new GameEngine(camera, level);
     gameEngine.addEntity(camera, "hud");
-	gameEngine.AM = ASSET_MANAGER;
+    gameEngine.AM = ASSET_MANAGER;
     //new MainCharacter(gameEngine);
     
     new WallHUD(gameEngine);
-	new Crosshair(gameEngine);
 	
     new Floor(gameEngine);
     new Wall(gameEngine);
@@ -51,7 +51,8 @@ ASSET_MANAGER.downloadAll(function () {
     for (var i = 0; i < charClasses.length; i++) {
         gameEngine.addEntity(new NPC(gameEngine, charClasses[i]), "hud");
     }
- 
+    new Heart(gameEngine, 100, 100);
+    new Crosshair(gameEngine);
     gameEngine.init(ctx);
     gameEngine.start();
 });
