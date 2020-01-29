@@ -4,7 +4,10 @@ class PuddleJumper extends Entity
 	{
 		super(game, x, y);
 		//console.log("HELLO:");
-		this.animation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"), STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH, {x: 0, y: 0}, {x: 2, y: 5}, 12, true, 5);
+		this.animation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"),
+			STANDARD_ENTITY_FRAME_WIDTH,
+			STANDARD_ENTITY_FRAME_WIDTH,
+			{x: 0, y: 0}, {x: 2, y: 5}, 12, true, STANDARD_DRAW_SCALE);
 		this.speed = 100;
 		this.radius = STANDARD_ENTITY_RADIUS;
 		

@@ -32,7 +32,8 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.addEntity(camera, "hud");
 	gameEngine.AM = ASSET_MANAGER;
     //new MainCharacter(gameEngine);
-	
+    
+    new WallHUD(gameEngine);
 	new Crosshair(gameEngine);
 
 	new Bat(gameEngine, 0, 0);

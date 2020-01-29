@@ -25,27 +25,30 @@ class Floor {
      * @param {*} ctx The canvas' 2D context.
      */
     draw(ctx) {
-        for (let i = 0; i < this._level._map.length; i++) {
-            for (let j = 0; j < this._level._map[i].length; j++) {
-                if (this._level._map[i][j] === "F"
-                || this._level._map[i][j] === "S"
-                || this._level._map[i][j] === "E"
-                || this._level._map[i][j] === "H"
-                || this._level._map[i][j] === "V") {
-                    let pos = this._game._camera.drawPosTranslation({x: this._level.indexToCoordinate(i), y: this._level.indexToCoordinate(j)}, 1);
-                    //console.log(pos);
-                    if (this._level._floorType === "0") {
-                        this._dirtFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
-                    } else if (this._level._floorType === "1") {
-                        this._stoneFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
-                    } else if (this._level._floorType === "2") {
-                        this._tileFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
-                    } else {
-                        this._woodFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
-                    }
-                }
+        let drawFloor = (pos) => {
+            if (this._level._floorType === "0") {
+                this._dirtFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
+            } else if (this._level._floorType === "1") {
+                this._stoneFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
+            } else if (this._level._floorType === "2") {
+                this._tileFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
+            } else {
+                this._woodFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
             }
+        };
+
+        for (let i = 0; i < this._level._floors.length; i++) {
+            drawFloor(this._game._camera.drawPosTranslation({x: this._level.indexToCoordinate(this._level._floors[i].x),
+                    y: this._level.indexToCoordinate(this._level._floors[i].y)}, 1));
         }
+        for (let i = 0; i < this._level._doors.length; i++) {
+            drawFloor(this._game._camera.drawPosTranslation({x: this._level.indexToCoordinate(this._level._doors[i].x),
+                    y: this._level.indexToCoordinate(this._level._doors[i].y)}, 1));
+        }
+        drawFloor(this._game._camera.drawPosTranslation({x: this._level.indexToCoordinate(this._level._spawn.x),
+                y: this._level.indexToCoordinate(this._level._spawn.y)}, 1));
+        drawFloor(this._game._camera.drawPosTranslation({x: this._level.indexToCoordinate(this._level._exit.x),
+                y: this._level.indexToCoordinate(this._level._exit.y)}, 1));
     }
 
     /**

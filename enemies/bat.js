@@ -4,11 +4,11 @@ class Bat extends Entity
 	{
 		super(game, x, y);
 		//console.log("BAT");
-		var animation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"), STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH, {x: 0, y: 0}, {x: 2, y: 5}, 12, true, 5);
+		this._myScale = [2 * STANDARD_DRAW_SCALE];
 		this.animation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
 			STANDARD_ENTITY_FRAME_WIDTH,
 			STANDARD_ENTITY_FRAME_WIDTH,
-			{x: 0, y: 0}, {x: 3, y: 0}, 10, true, 5);
+			{x: 0, y: 0}, {x: 3, y: 0}, 10, true, this._myScale);
 		this.speed = 100;
 		this.radius = STANDARD_ENTITY_RADIUS;
 
@@ -19,5 +19,6 @@ class Bat extends Entity
 	{
 		this.x += 2;
 		this.y += 2;
+		this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
 	}
 }
