@@ -42,7 +42,6 @@ class GameEngine {
 		
 		this.timers = [];
 		this.click = false;
-		this.hasReticle = false;
 		this.score = 0;
 		this.chars = [];
 		this.keyStack = [];
@@ -142,13 +141,6 @@ class GameEngine {
 		this.timers[this.timers.length-1] = timer;
 		this.timers.pop();
 	}
-	
-	
-	setReticle(reticle) {
-		//console.log("This");
-		this.reticle = reticle;
-		this.hasReticle = true;
-	}
 
 	setPlayer(player) {
 		this.player = player;
@@ -170,11 +162,6 @@ class GameEngine {
                 this._entities[i][j].draw(this._ctx);
             }
         }
-		
-		if(this.hasReticle)
-		{
-			this.reticle.draw();
-		}
 		
         this._ctx.restore();
     }
@@ -231,11 +218,6 @@ class GameEngine {
                 }
 
                 break;
-        }
-
-        if(this.hasReticle === true)
-        {
-            this.reticle.update(this.mouseX, this.mouseY);
         }
 
         // Clear input

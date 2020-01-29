@@ -10,7 +10,7 @@ class Crosshair
 		this.y = 64;
 		this.game = game;
 		
-		game.setReticle(this);
+		game.addEntity(this, "hud");
 	}
 
 	draw()
@@ -18,9 +18,18 @@ class Crosshair
 		this.animation.drawFrame(this.game.clockTick, this.game._ctx, this.x, this.y, true);
 	}
 
-	update(x, y)
+	update()
 	{
-		this.x = x;
-		this.y = y;
+    if(this.game.clicking)
+    {
+    		this.animation.setFrame(1);
+    }
+    else
+    {
+      this.animation.setFrame(0);
+    }
+  
+		this.x = this.game.mouseX;
+		this.y = this.game.mouseY;
 	}
 }

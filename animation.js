@@ -251,4 +251,12 @@ class Animation {
         this._elapsedTime = 0;
 		this._setFrame = 0;
     }
+    
+    getLastFrameAsInt()
+    {
+      let first = this._firstFrame.y * this._sheetWidth + this._firstFrame.x;
+      let last = this._lastFrame.y * this._sheetWidth + this._lastFrame.x;
+      return last - first;
+      
+    }
 }

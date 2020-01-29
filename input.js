@@ -7,12 +7,10 @@ function Input() {
 		that.click = true;
 		//We ought to change to the attack animation if mouse was clicked
 		that.change = true;
-		that.reticle.animation.setFrame(1);
     }, false);
 	
 	this._ctx.canvas.addEventListener("mouseup", function (e) {
 		that.clicking = false;
-		that.reticle.animation.setFrame(0);
     }, false);
 
 	//Right Click TODO make this do the special attack

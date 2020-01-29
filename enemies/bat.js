@@ -30,22 +30,13 @@ class Bat extends Entity
 
 	update()
 	{
-
-
-    if(this.animation != this.deathAnimation)//should implement states for the enemies.
-    {
-      this.x += 2;
-      this.y += 2;
-    }
-    else
-    {
-      this.animation.pause();
-      this.animation.setFrame(3);
-    }
+    this.x += 2;
+    this.y += 2;
 	}
   
   destroy()
   {
-    this.animation = this.deathAnimation;
+    super.destroy();
+    new Remnant(this.game, this.x, this.y, this.deathAnimation);
   }
 }

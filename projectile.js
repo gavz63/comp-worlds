@@ -42,8 +42,8 @@ class Projectile extends Entity
 			//For each enemy
 			this.game.entities[1].forEach(function(elem) {
 				if (circleToCircle(that, elem)) {
-					that.removeFromWorld = true;
-					elem.removeFromWorld = true;
+					that.destroy();
+					elem.destroy();
 				}
 			});
 		}

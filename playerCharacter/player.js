@@ -71,7 +71,6 @@ class Player
 			if (this.isAttacking && this.animation.isDone()) {
 				this.isAttacking = false;
 			}
-			console.log(this.animation._setFrame);
 			//If we have received input we must be moving and/or attacking
 			if (this.game.click || this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking) {
 				//If we're moving
