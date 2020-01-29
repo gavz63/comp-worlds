@@ -28,6 +28,7 @@ class NPC extends Entity {
                         y: this.game.mouseY
                 });
                 if (pointToCircle(cursorCenter, this, this.radius)) {
+                    this.game.click = false;
                     this.game.game_state = GAME_STATES.PLAYING;
                     this.destroy();
                     new Player(this.game, this.characterClass);

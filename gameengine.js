@@ -177,17 +177,25 @@ class GameEngine {
                 var i = 0;
                 for(i = 0; i < this._entities[0].length; i++)
                 {
+                    if(this.entities[0][i].removeFromWorld)
+                    {
+                        this.removeEntity(this.entities[0][i], 0);
+                        continue;
+                    }
                     this.entities[0][i].update();
                 }
                 for (i = 0; i < this.entities[3].length; i++) {
                     if(this.entities[3][i].removeFromWorld)
                     {
                         this.removeEntity(this.entities[3][i], 3);
+                        continue;
                     }
+                    this.entities[3][i].update();
                 }
                 for(i = 0; i < this._entities[4].length; i++)
                 {
-                    if (this.entities[4][i] instanceof Tutorial) {
+                    if(this.entities[4][i].removeFromWorld)
+                    {
                         this.removeEntity(this.entities[4][i], 4);
                         continue;
                     }

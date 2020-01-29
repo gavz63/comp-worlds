@@ -49,7 +49,7 @@ ASSET_MANAGER.downloadAll(function () {
     let charClasses = [new Lancer(), new BlackMage()];
 
     for (var i = 0; i < charClasses.length; i++) {
-        gameEngine.addEntity(new NPC(gameEngine, charClasses[i]), "hud");
+        gameEngine.addEntity(new NPC(gameEngine, charClasses[i]), "main");
     }
  
     gameEngine.init(ctx);
