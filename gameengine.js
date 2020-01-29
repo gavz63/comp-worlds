@@ -174,12 +174,23 @@ class GameEngine {
 
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
-                for(var i = 0; i < this._entities[0].length; i++)
+                var i = 0;
+                for(i = 0; i < this._entities[0].length; i++)
                 {
                     this.entities[0][i].update();
                 }
-                for(var i = 0; i < this._entities[4].length; i++)
+                for (i = 0; i < this.entities[3].length; i++) {
+                    if(this.entities[3][i].removeFromWorld)
+                    {
+                        this.removeEntity(this.entities[3][i], 3);
+                    }
+                }
+                for(i = 0; i < this._entities[4].length; i++)
                 {
+                    if (this.entities[4][i] instanceof Tutorial) {
+                        this.removeEntity(this.entities[4][i], 4);
+                        continue;
+                    }
                     this.entities[4][i].update();
                 }
                 this.click = false;

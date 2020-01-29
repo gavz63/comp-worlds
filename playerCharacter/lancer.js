@@ -118,5 +118,10 @@ function Lancer() {
     this.stats = {
         maxHP: 5,
         speed: 200
+    };
+
+    this.npc = {
+        x: -32,
+        y: 50
     }
 }

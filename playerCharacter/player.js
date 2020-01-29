@@ -5,19 +5,16 @@ const ACCELERATION = [15];//Higher = slidey'r
  * @param characterClass, the class that the player has chosen (Lancer, Black Mage, etc.)
  * @constructor
  */
-class Player
+class Player extends Entity
 {
 	constructor(game, characterClass) {
-		this.game = game;
+		super(game, 0, 128);
 
 		this.characterClass = characterClass;
 		this.direction = DIRECTION_RIGHT;
 		this.animation = characterClass.animation.idleRight;
 		this.animation.pause();
 
-
-		this.x = 0;
-		this.y = 128;
 		this.speed = characterClass.stats.speed;
 		this.hp = characterClass.stats.maxHP;
 		this.velocity = {x: 0, y: 0};
@@ -39,21 +36,22 @@ class Player
 		
 		this.game.addEntity(this, "main");
 	}
-
-	/**
-	 * Draw the player in the state and position it is currently in.
-	 */
-	draw ()
-	{
-		let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
-		this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true); // do not draw world pos
-	}
 	
 	/**
 	 * Part of the game loop, update the player to the position and state it should now be in.
 	 */
 	update()
 	{
+		//If x < 0 go back to character chooser
+		if (this.x < 0) {
+			this.game.game_state = GAME_STATES.CHARACTER_SELECT;
+			this.game.camera.x = 0;
+			this.game.camera.y = 0;
+			this.game.addEntity(
+				new NPC(this.game, this.characterClass), "hud");
+			this.destroy();
+			return;
+		}
 
 		// // Are we (still) taking damage?
 		// if (this.isTakingDmg) {

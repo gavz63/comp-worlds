@@ -1,6 +1,6 @@
 class NPC extends Entity {
-    constructor(game, characterClass, x, y) {
-        super(game, x, y);
+    constructor(game, characterClass) {
+        super(game, characterClass.npc.x, characterClass.npc.y);
         this.characterClass = characterClass;
         this.animation = characterClass.animation.idleRight;
         this.animation.pause();
@@ -15,6 +15,7 @@ class NPC extends Entity {
     update() {
         if (this.isIdling && this.animation.isDone()) {
             this.isIdling = false;
+            this.animation.resetAnimation();
             this.animation.pause();
         }
 
@@ -27,7 +28,6 @@ class NPC extends Entity {
                         y: this.game.mouseY
                 });
                 if (pointToCircle(cursorCenter, this, this.radius)) {
-                    console.log(cursorCenter);
                     this.game.game_state = GAME_STATES.PLAYING;
                     this.destroy();
                     new Player(this.game, this.characterClass);
