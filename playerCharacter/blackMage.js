@@ -117,5 +117,9 @@ function BlackMage() {
     this.stats = {
         maxHP: 3,
         speed: 100
+    };
+    this.npc = {
+        x: -32,
+        y: 0
     }
 }

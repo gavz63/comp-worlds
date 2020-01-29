@@ -45,7 +45,8 @@ class Player extends Entity
 		//If x < 0 go back to character chooser
 		if (this.x < 0) {
 			this.game.game_state = GAME_STATES.CHARACTER_SELECT;
-			this.game.addEntity(new NPC(this.game, this.characterClass, -32, this.y), "hud");
+			this.game.addEntity(
+				new NPC(this.game, this.characterClass), "hud");
 			this.destroy();
 			return;
 		}

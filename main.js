@@ -49,11 +49,9 @@ ASSET_MANAGER.downloadAll(function () {
 	new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
 
     let charClasses = [new Lancer(), new BlackMage()];
-    let x = -32;
-    let y = 0;
+
     for (var i = 0; i < charClasses.length; i++) {
-        gameEngine.addEntity(new NPC(gameEngine, charClasses[i], x, y), "hud");
-        y += 50;
+        gameEngine.addEntity(new NPC(gameEngine, charClasses[i]), "hud");
     }
  
     gameEngine.init(ctx);

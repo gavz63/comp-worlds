@@ -1,6 +1,6 @@
 class NPC extends Entity {
-    constructor(game, characterClass, x, y) {
-        super(game, x, y);
+    constructor(game, characterClass) {
+        super(game, characterClass.npc.x, characterClass.npc.y);
         this.characterClass = characterClass;
         this.animation = characterClass.animation.idleRight;
         this.animation.pause();
