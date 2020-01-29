@@ -3,12 +3,25 @@ class Bat extends Entity
 	constructor(game, x, y)
 	{
 		super(game, x, y);
-		//console.log("BAT");
 		this._myScale = [2 * STANDARD_DRAW_SCALE];
-		this.animation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
+    
+    this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
+    
+		this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
 			STANDARD_ENTITY_FRAME_WIDTH,
 			STANDARD_ENTITY_FRAME_WIDTH,
 			{x: 0, y: 0}, {x: 3, y: 0}, 10, true, this._myScale);
+    this.attackAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
+			STANDARD_ENTITY_FRAME_WIDTH,
+			STANDARD_ENTITY_FRAME_WIDTH,
+			{x: 0, y: 1}, {x: 3, y: 1}, 10, true, this._myScale);
+    this.deathAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
+			STANDARD_ENTITY_FRAME_WIDTH,
+			STANDARD_ENTITY_FRAME_WIDTH,
+			{x: 0, y: 2}, {x: 3, y: 2}, 10, false, this._myScale);
+    
+    this.animation = this.moveAnimation;
+
 		this.speed = 100;
 		this.radius = STANDARD_ENTITY_RADIUS;
 
@@ -17,8 +30,22 @@ class Bat extends Entity
 
 	update()
 	{
-		this.x += 2;
-		this.y += 2;
-		this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
+
+
+    if(this.animation != this.deathAnimation)//should implement states for the enemies.
+    {
+      this.x += 2;
+      this.y += 2;
+    }
+    else
+    {
+      this.animation.pause();
+      this.animation.setFrame(3);
+    }
 	}
+  
+  destroy()
+  {
+    this.animation = this.deathAnimation;
+  }
 }
