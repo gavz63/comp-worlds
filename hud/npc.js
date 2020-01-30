@@ -16,6 +16,18 @@ class NPC extends Entity {
         }
     }
 
+    setHover() {
+        for (let i = 0; i < this.game.entities[3].length; i++) {
+            //set all other npcs' hover state to false
+            if (this.game.entities[3][i] instanceof NPC) {
+                this.game.entities[3][i].hover = false;
+            }
+        }
+        //create a new one and set this entity as the privileged hover npc
+        this.game.addEntity(new HoverArrow(this.game, this.x, this.y - 24), "hud");
+        this.hover = true;
+    }
+
     update() {
         if (this.isIdling && this.animation.isDone()) {
             this.isIdling = false;
@@ -44,15 +56,7 @@ class NPC extends Entity {
                             this.game.entities[4][i].destroy();
                         }
                     }
-                    for (i = 0; i < this.game.entities[3].length; i++) {
-                        //set all other npcs' hover state to false
-                        if (this.game.entities[3][i] instanceof NPC) {
-                            this.game.entities[3][i].hover = false;
-                        }
-                    }
-                    //create a new one and set this entity as the privileged hover npc
-                    this.game.addEntity(new HoverArrow(this.game, this.x, this.y - 24), "hud");
-                    this.hover = true;
+                    this.setHover();
                 }
             }
             if (this.game.spacebar && this.hover) {
