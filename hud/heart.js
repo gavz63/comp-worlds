@@ -54,7 +54,7 @@ class LastHeart extends Heart
     else
     {
       this.animation.unpause();
-      this.animation.reset();
+      this.animation.resetAnimation();
     }
   }
 }
