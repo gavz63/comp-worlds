@@ -17,6 +17,13 @@ class Player extends Entity
 
 		this.speed = characterClass.stats.speed;
 		this.hp = characterClass.stats.maxHP;
+    
+    this.hearts = [new LastHeart(game, 100, 100)];
+    for(let i = 1; i < characterClass.stats.maxHP; i++)
+    {
+      this.hearts[i] = new Heart(game, 100 + i * 100, 100);
+    }
+    
 		this.velocity = {x: 0, y: 0};
 
 		this.isTakingDmg = false;
@@ -252,6 +259,16 @@ class Player extends Entity
 				this.animation = this.characterClass.dmgFromUp;
 		}
 	}
+  
+  destroy()
+  {
+    console.log("THIS HAPPENED");
+    super.destroy();
+    for(let i = 0; i < this.characterClass.stats.maxHP; i++)
+    {
+      this.hearts[i].destroy();
+    }
+  }
 	/**
 	 * Handles a regular attack (left click)
 	 */
@@ -267,33 +284,32 @@ class Player extends Entity
 		var projectileAnimation = null;
 		switch (attackDir) {
 			case DIRECTION_DOWN:
-				this.animation = this.characterClass.animation.regAttackDown;
-				projectileAnimation = this.characterClass.animation.regProjectileDown;
+				this.animation = this.characterClass.animation.regAttackDown();
+				projectileAnimation = this.characterClass.animation.regProjectileDown();
 				break;
 			case DIRECTION_UP:
-				this.animation = this.characterClass.animation.regAttackUp;
-				projectileAnimation = this.characterClass.animation.regProjectileUp;
+				this.animation = this.characterClass.animation.regAttackUp();
+				projectileAnimation = this.characterClass.animation.regProjectileUp();
 				break;
 			case DIRECTION_LEFT:
-				this.animation = this.characterClass.animation.regAttackLeft;
-				projectileAnimation = this.characterClass.animation.regProjectileLeft;
+				this.animation = this.characterClass.animation.regAttackLeft();
+				projectileAnimation = this.characterClass.animation.regProjectileLeft();
 				break;
 			default:
-				this.animation = this.characterClass.animation.regAttackRight;
-				projectileAnimation = this.characterClass.animation.regProjectileRight;
+				this.animation = this.characterClass.animation.regAttackRight();
+				projectileAnimation = this.characterClass.animation.regProjectileRight();
 				break;
 		}
 		this.animation.resetAnimation();
 		this.animation.unpause();
 		this.direction = attackDir;
 		
-
 		let projectile = new Projectile(this.game,
 			this.x, this.y,
 			attackVector,
-			500, 0.5,
+			this.characterClass.stats.projectileSpeed, 0.25,
 			this, projectileAnimation,
 			1, 20); // slowed down projectile for debugging
-		this.game.addEntity(projectile, "pps");
+    projectile.setAttachedToOwner(this.characterClass.stats.melee);
 	}
 }

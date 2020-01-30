@@ -168,15 +168,15 @@ class Animation {
     */
     currentFrame() {
         let frameNum = Math.floor(this._elapsedTime / this._frameDuration);
-		if(this._frameDuration === Infinity || this._paused === true)
-		{
-			//console.log("Test");
-			frameNum = this._setFrame;
-		}
-		else
-		{
-			this._setFrame = frameNum;
-		}
+        if(this._frameDuration === Infinity || this._paused === true)
+        {
+          //console.log("Test");
+          frameNum = this._setFrame;
+        }
+        else
+        {
+          this._setFrame = frameNum;
+        }
 
         // Calculate row major index of current frame.
         let rmFF = ((this._firstFrame.y * this._sheetWidth) + this._firstFrame.x);
@@ -210,32 +210,32 @@ class Animation {
         return {x: x, y: y};
     }
 
-	getFrame()
-	{
-		let frameNum = Math.floor(this._elapsedTime / this._frameDuration);
-		return frameNum;
+    getFrame()
+    {
+      let frameNum = Math.floor(this._elapsedTime / this._frameDuration);
+      return frameNum;
+    }
+      
+    // setFrame only matters if the animation is paused.
+    nextFrame()
+    {
+      this._setFrame += 1;
     }
     
-	// setFrame only matters if the animation is paused.
-	nextFrame()
-	{
-		this._setFrame += 1;
-	}
-	
-	setFrame(theFrame)
-	{
-		this._setFrame = theFrame;
-	}
-	
-	pause()
-	{
-		this._paused = true;
-	}
-	
-	unpause()
-	{
-		this._paused = false;
-	}
+    setFrame(theFrame)
+    {
+      this._setFrame = theFrame;
+    }
+    
+    pause()
+    {
+      this._paused = true;
+    }
+    
+    unpause()
+    {
+      this._paused = false;
+    }
 
     /**
      * @return {boolean} Returns true if the animation is done, false otherwise.
@@ -248,8 +248,8 @@ class Animation {
      * Resets the animation to 0.
      */
     resetAnimation() {
-        this._elapsedTime = 0;
-		this._setFrame = 0;
+      this._elapsedTime = 0;
+      this._setFrame = 0;
     }
     
     getLastFrameAsInt()

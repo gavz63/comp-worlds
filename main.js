@@ -51,9 +51,6 @@ ASSET_MANAGER.downloadAll(function () {
     for (var i = 0; i < charClasses.length; i++) {
         gameEngine.addEntity(new NPC(gameEngine, charClasses[i]), "main");
     }
-    new LastHeart(gameEngine, 100, 100);
-    new Heart(gameEngine, 250, 100);
-    new Heart(gameEngine, 400, 100);
     new Crosshair(gameEngine);
     gameEngine.init(ctx);
     gameEngine.start();
