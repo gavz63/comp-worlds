@@ -65,7 +65,7 @@ class Player extends Entity {
             this.game.game_state = GAME_STATES.CHARACTER_SELECT;
             this.game.camera.x = 0;
             this.game.camera.y = 0;
-            this.game.addEntity(new NPC(this.game, this.characterClass, true), "main");
+            this.game.addEntity(new NPC(this.game, this.characterClass), "main");
             for (let i = 0; i < this.game.entities[4].length; i++) {
                 if (this.game.entities[4][i] instanceof Tutorial) {
                     this.game.entities[4][i].destroy();
@@ -259,7 +259,13 @@ class Player extends Entity {
             if (this.hp === 0) {
                 this.destroy();
                 return;
+            } else if (this.hp === 1) {
+                new TimerCallBack(this.game, 15, false, function () {
+                    that.hp = 1;
+                    that.hearts[0].set(true);
+                });
             }
+
             for (let i = 0; i < dmg; i++) {
                 this.hearts[this.hp - i - 1].set(false);
             }
@@ -290,12 +296,7 @@ class Player extends Entity {
             new TimerCallBack(this.game, 1.5, false, function () {
                 that.hurt = false;
             });        // invincibility
-            if (this.hp === 1) {
-                new TimerCallBack(this.game, 15, false, function () {
-                    that.hp = 1;
-                    that.hearts[0].set(true);
-                });
-            }
+
 
             if (this.hp < 0) // If a player is on their last heart and take two damage, they should not die.
             {
