@@ -48,7 +48,12 @@ class Player extends Entity
 			this.game.camera.x = 0;
 			this.game.camera.y = 0;
 			this.game.addEntity(
-				new NPC(this.game, this.characterClass), "main");
+				new NPC(this.game, this.characterClass, true), "main");
+			for (let i = 0; i < this.game.entities[4].length; i++) {
+				if (this.game.entities[4][i] instanceof Tutorial) {
+					this.game.entities[4][i].destroy();
+				}
+			}
 			this.destroy();
 			return;
 		}

@@ -25,6 +25,7 @@ ASSET_MANAGER.queueDownload("./img/player_characters/LancerUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerSpecialMoveAllDirections.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerDmgSheet.png");
 ASSET_MANAGER.queueDownload("./img/hud/ControllerTutorial.png");
+ASSET_MANAGER.queueDownload("./img/hud/HoverArrow.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -48,8 +49,12 @@ ASSET_MANAGER.downloadAll(function () {
 
     let charClasses = [new Lancer(), new BlackMage()];
 
+    let hover = true;
     for (var i = 0; i < charClasses.length; i++) {
-        gameEngine.addEntity(new NPC(gameEngine, charClasses[i]), "main");
+        gameEngine.addEntity(new NPC(gameEngine, charClasses[i], hover), "main");
+        if (i === 0) {
+            hover = false;
+        }
     }
  
     gameEngine.init(ctx);
