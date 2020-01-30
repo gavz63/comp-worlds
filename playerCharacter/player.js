@@ -49,6 +49,16 @@ class Player extends Entity
 	 */
 	update()
 	{
+    var that = this;
+  
+    //Testing collision with enemies
+    this.game.entities[1].forEach(function(elem) {
+        if (circleToCircle(that, elem)) {
+          that.destroy();
+          elem.destroy();
+        }
+      });
+  
 		//If x < 0 go back to character chooser
 		if (this.x < 0) {
 			this.game.game_state = GAME_STATES.CHARACTER_SELECT;

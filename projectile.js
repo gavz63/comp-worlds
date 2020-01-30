@@ -41,6 +41,7 @@ class Projectile extends Entity
 		this.radius = radius;
     
     this.attachedToOwner = false;
+    this.dieOnHit = true;
     
 		this.game.addEntity(this, "pps");
 	}
@@ -58,10 +59,16 @@ class Projectile extends Entity
 		if (this.owner instanceof Player) {
 			//For each enemy
 			this.game.entities[1].forEach(function(elem) {
-				if (circleToCircle(that, elem)) {
-					that.destroy();
-					elem.destroy();
-				}
+        if(that.removeFromWorld !== true)
+        {
+          if (circleToCircle(that, elem)) {
+            if(that.dieOnHit)
+            {
+              that.destroy();
+            }
+            elem.destroy();
+          }
+        }
 			});
 		}
     
@@ -90,6 +97,10 @@ class Projectile extends Entity
   setAttachedToOwner(set)
   {
     this.attachedToOwner = set;
+    if(set === true)
+    {
+      this.dieOnHit = false;
+    }
   }
   
 }
