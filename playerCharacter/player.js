@@ -9,7 +9,7 @@ class Player extends Entity
 {
 	constructor(game, characterClass) {
 		super(game, 0, 128);
-
+		game._player = this;
 		this.characterClass = characterClass;
 		this.direction = DIRECTION_RIGHT;
 		this.animation = characterClass.animation.idleRight;
@@ -17,6 +17,13 @@ class Player extends Entity
 
 		this.speed = characterClass.stats.speed;
 		this.hp = characterClass.stats.maxHP;
+    
+    this.hearts = [new LastHeart(game, 100, 100)];
+    for(let i = 1; i < characterClass.stats.maxHP; i++)
+    {
+      this.hearts[i] = new Heart(game, 100 + i * 100, 100);
+    }
+    
 		this.velocity = {x: 0, y: 0};
 
 		this.isTakingDmg = false;
@@ -35,6 +42,8 @@ class Player extends Entity
 		this.width = this.radius * 2;
 		
 		this.game.addEntity(this, "main");
+    
+    this.hurt = false;
 	}
 	
 	/**
@@ -42,6 +51,18 @@ class Player extends Entity
 	 */
 	update()
 	{
+    var that = this;
+    //Testing collision with enemies
+    this.game.entities[1].forEach(function(elem) {
+        if (circleToCircle(that, elem)) {
+          //that.destroy(); // this was kinda awesome btw.
+          let attackedFromVector = normalizeV(dirV({x:elem.x,y:elem.y},{x:that.x,y:that.y}));
+          var attackedFromDir = vectorToDir(attackedFromVector);
+          that.takeDmg(1, attackedFromDir);
+          elem.destroy();
+        }
+    });
+  
 		//If x < 0 go back to character chooser
 		if (this.x < 0) {
 			this.game.game_state = GAME_STATES.CHARACTER_SELECT;
@@ -241,22 +262,65 @@ class Player extends Entity
 	 */
 	takeDmg(dmg, direction)
 	{
-		this.hp -= dmg;
-		this.isTakingDmg = true;
-		switch (direction) {
-			case DIRECTION_LEFT:
-				this.animation = this.characterClass.dmgFromRight;
-				break;
-			case DIRECTION_RIGHT:
-				this.animation = this.characterClass.dmgFromLeft;
-				break;
-			case DIRECTION_UP:
-				this.animation = this.characterClass.dmgFromDown;
-				break;
-			case DIRECTION_DOWN:
-				this.animation = this.characterClass.dmgFromUp;
-		}
+    if(this.hurt !== true)
+    {
+      if(this.hp === 0)
+      {
+        this.destroy();
+        return;
+      }
+      for(let i = 0; i < dmg; i++)
+      {
+        this.hearts[this.hp - i - 1].set(false);
+      }
+      this.hp -= dmg;
+      this.isTakingDmg = true;
+      switch (direction) {
+        case DIRECTION_LEFT:
+          this.animation = this.characterClass.animation.dmgFromRight;
+          break;
+        case DIRECTION_RIGHT:
+          this.animation = this.characterClass.animation.dmgFromLeft;
+          break;
+        case DIRECTION_UP:
+        console.log("ANIMATION: " + this.characterClass.animation.dmgFromDown);
+          this.animation = this.characterClass.animation.dmgFromDown;
+          break;
+        case DIRECTION_DOWN:
+          this.animation = this.characterClass.animation.dmgFromUp;
+      }
+      this.animation.resetAnimation();
+      
+      this.hurt = true;
+      var that = this;
+      
+      new TimerCallBack(this.game, 1, false, function() {that.isTakingDmg = false;}); // stunned
+      new TimerCallBack(this.game, 1.5, false, function() {that.hurt = false;});        // invincibility
+      if(this.hp === 1)
+      {
+        new TimerCallBack(this.game, 15, false, function() {that.hp = 1; that.hearts[0].set(true);});
+      }
+      
+      if(this.hp < 0) // If a player is on their last heart and take two damage, they should not die.
+      {
+        this.hp = 0;
+      }
+    }
 	}
+  
+  destroy()
+  {
+    console.log("THIS HAPPENED");
+    super.destroy();
+    for(let i = 0; i < this.characterClass.stats.maxHP; i++)
+    {
+      this.hearts[i].destroy();
+    }
+    this.game.game_state = GAME_STATES.CHARACTER_SELECT;
+    this.game._camera.x = 0;
+    this.game._camera.y = 0;
+    //this.game.changeGameState(GAME_STATES.CHARACTER_SELECT);
+  }
 	/**
 	 * Handles a regular attack (left click)
 	 */
@@ -272,33 +336,32 @@ class Player extends Entity
 		var projectileAnimation = null;
 		switch (attackDir) {
 			case DIRECTION_DOWN:
-				this.animation = this.characterClass.animation.regAttackDown;
-				projectileAnimation = this.characterClass.animation.regProjectileDown;
+				this.animation = this.characterClass.animation.regAttackDown();
+				projectileAnimation = this.characterClass.animation.regProjectileDown();
 				break;
 			case DIRECTION_UP:
-				this.animation = this.characterClass.animation.regAttackUp;
-				projectileAnimation = this.characterClass.animation.regProjectileUp;
+				this.animation = this.characterClass.animation.regAttackUp();
+				projectileAnimation = this.characterClass.animation.regProjectileUp();
 				break;
 			case DIRECTION_LEFT:
-				this.animation = this.characterClass.animation.regAttackLeft;
-				projectileAnimation = this.characterClass.animation.regProjectileLeft;
+				this.animation = this.characterClass.animation.regAttackLeft();
+				projectileAnimation = this.characterClass.animation.regProjectileLeft();
 				break;
 			default:
-				this.animation = this.characterClass.animation.regAttackRight;
-				projectileAnimation = this.characterClass.animation.regProjectileRight;
+				this.animation = this.characterClass.animation.regAttackRight();
+				projectileAnimation = this.characterClass.animation.regProjectileRight();
 				break;
 		}
 		this.animation.resetAnimation();
 		this.animation.unpause();
 		this.direction = attackDir;
 		
-
 		let projectile = new Projectile(this.game,
 			this.x, this.y,
 			attackVector,
-			500, 0.5,
+			this.characterClass.stats.projectileSpeed, 0.25,
 			this, projectileAnimation,
 			1, 20); // slowed down projectile for debugging
-		this.game.addEntity(projectile, "pps");
+    projectile.setAttachedToOwner(this.characterClass.stats.melee);
 	}
 }
