@@ -5,7 +5,7 @@ class Heart extends Entity
     super(game,x,y);
     this.full = true;
     
-    this.animation = new Animation(game.AM.getAsset("./img/hud/heart.png"),
+    this.animation = new Animation(game.AM.getAsset("./img/hud/Heart.png"),
 			STANDARD_ENTITY_FRAME_WIDTH,
 			STANDARD_ENTITY_FRAME_WIDTH,
 			{x: 0, y: 0}, {x: 3, y: 0}, 10, true, this._myScale);
