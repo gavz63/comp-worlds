@@ -158,6 +158,7 @@ class Player extends Entity {
                     if (this.animation.isDone()) {
                         this.isIdling = false;
                         this.idleTimer.reset();
+                        this.animation.resetAnimation();
                         this.animation.pause();
                     } else {
                         //Idle animation should be playing
