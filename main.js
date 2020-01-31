@@ -28,6 +28,7 @@ ASSET_MANAGER.queueDownload("./img/hud/ControllerTutorial.png");
 ASSET_MANAGER.queueDownload("./img/hud/HoverArrow.png");
 ASSET_MANAGER.queueDownload("./img/hud/menucursor.png");
 ASSET_MANAGER.queueDownload("./img/hud/Heart.png");
+ASSET_MANAGER.queueDownload("./img/hud/ChangeDoorsWallsButtons.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
