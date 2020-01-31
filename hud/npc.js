@@ -29,9 +29,24 @@ class NPC extends Entity {
     }
 
     update() {
-        if (this.isIdling && this.animation.isDone()) {
-            this.isIdling = false;
-            this.animation.resetAnimation();
+        /* If idle() has already been called and we are in the middle of
+                playing the idle animation */
+        if (this.isIdling) {
+
+            //If the animation is finished, reset to single frame and reset idleTimer
+            if (this.animation.isDone()) {
+                this.isIdling = false;
+                this.idleTimer.reset();
+                this.animation.resetAnimation();
+                this.animation.pause();
+            } else {
+                //Idle animation should be playing
+                this.animation.unpause();
+                this.idleTimer.pause();
+            }
+        } else {
+            //Make sure we continue ticking idle timer so we can get there.
+            this.idleTimer.unpause();
             this.animation.pause();
         }
 

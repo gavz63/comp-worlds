@@ -77,7 +77,7 @@ function Lancer() {
         //Down facing animations
         idleDown: new Animation(upAndDown,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 0, y: 0},
+            {x: 0, y: 0}, {x: 5, y: 0},
             6, false, STANDARD_DRAW_SCALE),
         walkingDown: new Animation(upAndDown,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
