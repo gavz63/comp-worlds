@@ -7,7 +7,7 @@ const ACCELERATION = [15];//Higher = slidey'r
  */
 class Player extends Entity {
     constructor(game, characterClass) {
-        super(game, 0, 128);
+        super(game, game._level.indexToCoordinate(game._level._spawn.x), game._level.indexToCoordinate(game._level._spawn.y));
         game._player = this;
         this._hasKey = false;
         this.characterClass = characterClass;
@@ -221,7 +221,7 @@ class Player extends Entity {
             }
             let newPos = this.game._level.move(this._collider, oldPos, {x: this.x, y: this.y});
 			this.x = newPos.x;
-			this.y = newPos.y;
+            this.y = newPos.y;
         }
 
         // //Enemies

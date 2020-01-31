@@ -30,6 +30,8 @@ ASSET_MANAGER.queueDownload("./img/hud/menucursor.png");
 ASSET_MANAGER.queueDownload("./img/hud/Heart.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChangeDoorsWallsButtons.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChooseYourFighter.png");
+ASSET_MANAGER.queueDownload("./img/pickups/key.png");
+ASSET_MANAGER.queueDownload("./img/pickups/potions.png");
 
 
 ASSET_MANAGER.downloadAll(function () {
@@ -46,6 +48,10 @@ ASSET_MANAGER.downloadAll(function () {
 	
     new Floor(gameEngine);
     new Wall(gameEngine);
+    new Key(gameEngine, 240, 1586);
+    new SpeedPotion(gameEngine, 432, 240);
+    new HealthPotion(gameEngine, 1200, 816);
+    new StarPotion(gameEngine, 1776, 1584);
 	
     let spawnList = [Bat.prototype, PuddleJumper.prototype, Skeleton.prototype];
     new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
