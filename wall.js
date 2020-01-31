@@ -25,7 +25,7 @@ class Wall {
      */
     draw(ctx) {
         let drawWall = (pos) => {
-            if (this._level._wallType === "0") {
+            if (this._level._wallType === 0) {
                 this._outsideWall0.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
             } else {
                 this._insideWall0.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
