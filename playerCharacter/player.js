@@ -9,12 +9,12 @@ class Player extends Entity {
     constructor(game, characterClass) {
         super(game, 0, 128);
         game._player = this;
-        this._collider = new Collider(0, 0, 15, 15, 11, 11, 15, 5);
+        this._hasKey = false;
         this.characterClass = characterClass;
         this.direction = DIRECTION_RIGHT;
         this.animation = characterClass.animation.idleRight;
         this.animation.pause();
-
+        this._collider = characterClass.collider;
         this.speed = characterClass.stats.speed;
         this.hp = characterClass.stats.maxHP;
 

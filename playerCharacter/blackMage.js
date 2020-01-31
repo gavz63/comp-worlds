@@ -114,6 +114,8 @@ function BlackMage() {
             6, true, STANDARD_DRAW_SCALE); },
     };
 
+    this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
+
     this.stats = {
         maxHP: 3,
         speed: 100,

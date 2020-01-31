@@ -115,6 +115,8 @@ function Lancer() {
             20, false, STANDARD_DRAW_SCALE*3); }
     };
 
+    this.collider = new Collider(0, 0, 14, 14, 9, 9, null, 120);
+
     this.stats = {
         maxHP: 5,
         speed: 200,
