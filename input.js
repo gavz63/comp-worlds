@@ -77,12 +77,12 @@ function Input() {
 			}
 
 			// Temporary for prototype
-			if (e.code === "KeyP" || e.code === "ArrowRight") {
+			if (e.code === "KeyP") {
 				console.log(that._level._wallType);
 				that._level._wallType = (that._level._wallType + 1) % 2;
 				console.log(that._level._wallType);
 			}
-			if (e.code === "KeyL" || e.code === "ArrowRight") {
+			if (e.code === "KeyL") {
 				console.log(that._level._floorType);
 				that._level._floorType = (that._level._floorType + 1) % 4;
 				console.log(that._level._floorType);

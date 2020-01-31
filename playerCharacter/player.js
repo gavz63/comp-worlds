@@ -9,18 +9,18 @@ class Player extends Entity {
     constructor(game, characterClass) {
         super(game, 0, 128);
         game._player = this;
-        this._collider = new Collider(0, 0, 15, 15, 11, 11, 15, 5);
+        this._hasKey = false;
         this.characterClass = characterClass;
         this.direction = DIRECTION_RIGHT;
         this.animation = characterClass.animation.idleRight;
         this.animation.pause();
-
+        this._collider = characterClass.collider;
         this.speed = characterClass.stats.speed;
         this.hp = characterClass.stats.maxHP;
 
-        this.hearts = [new LastHeart(game, 100, 100)];
+        this.hearts = [new LastHeart(game, 1.1 * STANDARD_ENTITY_FRAME_WIDTH/2 * STANDARD_DRAW_SCALE, 1.1 * STANDARD_ENTITY_FRAME_WIDTH/2 * STANDARD_DRAW_SCALE)];
         for (let i = 1; i < characterClass.stats.maxHP; i++) {
-            this.hearts[i] = new Heart(game, 100 + i * 100, 100);
+            this.hearts[i] = new Heart(game, (i+1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH/2 * STANDARD_DRAW_SCALE),  1.1 * STANDARD_ENTITY_FRAME_WIDTH/2 * STANDARD_DRAW_SCALE);
         }
 
         this.velocity = {x: 0, y: 0};
@@ -49,6 +49,12 @@ class Player extends Entity {
      * Part of the game loop, update the player to the position and state it should now be in.
      */
     update() {
+    
+        for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
+            this.hearts[i].x = (i+1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE)
+            this.hearts[i].y = 1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE;
+        }
+    
         var that = this;
         //Testing collision with enemies
         this.game.entities[1].forEach(function (elem) {
