@@ -3,7 +3,7 @@ class Bat extends Entity
 	constructor(game, x, y)
 	{
 		super(game, x, y);
-		this.circle = Math.floor(Math.random() * 300);
+		this.circle = Math.floor(Math.random() * 360);
 		this._myScale = [2 * STANDARD_DRAW_SCALE];
     
 		this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),

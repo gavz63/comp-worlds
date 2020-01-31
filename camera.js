@@ -53,7 +53,7 @@ class Camera {
         this._ctx.webkitImageSmoothingEnabled = false;
         this._ctx.mozImageSmoothingEnabled = false;
         this._ctx.imageSmoothingEnabled = false;
-        STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / (768 * 576));
+        STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / (640 * 480));
     }
 
     get x() {return this._x;}

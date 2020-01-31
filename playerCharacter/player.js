@@ -10,6 +10,7 @@ class Player extends Entity
 	constructor(game, characterClass) {
 		super(game, 0, 128);
 		game._player = this;
+		this._collider = new Collider(0, 0, 15, 15, 11, 11, 15, 5);
 		this.characterClass = characterClass;
 		this.direction = DIRECTION_RIGHT;
 		this.animation = characterClass.animation.idleRight;
@@ -176,6 +177,8 @@ class Player extends Entity
 				this.velocity.x = this.velocity.x - accelRate;
 			}
 
+			let oldPos = {x: this.x, y: this.y};
+
 			if (this.velocity.x > 0) {
 				this.x += Math.ceil(this.velocity.x * this.game._clockTick);
 			} else {
@@ -186,6 +189,10 @@ class Player extends Entity
 			} else {
 				this.y += Math.floor(this.velocity.y * this.game._clockTick);
 			}
+
+			let newPos = this.game._level.move(this._collider, oldPos, {x: this.x, y: this.y});
+			this.x = newPos.x;
+			this.y = newPos.y;
 		}
 
 		// //Enemies

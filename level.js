@@ -117,7 +117,10 @@ class Level {
      *      V is a vertical door.
      */
     mapElementAt(point){
-        return this._map[point.x][point.y];
+        if (point.x >= 0 && point.y >= 0 && point.x < this._width && point.y < this._height) {
+            return this._map[point.x][point.y];
+        }
+        return null;
     }
 
     /**
@@ -126,5 +129,72 @@ class Level {
      */
     indexToCoordinate(index) {
         return index * 96 + 48;
+    }
+
+    coordinateToIndex(coordinate) {
+        return Math.floor(coordinate / 96);
+    }
+
+
+    move(collider, prevPos, newPos) {
+        let updatedPos = newPos;
+        let origin = {x: this.coordinateToIndex(prevPos.x), y: this.coordinateToIndex(prevPos.y)};
+
+        // Center
+        if (this.mapElementAt({x: origin.x, y: origin.y}) === "W") {
+            let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
+                collider,
+                {x: this.indexToCoordinate(origin.x), y: this.indexToCoordinate(origin.y)}, 
+                new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
+            updatedPos.x = c.pos1.x;
+            updatedPos.y = c.pos1.y;
+        }
+
+        // Left
+        if (origin.x > 0 && this.mapElementAt({x: origin.x - 1, y: origin.y}) === "W") {
+            let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
+                collider,
+                {x: this.indexToCoordinate(origin.x - 1), y: this.indexToCoordinate(origin.y)}, 
+                new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
+            updatedPos.x = c.pos1.x;
+            updatedPos.y = c.pos1.y;
+        }
+
+        // Up
+        if (origin.y > 0 && this.mapElementAt({x: origin.x, y: origin.y - 1}) === "W") {
+            let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
+                collider,
+                {x: this.indexToCoordinate(origin.x), y: this.indexToCoordinate(origin.y - 1)}, 
+                new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
+            updatedPos.x = c.pos1.x;
+            updatedPos.y = c.pos1.y;
+        }
+
+        // Right
+        if (origin.x < this._width - 1 && this.mapElementAt({x: origin.x + 1, y: origin.y}) === "W") {
+            let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
+                collider,
+                {x: this.indexToCoordinate(origin.x + 1), y: this.indexToCoordinate(origin.y)}, 
+                new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
+            updatedPos.x = c.pos1.x;
+            updatedPos.y = c.pos1.y;
+        }
+
+        // Down
+        if (origin.y < this._height - 1 && this.mapElementAt({x: origin.x, y: origin.y + 1}) === "W") {
+            let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
+                collider,
+                {x: this.indexToCoordinate(origin.x), y: this.indexToCoordinate(origin.y + 1)}, 
+                new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
+            updatedPos.x = c.pos1.x;
+            updatedPos.y = c.pos1.y;
+        }
+
+        if (this.mapElementAt({x: this.coordinateToIndex(updatedPos.x), y: this.coordinateToIndex(updatedPos.y)}) === "E") {
+            console.log("END OF LEVEL REACHED!");
+        }
+        
+
+        return updatedPos;
     }
 }
