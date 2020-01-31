@@ -71,11 +71,16 @@ function Input() {
 				that.d = true;
 				that.a = false;
 			}
+
+			if (e.code === "Space") {
+				that.spacebar = true;
+			}
 			
 			that.chars[e.code] = true;
 			that.keyStack.push(e.code); // keystack tracks the order keys are pressed
 			that.lastKey = e.code;		// This is the last input
 		}
+
     }, false);
 
     this._ctx.canvas.addEventListener("keyup", function (e) {
@@ -124,6 +129,10 @@ function Input() {
 					that.a = true;
 				}
 			}
+		}
+
+		if (e.code === "Space") {
+			that.spacebar = false;
 		}
 		
 		that.chars[e.code] = false;

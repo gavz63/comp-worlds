@@ -19,6 +19,12 @@ class Projectile extends Entity
 	{
 		super(game, x, y);
 
+    this.startX = x;
+    this.startY = y;
+    
+    this.dx = 0;
+    this.dy = 0;
+    
 		this.dir = dir;
 		this.speed = speed;
 		
@@ -33,22 +39,68 @@ class Projectile extends Entity
 		
 		this.dmg = dmg;
 		this.radius = radius;
+    
+    this.attachedToOwner = false;
+    this.dieOnHit = true;
+    
+		this.game.addEntity(this, "pps");
 	}
 
 	update() 
 	{
 		var that = this;
+    
+    if(this.animation.isDone())
+    {
+      this.animation.pause();
+      this.animation.setFrame(this.animation.getLastFrameAsInt());
+    }
+    
 		if (this.owner instanceof Player) {
 			//For each enemy
 			this.game.entities[1].forEach(function(elem) {
-				if (circleToCircle(that, elem)) {
-					that.destroy();
-					elem.destroy();
-				}
+        if(that.removeFromWorld !== true)
+        {
+          if (circleToCircle(that, elem)) {
+            if(that.dieOnHit)
+            {
+              that.destroy();
+            }
+            elem.destroy();
+          }
+        }
 			});
 		}
-		
-		this.x += this.dir.x * this.game._clockTick * this.speed;
-		this.y += this.dir.y * this.game._clockTick * this.speed;
+    
+    this.dx += this.dir.x * this.game._clockTick * this.speed;
+    this.dy += this.dir.y * this.game._clockTick * this.speed;
+    
+		if(this.attachedToOwner)
+    {
+      this.x = this.owner.x + this.dir.x * this.speed;
+      this.y = this.owner.y + this.dir.y * this.speed;
+    }
+    else
+    {
+      this.x = this.startX + this.dx;
+      this.y = this.startY + this.dy;
+    }
 	}
+  
+  draw()
+  {
+		let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+		
+		this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true);
+  }
+  
+  setAttachedToOwner(set)
+  {
+    this.attachedToOwner = set;
+    if(set === true)
+    {
+      this.dieOnHit = false;
+    }
+  }
+  
 }

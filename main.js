@@ -25,8 +25,9 @@ ASSET_MANAGER.queueDownload("./img/player_characters/LancerUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerSpecialMoveAllDirections.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerDmgSheet.png");
 ASSET_MANAGER.queueDownload("./img/hud/ControllerTutorial.png");
+ASSET_MANAGER.queueDownload("./img/hud/HoverArrow.png");
 ASSET_MANAGER.queueDownload("./img/hud/menucursor.png");
-ASSET_MANAGER.queueDownload("./img/hud/heart.png");
+ASSET_MANAGER.queueDownload("./img/hud/Heart.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
@@ -43,15 +44,18 @@ ASSET_MANAGER.downloadAll(function () {
     new Floor(gameEngine);
     new Wall(gameEngine);
 	
-	let spawnList = [Bat.prototype, PuddleJumper.prototype, Skeleton.prototype];
-	new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
+    let spawnList = [Bat.prototype, PuddleJumper.prototype, Skeleton.prototype];
+    new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
 
     let charClasses = [new Lancer(), new BlackMage()];
 
+    let hover = true;
     for (var i = 0; i < charClasses.length; i++) {
-        gameEngine.addEntity(new NPC(gameEngine, charClasses[i]), "main");
+        gameEngine.addEntity(new NPC(gameEngine, charClasses[i], hover), "main");
+        if (i === 0) {
+            hover = false;
+        }
     }
-    new Heart(gameEngine, 100, 100);
     new Crosshair(gameEngine);
     gameEngine.init(ctx);
     gameEngine.start();

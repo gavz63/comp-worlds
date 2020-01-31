@@ -40,14 +40,14 @@ class GameEngine {
         this._entities[4] = []; // HUD
         this._ctx = null;
 		
-		this.timers = [];
-		this.click = false;
-		this.score = 0;
-		this.chars = [];
-		this.keyStack = [];
-		this.lastChar = null;
+      this.timers = [];
+      this.click = false;
+      this.score = 0;
+      this.chars = [];
+      this.keyStack = [];
+      this.lastChar = null;
 
-		this.game_state = GAME_STATES.CHARACTER_SELECT;
+      this.game_state = GAME_STATES.CHARACTER_SELECT;
     }
 
     /**
@@ -241,7 +241,6 @@ class GameEngine {
 
         // Clear input
         this._clicks = [];
-
     }
 
     /**
