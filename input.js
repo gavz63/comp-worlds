@@ -75,6 +75,18 @@ function Input() {
 			if (e.code === "Space") {
 				that.spacebar = true;
 			}
+
+			// Temporary for prototype
+			if (e.code === "KeyP" || e.code === "ArrowRight") {
+				console.log(that._level._wallType);
+				that._level._wallType = (that._level._wallType + 1) % 2;
+				console.log(that._level._wallType);
+			}
+			if (e.code === "KeyL" || e.code === "ArrowRight") {
+				console.log(that._level._floorType);
+				that._level._floorType = (that._level._floorType + 1) % 4;
+				console.log(that._level._floorType);
+			}
 			
 			that.chars[e.code] = true;
 			that.keyStack.push(e.code); // keystack tracks the order keys are pressed

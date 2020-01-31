@@ -44,9 +44,9 @@ class Level {
         seed = seed.slice(seed.indexOf("x") + 1, seed.length);
         this._height = seed.slice(0, seed.indexOf("y"));
         seed = seed.slice(seed.indexOf("y") + 1, seed.length);
-        this._wallType = seed.slice(0, seed.indexOf("w"));
+        this._wallType = eval(seed.slice(0, seed.indexOf("w")));
         seed = seed.slice(seed.indexOf("w") + 1, seed.length);
-        this._floorType = seed.slice(0, seed.indexOf("f"));
+        this._floorType = eval(seed.slice(0, seed.indexOf("f")));
         seed = seed.slice(seed.indexOf("f") + 1, seed.length);
         for (let i = 0; i < this._width; i++) {
             this._map[i] = [];

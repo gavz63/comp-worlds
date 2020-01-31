@@ -32,8 +32,8 @@ class WallHUD {
         this._insideWall2 = new Animation(this._wallSheet, 128, 128, {x: 2, y: 1}, {x: 2, y: 1}, 0, true, WALL_2_SCALE);
         this._outsideVDoor = new Animation(this._doorSheet, 128, 128, {x: 0, y: 0}, {x: 0, y: 0}, 0, true, WALL_2_SCALE);
         this._outsideHDoor = new Animation(this._doorSheet, 128, 128, {x: 1, y: 0}, {x: 1, y: 0}, 0, true, WALL_2_SCALE);
-        this._insideVDoor2 = new Animation(this._doorSheet, 128, 128, {x: 0, y: 1}, {x: 0, y:1}, 0, true, WALL_2_SCALE);
-        this._insideHDoor2 = new Animation(this._doorSheet, 128, 128, {x: 1, y: 1}, {x: 1, y: 1}, 0, true, WALL_2_SCALE);
+        this._insideVDoor = new Animation(this._doorSheet, 128, 128, {x: 0, y: 1}, {x: 0, y:1}, 0, true, WALL_2_SCALE);
+        this._insideHDoor = new Animation(this._doorSheet, 128, 128, {x: 1, y: 1}, {x: 1, y: 1}, 0, true, WALL_2_SCALE);
 
         this._outsideWall3 = new Animation(this._wallSheet, 128, 128, {x: 3, y: 0}, {x: 3, y: 0}, 0, true, WALL_3_SCALE);
         this._insideWall3 = new Animation(this._wallSheet, 128, 128, {x: 3, y: 1}, {x: 3, y: 1}, 0, true, WALL_3_SCALE);
@@ -45,7 +45,7 @@ class WallHUD {
      */
     draw(ctx) {
         let drawWall = (pos, layer) => {
-            if (this._level._wallType === "0") {
+            if (this._level._wallType === 0) {
                 if (layer === 1) {
                     this._outsideWall1.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
                 } else if (layer === 2) {
@@ -64,7 +64,7 @@ class WallHUD {
             }
         };
         let drawDoor = (pos, dir) => {
-            if (this._level._wallType === "0") {
+            if (this._level._wallType === 0) {
                 if (dir === "H") {
                     this._outsideHDoor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
                 } else {

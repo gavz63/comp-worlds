@@ -26,11 +26,11 @@ class Floor {
      */
     draw(ctx) {
         let drawFloor = (pos) => {
-            if (this._level._floorType === "0") {
+            if (this._level._floorType === 0) {
                 this._dirtFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
-            } else if (this._level._floorType === "1") {
+            } else if (this._level._floorType === 1) {
                 this._stoneFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
-            } else if (this._level._floorType === "2") {
+            } else if (this._level._floorType === 2) {
                 this._tileFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
             } else {
                 this._woodFloor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
