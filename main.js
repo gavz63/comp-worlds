@@ -29,6 +29,8 @@ ASSET_MANAGER.queueDownload("./img/hud/HoverArrow.png");
 ASSET_MANAGER.queueDownload("./img/hud/menucursor.png");
 ASSET_MANAGER.queueDownload("./img/hud/Heart.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChangeDoorsWallsButtons.png");
+ASSET_MANAGER.queueDownload("./img/hud/ChooseYourFighter.png");
+
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
@@ -51,6 +53,7 @@ ASSET_MANAGER.downloadAll(function () {
     let charClasses = [new Lancer(), new BlackMage()];
 
     let hover = true;
+    gameEngine.addEntity(new ChooseYourFighter(gameEngine), "hud");
     for (var i = 0; i < charClasses.length; i++) {
         gameEngine.addEntity(new NPC(gameEngine, charClasses[i], hover), "main");
         if (i === 0) {

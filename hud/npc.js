@@ -72,7 +72,8 @@ class NPC extends Entity {
     }
     switchToPlayMode() {
         for (let i = 0; i < this.game.entities[4].length; i++) {
-            if (this.game.entities[4][i] instanceof HoverArrow) {
+            if (this.game.entities[4][i] instanceof HoverArrow
+                || this.game.entities[4][i] instanceof ChooseYourFighter) {
                 this.game.entities[4][i].destroy();
             }
         }

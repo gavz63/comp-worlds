@@ -67,6 +67,8 @@ class Player extends Entity {
             this.game.camera.x = 0;
             this.game.camera.y = 0;
             this.game.addEntity(new NPC(this.game, this.characterClass), "main");
+            this.game.addEntity(new ChooseYourFighter(this.game), "hud");
+
             for (let i = 0; i < this.game.entities[4].length; i++) {
                 if (this.game.entities[4][i] instanceof Tutorial) {
                     this.game.entities[4][i].destroy();
@@ -328,6 +330,14 @@ class Player extends Entity {
 				}
 			}
 		}
+
+        for (let i = 0; i < this.game.entities[4].length; i++) {
+            if (this.game.entities[4][i] instanceof Tutorial) {
+                this.game.entities[4][i].destroy();
+            }
+        }
+
+        this.game.addEntity(new ChooseYourFighter(this.game), "hud");
 		this.game.game_state = GAME_STATES.CHARACTER_SELECT;
 		super.destroy();
     }

@@ -7,7 +7,7 @@ class Tutorial extends Entity {
             4, true, STANDARD_DRAW_SCALE * 4);
 
         let that = this;
-        this.timerCallback = new TimerCallBack(game, 5, false,
+        this.timerCallback = new TimerCallBack(game, 10, false,
             function() {
                 that.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/ChangeDoorsWallsButtons.png"),
                     STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
