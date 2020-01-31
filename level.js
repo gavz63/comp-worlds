@@ -70,7 +70,7 @@ class Level {
                     this._doors.push({x: j, y: i, d: "V"});
                 }
                 if (type === "E") {
-                    this._exit = {x: i, y: j};
+                    this._exit = {x: j, y: i};
                 }
                 this._map[j][i] = type;
             }
