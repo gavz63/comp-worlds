@@ -54,7 +54,11 @@ ASSET_MANAGER.downloadAll(function () {
     new StarPotion(gameEngine, 1776, 1584);
 	
     let spawnList = [Bat.prototype, PuddleJumper.prototype, Skeleton.prototype];
-    new Spawner(gameEngine, 300, 100, 3, spawnList); // game, x, y, delay, spawnList
+    new Spawner(gameEngine,
+        300, 100,
+        2, 5,
+        spawnList,
+        false, 50, 5);
 
     let charClasses = [new Lancer(), new BlackMage()];
 
