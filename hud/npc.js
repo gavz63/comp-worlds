@@ -6,7 +6,7 @@ class NPC extends Entity {
         this.animation.pause();
         let that = this;
         this.isIdling = false;
-        this.idleTimer = new TimerCallBack(game, 5, true, function () {
+        this.idleTimer = new TimerCallback(game, 5, true, function () {
             that.idle();
         });
         this.radius = 25;

@@ -32,7 +32,7 @@ class Player extends Entity {
         let that = this;
 
         //Will never be removed from world because it is looping
-        this.idleTimer = new TimerCallBack(this.game,
+        this.idleTimer = new TimerCallback(this.game,
             5, true,
             function () {
                 that.idle();
@@ -67,6 +67,7 @@ class Player extends Entity {
                 elem.destroy();
             }
         });
+
 
         //If x < 0 go back to character chooser
         if (this.x < 0) {
@@ -276,7 +277,7 @@ class Player extends Entity {
                 this.destroy();
                 return;
             } else if (this.hp === 1) {
-                new TimerCallBack(this.game, 15, false, function () {
+                new TimerCallback(this.game, 15, false, function () {
                     that.hp = 1;
                     that.hearts[0].set(true);
                 });
@@ -306,10 +307,10 @@ class Player extends Entity {
             this.hurt = true;
             var that = this;
 
-            new TimerCallBack(this.game, 1, false, function () {
+            new TimerCallback(this.game, 1, false, function () {
                 that.isTakingDmg = false;
             }); // stunned
-            new TimerCallBack(this.game, 1.5, false, function () {
+            new TimerCallback(this.game, 1.5, false, function () {
                 that.hurt = false;
             });        // invincibility
 
@@ -322,30 +323,30 @@ class Player extends Entity {
     }
 
     destroy() {
-        console.log("THIS HAPPENED");
-        for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
-            this.hearts[i].destroy();
+      console.log("THIS HAPPENED");
+      for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
+          this.hearts[i].destroy();
+      }
+      this.x = 0;
+      this.y = 0;
+      for (let i = 0; i < this.game.entities[3].length; i++) {
+        let flag = true;
+        if (this.game.entities[3][i] instanceof NPC) {
+          if (flag) {
+            this.game.entities[3][i].setHover();
+            flag = false;
+            break;
+          }
         }
-        this.x = 0;
-        this.y = 0;
-        for (let i = 0; i < this.game.entities[3].length; i++) {
-        	let flag = true;
-        	if (this.game.entities[3][i] instanceof NPC) {
-        		if (flag) {
-					this.game.entities[3][i].setHover();
-					flag = false;
-					break;
-				}
-			}
-		}
+      }
 
-        for (let i = 0; i < this.game.entities[4].length; i++) {
-            if (this.game.entities[4][i] instanceof Tutorial) {
-                this.game.entities[4][i].destroy();
-            }
-        }
+      for (let i = 0; i < this.game.entities[4].length; i++) {
+          if (this.game.entities[4][i] instanceof Tutorial) {
+              this.game.entities[4][i].destroy();
+          }
+      }
 
-        this.game.addEntity(new ChooseYourFighter(this.game), "hud");
+      this.game.addEntity(new ChooseYourFighter(this.game), "hud");
 		this.game.game_state = GAME_STATES.CHARACTER_SELECT;
 		super.destroy();
     }

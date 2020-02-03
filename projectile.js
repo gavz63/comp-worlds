@@ -29,7 +29,7 @@ class Projectile extends Entity
 		this.speed = speed;
 		
 		var that = this;
-		new TimerCallBack(this.game, lifetime, false, function() {	that.destroy();	});
+		new TimerCallback(this.game, lifetime, false, function() {	that.destroy();	});
 		
 		this.ctx = game.ctx;
 		this.owner = owner;
@@ -71,6 +71,15 @@ class Projectile extends Entity
         }
 			});
 		}
+    else
+    {
+      if(circleToCircle(that, that.game.player))
+      {
+        let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game.player.x, y: this.game.player.y}));
+        let attackedFromDir = vectorToDir(attackedFromVector);
+        this.game.player.takeDmg(1, attackedFromDir);
+      }
+    }
     
     this.dx += this.dir.x * this.game._clockTick * this.speed;
     this.dy += this.dir.y * this.game._clockTick * this.speed;

@@ -157,9 +157,12 @@ class Animation {
             this._frameWidth * this._scale, this._frameHeight * this._scale); // Size to draw sprite on canvas.
         
         // Update time.
-        this._elapsedTime += tick;
-        if (this.isDone()) {
-            if (that._loop === true) that._elapsedTime = 0;
+        if(!this._paused)
+        {
+          this._elapsedTime += tick;
+          if (this.isDone()) {
+              if (that._loop === true) that._elapsedTime = 0;
+          }
         }
     }
 

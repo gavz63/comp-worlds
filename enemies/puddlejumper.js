@@ -16,6 +16,8 @@ class PuddleJumper extends Enemy {
 
         this.speed = 100;
         this.radius = STANDARD_ENTITY_RADIUS;
+        this.directionSet = false;
+        this.targetVector = null;
 
         game.addEntity(this, "enemy");
     }
@@ -23,8 +25,43 @@ class PuddleJumper extends Enemy {
     update() {
         if (this.animation._elapsedTime > this.animation._totalTime * 14 / STANDARD_ENTITY_FRAME_WIDTH &&
             this.animation._elapsedTime < this.animation._totalTime * 19 / STANDARD_ENTITY_FRAME_WIDTH) {
+            
+            /*
+            if(!this.directionSet)
+            {
+              this.targetVector = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y}));
+              let targetDirection = vectorToDir(this.targetVector); // Makes it jump orthogonally
+              
+              switch (targetDirection) {
+                case DIRECTION_DOWN:
+                    this.targetVector.y = 1;
+                    this.targetVector.x = 0;
+                    break;
+                case DIRECTION_UP:
+                    this.targetVector.y = -1;
+                    this.targetVector.x = 0;
+                    break;
+                case DIRECTION_LEFT:
+                    this.targetVector.y = 0;
+                    this.targetVector.x = -1;
+                    break;
+                default:
+                    this.targetVector.y = 0;
+                    this.targetVector.x = 1;
+                    break;
+              }
+              this.directionSet = true;
+            }
+            */
+            this.targetVector = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y}));
+            
             this.speed = this.animation._scale * 110;
-            this.y += this.game._clockTick * this.speed;
+            this.x += this.targetVector.x * this.game._clockTick * this.speed;
+            this.y += this.targetVector.y * this.game._clockTick * this.speed;
+        }
+        else
+        {
+          this.directionSet = false;
         }
     }
 

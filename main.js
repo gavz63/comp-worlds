@@ -17,6 +17,7 @@ ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseBlue.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseRed.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseGreen.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/PureSlash.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/BoneProjectile.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageSideToSideSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageDmgSheet.png");
@@ -32,7 +33,6 @@ ASSET_MANAGER.queueDownload("./img/hud/ChangeDoorsWallsButtons.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChooseYourFighter.png");
 ASSET_MANAGER.queueDownload("./img/pickups/key.png");
 ASSET_MANAGER.queueDownload("./img/pickups/potions.png");
-
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');

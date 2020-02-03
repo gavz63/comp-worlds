@@ -30,11 +30,32 @@ class Bat extends Enemy {
         let attackVector = normalizeV(dirV({
             x: this.x,
             y: this.y
-        }, {
-            x: this.game._player.x + (Math.cos((this.circle / 180) * Math.PI)) * (75),
-            y: this.game._player.y + (Math.sin((this.circle / 180) * Math.PI)) * 75
-        }));
-        this.circle = (this.circle + 1) % 360;
+          }, {
+              x: this.game._player.x,
+              y: this.game._player.y
+          }));
+        if(lengthV(attackVector) < 120) {
+          if(this.inRange === false)
+          {
+            this.inRange === true;
+            //this.circle = 
+          }
+          else
+          {
+            this.circle = (this.circle + 1) % 360;
+          }
+          attackVector = normalizeV(dirV({
+            x: this.x,
+            y: this.y
+          }, {
+              x: this.game._player.x + (Math.cos((this.circle / 180) * Math.PI)) * (75),
+              y: this.game._player.y + (Math.sin((this.circle / 180) * Math.PI)) * 75
+          }));
+        }
+        else
+        {
+          this.inRange = false;
+        }
         this.x += attackVector.x * this.speed * this.game._clockTick;
         this.y += attackVector.y * this.speed * this.game._clockTick;
     }

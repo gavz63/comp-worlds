@@ -64,7 +64,7 @@ class Timer
 	}
 }
 
-class TimerCallBack extends Timer
+class TimerCallback extends Timer
 {
 	constructor(game, time, looping, fn)
 	{

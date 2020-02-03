@@ -34,7 +34,7 @@ class Spawner {
         this.choice = 0;
 
         var that = this;
-        this.spawn_timer = new TimerCallBack(game, frequency, true,
+        this.spawn_timer = new TimerCallback(game, frequency, true,
             function () {
                     if (that.shouldSpawn()) {
                         that.spawn();
