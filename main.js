@@ -38,8 +38,17 @@ ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
     let ctx = canvas.getContext('2d');
     let camera = new Camera(ctx);
-    let level = new Level("20x20y0w0fWWWWWWWWWWWWWWWWWWWWSFFFFFFFFWWWWFFFWWWWWWFFFWWWFWWWWFFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWFFFFFFFFFWFWWFWWWWWWFWWWWWWWFWFWWFWWWWWWFWFWFWFWFWFFFFWWWWWWFWWFWFWWFWFWWFWWWWWWFWFWFWFWFWFWWFWWWFFFFWWWWWWWFWFWWFFWWFWWFFFFFFFFFWFWWWWWWFWWWWWWWWWWWWFWWWWWWFFFFFFWWWWWFFFWWWWWWWWFFFFWWWWWFWWWWWWWWWWFFFFWWFFFFFWWWWWWWWFFFFWWWFWWWFWWFHFWWWWFFFFWWVWWWVWWFWFWWWWWFFFFFFFFFFFFFFFEWWWWWWWWWWWWWWWWWWWW");
-    let gameEngine = new GameEngine(camera, level);
+
+    let gameEngine = new GameEngine(camera);
+    let spawners = [];
+    spawners.push(new Spawner(gameEngine,
+        300, 100,
+        0, 2,
+        [Bat.prototype, PuddleJumper.prototype, Skeleton.prototype],
+        false, 2000, 0));
+    let level = new Level("20x20y0w0fWWWWWWWWWWWWWWWWWWWWSFFFFFFFFWWWWFFFWWWWWWFFFWWWFWWWWFFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWFFFFFFFFFWFWWFWWWWWWFWWWWWWWFWFWWFWWWWWWFWFWFWFWFWFFFFWWWWWWFWWFWFWWFWFWWFWWWWWWFWFWFWFWFWFWWFWWWFFFFWWWWWWWFWFWWFFWWFWWFFFFFFFFFWFWWWWWWFWWWWWWWWWWWWFWWWWWWFFFFFFWWWWWFFFWWWWWWWWFFFFWWWWWFWWWWWWWWWWFFFFWWFFFFFWWWWWWWWFFFFWWWFWWWFWWFHFWWWWFFFFWWVWWWVWWFWFWWWWWFFFFFFFFFFFFFFFEWWWWWWWWWWWWWWWWWWWW",
+        spawners);
+    gameEngine.setLevel(level);
     gameEngine.addEntity(camera, "hud");
     gameEngine.AM = ASSET_MANAGER;
     //new MainCharacter(gameEngine);
@@ -52,13 +61,6 @@ ASSET_MANAGER.downloadAll(function () {
     new SpeedPotion(gameEngine, 432, 240);
     new HealthPotion(gameEngine, 1200, 816);
     new StarPotion(gameEngine, 1776, 1584);
-	
-    let spawnList = [Bat.prototype, PuddleJumper.prototype, Skeleton.prototype];
-    new Spawner(gameEngine,
-        300, 100,
-        2, 5,
-        spawnList,
-        false, 50, 5);
 
     let charClasses = [new Lancer(), new BlackMage()];
 

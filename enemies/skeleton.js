@@ -1,8 +1,8 @@
-class Skeleton extends Entity
+class Skeleton extends Enemy
 {
-	constructor(game, x, y)
+	constructor(game, x, y, spawner)
 	{
-		super(game, x, y);
+		super(game, x, y, spawner);
 		this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/SkeletonWalk.png"),
 			STANDARD_ENTITY_FRAME_WIDTH,
 			STANDARD_ENTITY_FRAME_WIDTH,
@@ -26,7 +26,7 @@ class Skeleton extends Entity
 
 	update()
 	{
-		let skelPlayVector = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y})
+		let skelPlayVector = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
 		if (lengthV(skelPlayVector) > 120) {
 			let attackVector = normalizeV(skelPlayVector);
     		this.x += attackVector.x * this.speed * this.game._clockTick;

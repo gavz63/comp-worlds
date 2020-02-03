@@ -43,6 +43,16 @@ class Spawner {
         );
     }
 
+    // Make sure the player is in the radius of the spawner, if not reset and pause the spawn timer.
+    update() {
+        if (!circleToCircle(this.game.player, this)) {
+            this.spawn_timer.reset();
+            this.spawn_timer.pause();
+        } else {
+            this.spawn_timer.unpause();
+        }
+    }
+
     shouldSpawn() {
         // If we haven't already spawned the max TOTAL
         if (this.maxSpawn === 0 || this.totalSpawned < this.maxSpawn) {
@@ -51,7 +61,7 @@ class Spawner {
                 return true;
             }
         } else {
-            this.spawn_timer.destroy();
+            this.destroy();
             return false;
         }
     }
@@ -64,21 +74,13 @@ class Spawner {
                 this.choice = 0;
             }
         }
-        let spawn = new this.spawnList[this.choice].constructor(this.game, this.x, this.y);
+        let spawn = new this.spawnList[this.choice].constructor(this.game, this.x, this.y, this);
         this.totalSpawned++;
         this.numOut++;
         this.choice++;
     }
 
-    pause() {
-    	this.spawn_timer.pause();
-    }
-
-    unpause() {
-    	this.spawn_timer.unpause();
-    }
-
-    reset() {
-        this.spawn_timer.reset();
+    destroy() {
+        this.spawn_timer.destroy();
     }
 }

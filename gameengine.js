@@ -17,6 +17,7 @@ const LAYERS = {
     PCS: 4,
     HUD: 5
 };
+
 /**
  * The GameEngine class is the heart our game. It maintains the render-update
  * loop and provides all entities with the resources they need to exist and
@@ -27,11 +28,10 @@ class GameEngine {
     /**
      * @param {Camera} camera The camera that's attached to the main character.
      * @param {Level} level The level being played by the main character.
-     * @param {characterChooser} The chooser that we are using to pick a character.
+     * @param {[]} spawners The list of spawners that will create enemies.
      */
-    constructor(camera, level) {
+    constructor(camera) {
         this._camera = camera;
-        this._level = level;
         this._entities = [];
         this._entities[0] = []; // Floor & Wall
         this._entities[1] = []; // Enemies
@@ -39,15 +39,15 @@ class GameEngine {
         this._entities[3] = []; // Playable Characters
         this._entities[4] = []; // HUD
         this._ctx = null;
-		
-      this.timers = [];
-      this.click = false;
-      this.score = 0;
-      this.chars = [];
-      this.keyStack = [];
-      this.lastChar = null;
 
-      this.game_state = GAME_STATES.CHARACTER_SELECT;
+        this.timers = [];
+        this.click = false;
+        this.score = 0;
+        this.chars = [];
+        this.keyStack = [];
+        this.lastChar = null;
+
+        this.game_state = GAME_STATES.CHARACTER_SELECT;
     }
 
     /**
@@ -74,9 +74,9 @@ class GameEngine {
     }
 
     /**
-    * Initializes all event listeners for user input.
-    */
-    startInput = Input; 
+     * Initializes all event listeners for user input.
+     */
+    startInput = Input;
 
     /**
      * Adds the given entity to the list of entities in the requested layer.
@@ -89,28 +89,28 @@ class GameEngine {
      *      Pass 4 or "hud" for layer 4 (HUD);
      */
     addEntity(entity, layer) {
-		entity.layer = layer;
-		let choice = -1; // if an entity is added without a proper layer this will throw an error.
-        if (typeof(layer) === "string") {
+        entity.layer = layer;
+        let choice = -1; // if an entity is added without a proper layer this will throw an error.
+        if (typeof (layer) === "string") {
             if ("floor" === layer) {
-				choice = 0;
+                choice = 0;
             } else if ("enemy" === layer) {
-				choice = 1;
+                choice = 1;
             } else if ("pps" === layer) {
-				choice = 2;
+                choice = 2;
             } else if ("main" === layer) {
-				choice = 3;
+                choice = 3;
             } else if ("hud" === layer) {
-				choice = 4;
+                choice = 4;
             } else {
                 throw "Invalid layer string parameter.";
             }
-			
-			entity.id = this._entities[choice].length;
-			this._entities[choice].push(entity);
 
-			
-        } else if (typeof(layer) === "number") {
+            entity.id = this._entities[choice].length;
+            this._entities[choice].push(entity);
+
+
+        } else if (typeof (layer) === "number") {
             if (layer === Math.floor(layer) && layer >= 0 && layer < 5) {
                 this._entities[layer].push(entity);
             } else {
@@ -119,41 +119,56 @@ class GameEngine {
         } else {
             throw "Incorrect layer parameter type.";
         }
-		
-		//console.log("CREATED ENTITY");
+
+        //console.log("CREATED ENTITY");
     }
-	
-	removeEntity (entity, layer) {
-		this.entities[layer][entity.id] = this.entities[layer][this.entities[layer].length-1];
-		this.entities[layer][entity.id].id = entity.id;
-		this.entities[layer][this.entities[layer].length-1] = entity;
-		this.entities[layer].pop();
-	}
-	
-	addTimer(timer) {
-		timer.id = this.timers.length;
-		this.timers.push(timer);
-	}
-	
-	removeTimer(timer) {
-		this.timers[timer.id] = this.timers[this.timers.length-1];
-		this.timers[timer.id].id = timer.id;
-		this.timers[this.timers.length-1] = timer;
-		this.timers.pop();
-	}
 
-	setPlayer(player) {
-		this.player = player;
-	}
+    removeEntity(entity, layer) {
+        this.entities[layer][entity.id] = this.entities[layer][this.entities[layer].length - 1];
+        this.entities[layer][entity.id].id = entity.id;
+        this.entities[layer][this.entities[layer].length - 1] = entity;
+        this.entities[layer].pop();
+    }
 
-	setAssetManager(manager) {
-		this.AM = manager;
-	}
-	
+    addTimer(timer) {
+        timer.id = this.timers.length;
+        this.timers.push(timer);
+    }
+
+    removeTimer(timer) {
+        this.timers[timer.id] = this.timers[this.timers.length - 1];
+        this.timers[timer.id].id = timer.id;
+        this.timers[this.timers.length - 1] = timer;
+        this.timers.pop();
+    }
 
     /**
-    * Calls draw() on every entity in memory.
-    */
+     * Remove the spawner at the given index from the list.
+     * @param index
+     */
+    removeSpawner(index) {
+        let spawner = this.spawners[index];
+        this.spawners[index] = this.spawners[this.spawners.length - 1];
+        this.spawners[this.timers.length - 1] = spawner;
+        this.spawners.pop();
+    }
+
+    setPlayer(player) {
+        this.player = player;
+    }
+
+    setAssetManager(manager) {
+        this.AM = manager;
+    }
+
+    setLevel(level) {
+        this._level = level;
+        this.spawners = level.spawners;
+    }
+
+    /**
+     * Calls draw() on every entity in memory.
+     */
     draw() {
         this._ctx.clearRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height);
         this._ctx.save();
@@ -162,7 +177,7 @@ class GameEngine {
                 this._entities[i][j].draw(this._ctx);
             }
         }
-		
+
         this._ctx.restore();
     }
 
@@ -175,27 +190,22 @@ class GameEngine {
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
                 var i = 0;
-                for(i = 0; i < this._entities[0].length; i++)
-                {
-                    if(this.entities[0][i].removeFromWorld)
-                    {
+                for (i = 0; i < this._entities[0].length; i++) {
+                    if (this.entities[0][i].removeFromWorld) {
                         this.removeEntity(this.entities[0][i], 0);
                         continue;
                     }
                     this.entities[0][i].update();
                 }
                 for (i = 0; i < this.entities[3].length; i++) {
-                    if(this.entities[3][i].removeFromWorld)
-                    {
+                    if (this.entities[3][i].removeFromWorld) {
                         this.removeEntity(this.entities[3][i], 3);
                         continue;
                     }
                     this.entities[3][i].update();
                 }
-                for(i = 0; i < this._entities[4].length; i++)
-                {
-                    if(this.entities[4][i].removeFromWorld)
-                    {
+                for (i = 0; i < this._entities[4].length; i++) {
+                    if (this.entities[4][i].removeFromWorld) {
                         this.removeEntity(this.entities[4][i], 4);
                         continue;
                     }
@@ -207,10 +217,8 @@ class GameEngine {
             case GAME_STATES.PLAYING:
                 for (var i = 0; i < this._entities.length; i++) {
                     let entityCount = this._entities[i].length;
-                    for(var j = 0; j < entityCount; j++)
-                    {
-                        if(this.entities[i][j].removeFromWorld)
-                        {
+                    for (var j = 0; j < entityCount; j++) {
+                        if (this.entities[i][j].removeFromWorld) {
                             this.removeEntity(this.entities[i][j], i);
                             entityCount = this.entities[i].length;
                             j--;
@@ -223,17 +231,28 @@ class GameEngine {
 
                 var timersCount = this.timers.length;
 
-                for (var i = 0; i < timersCount; i++)
-                {
+                for (var i = 0; i < timersCount; i++) {
                     let tim = this.timers[i];
-                    if(tim.removeFromWorld)
-                    {
+                    if (tim.removeFromWorld) {
                         this.removeTimer(tim);
                         timersCount = this.timers.length;
                         i--;
                         continue;
                     }
                     this.timers[i].update();
+                }
+
+                var spawnersCount = this.spawners.length;
+
+                for (var i = 0; i < spawnersCount; i++) {
+                    let spawner = this.spawners[i];
+                    if (spawner.removeFromWorld) {
+                        this.removeSpawner(i);
+                        spawnersCount = this.spawners.length;
+                        i--;
+                        continue;
+                    }
+                    this.spawners[i].update();
                 }
 
                 break;
@@ -244,8 +263,8 @@ class GameEngine {
     }
 
     /**
-    * Loops while calling update() and draw().
-    */
+     * Loops while calling update() and draw().
+     */
     loop() {
         this._clockTick = this._clock.tick();
         this.update();
@@ -253,20 +272,31 @@ class GameEngine {
     }
 
     // Getters and setters.
-    get camera() {return this._camera;}
-    get level() {return this._level;}
-    get entities() {return this._entities;}
-    get ctx() {return this._ctx;}
+    get camera() {
+        return this._camera;
+    }
+
+    get level() {
+        return this._level;
+    }
+
+    get entities() {
+        return this._entities;
+    }
+
+    get ctx() {
+        return this._ctx;
+    }
 }
 
 // Used in start() to cap framerate.
 window.requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame ||
-            function (/* function */ callback, /* DOMElement */ element) {
-                window.setTimeout(callback, 1000 / 60);
-            };
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (/* function */ callback, /* DOMElement */ element) {
+            window.setTimeout(callback, 1000 / 60);
+        };
 })();

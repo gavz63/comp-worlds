@@ -41,6 +41,7 @@ class Player extends Entity {
         this.width = this.radius * 2;
 
         this.game.addEntity(this, "main");
+        this.game.setPlayer(this);
 
         this.hurt = false;
     }

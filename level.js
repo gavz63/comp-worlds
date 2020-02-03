@@ -19,9 +19,10 @@ class Level {
      *              H is a horizontal door.
      *              V is a vertical door.
      *       Pass null for a random level.
+     * @param {array} spawners An array of spawner objects
      */
-    constructor(levelString) {
-        this.resetLevel(levelString);
+    constructor(levelString, spawners) {
+        this.resetLevel(levelString, spawners);
     }
 
     /**
@@ -90,8 +91,9 @@ class Level {
      *              H is a horizontal door.
      *              V is a vertical door.
      *       Pass null for a random level.
+     * @param {array} spawners An array of spawner objects.
      */
-    resetLevel(string) {
+    resetLevel(string , spawners) {
         this._map = [];
         this._width = null;
         this._height = null;
@@ -102,6 +104,7 @@ class Level {
         this._exit = null;
         this._wallType = null;
         this._floorType = null;
+        this.spawners = spawners;
         this.buildLevel(string);
     }
 
