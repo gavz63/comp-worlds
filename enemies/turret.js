@@ -32,7 +32,7 @@ class Turret extends Entity {
 	{
 		if(this.timer === null)
 		{
-			this.timer = new Timer(this.game, 3, true);
+			this.timer = new Timer(this.game, 4, true);
 		}
 		this.rotation = this.timer.getPercent() * 2 * Math.PI;
 		if(Math.abs(this.timer.getPercent() - this.lastShotTime) > 1/this.fireRate)
