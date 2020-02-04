@@ -43,14 +43,16 @@ ASSET_MANAGER.downloadAll(function () {
     let spawners = [];
     spawners.push(new Spawner(gameEngine,
         300, 100,
-        0, 2,
-        [Bat.prototype/*, PuddleJumper.prototype, Skeleton.prototype*/],
+        0, 10000,
+        [Bat.prototype, PuddleJumper.prototype, Skeleton.prototype],
         false, 2000, 0));
     let level = new Level("20x20y0w0fWWWWWWWWWWWWWWWWWWWWSFFFFFFFFWWWWFFFWWWWWWFFFWWWFWWWWFFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWFFFFFFFFFWFWWFWWWWWWFWWWWWWWFWFWWFWWWWWWFWFWFWFWFWFFFFWWWWWWFWWFWFWWFWFWWFWWWWWWFWFWFWFWFWFWWFWWWFFFFWWWWWWWFWFWWFFWWFWWFFFFFFFFFWFWWWWWWFWWWWWWWWWWWWFWWWWWWFFFFFFWWWWWFFFWWWWWWWWFFFFWWWWWFWWWWWWWWWWFFFFWWFFFFFWWWWWWWWFFFFWWWFWWWFWWFHFWWWWFFFFWWVWWWVWWFWFWWWWWFFFFFFFFFFFFFFFEWWWWWWWWWWWWWWWWWWWW",
         spawners);
     gameEngine.setLevel(level);
     gameEngine.addEntity(camera, "hud");
     gameEngine.AM = ASSET_MANAGER;
+	
+	let turret = new Turret(gameEngine, 300, 200);
     //new MainCharacter(gameEngine);
     
     new WallHUD(gameEngine);
