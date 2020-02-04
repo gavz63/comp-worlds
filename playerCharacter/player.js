@@ -72,8 +72,8 @@ class Player extends Entity {
         //If x < 0 go back to character chooser
         if (this.x < 0) {
             this.game.game_state = GAME_STATES.CHARACTER_SELECT;
-            this.game.camera.x = 0;
-            this.game.camera.y = 0;
+            this.game._camera.x = 0;
+            this.game._camera.y = 0;
             this.game.addEntity(new NPC(this.game, this.characterClass), "main");
             this.game.addEntity(new ChooseYourFighter(this.game), "hud");
 
@@ -329,6 +329,8 @@ class Player extends Entity {
       }
       this.x = 0;
       this.y = 0;
+	  this.game._camera.x = 0;
+	  this.game._camera.y = 0;
       for (let i = 0; i < this.game.entities[3].length; i++) {
         let flag = true;
         if (this.game.entities[3][i] instanceof NPC) {
