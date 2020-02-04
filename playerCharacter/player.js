@@ -18,9 +18,9 @@ class Player extends Entity {
         this.speed = characterClass.stats.speed;
         this.hp = characterClass.stats.maxHP;
 
-        this.hearts = [new LastHeart(game, 1.1 * STANDARD_ENTITY_FRAME_WIDTH/2 * STANDARD_DRAW_SCALE, 1.1 * STANDARD_ENTITY_FRAME_WIDTH/2 * STANDARD_DRAW_SCALE)];
+        this.hearts = [new LastHeart(game, 1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE, 1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE)];
         for (let i = 1; i < characterClass.stats.maxHP; i++) {
-            this.hearts[i] = new Heart(game, (i+1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH/2 * STANDARD_DRAW_SCALE),  1.1 * STANDARD_ENTITY_FRAME_WIDTH/2 * STANDARD_DRAW_SCALE);
+            this.hearts[i] = new Heart(game, (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE), 1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE);
         }
 
         this.velocity = {x: 0, y: 0};
@@ -50,12 +50,12 @@ class Player extends Entity {
      * Part of the game loop, update the player to the position and state it should now be in.
      */
     update() {
-    
+
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
-            this.hearts[i].x = (i+1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE)
+            this.hearts[i].x = (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE)
             this.hearts[i].y = 1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE;
         }
-    
+
         var that = this;
         //Testing collision with enemies
         this.game.entities[1].forEach(function (elem) {
@@ -72,8 +72,6 @@ class Player extends Entity {
         //If x < 0 go back to character chooser
         if (this.x < 0) {
             this.game.game_state = GAME_STATES.CHARACTER_SELECT;
-            this.game.camera.x = 0;
-            this.game.camera.y = 0;
             this.game.addEntity(new NPC(this.game, this.characterClass), "main");
             this.game.addEntity(new ChooseYourFighter(this.game), "hud");
 
@@ -223,7 +221,7 @@ class Player extends Entity {
                 this.y += Math.floor(this.velocity.y * this.game._clockTick);
             }
             let newPos = this.game._level.move(this._collider, oldPos, {x: this.x, y: this.y});
-			this.x = newPos.x;
+            this.x = newPos.x;
             this.y = newPos.y;
         }
 
@@ -323,32 +321,34 @@ class Player extends Entity {
     }
 
     destroy() {
-      console.log("THIS HAPPENED");
-      for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
-          this.hearts[i].destroy();
-      }
-      this.x = 0;
-      this.y = 0;
-      for (let i = 0; i < this.game.entities[3].length; i++) {
-        let flag = true;
-        if (this.game.entities[3][i] instanceof NPC) {
-          if (flag) {
-            this.game.entities[3][i].setHover();
-            flag = false;
-            break;
-          }
+        console.log("THIS HAPPENED");
+        for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
+            this.hearts[i].destroy();
         }
-      }
+        this.x = 0;
+        this.y = 0;
+        this.game.camera.x = 0;
+        this.game.camera.y = 0;
+        for (let i = 0; i < this.game.entities[3].length; i++) {
+            let flag = true;
+            if (this.game.entities[3][i] instanceof NPC) {
+                if (flag) {
+                    this.game.entities[3][i].setHover();
+                    flag = false;
+                    break;
+                }
+            }
+        }
 
-      for (let i = 0; i < this.game.entities[4].length; i++) {
-          if (this.game.entities[4][i] instanceof Tutorial) {
-              this.game.entities[4][i].destroy();
-          }
-      }
+        for (let i = 0; i < this.game.entities[4].length; i++) {
+            if (this.game.entities[4][i] instanceof Tutorial) {
+                this.game.entities[4][i].destroy();
+            }
+        }
 
-      this.game.addEntity(new ChooseYourFighter(this.game), "hud");
-		this.game.game_state = GAME_STATES.CHARACTER_SELECT;
-		super.destroy();
+        this.game.addEntity(new ChooseYourFighter(this.game), "hud");
+        this.game.game_state = GAME_STATES.CHARACTER_SELECT;
+        super.destroy();
     }
 
     /**
