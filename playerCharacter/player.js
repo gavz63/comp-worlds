@@ -319,6 +319,15 @@ class Player extends Entity {
             }
         }
     }
+	
+	heal(hp)
+	{
+		for(let i = hp; this.hp + 1 <= this.characterClass.stats.maxHP && i > 0; i--)
+		{
+			this.hearts[this.hp].set(true);
+			this.hp += 1;
+		}
+	}
 
     destroy() {
         console.log("THIS HAPPENED");
