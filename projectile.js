@@ -19,12 +19,12 @@ class Projectile extends Entity
 	{
 		super(game, x, y);
 
-    this.startX = x;
-    this.startY = y;
-    
-    this.dx = 0;
-    this.dy = 0;
-    
+		this.startX = x;
+		this.startY = y;
+		
+		this.dx = 0;
+		this.dy = 0;
+		
 		this.dir = dir;
 		this.speed = speed;
 		
@@ -39,10 +39,10 @@ class Projectile extends Entity
 		
 		this.dmg = dmg;
 		this.radius = radius;
-    
-    this.attachedToOwner = false;
-    this.dieOnHit = true;
-    
+		
+		this.attachedToOwner = false;
+		this.dieOnHit = true;
+		
 		this.game.addEntity(this, "pps");
 	}
 
@@ -50,50 +50,50 @@ class Projectile extends Entity
 	{
 		var that = this;
     
-    if(this.animation.isDone())
-    {
-      this.animation.pause();
-      this.animation.setFrame(this.animation.getLastFrameAsInt());
-    }
-    
-		if (this.owner instanceof Player) {
-			//For each enemy
-			this.game.entities[1].forEach(function(elem) {
-        if(that.removeFromWorld !== true)
-        {
-          if (circleToCircle(that, elem)) {
-            if(that.dieOnHit)
-            {
-              that.destroy();
-            }
-            elem.destroy();
-          }
-        }
-			});
+		if(this.animation.isDone())
+		{
+		  this.animation.pause();
+		  this.animation.setFrame(this.animation.getLastFrameAsInt());
 		}
-    else
-    {
-      if(circleToCircle(that, that.game.player))
-      {
-        let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game.player.x, y: this.game.player.y}));
-        let attackedFromDir = vectorToDir(attackedFromVector);
-        this.game.player.takeDmg(1, attackedFromDir);
-      }
-    }
-    
-    this.dx += this.dir.x * this.game._clockTick * this.speed;
-    this.dy += this.dir.y * this.game._clockTick * this.speed;
-    
-		if(this.attachedToOwner)
-    {
-      this.x = this.owner.x + this.dir.x * this.speed;
-      this.y = this.owner.y + this.dir.y * this.speed;
-    }
-    else
-    {
-      this.x = this.startX + this.dx;
-      this.y = this.startY + this.dy;
-    }
+		
+			if (this.owner instanceof Player) {
+				//For each enemy
+				this.game.entities[1].forEach(function(elem) {
+			if(that.removeFromWorld !== true)
+			{
+			  if (circleToCircle(that, elem)) {
+				if(that.dieOnHit)
+				{
+				  that.destroy();
+				}
+				elem.destroy();
+			  }
+			}
+				});
+			}
+		else
+		{
+		  if(circleToCircle(that, that.game.player))
+		  {
+			let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game.player.x, y: this.game.player.y}));
+			let attackedFromDir = vectorToDir(attackedFromVector);
+			this.game.player.takeDmg(1, attackedFromDir);
+		  }
+		}
+		
+		this.dx += this.dir.x * this.game._clockTick * this.speed;
+		this.dy += this.dir.y * this.game._clockTick * this.speed;
+		
+			if(this.attachedToOwner)
+		{
+		  this.x = this.owner.x + this.dir.x * this.speed;
+		  this.y = this.owner.y + this.dir.y * this.speed;
+		}
+		else
+		{
+		  this.x = this.startX + this.dx;
+		  this.y = this.startY + this.dy;
+		}
 	}
   
   draw()
