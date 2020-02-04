@@ -21,28 +21,33 @@ class Bat extends Enemy {
 
         this.speed = 100;
         this.radius = STANDARD_ENTITY_RADIUS;
+		this.inRange = false;
 
         game.addEntity(this, "enemy");
     }
 
     update() {
         this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
-        let attackVector = normalizeV(dirV({
+        let attackVector = dirV({
             x: this.x,
             y: this.y
           }, {
               x: this.game._player.x,
               y: this.game._player.y
-          }));
-        if(lengthV(attackVector) < 120) {
+          });
+		let length = lengthV(attackVector);
+		attackVector = normalizeV(attackVector);
+        if(length < 80) {
           if(this.inRange === false)
           {
-            this.inRange === true;
-            //this.circle = 
+            this.inRange = true;
+            this.circle = Math.atan2(attackVector.y, attackVector.x);
+			this.circle = this.circle * 180/Math.PI + 180;
+			console.log(this.circle);
           }
           else
           {
-            this.circle = (this.circle + 1) % 360;
+            this.circle = (this.circle + this.speed * this.game._clockTick) % 360;
           }
           attackVector = normalizeV(dirV({
             x: this.x,

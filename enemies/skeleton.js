@@ -18,8 +18,8 @@ class Skeleton extends Enemy
     
     this.animation = this.moveAnimation;
 
-		this.speed = 75;
-		this.radius = STANDARD_ENTITY_RADIUS;
+	this.speed = 75;
+	this.radius = STANDARD_ENTITY_RADIUS;
     this.attackTimer = null;
     this.attacked = false;
     
@@ -54,7 +54,7 @@ class Skeleton extends Enemy
     }
     else // attacking
     {
-      if(this.animation.getFrame() === 3)
+      if(this.animation.getFrame() === 3 && this.animation === this.attackAnimation)
       {
         if(this.attacked === false)
         {
@@ -64,7 +64,8 @@ class Skeleton extends Enemy
                 attackVector,
                 100, 2,
                 this, this.projectileAnimation,
-                1, 20); // slowed down projectile for debugging
+                1, 20);
+		  //should transition to some idle animation here some day...
         }
       }
       else
@@ -83,7 +84,6 @@ class Skeleton extends Enemy
   
   attack()
   {
-    console.log("attacking");
     let that = this;
     this.animation = this.attackAnimation;
     this.animation.resetAnimation();
