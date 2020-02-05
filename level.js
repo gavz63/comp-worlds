@@ -145,7 +145,6 @@ class Level {
         if (this.mapElementAt({x: coordinateToIndex(updatedPos.x), y: coordinateToIndex(updatedPos.y)}) === "E") {
             console.log("END OF LEVEL REACHED!");
         }
-
         // Center
         if (this.mapElementAt({x: origin.x, y: origin.y}) === "#") {
             let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
@@ -155,19 +154,53 @@ class Level {
             updatedPos.x = c.pos1.x;
             updatedPos.y = c.pos1.y;
         } else if (this.mapElementAt({x: origin.x, y: origin.y}) === "H") {
-            let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
+            if (this.game.player.keys
+                && checkCollision({x: updatedPos.x, y: updatedPos.y},
                 collider,
                 {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y)}, 
-                new Collider(0, 0, 48, 48, 8, 8, null, Infinity));
-            updatedPos.x = c.pos1.x;
-            updatedPos.y = c.pos1.y;
+                new Collider(0, 0, 48, 48, 8, 8, null, Infinity))) {
+                    this._map[origin.x][origin.y] = "-";
+                    var removeDoor = -1;
+                    for (var i = 0; i < this._doors.length; i++) {
+                        if (this._doors[i].d === "H" && this._doors[i].x === origin.x && this._doors[i].y === origin.y) {
+                            removeDoor = i;
+                        }
+                    }
+                    this._doors.splice(removeDoor, 1);
+                    this._floors.push({x: origin.x, y: origin.y});
+                    this.game.player.keys -= 1;
+            } else {
+                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
+                    collider,
+                    {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y)}, 
+                    new Collider(0, 0, 48, 48, 8, 8, null, Infinity));
+                updatedPos.x = c.pos1.x;
+                updatedPos.y = c.pos1.y;
+            }
         } else if (this.mapElementAt({x: origin.x, y: origin.y}) === "V") {
-            let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
+            if (this.game.player.keys
+                && checkCollision({x: updatedPos.x, y: updatedPos.y},
                 collider,
                 {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y)}, 
-                new Collider(0, 0, 8, 8, 48, 48, null, Infinity));
-            updatedPos.x = c.pos1.x;
-            updatedPos.y = c.pos1.y;
+                new Collider(0, 0, 8, 8, 48, 48, null, Infinity))) {
+                    this._map[origin.x][origin.y] = "-";
+                    var removeDoor = -1;
+                    for (var i = 0; i < this._doors.length; i++) {
+                        if (this._doors[i].d === "V" && this._doors[i].x === origin.x && this._doors[i].y === origin.y) {
+                            removeDoor = i;
+                        }
+                    }
+                    this._doors.splice(removeDoor, 1);
+                    this._floors.push({x: origin.x, y: origin.y});
+                    this.game.player.keys -= 1;
+            } else {
+                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
+                    collider,
+                    {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y)}, 
+                    new Collider(0, 0, 8, 8, 48, 48, null, Infinity));
+                updatedPos.x = c.pos1.x;
+                updatedPos.y = c.pos1.y;
+            }
         }
 
         // Left
@@ -177,20 +210,6 @@ class Level {
                     collider,
                     {x: indexToCoordinate(origin.x - 1), y: indexToCoordinate(origin.y)}, 
                     new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
-                updatedPos.x = c.pos1.x;
-                updatedPos.y = c.pos1.y;
-            } else if (this.mapElementAt({x: origin.x - 1, y: origin.y}) === "H") {
-                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
-                    collider,
-                    {x: indexToCoordinate(origin.x - 1), y: indexToCoordinate(origin.y)}, 
-                    new Collider(0, 0, 48, 48, 8, 8, null, Infinity));
-                updatedPos.x = c.pos1.x;
-                updatedPos.y = c.pos1.y;
-            } else if (this.mapElementAt({x: origin.x - 1, y: origin.y}) === "V") {
-                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
-                    collider,
-                    {x: indexToCoordinate(origin.x - 1), y: indexToCoordinate(origin.y)}, 
-                    new Collider(0, 0, 8, 8, 48, 48, null, Infinity));
                 updatedPos.x = c.pos1.x;
                 updatedPos.y = c.pos1.y;
             }
@@ -205,20 +224,6 @@ class Level {
                     new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
                 updatedPos.x = c.pos1.x;
                 updatedPos.y = c.pos1.y;
-            } else if (this.mapElementAt({x: origin.x, y: origin.y - 1}) === "H") {
-                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
-                    collider,
-                    {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y - 1)}, 
-                    new Collider(0, 0, 48, 48, 8, 8, null, Infinity));
-                updatedPos.x = c.pos1.x;
-                updatedPos.y = c.pos1.y;
-            } else if (this.mapElementAt({x: origin.x, y: origin.y - 1}) === "V") {
-                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
-                    collider,
-                    {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y - 1)}, 
-                    new Collider(0, 0, 8, 8, 48, 48, null, Infinity));
-                updatedPos.x = c.pos1.x;
-                updatedPos.y = c.pos1.y;
             }
         }
 
@@ -231,20 +236,6 @@ class Level {
                     new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
                 updatedPos.x = c.pos1.x;
                 updatedPos.y = c.pos1.y;
-            } else if (this.mapElementAt({x: origin.x + 1, y: origin.y}) === "H") {
-                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
-                    collider,
-                    {x: indexToCoordinate(origin.x + 1), y: indexToCoordinate(origin.y)}, 
-                    new Collider(0, 0, 48, 48, 8, 8, null, Infinity));
-                updatedPos.x = c.pos1.x;
-                updatedPos.y = c.pos1.y;
-            } else if (this.mapElementAt({x: origin.x + 1, y: origin.y}) === "V") {
-                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
-                    collider,
-                    {x: indexToCoordinate(origin.x + 1), y: indexToCoordinate(origin.y)}, 
-                    new Collider(0, 0, 8, 8, 48, 48, null, Infinity));
-                updatedPos.x = c.pos1.x;
-                updatedPos.y = c.pos1.y;
             }
         }
 
@@ -255,20 +246,6 @@ class Level {
                     collider,
                     {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y + 1)}, 
                     new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
-                updatedPos.x = c.pos1.x;
-                updatedPos.y = c.pos1.y;
-            } else if (this.mapElementAt({x: origin.x, y: origin.y + 1}) === "H") {
-                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
-                    collider,
-                    {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y + 1)}, 
-                    new Collider(0, 0, 48, 48, 8, 8, null, Infinity));
-                updatedPos.x = c.pos1.x;
-                updatedPos.y = c.pos1.y;
-            } else if (this.mapElementAt({x: origin.x, y: origin.y + 1}) === "V") {
-                let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
-                    collider,
-                    {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y + 1)}, 
-                    new Collider(0, 0, 8, 8, 48, 48, null, Infinity));
                 updatedPos.x = c.pos1.x;
                 updatedPos.y = c.pos1.y;
             }
