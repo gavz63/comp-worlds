@@ -9,7 +9,7 @@ class Player extends Entity {
     constructor(game, characterClass) {
         super(game, indexToCoordinate(game._sceneManager.level._spawn.x), indexToCoordinate(game._sceneManager.level._spawn.y));
         game._player = this;
-        this._hasKey = false;
+        this.keys = 0;
         this.characterClass = characterClass;
         this.direction = DIRECTION_RIGHT;
         this.animation = characterClass.animation.idleRight;
