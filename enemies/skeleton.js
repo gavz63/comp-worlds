@@ -28,7 +28,6 @@ class Skeleton extends Enemy
 			STANDARD_ENTITY_FRAME_WIDTH,
 			{x: 0, y: 0}, {x: 3, y: 0}, 10, true, STANDARD_DRAW_SCALE);
 
-		game.addEntity(this, "enemy");
 	}
 
 	update()

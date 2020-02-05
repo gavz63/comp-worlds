@@ -19,8 +19,6 @@ class Turret extends Entity {
 		let that = this;
 		
 		this.attackTimer = new TimerCallback(this.game, 1/this.fireRate, true, function() { that.attack(); });
-		
-		this.game.addEntity(this, "hud");
 	}
 	
 	update()

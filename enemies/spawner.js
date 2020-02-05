@@ -77,7 +77,7 @@ class Spawner {
         let spawn = new this.spawnList[this.choice].constructor(this.game, this.x, this.y, this);
         this.totalSpawned++;
         this.numOut++;
-        if (this.numOut === this.maxAtOnce) {
+        if (this.numOut >= this.maxAtOnce) {
             this.spawn_timer.pause();
         }
         this.choice++;

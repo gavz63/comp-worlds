@@ -23,7 +23,6 @@ class Bat extends Enemy {
         this.radius = STANDARD_ENTITY_RADIUS;
 		this.inRange = false;
 
-        game.addEntity(this, "enemy");
     }
 
     update() {

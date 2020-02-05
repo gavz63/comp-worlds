@@ -18,8 +18,6 @@ class PuddleJumper extends Enemy {
         this.radius = STANDARD_ENTITY_RADIUS;
         this.directionSet = false;
         this.targetVector = null;
-
-        game.addEntity(this, "enemy");
     }
 
     update() {
