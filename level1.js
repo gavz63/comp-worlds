@@ -46,6 +46,7 @@ class Level1
 			 freq: 3,
 			 list: [/*Bat.prototype,
 					PuddleJumper.prototype,*/
+				 	StoneGolem.prototype,
 					Skeleton.prototype],
 			 rand: false,
 			 radius: 2000,
