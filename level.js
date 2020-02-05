@@ -78,11 +78,11 @@ class Level {
 		/*this.pickups.forEach(function (elem) 
 		{
 			new Spawner(this.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total);
-		});
+		});*/
 		this.hazards.forEach(function (elem) 
 		{
-			new Spawner(this.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total);
-		});*/
+			new Turret(that.game, elem.x, elem.y, elem.fireRate, elem.spinning, elem.cross, elem.pSpeed, elem.pLifeTime, elem.pMove, elem.pEasing);
+		});
 
     }
 
@@ -113,8 +113,8 @@ class Level {
         this._wallType = level.wallType;
         this._floorType = level.floorType;
         this.spawners = level.spawnerList;
-		this.pickups = level.pickupList;
-		this.hazards = level.hazardList;
+        this.pickups = level.pickupList;
+        this.hazards = level.hazardList;
         this.buildLevel(level.layout);
     }
 	

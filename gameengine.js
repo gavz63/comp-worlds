@@ -47,8 +47,11 @@ class GameEngine {
         this.chars = [];
         this.keyStack = [];
         this.lastChar = null;
+        
+        this.currentLevel = 0;
+        this.levels = [Level1.prototype, Level2.prototype, Level3.prototype, Level4.prototype, Level5.prototype, Level6.prototype, Level7.prototype];
 		
-		this._sceneManager = new SceneManager(this);
+        this._sceneManager = new SceneManager(this);
 
         this.game_state = GAME_STATES.CHARACTER_SELECT;
     }
@@ -64,8 +67,6 @@ class GameEngine {
 		this._camera.update();
 		this.camera.x = 0;
 		this.camera.y = 0;
-		
-		let turret = new Turret(this, 700, 250);
 		
 		new WallHUD(this);
 		

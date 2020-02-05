@@ -85,8 +85,12 @@ function Input() {
 				console.log(that._sceneManager.level._wallType);
 				that._sceneManager.level._wallType = (that._sceneManager.level._wallType + 1) % 2;
 				console.log(that._sceneManager.level._wallType);
-				
-				that.LoadLevel(new Level2());
+				that.currentLevel += 1;
+        if(that.currentLevel >= that.levels.length)
+        {
+          that.currentLevel = 0;
+        }
+          that.LoadLevel(new that.levels[that.currentLevel].constructor());
 			}
 			if (e.code === "KeyL") {
 				console.log(that._sceneManager.level._floorType);

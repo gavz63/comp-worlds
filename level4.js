@@ -1,4 +1,4 @@
-class Level2
+class Level4
 {
 	constructor()
 	{
@@ -8,7 +8,7 @@ class Level2
 		this.wallType = 0;
 		
 		this.layout = 
-		"-#------------------" +
+		"--#-----------------" +
 		"S-------------------" +
 		"--------------------" +
 		"--------------------" +
@@ -33,7 +33,7 @@ class Level2
 		this.hazardList = [];
 		this.pickUpList = [];
 		
-    this.hazardList.push (
+this.hazardList.push (
     {
        x: 1,
        y: 1,
@@ -43,7 +43,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.line,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     this.hazardList.push (
     {
@@ -55,7 +55,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.line,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     this.hazardList.push (
     {
@@ -67,7 +67,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.line,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     this.hazardList.push (
     {
@@ -79,7 +79,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.line,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });	
     //2
     this.hazardList.push (
@@ -92,7 +92,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.circle,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     this.hazardList.push (
     {
@@ -104,7 +104,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.circle,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     this.hazardList.push (
     {
@@ -116,7 +116,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.circle,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     this.hazardList.push (
     {
@@ -128,7 +128,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.circle,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     //3
     this.hazardList.push (
@@ -141,7 +141,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.spiral,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     this.hazardList.push (
     {
@@ -153,7 +153,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.spiral,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     this.hazardList.push (
     {
@@ -165,7 +165,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.spiral,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });		
     this.hazardList.push (
     {
@@ -177,7 +177,7 @@ class Level2
        pSpeed: 100,
        pLifeTime: 2,
        pMove: EasingProjectile.prototype.spiral,
-       pEasing: function (t) { return t; }
+       pEasing: function (t) { return smoothStopN(t, 2); }
     });
 	}		
 }

@@ -150,7 +150,6 @@ class EasingProjectile extends Projectile
     {
       let t = this.easing(this.timer.getPercent());
       let circle = Math.atan2(this.dir.y, this.dir.x);
-      console.log(circle);
       this.x = this.parentX + Math.cos(circle + t * 2 * Math.PI) * this.speed;
       this.y = this.parentY + Math.sin(circle + t * 2 * Math.PI) * this.speed;
     }
@@ -159,7 +158,6 @@ class EasingProjectile extends Projectile
     {
       let t = this.easing(this.timer.getPercent());
       let circle = Math.atan2(this.dir.y, this.dir.x);
-      console.log(circle);
       this.x = this.parentX + Math.cos(circle + t * 2 * Math.PI) * this.speed * t;
       this.y = this.parentY + Math.sin(circle + t * 2 * Math.PI) * this.speed * t;
     }
