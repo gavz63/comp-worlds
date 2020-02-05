@@ -33,6 +33,7 @@ ASSET_MANAGER.queueDownload("./img/hud/ChangeDoorsWallsButtons.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChooseYourFighter.png");
 ASSET_MANAGER.queueDownload("./img/pickups/key.png");
 ASSET_MANAGER.queueDownload("./img/pickups/potions.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/PokeSheet.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
@@ -43,7 +44,7 @@ ASSET_MANAGER.downloadAll(function () {
     let spawners = [];
     spawners.push(new Spawner(gameEngine,
         300, 100,
-        0, 3,
+        3, 3,
         [Bat.prototype, PuddleJumper.prototype, Skeleton.prototype],
         false, 2000, 0));
     let level = new Level("20x20y0w0fWWWWWWWWWWWWWWWWWWWWSFFFFFFFFWWWWFFFWWWWWWFFFFFFFWWWWFFWWWWWWWFFFFFFFWWWWWFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWFFFFFFFFFWFWWFWWWWWWFWWWWWWWFWFWWFWWWWWWFWFWFWFWFWFFFFWWWWWWFWWFWFWWFWFWWFWWWWWWFWFWFWFWFWFWWFWWWFFFFWWWWWWWFWFWWFFWWFWWFFFFFFFFFWFWWWWWWFWWWWWWWWWWWWFWWWWWWFFFFFFWWWWWFFFWWWWWWWWFFFFWWWWWFWWWWWWWWWWFFFFWWFFFFFWWWWWWWWFFFFWWWFWWWFWWFHFWWWWFFFFWWVWWWVWWFWFWWWWWFFFFFFFFFFFFFFFEWWWWWWWWWWWWWWWWWWWW",

@@ -5,7 +5,8 @@ class Enemy extends Entity {
     }
 
     destroy() {
-        super.destroy();
         this.spawner.numOut--;
+        this.spawner.spawn_timer.unpause();
+        super.destroy();
     }
 }

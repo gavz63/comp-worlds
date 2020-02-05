@@ -4,7 +4,9 @@ function Lancer() {
     var upAndDown = ASSET_MANAGER.getAsset("./img/player_characters/LancerUpDownSheet.png");
     var specialSheet = ASSET_MANAGER.getAsset("./img/player_characters/LancerSpecialMoveAllDirections.png");
     var dmgSheet = ASSET_MANAGER.getAsset("./img/player_characters/LancerDmgSheet.png");
-    var regSlash = ASSET_MANAGER.getAsset("./img/projectiles/PureSlash.png");
+    var specialSlash = ASSET_MANAGER.getAsset("./img/projectiles/PureSlash.png");
+    var regPoke = ASSET_MANAGER.getAsset("./img/projectiles/PokeSheet.png");
+
 
     //Use to access all animations this character uses
     this.animation = {
@@ -97,21 +99,21 @@ function Lancer() {
             6, false, STANDARD_DRAW_SCALE),
 
         //Projectile animations
-        regProjectileUp: function() { return new Animation(regSlash,
+        regProjectileUp: function() { return new Animation(regPoke,
+            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+            {x: 0, y: 0}, {x: 3, y: 0},
+            10, false, STANDARD_DRAW_SCALE*3); },
+        regProjectileDown: function () { return new Animation(regPoke,
+            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+            {x: 0, y: 1}, {x: 3, y: 1},
+            20, false, STANDARD_DRAW_SCALE*3); },
+        regProjectileLeft: function () { return new Animation(regPoke,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 3, y: 2},
             20, false, STANDARD_DRAW_SCALE*3); },
-        regProjectileDown: function () { return new Animation(regSlash,
+        regProjectileRight: function () { return new Animation(regPoke,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 3}, {x: 3, y: 3},
-            20, false, STANDARD_DRAW_SCALE*3); },
-        regProjectileLeft: function () { return new Animation(regSlash,
-            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 3, y: 0},
-            20, false, STANDARD_DRAW_SCALE*3); },
-        regProjectileRight: function () { return new Animation(regSlash,
-            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 1}, {x: 3, y: 1},
             20, false, STANDARD_DRAW_SCALE*3); }
     };
 
