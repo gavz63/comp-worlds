@@ -21,8 +21,8 @@ class Spawner {
 	 */
     constructor(game, x, y, maxAtOnce, frequency, spawnList, random, radius, maxSpawn) {
         this.game = game;
-        this.x = x;
-        this.y = y;
+        this.x = indexToCoordinate(x);
+        this.y = indexToCoordinate(y);
         this.maxAtOnce = maxAtOnce;
         this.frequency = frequency;
         this.spawnList = spawnList;
@@ -41,18 +41,27 @@ class Spawner {
                     }
             }
         );
+		
+		this.game.addEntity(this, "floor");
     }
 
     // Make sure the player is in the radius of the spawner, if not reset and pause the spawn timer.
     update() {
-        if (!circleToCircle(this.game.player, this)) {
-            this.spawn_timer.reset();
-            this.spawn_timer.pause();
-        } else {
-            this.spawn_timer.unpause();
-        }
+		if(this.game.player !== undefined)
+		{
+			if (!circleToCircle(this.game.player, this)) {
+				this.spawn_timer.reset();
+				this.spawn_timer.pause();
+			} else {
+				this.spawn_timer.unpause();
+			}
+		}
     }
 
+	draw()
+	{
+	}
+	
     shouldSpawn() {
         // If we haven't already spawned the max TOTAL
         if (this.maxSpawn === 0 || this.totalSpawned < this.maxSpawn) {
@@ -77,9 +86,6 @@ class Spawner {
         let spawn = new this.spawnList[this.choice].constructor(this.game, this.x, this.y, this);
         this.totalSpawned++;
         this.numOut++;
-        if (this.numOut >= this.maxAtOnce) {
-            this.spawn_timer.pause();
-        }
         this.choice++;
     }
 

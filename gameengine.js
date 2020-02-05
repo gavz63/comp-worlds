@@ -46,9 +46,47 @@ class GameEngine {
         this.chars = [];
         this.keyStack = [];
         this.lastChar = null;
+		
+		this._sceneManager = new SceneManager(this);
 
         this.game_state = GAME_STATES.CHARACTER_SELECT;
     }
+	
+	LoadLevel(levelFile)
+	{
+		this.destroyLevel();
+		this.game_state = GAME_STATES.CHARACTER_SELECT;
+		
+		this._sceneManager.LoadLevel(levelFile);
+		
+		this.addEntity(this._camera, "hud");
+		this._camera.update();
+		this.camera.x = 0;
+		this.camera.y = 0;
+		
+		let turret = new Turret(this, 700, 250);
+		
+		new WallHUD(this);
+		
+		new Floor(this);
+		new Wall(this);
+		new Key(this, 240, 1586);
+		new SpeedPotion(this, 432, 240);
+		new HealthPotion(this, 1200, 816);
+		new StarPotion(this, 1776, 1584);
+
+		let charClasses = [new Lancer(), new BlackMage()];
+
+		let hover = true;
+		this.addEntity(new ChooseYourFighter(this), "hud");
+		for (var i = 0; i < charClasses.length; i++) {
+			this.addEntity(new NPC(this, charClasses[i], hover), "main");
+			if (i === 0) {
+				hover = false;
+			}
+		}
+		new Crosshair(this);
+	}
 
     /**
      * Initializes the game.
@@ -142,17 +180,6 @@ class GameEngine {
         this.timers.pop();
     }
 
-    /**
-     * Remove the spawner at the given index from the list.
-     * @param index
-     */
-    removeSpawner(index) {
-        let spawner = this.spawners[index];
-        this.spawners[index] = this.spawners[this.spawners.length - 1];
-        this.spawners[this.timers.length - 1] = spawner;
-        this.spawners.pop();
-    }
-
     setPlayer(player) {
         this.player = player;
     }
@@ -160,12 +187,6 @@ class GameEngine {
     setAssetManager(manager) {
         this.AM = manager;
     }
-
-    setLevel(level) {
-        this._level = level;
-        this.spawners = level.spawners;
-    }
-
     /**
      * Calls draw() on every entity in memory.
      */
@@ -180,6 +201,14 @@ class GameEngine {
 
         this._ctx.restore();
     }
+	
+	destroyLevel()
+	{
+		for (let i = 0; i < this._entities.length; i++) {
+			this._entities[i] = [];
+        }
+		this.timers = []
+	}
 
     /**
      * Calls update() on every entity while disposing of entities that aren't
@@ -242,19 +271,6 @@ class GameEngine {
                     this.timers[i].update();
                 }
 
-                var spawnersCount = this.spawners.length;
-
-                for (var i = 0; i < spawnersCount; i++) {
-                    let spawner = this.spawners[i];
-                    if (spawner.removeFromWorld) {
-                        this.removeSpawner(i);
-                        spawnersCount = this.spawners.length;
-                        i--;
-                        continue;
-                    }
-                    this.spawners[i].update();
-                }
-
                 break;
         }
 
@@ -276,10 +292,10 @@ class GameEngine {
         return this._camera;
     }
 
-    get level() {
-        return this._level;
+    get sceneManager() {
+        return this._sceneManager;
     }
-
+	
     get entities() {
         return this._entities;
     }

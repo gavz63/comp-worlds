@@ -11,7 +11,6 @@ class Wall {
     constructor(game) {
         this._game = game;
         this._game.addEntity(this, "floor");
-        this._level = this._game._level;
         this._wallSheet = ASSET_MANAGER.getAsset("./img/map/walls.png");
         this._removeFromWorld = false;
 
@@ -25,15 +24,15 @@ class Wall {
      */
     draw(ctx) {
         let drawWall = (pos) => {
-            if (this._level._wallType === 0) {
+            if (this._game._sceneManager.level._wallType === 0) {
                 this._outsideWall0.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
             } else {
                 this._insideWall0.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
             }
         };
-        for (let i = 0; i < this._level._walls.length; i++) {
-            drawWall(this._game._camera.drawPosTranslation({x: this._level.indexToCoordinate(this._level._walls[i].x),
-                    y: this._level.indexToCoordinate(this._level._walls[i].y)}, 1));
+        for (let i = 0; i < this._game._sceneManager.level._walls.length; i++) {
+            drawWall(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._walls[i].x),
+                    y: indexToCoordinate(this._game._sceneManager.level._walls[i].y)}, 1));
         }
     }
 

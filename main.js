@@ -33,9 +33,6 @@ ASSET_MANAGER.queueDownload("./img/hud/ChangeDoorsWallsButtons.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChooseYourFighter.png");
 ASSET_MANAGER.queueDownload("./img/pickups/key.png");
 ASSET_MANAGER.queueDownload("./img/pickups/potions.png");
-ASSET_MANAGER.queueDownload("./img/projectiles/PokeSheet.png");
-ASSET_MANAGER.queueDownload("./img/enemies/StoneGolemSheet.png");
-
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
@@ -43,41 +40,11 @@ ASSET_MANAGER.downloadAll(function () {
     let camera = new Camera(ctx);
 
     let gameEngine = new GameEngine(camera);
-    let spawners = [];
-    spawners.push(new Spawner(gameEngine,
-        300, 100,
-        3, 3,
-        [StoneGolem.prototype, Bat.prototype, PuddleJumper.prototype, Skeleton.prototype],
-        false, 2000, 0));
-    let level = new Level("20x20y0w0fWWWWWWWWWWWWWWWWWWWWSFFFFFFFFWWWWFFFWWWWWWFFFFFFFWWWWFFWWWWWWWFFFFFFFWWWWWFWWWWWWWWWWWWWFWWWWWFWWWWWWWWWFFFFFFFFFWFWWFWWWWWWFWWWWWWWFWFWWFWWWWWWFWFWFWFWFWFFFFWWWWWWFWWFWFWWFWFWWFWWWWWWFWFWFWFWFWFWWFWWWFFFFWWWWWWWFWFWWFFWWFWWFFFFFFFFFWFWWWWWWFWWWWWWWWWWWWFWWWWWWFFFFFFWWWWWFFFWWWWWWWWFFFFWWWWWFWWWWWWWWWWFFFFWWFFFFFWWWWWWWWFFFFWWWFWWWFWWFHFWWWWFFFFWWVWWWVWWFWFWWWWWFFFFFFFFFFFFFFFEWWWWWWWWWWWWWWWWWWWW",
-        spawners);
-    gameEngine.setLevel(level);
-    gameEngine.addEntity(camera, "hud");
+    
     gameEngine.AM = ASSET_MANAGER;
 	
-	let turret = new Turret(gameEngine, 700, 250);
-    //new MainCharacter(gameEngine);
-    
-    new WallHUD(gameEngine);
-	
-    new Floor(gameEngine);
-    new Wall(gameEngine);
-    new Key(gameEngine, 240, 1586);
-    new SpeedPotion(gameEngine, 432, 240);
-    new HealthPotion(gameEngine, 1200, 816);
-    new StarPotion(gameEngine, 1776, 1584);
+	gameEngine.LoadLevel(new Level1());
 
-    let charClasses = [new Lancer(), new BlackMage()];
-
-    let hover = true;
-    gameEngine.addEntity(new ChooseYourFighter(gameEngine), "hud");
-    for (var i = 0; i < charClasses.length; i++) {
-        gameEngine.addEntity(new NPC(gameEngine, charClasses[i], hover), "main");
-        if (i === 0) {
-            hover = false;
-        }
-    }
-    new Crosshair(gameEngine);
     gameEngine.init(ctx);
     gameEngine.start();
 });

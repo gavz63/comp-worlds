@@ -20,7 +20,7 @@ class WallHUD {
     constructor(game) {
         this._game = game;
         this._game.addEntity(this, "hud");
-        this._level = this._game._level;
+        this._level = game._sceneManager.level;
         this._wallSheet = ASSET_MANAGER.getAsset("./img/map/walls.png");
         this._doorSheet = ASSET_MANAGER.getAsset("./img/map/doors.png");
         this._removeFromWorld = false;
@@ -82,15 +82,15 @@ class WallHUD {
         for (let i = 1; i < 4; i++) {
             for (let j = 0; j < this._level._walls.length; j++) {
                 drawWall(this._game._camera.drawPosTranslation({
-                        x: this._level.indexToCoordinate(this._level._walls[j].x),
-                        y: this._level.indexToCoordinate(this._level._walls[j].y)},
+                        x: indexToCoordinate(this._level._walls[j].x),
+                        y: indexToCoordinate(this._level._walls[j].y)},
                         (STANDARD_DRAW_SCALE * ((.04 * i) / 1.75)) + 1), i);
             }
             if (i == 2) {
                 for (let k = 0; k < this._level._doors.length; k++) {
                     drawDoor(this._game._camera.drawPosTranslation({
-                            x: this._level.indexToCoordinate(this._level._doors[k].x),
-                            y: this._level.indexToCoordinate(this._level._doors[k].y)},
+                            x: indexToCoordinate(this._level._doors[k].x),
+                            y: indexToCoordinate(this._level._doors[k].y)},
                             (STANDARD_DRAW_SCALE * ((.04 * i) / 1.75)) + 1), this._level._doors[k].d);
                 }
             }
