@@ -42,6 +42,7 @@ class GameEngine {
 
         this.timers = [];
         this.click = false;
+        this.rightClick = false;
         this.score = 0;
         this.chars = [];
         this.keyStack = [];

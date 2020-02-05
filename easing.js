@@ -12,7 +12,7 @@ function flip(t)
 
 function smoothStopN(t, n)
 {
-	flip(smoothStartN(flip(t), n));
+	return flip(smoothStartN(flip(t), n));
 }
 
 // A and B can be anything.
@@ -72,7 +72,7 @@ function bounceClampBottom(t)
 	return Math.abs(t);
 }
 
-function bounceClampTop()
+function bounceClampTop(t)
 {
 	return flip(Math.abs(flip(t)));
 }

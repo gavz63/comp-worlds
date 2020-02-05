@@ -123,7 +123,8 @@ function Lancer() {
         maxHP: 5,
         speed: 200,
         melee: true,
-        projectileSpeed: 25
+        projectileSpeed: 50,
+        projectileLifetime: 0.25
     };
 
     this.npc = {

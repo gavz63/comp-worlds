@@ -393,13 +393,23 @@ class Player extends Entity {
         this.animation.resetAnimation();
         this.animation.unpause();
         this.direction = attackDir;
-
-        let projectile = new Projectile(this.game,
-            this.x, this.y,
-            attackVector,
-            this.characterClass.stats.projectileSpeed, 0.25,
-            this, projectileAnimation,
-            1, 20); // slowed down projectile for debugging
-        projectile.setAttachedToOwner(this.characterClass.stats.melee);
+        if(!this.game.rightClick)
+        {
+          let projectile = new Projectile(this.game,
+              this.x, this.y,
+              attackVector,
+              this.characterClass.stats.projectileSpeed, this.characterClass.stats.projectileLifetime,
+              this, projectileAnimation,
+              1, 20); // slowed down projectile for debugging
+          projectile.setAttachedToOwner(this.characterClass.stats.melee);
+        }
+        else
+        {
+          console.log("right Click");
+          this.game.rightClick = false;
+          let projectile = new EasingProjectile(this.game, this.x, this.y, attackVector, this.characterClass.stats.projectileSpeed, this.characterClass.stats.projectileLifetime, this, projectileAnimation, 1, 20,
+            EasingProjectile.prototype.spiral,
+            function(t) { return smoothStartN(t, 2); });
+        }
     }
 }

@@ -4,9 +4,13 @@ function Input() {
 	
     this._ctx.canvas.addEventListener("mousedown", function (e) {
         that.clicking = true;
-		that.click = true;
-		//We ought to change to the attack animation if mouse was clicked
-		that.change = true;
+        that.click = true;
+        if(e.button === 2)
+        {
+          that.rightClick = true;
+        }
+        //We ought to change to the attack animation if mouse was clicked
+        that.change = true;
     }, false);
 	
 	this._ctx.canvas.addEventListener("mouseup", function (e) {

@@ -29,7 +29,7 @@ class Projectile extends Entity
 		this.speed = speed;
 		
 		var that = this;
-		new TimerCallback(this.game, lifetime, false, function() {	that.destroy();	});
+		this.timer = new TimerCallback(this.game, lifetime, false, function() {	that.destroy();	});
 		
 		this.ctx = game.ctx;
 		this.owner = owner;
@@ -48,39 +48,8 @@ class Projectile extends Entity
 
 	update() 
 	{
-		var that = this;
-    
-		if(this.animation.isDone())
-		{
-		  this.animation.pause();
-		  this.animation.setFrame(this.animation.getLastFrameAsInt());
-		}
-		
-			if (this.owner instanceof Player) {
-				//For each enemy
-				this.game.entities[1].forEach(function(elem) {
-			if(that.removeFromWorld !== true)
-			{
-			  if (circleToCircle(that, elem)) {
-				if(that.dieOnHit)
-				{
-				  that.destroy();
-				}
-				elem.destroy();
-			  }
-			}
-				});
-			}
-		else
-		{
-		  if(circleToCircle(that, that.game.player))
-		  {
-			let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game.player.x, y: this.game.player.y}));
-			let attackedFromDir = vectorToDir(attackedFromVector);
-			this.game.player.takeDmg(1, attackedFromDir);
-		  }
-		}
-		
+    this.testCollision();
+  
 		this.dx += this.dir.x * this.game._clockTick * this.speed;
 		this.dy += this.dir.y * this.game._clockTick * this.speed;
 		
@@ -95,6 +64,42 @@ class Projectile extends Entity
 		  this.y = this.startY + this.dy;
 		}
 	}
+  
+  testCollision()
+  {
+    var that = this;
+    
+		if(this.animation.isDone())
+		{
+		  this.animation.pause();
+		  this.animation.setFrame(this.animation.getLastFrameAsInt());
+		}
+		
+    if (this.owner instanceof Player) {
+      //For each enemy
+      this.game.entities[1].forEach(function(elem) {
+    if(that.removeFromWorld !== true)
+    {
+      if (circleToCircle(that, elem)) {
+      if(that.dieOnHit)
+      {
+        that.destroy();
+      }
+      elem.destroy();
+      }
+    }
+      });
+    }
+		else
+		{
+		  if(circleToCircle(that, that.game.player))
+		  {
+			let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game.player.x, y: this.game.player.y}));
+			let attackedFromDir = vectorToDir(attackedFromVector);
+			this.game.player.takeDmg(1, attackedFromDir);
+		  }
+		}
+  }
   
   draw()
   {
@@ -112,4 +117,51 @@ class Projectile extends Entity
     }
   }
   
+}
+
+class EasingProjectile extends Projectile
+{
+  	constructor(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing)
+    {
+      super(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius);
+      
+      this.parentX = x;
+      this.parentY = y;
+
+      this.move = move;
+      this.easing = easing;
+
+    }
+    
+    update()
+    {
+      this.testCollision();
+      this.move();
+    }
+    
+    line()
+    {
+      let t = this.easing(this.timer.getPercent());
+      this.x = this.parentX + t * this.dir.x * this.speed;
+      this.y = this.parentY + t * this.dir.y * this.speed;
+    }
+    
+    circle()
+    {
+      let t = this.easing(this.timer.getPercent());
+      let circle = Math.atan2(this.dir.y, this.dir.x);
+      console.log(circle);
+      this.x = this.parentX + Math.cos(circle + t * 2 * Math.PI) * this.speed;
+      this.y = this.parentY + Math.sin(circle + t * 2 * Math.PI) * this.speed;
+    }
+    
+    spiral()
+    {
+      let t = this.easing(this.timer.getPercent());
+      let circle = Math.atan2(this.dir.y, this.dir.x);
+      console.log(circle);
+      this.x = this.parentX + Math.cos(circle + t * 2 * Math.PI) * this.speed * t;
+      this.y = this.parentY + Math.sin(circle + t * 2 * Math.PI) * this.speed * t;
+    }
+    
 }

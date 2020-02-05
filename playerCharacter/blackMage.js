@@ -118,9 +118,10 @@ function BlackMage() {
 
     this.stats = {
         maxHP: 3,
-        speed: 100,
+        speed: 75,
         melee: false,
-        projectileSpeed: 500
+        projectileSpeed: 150,
+        projectileLifetime: 2
     };
     this.npc = {
         x: -32,

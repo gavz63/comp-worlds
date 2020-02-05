@@ -41,8 +41,7 @@ class Bat extends Enemy {
           {
             this.inRange = true;
             this.circle = Math.atan2(attackVector.y, attackVector.x);
-			this.circle = this.circle * 180/Math.PI + 180;
-			console.log(this.circle);
+            this.circle = this.circle * 180/Math.PI + 180;
           }
           else
           {
