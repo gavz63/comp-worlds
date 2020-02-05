@@ -4,8 +4,8 @@ class Level2
 	{
 		this.width = 20;
 		this.height = 20;
-		this.floorType = 0;
-		this.wallType = 0;
+		this.floorType = 3;
+		this.wallType = 1;
 		
 		this.layout = 
 		"####################" +

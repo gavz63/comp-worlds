@@ -80,18 +80,9 @@ function Input() {
 				that.spacebar = true;
 			}
 
-			// Temporary for prototype
+			// Temporary
 			if (e.code === "KeyP") {
-				console.log(that._sceneManager.level._wallType);
-				that._sceneManager.level._wallType = (that._sceneManager.level._wallType + 1) % 2;
-				console.log(that._sceneManager.level._wallType);
-				
 				that.LoadLevel(new Level2());
-			}
-			if (e.code === "KeyL") {
-				console.log(that._sceneManager.level._floorType);
-				that._sceneManager.level._floorType = (that._sceneManager.level._floorType + 1) % 4;
-				console.log(that._sceneManager.level._floorType);
 			}
 			
 			that.chars[e.code] = true;
