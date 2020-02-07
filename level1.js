@@ -42,12 +42,12 @@ class Level1
 		{
 			 x: 5,
 			 y: 2,
-			 max: 0,
+			 max: 1,
 			 freq: 3,
-			 list: [Bat.prototype,
-					PuddleJumper.prototype,
-				 	StoneGolem.prototype,
-					Skeleton.prototype],
+			 list: [/*Bat.prototype,
+					PuddleJumper.prototype,*/
+				 	Snek.prototype/*,
+					Skeleton.prototype*/],
 			 rand: false,
 			 radius: 2000,
 			 total: 0

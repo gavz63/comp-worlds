@@ -96,12 +96,7 @@ class StoneGolem extends Enemy {
         this.isWaiting = true;
         let that = this;
         new TimerCallback(this.game, 3, false, function() {
-            that.isWaiting = false;
+             that.isWaiting = false;
         })
-    }
-
-    destroy() {
-        super.destroy();
-        new Remnant(this.game, this.x, this.y, this.deathAnimation);
     }
 }
