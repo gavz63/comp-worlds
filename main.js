@@ -36,6 +36,8 @@ ASSET_MANAGER.queueDownload("./img/pickups/potions.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/PokeSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/StoneGolemSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/SnekSheet.png");
+ASSET_MANAGER.queueDownload("./img/enemies/CactusBoiSheet.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/CactusSpine.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');

@@ -73,7 +73,9 @@ class GameEngine {
 		new Floor(this);
 		new Wall(this);
 		new Key(this, 240, 1586);
-		new SpeedPotion(this, 432, 240);
+        new Key(this, 300, 1586);
+
+        new SpeedPotion(this, 432, 240);
 		new HealthPotion(this, 1200, 816);
 		new StarPotion(this, 1776, 1584);
 

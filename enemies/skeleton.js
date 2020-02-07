@@ -88,10 +88,4 @@ class Skeleton extends Enemy
     this.animation.resetAnimation();
     this.attackTimer = new TimerCallback(this.game, 2, false, function() { that.attackTimer = null; }); // time enemy remains in the attack state regardless of distance
   }
-  
-  destroy()
-  {
-    super.destroy();
-    new Remnant(this.game, this.x, this.y, this.deathAnimation);
-  }
 }

@@ -62,9 +62,4 @@ class Bat extends Enemy {
         this.x += attackVector.x * this.speed * this.game._clockTick;
         this.y += attackVector.y * this.speed * this.game._clockTick;
     }
-
-    destroy() {
-        super.destroy();
-        new Remnant(this.game, this.x, this.y, this.deathAnimation);
-    }
 }

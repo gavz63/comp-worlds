@@ -45,9 +45,11 @@ class Level1
 			 max: 1,
 			 freq: 3,
 			 list: [/*Bat.prototype,
-					PuddleJumper.prototype,*/
-				 	Snek.prototype/*,
-					Skeleton.prototype*/],
+					PuddleJumper.prototype,
+				 	Snek.prototype,
+					Skeleton.prototype,
+				 	StoneGolem.prototype,*/
+			 		CactusBoi.prototype],
 			 rand: false,
 			 radius: 2000,
 			 total: 0

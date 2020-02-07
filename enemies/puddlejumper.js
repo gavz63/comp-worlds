@@ -40,9 +40,4 @@ class PuddleJumper extends Enemy {
           this.directionSet = false;
         }
     }
-
-    destroy() {
-        super.destroy();
-        new Remnant(this.game, this.x, this.y, this.deathAnimation);
-    }
 }

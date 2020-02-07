@@ -334,6 +334,10 @@ class Player extends Entity {
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].destroy();
         }
+
+        for (let i = 0; i < this.keys; i++) {
+            new Key(this.game, this.x + 10 * i, this.y + 10 * i);
+        }
         this.x = 0;
         this.y = 0;
         this.game.camera.x = 0;
