@@ -44,8 +44,8 @@ class Level1
 			 y: 2,
 			 max: 0,
 			 freq: 3,
-			 list: [/*Bat.prototype,
-					PuddleJumper.prototype,*/
+			 list: [Bat.prototype,
+					PuddleJumper.prototype,
 				 	StoneGolem.prototype,
 					Skeleton.prototype],
 			 rand: false,

@@ -47,10 +47,6 @@ function dirToVector(dir) {
 }
 
 function vectorToDir(vector) {
-	if (vector.x === 0 && vector.y === 0) {
-		throw "Vector is (0,0)"
-	}
-
     if (Math.abs(vector.y) > Math.abs(vector.x)) {
     	if (vector.y > 0) {
     		return DIRECTION_DOWN;
