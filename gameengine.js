@@ -47,56 +47,56 @@ class GameEngine {
         this.chars = [];
         this.keyStack = [];
         this.lastChar = null;
-        
+
         this.currentLevel = 0;
         this.levels = [Level1.prototype, Level2.prototype, Level3.prototype, Level4.prototype, Level5.prototype, Level6.prototype, Level7.prototype];
-		
+
         this._sceneManager = new SceneManager(this);
 
         this.game_state = GAME_STATES.CHARACTER_SELECT;
     }
-	
-	LoadLevel(levelFile)
-	{
-		this.destroyLevel();
-		this.game_state = GAME_STATES.CHARACTER_SELECT;
-		
-		this._sceneManager.LoadLevel(levelFile);
-		
-		this.addEntity(this._camera, "hud");
-		this._camera.update();
-		this.camera.x = 0;
-		this.camera.y = 0;
-		
-		new WallHUD(this);
-		
-		new Floor(this);
-		new Wall(this);
-		new Key(this, 240, 1586);
-        new Key(this, 300, 1586);
 
-        new SpeedPotion(this, 432, 240);
-		new HealthPotion(this, 1200, 816);
-		new StarPotion(this, 1776, 1584);
+    LoadLevel(levelFile) {
+        this.destroyLevel();
+        this.game_state = GAME_STATES.CHARACTER_SELECT;
 
-		let charClasses = [new Lancer(), new BlackMage()];
+        this._sceneManager.LoadLevel(levelFile);
 
-		let hover = true;
-		this.addEntity(new ChooseYourFighter(this), "hud");
-		for (var i = 0; i < charClasses.length; i++) {
-			this.addEntity(new NPC(this, charClasses[i], hover), "main");
-			if (i === 0) {
-				hover = false;
-			}
-		}
-		new Crosshair(this);
-	}
+        this.addEntity(this._camera, "hud");
+        this._camera.update();
+        this.camera.x = 0;
+        this.camera.y = this.sceneManager.level.spawn.y * 96;
+
+        new WallHUD(this);
+
+        new Floor(this);
+        new Wall(this);
+        // new Key(this, 240, 1586);
+        // new Key(this, 300, 1586);
+        //
+        // new SpeedPotion(this, 432, 240);
+        // new HealthPotion(this, 1200, 816);
+        // new StarPotion(this, 1776, 1584);
+
+        let charClasses = [new Lancer(), new BlackMage()];
+
+        let hover = true;
+        this.addEntity(new ChooseYourFighter(this), "hud");
+        for (var i = 0; i < charClasses.length; i++) {
+            this.addEntity(new NPC(this, charClasses[i], hover), "main");
+            if (i === 0) {
+                hover = false;
+            }
+        }
+        new Crosshair(this);
+    }
 
     /**
      * Initializes the game.
      * @param {*} ctx The HTML canvas' 2D context.
      */
     init(ctx) {
+        this.LoadLevel(new Level1());
         this._ctx = ctx;
         this._surfaceWidth = this._ctx.canvas.width;
         this._surfaceHeight = this._ctx.canvas.height;
@@ -191,6 +191,7 @@ class GameEngine {
     setAssetManager(manager) {
         this.AM = manager;
     }
+
     /**
      * Calls draw() on every entity in memory.
      */
@@ -205,14 +206,13 @@ class GameEngine {
 
         this._ctx.restore();
     }
-	
-	destroyLevel()
-	{
-		for (let i = 0; i < this._entities.length; i++) {
-			this._entities[i] = [];
+
+    destroyLevel() {
+        for (let i = 0; i < this._entities.length; i++) {
+            this._entities[i] = [];
         }
-		this.timers = []
-	}
+        this.timers = []
+    }
 
     /**
      * Calls update() on every entity while disposing of entities that aren't
@@ -247,6 +247,7 @@ class GameEngine {
                 this.click = false;
 
                 break;
+
             case GAME_STATES.PLAYING:
                 for (var i = 0; i < this._entities.length; i++) {
                     let entityCount = this._entities[i].length;
@@ -291,6 +292,44 @@ class GameEngine {
         this.draw();
     }
 
+    switchToPlayMode(npc) {
+        for (let i = 0; i < this.entities[4].length; i++) {
+            if (this.entities[4][i] instanceof HoverArrow
+                || this.entities[4][i] instanceof ChooseYourFighter) {
+                this.entities[4][i].destroy();
+            }
+        }
+        npc.destroy();
+        new Player(this, npc.characterClass);
+        this.addEntity(new Tutorial(this), "hud");
+        this.game_state = GAME_STATES.PLAYING;
+    }
+
+    switchToCharacterChooserMode(player = null) {
+        this.camera.x = 0;
+        this.camera.y = this.sceneManager.level.spawn.y * 96;
+        for (let i = 0; i < this.entities[3].length; i++) {
+            let flag = true;
+            if (this.entities[3][i] instanceof NPC) {
+                if (flag) {
+                    this.entities[3][i].setHover();
+                    flag = false;
+                    break;
+                }
+            }
+        }
+
+        for (let i = 0; i < this.entities[4].length; i++) {
+            if (this.entities[4][i] instanceof Tutorial) {
+                this.entities[4][i].destroy();
+            }
+        }
+
+        this.addEntity(new ChooseYourFighter(this), "hud");
+        if (player) player.destroy();
+        this.game_state = GAME_STATES.CHARACTER_SELECT;
+    }
+
     // Getters and setters.
     get camera() {
         return this._camera;
@@ -299,7 +338,7 @@ class GameEngine {
     get sceneManager() {
         return this._sceneManager;
     }
-	
+
     get entities() {
         return this._entities;
     }

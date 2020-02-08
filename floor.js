@@ -44,8 +44,8 @@ class Floor {
             drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._doors[i].x),
                     y: indexToCoordinate(this._game._sceneManager.level._doors[i].y)}, 1));
         }
-        drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._spawn.x),
-                y: indexToCoordinate(this._game._sceneManager.level._spawn.y)}, 1));
+        drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level.spawn.x),
+                y: indexToCoordinate(this._game._sceneManager.level.spawn.y)}, 1));
         drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._exit.x),
                 y: indexToCoordinate(this._game._sceneManager.level._exit.y)}, 1));
     }

@@ -45,11 +45,7 @@ ASSET_MANAGER.downloadAll(function () {
     let camera = new Camera(ctx);
 
     let gameEngine = new GameEngine(camera);
-    
     gameEngine.AM = ASSET_MANAGER;
-	
-	gameEngine.LoadLevel(new Level1());
-
     gameEngine.init(ctx);
     gameEngine.start();
 });

@@ -1,6 +1,6 @@
 class NPC extends Entity {
     constructor(game, characterClass, hover = false) {
-        super(game, characterClass.npc.x, characterClass.npc.y);
+        super(game, characterClass.npc.x , characterClass.npc.y + (game.sceneManager.level.spawn.y * 96));
         this.characterClass = characterClass;
         this.animation = characterClass.animation.idleRight;
         this.animation.pause();
@@ -62,7 +62,7 @@ class NPC extends Entity {
             if (pointToCircle(cursorCenter, this, this.radius)) {
                 if (this.game.click) {
                     this.game.click = false;
-                    this.switchToPlayMode();
+                    this.game.switchToPlayMode(this);
                 } else if (!this.hover){
                     let i = 0;
                     for (i = 0; i < this.game.entities[4].length; i++) {
@@ -75,7 +75,7 @@ class NPC extends Entity {
                 }
             }
             if (this.game.spacebar && this.hover) {
-                this.switchToPlayMode();
+                this.game.switchToPlayMode(this);
             }
         }
     }
@@ -84,17 +84,5 @@ class NPC extends Entity {
         this.animation.resetAnimation();
         this.animation.unpause();
         this.isIdling = true;
-    }
-    switchToPlayMode() {
-        for (let i = 0; i < this.game.entities[4].length; i++) {
-            if (this.game.entities[4][i] instanceof HoverArrow
-                || this.game.entities[4][i] instanceof ChooseYourFighter) {
-                this.game.entities[4][i].destroy();
-            }
-        }
-        this.game.game_state = GAME_STATES.PLAYING;
-        this.destroy();
-        new Player(this.game, this.characterClass);
-        this.game.addEntity(new Tutorial(this.game), "hud");
     }
 }

@@ -7,7 +7,7 @@ const ACCELERATION = [15];//Higher = slidey'r
  */
 class Player extends Entity {
     constructor(game, characterClass) {
-        super(game, indexToCoordinate(game._sceneManager.level._spawn.x), indexToCoordinate(game._sceneManager.level._spawn.y));
+        super(game, indexToCoordinate(game._sceneManager.level.spawn.x), indexToCoordinate(game._sceneManager.level.spawn.y));
         game._player = this;
         this.keys = 0;
         this.characterClass = characterClass;
@@ -80,7 +80,7 @@ class Player extends Entity {
                     this.game.entities[4][i].destroy();
                 }
             }
-            this.destroy();
+            this.game.switchToCharacterChooserMode(this);
             return;
         }
 
@@ -273,6 +273,7 @@ class Player extends Entity {
         if (this.hurt !== true) {
             if (this.hp === 0) {
                 this.destroy();
+                this.game.switchToCharacterChooserMode();
                 return;
             } else if (this.hp === 1) {
                 new TimerCallback(this.game, 15, false, function () {
@@ -338,29 +339,6 @@ class Player extends Entity {
         for (let i = 0; i < this.keys; i++) {
             new Key(this.game, this.x + 10 * i, this.y + 10 * i);
         }
-        this.x = 0;
-        this.y = 0;
-        this.game.camera.x = 0;
-        this.game.camera.y = 0;
-        for (let i = 0; i < this.game.entities[3].length; i++) {
-            let flag = true;
-            if (this.game.entities[3][i] instanceof NPC) {
-                if (flag) {
-                    this.game.entities[3][i].setHover();
-                    flag = false;
-                    break;
-                }
-            }
-        }
-
-        for (let i = 0; i < this.game.entities[4].length; i++) {
-            if (this.game.entities[4][i] instanceof Tutorial) {
-                this.game.entities[4][i].destroy();
-            }
-        }
-
-        this.game.addEntity(new ChooseYourFighter(this.game), "hud");
-        this.game.game_state = GAME_STATES.CHARACTER_SELECT;
         super.destroy();
     }
 

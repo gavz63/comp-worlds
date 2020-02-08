@@ -51,6 +51,7 @@ class Level {
                 let type = seed[(this._width * i) + j];
                 if (type === "S") {
                     this._spawn = {x: j, y: i};
+                    console.log(this._spawn);
                 }
                 if (type === "-") {
                     this._floors.push({x: j, y: i});
@@ -252,6 +253,10 @@ class Level {
         }
 
         return updatedPos;
+    }
+
+    get spawn() {
+        return this._spawn;
     }
 }
 
