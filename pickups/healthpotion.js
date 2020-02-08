@@ -6,6 +6,7 @@ class HealthPotion extends Entity {
         this.scale = [STANDARD_DRAW_SCALE * this.addScale];
         this.animation = new Animation(ASSET_MANAGER.getAsset("./img/pickups/potions.png"), 32, 32, {x: 0, y: 1}, {x: 1, y: 1}, 7, true, this.scale);
         this.collider = new Collider(0, 0, 8, 8, 8, 8, 12, Infinity);
+        console.log(this.x + ", " + this.y);
     }
 
     update() {

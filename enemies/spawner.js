@@ -32,8 +32,10 @@ class Spawner {
         this.numOut = 0;
         this.totalSpawned = 0;
         this.choice = 0;
+        this.hasSpawned = false;
 
         var that = this;
+
         this.spawn_timer = new TimerCallback(game, frequency, true,
             function () {
                     if (that.shouldSpawn()) {
@@ -41,8 +43,9 @@ class Spawner {
                     }
             }
         );
-		
+
 		this.game.addEntity(this, "floor");
+		console.log(this.x + ", " + this.y);
     }
 
     // Make sure the player is in the radius of the spawner, if not reset and pause the spawn timer.
@@ -87,6 +90,10 @@ class Spawner {
         this.totalSpawned++;
         this.numOut++;
         this.choice++;
+        if (this.numOut >= this.maxAtOnce && this.maxAtOnce !== 0) {
+            this.spawn_timer.reset();
+            this.spawn_timer.pause();
+        }
     }
 
     destroy() {

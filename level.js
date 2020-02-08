@@ -51,7 +51,6 @@ class Level {
                 let type = seed[(this._width * i) + j];
                 if (type === "S") {
                     this._spawn = {x: j, y: i};
-                    console.log(this._spawn);
                 }
                 if (type === "-") {
                     this._floors.push({x: j, y: i});
@@ -76,10 +75,10 @@ class Level {
 		{
 			new Spawner(that.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total);
 		});
-		/*this.pickups.forEach(function (elem) 
+		this.pickups.forEach(function (elem)
 		{
-			new Spawner(this.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total);
-		});*/
+            new elem.type.constructor(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y));
+        });
 		this.hazards.forEach(function (elem) 
 		{
 			new Turret(that.game, elem.x, elem.y, elem.fireRate, elem.spinning, elem.cross, elem.pSpeed, elem.pLifeTime, elem.pMove, elem.pEasing);
@@ -102,21 +101,22 @@ class Level {
      *       Pass null for a random level.
      * @param {array} spawners An array of spawner objects.
      */
-    resetLevel(level) {
+    resetLevel(levelFile) {
         this._map = [];
-        this._width = level.width;
-        this._height = level.height;
+        this._width = levelFile.width;
+        this._height = levelFile.height;
         this._spawn = null;
         this._floors = [];
         this._walls = [];
         this._doors = [];
+
         this._exit = null;
-        this._wallType = level.wallType;
-        this._floorType = level.floorType;
-        this.spawners = level.spawnerList;
-        this.pickups = level.pickupList;
-        this.hazards = level.hazardList;
-        this.buildLevel(level.layout);
+        this._wallType = levelFile.wallType;
+        this._floorType = levelFile.floorType;
+        this.spawners = levelFile.spawnerList;
+        this.pickups = levelFile.pickupList;
+        this.hazards = levelFile.hazardList;
+        this.buildLevel(levelFile.layout);
     }
 	
 	
@@ -262,7 +262,7 @@ class Level {
 
 /**
  * @param {num} index An index from the level array.
- * @returns Returns center coordinate of the tile referenced by index.
+ * @returns number center coordinate of the tile referenced by index.
  */
 function indexToCoordinate(index) {
 	return index * 96 + 48;
