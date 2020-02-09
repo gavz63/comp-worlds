@@ -1,7 +1,7 @@
 class Key extends Entity {
     constructor(game, x, y) {
         super(game, x, y);
-        game.addEntity(this, "pps");
+        game.addEntity(this, LAYERS.PICKUPS);
         let fps = 7;
         if (Math.random() > .5) fps = -7;
         this.addScale = 1.5;

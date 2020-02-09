@@ -17,10 +17,10 @@ class NPC extends Entity {
     }
 
     setHover() {
-        for (let i = 0; i < this.game.entities[3].length; i++) {
+        for (let i = 0; i < this.game.entities[LAYERS.MAIN].length; i++) {
             //set all other npcs' hover state to false
-            if (this.game.entities[3][i] instanceof NPC) {
-                this.game.entities[3][i].hover = false;
+            if (this.game.entities[LAYERS.MAIN][i] instanceof NPC) {
+                this.game.entities[LAYERS.MAIN][i].hover = false;
             }
         }
         //create a new one and set this entity as the privileged hover npc
@@ -65,10 +65,10 @@ class NPC extends Entity {
                     this.game.switchToPlayMode(this);
                 } else if (!this.hover){
                     let i = 0;
-                    for (i = 0; i < this.game.entities[4].length; i++) {
+                    for (i = 0; i < this.game.entities[LAYERS.HUD].length; i++) {
                         //remove all other hover arrows
-                        if (this.game.entities[4][i] instanceof HoverArrow) {
-                            this.game.entities[4][i].destroy();
+                        if (this.game.entities[LAYERS.HUD][i] instanceof HoverArrow) {
+                            this.game.entities[LAYERS.HUD][i].destroy();
                         }
                     }
                     this.setHover();

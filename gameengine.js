@@ -15,8 +15,8 @@ const LAYERS = {
     ENEMY_PROJECTILES: 2,
     PICKUPS: 3,
     PLAYER_PROJECTILES: 4,
-    PCS: 5,
-    WALl: 6,
+    MAIN: 5,
+    WALL: 6,
     HUD: 7
 };
 
@@ -41,11 +41,14 @@ class GameEngine {
     constructor(camera) {
         this._camera = camera;
         this._entities = [];
-        this._entities[LAYERS.FLOOR] = []; // Floor & Wall
-        this._entities[LAYERS.ENEMIES] = []; // Enemies
-        this._entities[LAYERS.ENEMY_PROJECTILES] = []; // Pickups & Projectiles
-        this._entities[LAYERS.PICKUPS] = []; // Playable Characters
-        this._entities[4] = []; // HUD
+        this._entities[LAYERS.FLOOR] = [];
+        this._entities[LAYERS.ENEMIES] = [];
+        this._entities[LAYERS.ENEMY_PROJECTILES] = [];
+        this._entities[LAYERS.PICKUPS] = [];
+        this._entities[LAYERS.PLAYER_PROJECTILES] = [];
+        this._entities[LAYERS.MAIN] = [];
+        this._entities[LAYERS.WALL] = [];
+        this._entities[LAYERS.HUD] = [];
         this._ctx = null;
 
         this.timers = [];
@@ -79,12 +82,6 @@ class GameEngine {
 
         new Floor(this);
         new Wall(this);
-        // new Key(this, 240, 1586);
-        // new Key(this, 300, 1586);
-        //
-        // new SpeedPotion(this, 432, 240);
-        // new HealthPotion(this, 1200, 816);
-        // new StarPotion(this, 1776, 1584);
 
         let charClasses = [new BlackMage(), new Lancer()];
 
@@ -143,15 +140,17 @@ class GameEngine {
         let choice = -1; // if an entity is added without a proper layer this will throw an error.
         if (typeof (layer) === "string") {
             if ("floor" === layer) {
-                choice = 0;
+                choice = LAYERS.FLOOR;
             } else if ("enemy" === layer) {
-                choice = 1;
-            } else if ("pps" === layer) {
-                choice = 2;
+                choice = LAYERS.ENEMIES;
+            } else if ("player_projectiles" === layer) {
+                choice = LAYERS.PLAYER_PROJECTILES;
+            } else if ("enemy_projectiles" === layer) {
+                choice = LAYERS.ENEMY_PROJECTILES;
             } else if ("main" === layer) {
-                choice = 3;
+                choice = LAYERS.MAIN;
             } else if ("hud" === layer) {
-                choice = 4;
+                choice = LAYERS.HUD;
             } else {
                 throw "Invalid layer string parameter.";
             }
@@ -161,7 +160,7 @@ class GameEngine {
 
 
         } else if (typeof (layer) === "number") {
-            if (layer === Math.floor(layer) && layer >= 0 && layer < 5) {
+            if (layer === Math.floor(layer) && layer >= LAYERS.FLOOR && layer <= LAYERS.HUD ) {
                 this._entities[layer].push(entity);
             } else {
                 throw "Invalid layer number parameter.";
@@ -231,26 +230,26 @@ class GameEngine {
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
                 var i = 0;
-                for (i = 0; i < this._entities[0].length; i++) {
-                    if (this.entities[0][i].removeFromWorld) {
-                        this.removeEntity(this.entities[0][i], 0);
+                for (i = 0; i < this._entities[LAYERS.FLOOR].length; i++) {
+                    if (this.entities[LAYERS.FLOOR][i].removeFromWorld) {
+                        this.removeEntity(this.entities[LAYERS.FLOOR][i], LAYERS.FLOOR);
                         continue;
                     }
                     this.entities[0][i].update();
                 }
-                for (i = 0; i < this.entities[3].length; i++) {
-                    if (this.entities[3][i].removeFromWorld) {
-                        this.removeEntity(this.entities[3][i], 3);
+                for (i = 0; i < this.entities[LAYERS.MAIN].length; i++) {
+                    if (this.entities[LAYERS.MAIN][i].removeFromWorld) {
+                        this.removeEntity(this.entities[LAYERS.MAIN][i], LAYERS.MAIN);
                         continue;
                     }
-                    this.entities[3][i].update();
+                    this.entities[LAYERS.MAIN][i].update();
                 }
-                for (i = 0; i < this._entities[4].length; i++) {
-                    if (this.entities[4][i].removeFromWorld) {
-                        this.removeEntity(this.entities[4][i], 4);
+                for (i = 0; i < this._entities[LAYERS.HUD].length; i++) {
+                    if (this.entities[LAYERS.HUD][i].removeFromWorld) {
+                        this.removeEntity(this.entities[LAYERS.HUD][i], LAYERS.HUD);
                         continue;
                     }
-                    this.entities[4][i].update();
+                    this.entities[LAYERS.HUD][i].update();
                 }
                 this.click = false;
 
@@ -301,10 +300,10 @@ class GameEngine {
     }
 
     switchToPlayMode(npc) {
-        for (let i = 0; i < this.entities[4].length; i++) {
-            if (this.entities[4][i] instanceof HoverArrow
-                || this.entities[4][i] instanceof ChooseYourFighter) {
-                this.entities[4][i].destroy();
+        for (let i = 0; i < this.entities[LAYERS.HUD].length; i++) {
+            if (this.entities[LAYERS.HUD][i] instanceof HoverArrow
+                || this.entities[LAYERS.HUD][i] instanceof ChooseYourFighter) {
+                this.entities[LAYERS.HUD][i].destroy();
             }
         }
         npc.destroy();
@@ -316,20 +315,20 @@ class GameEngine {
     switchToCharacterChooserMode(player = null) {
         this.camera.x = 0;
         this.camera.y = this.sceneManager.level.spawn.y * 96;
-        for (let i = 0; i < this.entities[3].length; i++) {
+        for (let i = 0; i < this.entities[LAYERS.MAIN].length; i++) {
             let flag = true;
-            if (this.entities[3][i] instanceof NPC) {
+            if (this.entities[LAYERS.MAIN][i] instanceof NPC) {
                 if (flag) {
-                    this.entities[3][i].setHover();
+                    this.entities[LAYERS.MAIN][i].setHover();
                     flag = false;
                     break;
                 }
             }
         }
 
-        for (let i = 0; i < this.entities[4].length; i++) {
-            if (this.entities[4][i] instanceof Tutorial) {
-                this.entities[4][i].destroy();
+        for (let i = 0; i < this.entities[LAYERS.HUD].length; i++) {
+            if (this.entities[LAYERS.HUD][i] instanceof Tutorial) {
+                this.entities[LAYERS.HUD][i].destroy();
             }
         }
 

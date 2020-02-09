@@ -58,12 +58,21 @@ class Player extends Entity {
 
         var that = this;
         //Testing collision with enemies
-        this.game.entities[1].forEach(function (elem) {
+        this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
             if (circleToCircle(that, elem)) {
                 //that.destroy(); // this was kinda awesome btw.
                 let attackedFromVector = normalizeV(dirV({x: elem.x, y: elem.y}, {x: that.x, y: that.y}));
                 var attackedFromDir = vectorToDir(attackedFromVector);
                 that.takeDmg(1, attackedFromDir);
+                elem.destroy();
+            }
+        });
+        this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
+            if (circleToCircle(that, elem)) {
+                //that.destroy(); // this was kinda awesome btw.
+                let attackedFromVector = normalizeV(dirV({x: elem.x, y: elem.y}, {x: that.x, y: that.y}));
+                var attackedFromDir = vectorToDir(attackedFromVector);
+                that.takeDmg(elem.dmg, attackedFromDir);
                 elem.destroy();
             }
         });
@@ -75,9 +84,9 @@ class Player extends Entity {
             this.game.addEntity(new NPC(this.game, this.characterClass), "main");
             this.game.addEntity(new ChooseYourFighter(this.game), "hud");
 
-            for (let i = 0; i < this.game.entities[4].length; i++) {
-                if (this.game.entities[4][i] instanceof Tutorial) {
-                    this.game.entities[4][i].destroy();
+            for (let i = 0; i < this.game.entities[LAYERS.HUD].length; i++) {
+                if (this.game.entities[LAYERS.HUD][i] instanceof Tutorial) {
+                    this.game.entities[LAYERS.HUD][i].destroy();
                 }
             }
             this.game.switchToCharacterChooserMode(this);
@@ -224,15 +233,6 @@ class Player extends Entity {
             this.x = newPos.x;
             this.y = newPos.y;
         }
-
-        // //Enemies
-        // this.game.entities[1].forEach(function (elem) {
-        //     //If we're collided
-        //     if (circleToCircle(this, elem)) {
-        //         this.takeDmg(elem.dmg, elem.direction)
-        //     }
-        // });
-
 
         let cOffX = this.game._camera.x - this.x;
         let cOffY = this.game._camera.y - this.y;
