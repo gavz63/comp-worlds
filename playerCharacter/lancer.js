@@ -120,7 +120,7 @@ function Lancer() {
     this.collider = new Collider(0, 0, 14, 14, 9, 9, null, 120);
 
     this.stats = {
-        maxHP: 5,
+        maxHP: 3,
         speed: 200,
         melee: true,
         projectileSpeed: 50,

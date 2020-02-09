@@ -78,7 +78,7 @@ class GameEngine {
         // new HealthPotion(this, 1200, 816);
         // new StarPotion(this, 1776, 1584);
 
-        let charClasses = [new Lancer(), new BlackMage()];
+        let charClasses = [new BlackMage(), new Lancer()];
 
         let hover = true;
         this.addEntity(new ChooseYourFighter(this), "hud");

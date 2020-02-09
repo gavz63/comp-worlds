@@ -52,7 +52,7 @@ class Player extends Entity {
     update() {
 
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
-            this.hearts[i].x = (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE)
+            this.hearts[i].x = (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE);
             this.hearts[i].y = 1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE;
         }
 
@@ -272,8 +272,8 @@ class Player extends Entity {
     takeDmg(dmg, direction) {
         if (this.hurt !== true) {
             if (this.hp === 0) {
-                this.destroy();
                 this.game.switchToCharacterChooserMode();
+                this.destroy();
                 return;
             } else if (this.hp === 1) {
                 new TimerCallback(this.game, 15, false, function () {
@@ -339,6 +339,10 @@ class Player extends Entity {
         for (let i = 0; i < this.keys; i++) {
             new Key(this.game, this.x + 10 * i, this.y + 10 * i);
         }
+
+        this.x = 0;
+        this.y = this.game.sceneManager.level.spawn.y * 96;
+
         super.destroy();
     }
 

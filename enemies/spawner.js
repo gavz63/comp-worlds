@@ -3,22 +3,22 @@
  * @author Joel Johnson, Gavin Montes
  */
 class Spawner {
-	/**
-	 * Creates the spawner object
-	 * @param game, a reference to the game engine (so we can add enemies to the game).
-	 * @param x, the x coordinate of the spawner
-	 * @param y, the y coordinate of the spawner
+    /**
+     * Creates the spawner object
+     * @param game, a reference to the game engine (so we can add enemies to the game).
+     * @param x, the x coordinate of the spawner
+     * @param y, the y coordinate of the spawner
      * @param maxAtOnce, how many enemies should be allowed to spawn at once before spawning pauses
      * For example: If maxAtOnce = 5, the spawner will create 5 enemies before disabling. The spawn timer will be reset,
      * and will not start again until  the number of alive enemies that it has created becomes less than 5 (if you kill them).
-	 * @param frequency, how often the spawner creates enemies.
-	 * @param spawnList, a list of enemy types that this spawner can create.
+     * @param frequency, how often the spawner creates enemies.
+     * @param spawnList, a list of enemy types that this spawner can create.
      * @param random, true if we want to randomly spawn enemies from the spawnList, false if we want to generate enemies
      * in the order that they appear in the spawnList
-	 * @param radius, if the player is within the radius of the spawner it will be active, otherwise, the spawner will stop spawning
-	 * @param maxSpawn, How many total enemies the spawner can create before permanently self destructing. (Think battle room).
+     * @param radius, if the player is within the radius of the spawner it will be active, otherwise, the spawner will stop spawning
+     * @param maxSpawn, How many total enemies the spawner can create before permanently self destructing. (Think battle room).
      * Set to 0 if no maximum
-	 */
+     */
     constructor(game, x, y, maxAtOnce, frequency, spawnList, random, radius, maxSpawn) {
         this.game = game;
         this.x = indexToCoordinate(x);
@@ -38,33 +38,36 @@ class Spawner {
 
         this.spawn_timer = new TimerCallback(game, frequency, true,
             function () {
-                    if (that.shouldSpawn()) {
-                        that.spawn();
-                    }
+                if (that.shouldSpawn()) {
+                    that.spawn();
+                }
             }
         );
 
-		this.game.addEntity(this, "floor");
-		console.log(this.x + ", " + this.y);
+        this.game.addEntity(this, "floor");
     }
 
     // Make sure the player is in the radius of the spawner, if not reset and pause the spawn timer.
     update() {
-		if(this.game.player !== undefined)
-		{
-			if (!circleToCircle(this.game.player, this)) {
-				this.spawn_timer.reset();
-				this.spawn_timer.pause();
-			} else {
-				this.spawn_timer.unpause();
-			}
-		}
+        if (this.game.player !== undefined) {
+            //If player is in radius
+            if (circleToCircle(this.game.player, this)) {
+                // Spawn immediately the first time
+                if (this.hasSpawned) {
+                    this.spawn();
+                    this.hasSpawned = true;
+                } else {
+                    this.spawn_timer.unpause();
+                }
+            } else {
+                this.spawn_timer.pause();
+            }
+        }
     }
 
-	draw()
-	{
-	}
-	
+    draw() {
+    }
+
     shouldSpawn() {
         // If we haven't already spawned the max TOTAL
         if (this.maxSpawn === 0 || this.totalSpawned < this.maxSpawn) {
@@ -94,6 +97,7 @@ class Spawner {
             this.spawn_timer.reset();
             this.spawn_timer.pause();
         }
+        console.log(this.numOut);
     }
 
     destroy() {

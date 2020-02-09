@@ -8,7 +8,6 @@ class Key extends Entity {
         this.scale = [STANDARD_DRAW_SCALE * this.addScale];
         this.animation = new Animation(ASSET_MANAGER.getAsset("./img/pickups/key.png"), 32, 32, {x: 0, y: 0}, {x: 7, y: 0}, fps, true, this.scale);
         this.collider = new Collider(0, 0, 10, 9, 4, 4, 15, Infinity);
-        console.log(this.x + ", " + this.y);
     }
 
     update() {

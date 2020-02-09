@@ -117,10 +117,10 @@ function BlackMage() {
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
 
     this.stats = {
-        maxHP: 3,
-        speed: 75,
+        maxHP: 2,
+        speed: 150,
         melee: false,
-        projectileSpeed: 150,
+        projectileSpeed: 300,
         projectileLifetime: 2
     };
     this.npc = {

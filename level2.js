@@ -31,7 +31,7 @@ class Level2
 		
 		this.spawnerList = [];
 		this.hazardList = [];
-		this.pickUpList = [];
+		this.pickupList = [];
 		
     this.hazardList.push (
     {

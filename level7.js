@@ -31,7 +31,7 @@ class Level7
 		
 		this.spawnerList = [];
 		this.hazardList = [];
-		this.pickUpList = [];
+		this.pickupList = [];
 		
     this.hazardList.push (
     {
