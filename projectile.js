@@ -122,6 +122,8 @@ class EasingProjectile extends Projectile {
         this.move = move;
         this.easing = easing;
 
+	    this.move();
+
     }
 
     update() {
