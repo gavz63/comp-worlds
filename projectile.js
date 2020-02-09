@@ -44,16 +44,17 @@ class Projectile extends Entity
 		this.dieOnHit = true;
 		
 		this.game.addEntity(this, "pps");
+		
 	}
 
 	update() 
 	{
-    this.testCollision();
+		this.testCollision();
   
 		this.dx += this.dir.x * this.game._clockTick * this.speed;
 		this.dy += this.dir.y * this.game._clockTick * this.speed;
 		
-			if(this.attachedToOwner)
+		if(this.attachedToOwner)
 		{
 		  this.x = this.owner.x + this.dir.x * this.speed;
 		  this.y = this.owner.y + this.dir.y * this.speed;
@@ -130,6 +131,8 @@ class EasingProjectile extends Projectile
 
       this.move = move;
       this.easing = easing;
+	  
+	  this.move();
 
     }
     

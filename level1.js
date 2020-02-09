@@ -160,82 +160,82 @@ class Level1
 		//////////// HAZARDS ////////////
 		/////////////////////////////////
 
-		// this.hazardList.push (
-		// 	{
-		// 		x: 8,
-		// 		y: 2,
-		// 		fireRate: 20,
-		// 		spinning: true,
-		// 		cross: false,
-		// 		pSpeed: 100,
-		// 		pLifeTime: 1,
-		// 		pMove: EasingProjectile.prototype.circle,
-		// 		pEasing: function (t) { return t; }
-		// 	});
-		//
-		// this.hazardList.push (
-		// 	{
-		// 		x: 10,
-		// 		y: 1,
-		// 		fireRate: 20,
-		// 		spinning: true,
-		// 		cross: false,
-		// 		pSpeed: 100,
-		// 		pLifeTime: 1,
-		// 		pMove: EasingProjectile.prototype.circle,
-		// 		pEasing: function (t) { return t; }
-		// 	});
-		//
-		// this.hazardList.push (
-		// 	{
-		// 		x: 10,
-		// 		y: 3,
-		// 		fireRate: 20,
-		// 		spinning: true,
-		// 		cross: false,
-		// 		pSpeed: 100,
-		// 		pLifeTime: 1,
-		// 		pMove: EasingProjectile.prototype.circle,
-		// 		pEasing: function (t) { return t; }
-		// 	});
-		//
-		// this.hazardList.push (
-		// 	{
-		// 		x: 13,
-		// 		y: 2,
-		// 		fireRate: 6,
-		// 		spinning: true,
-		// 		cross: false,
-		// 		pSpeed: 100,
-		// 		pLifeTime: 2,
-		// 		pMove: EasingProjectile.prototype.spiral,
-		// 		pEasing: function (t) { return smoothStopN(t, 2); }
-		// 	});
-		//
-		// this.hazardList.push (
-		// 	{
-		// 		x: 13,
-		// 		y: 2,
-		// 		fireRate: 6,
-		// 		spinning: true,
-		// 		cross: false,
-		// 		pSpeed: 100,
-		// 		pLifeTime: 4,
-		// 		pMove: EasingProjectile.prototype.spiral,
-		// 		pEasing: function (t) { return smoothStopN(t, 2); }
-		// 	});
-		//
-		// this.hazardList.push (
-		// 	{
-		// 		x: 13,
-		// 		y: 2,
-		// 		fireRate: 6,
-		// 		spinning: true,
-		// 		cross: false,
-		// 		pSpeed: 100,
-		// 		pLifeTime: 5,
-		// 		pMove: EasingProjectile.prototype.spiral,
-		// 		pEasing: function (t) { return smoothStopN(t, 2); }
-		// 	});
+		 this.hazardList.push (
+		 	{
+		 		x: 8,
+		 		y: 2,
+		 		fireRate: 10,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 75,
+		 		pLifeTime: 3,
+		 		pMove: EasingProjectile.prototype.circle,
+		 		pEasing: function (t) { return 0; }
+		 	});
+		
+		 this.hazardList.push (
+		 	{
+		 		x: 10,
+		 		y: 1,
+		 		fireRate: 10,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 75,
+		 		pLifeTime: 3,
+		 		pMove: EasingProjectile.prototype.circle,
+		 		pEasing: function (t) { return 0.5; }
+		 	});
+		
+		 this.hazardList.push (
+		 	{
+		 		x: 10,
+		 		y: 3,
+		 		fireRate: 10,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 75,
+		 		pLifeTime: 3,
+		 		pMove: EasingProjectile.prototype.circle,
+		 		pEasing: function (t) { return 0.42; }
+		 	});
+		
+		 this.hazardList.push (
+		 	{
+		 		x: 13,
+		 		y: 2,
+		 		fireRate: 6,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 100,
+		 		pLifeTime: 2,
+		 		pMove: EasingProjectile.prototype.spiral,
+		 		pEasing: function (t) { return smoothStopN(t, 2); }
+		 	});
+		
+		 this.hazardList.push (
+		 	{
+		 		x: 13,
+		 		y: 2,
+		 		fireRate: 6,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 100,
+		 		pLifeTime: 4,
+		 		pMove: EasingProjectile.prototype.spiral,
+		 		pEasing: function (t) { return smoothStopN(t, 2); }
+		 	});
+		
+		 this.hazardList.push (
+		 	{
+		 		x: 13,
+		 		y: 2,
+		 		fireRate: 6,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 100,
+		 		pLifeTime: 5,
+		 		pMove: EasingProjectile.prototype.spiral,
+		 		pEasing: function (t) { return smoothStopN(t, 2); }
+		 	});
 	}
 }
