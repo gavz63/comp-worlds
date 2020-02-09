@@ -71,9 +71,64 @@ class Level1
 			y: 1,
 			max: 1,
 			freq: 10,
-			list: [Bat.prototype, PuddleJumper.prototype],
+			list: [Bat.prototype],
 			rand: false,
-			radius: 288,
+			radius: 96,
+			total: 0
+		});
+
+		this.spawnerList.push({
+			x: 21,
+			y: 1,
+			max: 1,
+			freq: 10,
+			list: [Bat.prototype],
+			rand: false,
+			radius: 96,
+			total: 0
+		});
+
+		this.spawnerList.push({
+			x: 22,
+			y: 1,
+			max: 1,
+			freq: 10,
+			list: [Bat.prototype],
+			rand: false,
+			radius: 96,
+			total: 0
+		});
+
+		this.spawnerList.push({
+			x: 20,
+			y: 3,
+			max: 1,
+			freq: 10,
+			list: [Bat.prototype],
+			rand: false,
+			radius: 96,
+			total: 0
+		});
+
+		this.spawnerList.push({
+			x: 21,
+			y: 3,
+			max: 1,
+			freq: 10,
+			list: [Bat.prototype],
+			rand: false,
+			radius: 96,
+			total: 0
+		});
+
+		this.spawnerList.push({
+			x: 22,
+			y: 3,
+			max: 1,
+			freq: 10,
+			list: [Bat.prototype],
+			rand: false,
+			radius: 96,
 			total: 0
 		});
 

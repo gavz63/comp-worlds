@@ -52,8 +52,9 @@ class Spawner {
         if (this.game.player !== undefined) {
             //If player is in radius
             if (circleToCircle(this.game.player, this)) {
+                console.log("In radius");
                 // Spawn immediately the first time
-                if (this.hasSpawned) {
+                if (!this.hasSpawned) {
                     this.spawn();
                     this.hasSpawned = true;
                 } else {

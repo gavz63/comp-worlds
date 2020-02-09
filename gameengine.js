@@ -11,12 +11,20 @@ const GAME_STATES = {
 
 const LAYERS = {
     FLOOR: 0,
-    WALL: 1,
-    PICKUPS: 2,
-    PROJECTILES: 3,
-    PCS: 4,
-    HUD: 5
+    ENEMIES: 1,
+    ENEMY_PROJECTILES: 2,
+    PICKUPS: 3,
+    PLAYER_PROJECTILES: 4,
+    PCS: 5,
+    WALl: 6,
+    HUD: 7
 };
+
+// ORIGINAL LAYERS WERE
+// 1 -> Floor/wall
+// 2 -> enemies
+// 3 -> pps
+// 4 -> hud
 
 /**
  * The GameEngine class is the heart our game. It maintains the render-update
@@ -33,10 +41,10 @@ class GameEngine {
     constructor(camera) {
         this._camera = camera;
         this._entities = [];
-        this._entities[0] = []; // Floor & Wall
-        this._entities[1] = []; // Enemies
-        this._entities[2] = []; // Pickups & Projectiles
-        this._entities[3] = []; // Playable Characters
+        this._entities[LAYERS.FLOOR] = []; // Floor & Wall
+        this._entities[LAYERS.ENEMIES] = []; // Enemies
+        this._entities[LAYERS.ENEMY_PROJECTILES] = []; // Pickups & Projectiles
+        this._entities[LAYERS.PICKUPS] = []; // Playable Characters
         this._entities[4] = []; // HUD
         this._ctx = null;
 
