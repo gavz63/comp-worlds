@@ -17,7 +17,6 @@ class Remnant extends Entity
       this.animation.setFrame(this.animation.getLastFrameAsInt());
 
       this.update = function () {};
-      console.log(this.animation.getLastFrameAsInt());
     }
   }
 }

@@ -1,5 +1,6 @@
 const STANDARD_ENTITY_FRAME_WIDTH = 32;
 const STANDARD_ENTITY_RADIUS = 20;
+let ID = 0;
 
 class Entity
 {

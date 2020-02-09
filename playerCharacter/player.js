@@ -295,7 +295,6 @@ class Player extends Entity {
                     this.animation = this.characterClass.animation.dmgFromLeft;
                     break;
                 case DIRECTION_UP:
-                    console.log("ANIMATION: " + this.characterClass.animation.dmgFromDown);
                     this.animation = this.characterClass.animation.dmgFromDown;
                     break;
                 case DIRECTION_DOWN:

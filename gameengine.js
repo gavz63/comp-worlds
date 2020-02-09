@@ -172,9 +172,12 @@ class GameEngine {
         //console.log("CREATED ENTITY");
     }
 
-    removeEntity(entity, layer) {
-        this.entities[layer][entity.id] = this.entities[layer][this.entities[layer].length - 1];
-        this.entities[layer][entity.id].id = entity.id;
+    removeEntity(entity, layer, index) {
+        if (entity instanceof Key || entity instanceof HealthPotion) {
+            console.log("here");
+        }
+        this.entities[layer][index] = this.entities[layer][this.entities[layer].length - 1];
+        // this.entities[layer][entity.id].id = entity.id;
         this.entities[layer][this.entities[layer].length - 1] = entity;
         this.entities[layer].pop();
     }
@@ -232,21 +235,28 @@ class GameEngine {
                 var i = 0;
                 for (i = 0; i < this._entities[LAYERS.FLOOR].length; i++) {
                     if (this.entities[LAYERS.FLOOR][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.FLOOR][i], LAYERS.FLOOR);
+                        this.removeEntity(this.entities[LAYERS.FLOOR][i], LAYERS.FLOOR, i);
                         continue;
                     }
-                    this.entities[0][i].update();
+                    this.entities[LAYERS.FLOOR][i].update();
                 }
                 for (i = 0; i < this.entities[LAYERS.MAIN].length; i++) {
                     if (this.entities[LAYERS.MAIN][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.MAIN][i], LAYERS.MAIN);
+                        this.removeEntity(this.entities[LAYERS.MAIN][i], LAYERS.MAIN, i);
                         continue;
                     }
                     this.entities[LAYERS.MAIN][i].update();
                 }
+                for (i = 0; i < this.entities[LAYERS.WALL].length; i++) {
+                    if (this.entities[LAYERS.WALL][i].removeFromWorld) {
+                        this.removeEntity(this.entities[LAYERS.WALL][i], LAYERS.WALL, i);
+                        continue;
+                    }
+                    this.entities[LAYERS.WALL][i].update();
+                }
                 for (i = 0; i < this._entities[LAYERS.HUD].length; i++) {
                     if (this.entities[LAYERS.HUD][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.HUD][i], LAYERS.HUD);
+                        this.removeEntity(this.entities[LAYERS.HUD][i], LAYERS.HUD, i);
                         continue;
                     }
                     this.entities[LAYERS.HUD][i].update();
@@ -260,7 +270,7 @@ class GameEngine {
                     let entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
                         if (this.entities[i][j].removeFromWorld) {
-                            this.removeEntity(this.entities[i][j], i);
+                            this.removeEntity(this.entities[i][j], i, j);
                             entityCount = this.entities[i].length;
                             j--;
                             continue;
@@ -285,7 +295,6 @@ class GameEngine {
 
                 break;
         }
-
         // Clear input
         this._clicks = [];
     }

@@ -1,7 +1,7 @@
 class SpeedPotion extends Entity {
     constructor(game, x, y) {
         super(game, x, y);
-        game.addEntity(this, "pps");
+        game.addEntity(this, LAYERS.PICKUPS);
         this.addScale = 1.5;
         this.scale = [STANDARD_DRAW_SCALE * this.addScale];
         this.animation = new Animation(ASSET_MANAGER.getAsset("./img/pickups/potions.png"), 32, 32, {x: 0, y: 0}, {x: 1, y: 0}, 7, true, this.scale);

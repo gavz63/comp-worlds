@@ -19,7 +19,7 @@ class WallHUD {
      */
     constructor(game) {
         this._game = game;
-        this._game.addEntity(this, "hud");
+        this._game.addEntity(this, LAYERS.WALL);
         this._level = game._sceneManager.level;
         this._wallSheet = ASSET_MANAGER.getAsset("./img/map/walls.png");
         this._doorSheet = ASSET_MANAGER.getAsset("./img/map/doors.png");
