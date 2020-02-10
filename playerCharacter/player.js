@@ -357,24 +357,48 @@ class Player extends Entity {
 
         var attackDir = vectorToDir(attackVector);
         var projectileAnimation = null;
-        switch (attackDir) {
-            case DIRECTION_DOWN:
-                this.animation = this.characterClass.animation.regAttackDown();
-                projectileAnimation = this.characterClass.animation.regProjectileDown();
-                break;
-            case DIRECTION_UP:
-                this.animation = this.characterClass.animation.regAttackUp();
-                projectileAnimation = this.characterClass.animation.regProjectileUp();
-                break;
-            case DIRECTION_LEFT:
-                this.animation = this.characterClass.animation.regAttackLeft();
-                projectileAnimation = this.characterClass.animation.regProjectileLeft();
-                break;
-            default:
-                this.animation = this.characterClass.animation.regAttackRight();
-                projectileAnimation = this.characterClass.animation.regProjectileRight();
-                break;
-        }
+		if(!this.game.rightClick)
+		{
+			switch (attackDir) {
+				case DIRECTION_DOWN:
+					this.animation = this.characterClass.animation.regAttackDown();
+					projectileAnimation = this.characterClass.animation.regProjectileDown();
+					break;
+				case DIRECTION_UP:
+					this.animation = this.characterClass.animation.regAttackUp();
+					projectileAnimation = this.characterClass.animation.regProjectileUp();
+					break;
+				case DIRECTION_LEFT:
+					this.animation = this.characterClass.animation.regAttackLeft();
+					projectileAnimation = this.characterClass.animation.regProjectileLeft();
+					break;
+				default:
+					this.animation = this.characterClass.animation.regAttackRight();
+					projectileAnimation = this.characterClass.animation.regProjectileRight();
+					break;
+			}
+		}
+		else
+		{
+			switch (attackDir) {
+				case DIRECTION_DOWN:
+					this.animation = this.characterClass.animation.specialAttackDown();
+					projectileAnimation = this.characterClass.animation.specialProjectileDown();
+					break;
+				case DIRECTION_UP:
+					this.animation = this.characterClass.animation.specialAttackUp();
+					projectileAnimation = this.characterClass.animation.specialProjectileUp();
+					break;
+				case DIRECTION_LEFT:
+					this.animation = this.characterClass.animation.specialAttackLeft();
+					projectileAnimation = this.characterClass.animation.specialProjectileLeft();
+					break;
+				default:
+					this.animation = this.characterClass.animation.specialAttackRight();
+					projectileAnimation = this.characterClass.animation.specialProjectileRight();
+					break;
+			}
+		}
         this.animation.resetAnimation();
         this.animation.unpause();
         this.direction = attackDir;
@@ -392,9 +416,8 @@ class Player extends Entity {
         {
           console.log("right Click");
           this.game.rightClick = false;
-          let projectile = new EasingProjectile(this.game, this.x, this.y, attackVector, this.characterClass.stats.projectileSpeed, this.characterClass.stats.projectileLifetime, this, projectileAnimation, 1, 20,
-            EasingProjectile.prototype.spiral,
-            function(t) { return smoothStartN(t, 2); });
+          let projectile = new Projectile(this.game, this.x, this.y, attackVector, this.characterClass.stats.specialSpeed, this.characterClass.stats.specialLifetime, this, projectileAnimation, 1, 20);
+		  projectile.setAttachedToOwner(this.characterClass.stats.specialMelee);
         }
     }
 }

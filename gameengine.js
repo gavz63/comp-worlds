@@ -84,7 +84,7 @@ class GameEngine {
         new Floor(this);
         new Wall(this);
 
-        let charClasses = [new BlackMage(), new Lancer()];
+        let charClasses = [new BlackMage(), new Lancer(), new Ninja()];
 
         let hover = true;
         this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);

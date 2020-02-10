@@ -112,6 +112,25 @@ function BlackMage() {
             16, 16,
             {x: 0, y: 0}, {x: 3, y: 0},
             6, true, STANDARD_DRAW_SCALE); },
+			
+	
+        //Special animations
+        specialProjectileUp: function () { return new Animation(fireball,
+        16, 16,
+        {x: 0, y: 0}, {x: 3, y: 0},
+        6, true, STANDARD_DRAW_SCALE); },
+        specialProjectileDown: function () { return new Animation(fireball,
+            16, 16,
+            {x: 0, y: 0}, {x: 3, y: 0},
+            6, true, STANDARD_DRAW_SCALE); },
+        specialProjectileLeft: function () { return new Animation(fireball,
+            16, 16,
+            {x: 0, y: 0}, {x: 3, y: 0},
+            6, true, STANDARD_DRAW_SCALE); },
+        specialProjectileRight: function () { return new Animation(fireball,
+            16, 16,
+            {x: 0, y: 0}, {x: 3, y: 0},
+            6, true, STANDARD_DRAW_SCALE); }
     };
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
@@ -122,6 +141,9 @@ function BlackMage() {
         melee: false,
         projectileSpeed: 300,
         projectileLifetime: 2,
+		specialMelee: false,
+		specialSpeed: 100,
+        specialLifetime: 10,
         maxProjectiles: 3
     };
     this.npc = {
