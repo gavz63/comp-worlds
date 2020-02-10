@@ -24,6 +24,7 @@ class StoneGolem extends Enemy {
         this.animation = this.moveAnimation;
 
         this.speed = 30;
+        this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
         this.radius = STANDARD_ENTITY_RADIUS * 2;
         this.isWaiting = false;
         this.isAttacking = false;
@@ -63,7 +64,20 @@ class StoneGolem extends Enemy {
                         this.attack();
                     }
                 }
-
+            }
+            let newPos = {x: this.x, y: this.y};
+            if(this.wallCollision(newPos))
+            {
+              while(this.wallCollision(newPos))
+              {
+                this.x -= normVector.x * this.speed * this.game._clockTick;
+                this.y -= normVector.y * this.speed * this.game._clockTick;
+                newPos = {x: this.x, y: this.y};
+              }
+            }
+            else
+            {
+              this.oldPos = newPos;
             }
         }
     }

@@ -26,6 +26,8 @@ class Projectile extends Entity {
         this.dir = dir;
         this.speed = speed;
 
+        this.collider = new Collider(0, 0, -7, 7, -7, 8, null, 150);
+        
         var that = this;
         this.timer = new TimerCallback(this.game, lifetime, false, function () {
             that.destroy();
@@ -62,6 +64,17 @@ class Projectile extends Entity {
         } else {
             this.x = this.startX + this.dx;
             this.y = this.startY + this.dy;
+        }
+        
+        let newPos = {x: this.x, y: this.y};
+        if(this.wallCollision(newPos))
+        {
+          console.log("Projectile to Wall collision");
+          this.destroy();
+        }
+        else
+        {
+          this.oldPos = newPos;
         }
     }
 

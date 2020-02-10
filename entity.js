@@ -17,8 +17,36 @@ class Entity
 		this.circle = false;
 		this.radius = 10;
     
+    this.collider = new Collider(0, 0, 10, 10, 10, 10, null, 150);
+    
     this._myScale = [5 * STANDARD_DRAW_SCALE];
+    
+    this.oldPos = {x: 0, y: 0};
 	}
+  
+  wallCollision(newPos)
+  {
+    let dir = vectorToDir(dirV(this.oldPos, newPos));
+    let xOffset = 0;
+    let yOffset = 0;
+    if(dir === DIRECTION_UP)
+    {
+      yOffset = this.collider._upHit;
+    }
+    else if(dir === DIRECTION_DOWN)
+    {
+      yOffset = this.collider._downHit;
+    }
+    else if(dir === DIRECTION_LEFT)
+    {
+      xOffset = this.collider._leftHit;
+    }
+    else if(dir === DIRECTION_RIGHT)
+    {
+      xOffset = this.collider._rightHit;
+    }
+    return this.game._sceneManager.level.quickCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+  }
 	
 	setAnimation(spritesheet)
 	{

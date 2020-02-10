@@ -44,6 +44,7 @@ class Player extends Entity {
         this.game.setPlayer(this);
 
         this.hurt = false;
+        this.hurt = true;
     }
 
     /**

@@ -24,7 +24,7 @@ class Level {
     constructor(game, level) {
 		this.game = game;
 		this.levelFile = level;
-        this.resetLevel(level);
+    this.resetLevel(level);
     }
 
     /**
@@ -43,11 +43,13 @@ class Level {
      */
     buildLevel(string) {
         let seed = string;
+        //Note: This should probably be _height.
         for (let i = 0; i < this._width; i++) {
             this._map[i] = [];
         }
         for (let i = 0; i < this._height; i++) {
             for (let j = 0; j < this._width; j++) {
+                this._binaryCollision[i][j] = 0; // assume not a wall.
                 let type = seed[(this._width * i) + j];
                 if (type === "S") {
                     this._spawn = {x: j, y: i};
@@ -57,6 +59,7 @@ class Level {
                 }
                 if (type === "#") {
                     this._walls.push({x: j, y: i});
+                    this._binaryCollision[i][j] = 1; // overwrite as wall
                 }
                 if (type === "H") {
                     this._doors.push({x: j, y: i, d: "H"});
@@ -70,20 +73,20 @@ class Level {
                 this._map[j][i] = type;
             }
         }
-		let that = this;
-		this.spawners.forEach(function (elem) 
-		{
-			new Spawner(that.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total);
-		});
-		this.pickups.forEach(function (elem)
-		{
-            new elem.type.constructor(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y));
+        let that = this;
+        this.spawners.forEach(function (elem) 
+        {
+          new Spawner(that.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total);
         });
-		this.hazards.forEach(function (elem) 
-		{
-			new Turret(that.game, elem.x, elem.y, elem.fireRate, elem.spinning, elem.cross, elem.pSpeed, elem.pLifeTime, elem.pMove, elem.pEasing);
-		});
-
+        this.pickups.forEach(function (elem)
+        {
+                new elem.type.constructor(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y));
+            });
+        this.hazards.forEach(function (elem) 
+        {
+          new Turret(that.game, elem.x, elem.y, elem.fireRate, elem.spinning, elem.cross, elem.pSpeed, elem.pLifeTime, elem.pMove, elem.pEasing);
+        });
+        console.log(this._binaryCollision);
     }
 
     /**
@@ -105,6 +108,14 @@ class Level {
         this._map = [];
         this._width = levelFile.width;
         this._height = levelFile.height;
+        
+        //Binary collision is used for a quick collision test for projectiles and enemies. Stores a 1 if there is a wall 0 else.
+        this._binaryCollision = [];
+        for(let i = 0; i < this._height; i++)
+        {
+          this._binaryCollision[i] = [];
+        }
+        
         this._spawn = null;
         this._floors = [];
         this._walls = [];
@@ -253,6 +264,11 @@ class Level {
         }
 
         return updatedPos;
+    }
+    
+    quickCollision(x, y)
+    {
+      return this._binaryCollision[y][x];
     }
 
     get spawn() {
