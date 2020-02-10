@@ -10,7 +10,7 @@ class Floor {
      */
     constructor(game) {
         this._game = game;
-        game.addEntity(this, "floor");
+        game.addEntity(this, LAYERS.FLOOR);
         this._spritesheet = ASSET_MANAGER.getAsset("./img/map/grounds.png");
         this._removeFromWorld = false;
         this._dirtFloor = new Animation(this._spritesheet, 128, 128, {x: 0, y: 0}, {x: 0, y: 0}, 0, true, STANDARD_DRAW_SCALE);

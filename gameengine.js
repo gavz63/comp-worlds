@@ -17,7 +17,8 @@ const LAYERS = {
     PLAYER_PROJECTILES: 4,
     MAIN: 5,
     WALL: 6,
-    HUD: 7
+    PARTICLES: 7,
+    HUD: 8
 };
 
 // ORIGINAL LAYERS WERE
@@ -73,7 +74,7 @@ class GameEngine {
 
         this._sceneManager.LoadLevel(levelFile);
 
-        this.addEntity(this._camera, "hud");
+        this.addEntity(this._camera, LAYERS.HUD);
         this._camera.update();
         this.camera.x = 0;
         this.camera.y = this.sceneManager.level.spawn.y * 96;
@@ -86,9 +87,9 @@ class GameEngine {
         let charClasses = [new BlackMage(), new Lancer()];
 
         let hover = true;
-        this.addEntity(new ChooseYourFighter(this), "hud");
+        this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
         for (var i = 0; i < charClasses.length; i++) {
-            this.addEntity(new NPC(this, charClasses[i], hover), "main");
+            this.addEntity(new NPC(this, charClasses[i], hover), LAYERS.MAIN);
             if (i === 0) {
                 hover = false;
             }
@@ -129,57 +130,28 @@ class GameEngine {
      * Adds the given entity to the list of entities in the requested layer.
      * @param {*} entity The entity to be added.
      * @param {number | string} layer The entity destination layer.
-     *      Pass 0 or "floor" for layer 0 (floor & wall tiles);
+     *      Pass 0 or LAYERS.FLOOR for layer 0 (floor & wall tiles);
      *      Pass 1 or "enemy" for layer 1 (enemies);
      *      Pass 2 or "pps" for layer 2 (projectiles and pickups);
      *      Pass 3 or "main" for layer 3 (playable characters);
      *      Pass 4 or "hud" for layer 4 (HUD);
      */
     addEntity(entity, layer) {
+
         entity.layer = layer;
-        let choice = -1; // if an entity is added without a proper layer this will throw an error.
-        if (typeof (layer) === "string") {
-            if ("floor" === layer) {
-                choice = LAYERS.FLOOR;
-            } else if ("enemy" === layer) {
-                choice = LAYERS.ENEMIES;
-            } else if ("player_projectiles" === layer) {
-                choice = LAYERS.PLAYER_PROJECTILES;
-            } else if ("enemy_projectiles" === layer) {
-                choice = LAYERS.ENEMY_PROJECTILES;
-            } else if ("main" === layer) {
-                choice = LAYERS.MAIN;
-            } else if ("hud" === layer) {
-                choice = LAYERS.HUD;
-            } else {
-                throw "Invalid layer string parameter.";
-            }
-
-            entity.id = this._entities[choice].length;
-            this._entities[choice].push(entity);
-
-
-        } else if (typeof (layer) === "number") {
-            if (layer === Math.floor(layer) && layer >= LAYERS.FLOOR && layer <= LAYERS.HUD ) {
-                this._entities[layer].push(entity);
-            } else {
-                throw "Invalid layer number parameter.";
-            }
-        } else {
-            throw "Incorrect layer parameter type.";
+        if(layer < LAYERS.FLOOR || layer > LAYERS.HUD) {
+            throw "Invalid layer int parameter.";
         }
 
-        //console.log("CREATED ENTITY");
+        entity.id = this._entities[layer].length;
+        this._entities[layer].push(entity);
     }
 
-    removeEntity(entity, layer, index) {
-        if (entity instanceof Key || entity instanceof HealthPotion) {
-            console.log("here");
-        }
-        this.entities[layer][index] = this.entities[layer][this.entities[layer].length - 1];
-        // this.entities[layer][entity.id].id = entity.id;
-        this.entities[layer][this.entities[layer].length - 1] = entity;
-        this.entities[layer].pop();
+    removeEntity(entity) {
+        this.entities[entity.layer][entity.id] = this.entities[entity.layer][this.entities[entity.layer].length - 1];
+        this.entities[entity.layer][entity.id].id = entity.id;
+        this.entities[entity.layer][this.entities[entity.layer].length - 1] = entity;
+        this.entities[entity.layer].pop();
     }
 
     addTimer(timer) {
@@ -235,28 +207,28 @@ class GameEngine {
                 var i = 0;
                 for (i = 0; i < this._entities[LAYERS.FLOOR].length; i++) {
                     if (this.entities[LAYERS.FLOOR][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.FLOOR][i], LAYERS.FLOOR, i);
+                        this.removeEntity(this.entities[LAYERS.FLOOR][i]);
                         continue;
                     }
                     this.entities[LAYERS.FLOOR][i].update();
                 }
                 for (i = 0; i < this.entities[LAYERS.MAIN].length; i++) {
                     if (this.entities[LAYERS.MAIN][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.MAIN][i], LAYERS.MAIN, i);
+                        this.removeEntity(this.entities[LAYERS.MAIN][i]);
                         continue;
                     }
                     this.entities[LAYERS.MAIN][i].update();
                 }
                 for (i = 0; i < this.entities[LAYERS.WALL].length; i++) {
                     if (this.entities[LAYERS.WALL][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.WALL][i], LAYERS.WALL, i);
+                        this.removeEntity(this.entities[LAYERS.WALL][i]);
                         continue;
                     }
                     this.entities[LAYERS.WALL][i].update();
                 }
                 for (i = 0; i < this._entities[LAYERS.HUD].length; i++) {
                     if (this.entities[LAYERS.HUD][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.HUD][i], LAYERS.HUD, i);
+                        this.removeEntity(this.entities[LAYERS.HUD][i]);
                         continue;
                     }
                     this.entities[LAYERS.HUD][i].update();
@@ -270,7 +242,7 @@ class GameEngine {
                     let entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
                         if (this.entities[i][j].removeFromWorld) {
-                            this.removeEntity(this.entities[i][j], i, j);
+                            this.removeEntity(this.entities[i][j]);
                             entityCount = this.entities[i].length;
                             j--;
                             continue;
@@ -317,7 +289,7 @@ class GameEngine {
         }
         npc.destroy();
         new Player(this, npc.characterClass);
-        this.addEntity(new Tutorial(this), "hud");
+        this.addEntity(new Tutorial(this), LAYERS.HUD);
         this.game_state = GAME_STATES.PLAYING;
     }
 
@@ -341,7 +313,7 @@ class GameEngine {
             }
         }
 
-        this.addEntity(new ChooseYourFighter(this), "hud");
+        this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
         if (player) player.destroy();
         this.game_state = GAME_STATES.CHARACTER_SELECT;
     }

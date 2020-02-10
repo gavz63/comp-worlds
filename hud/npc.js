@@ -12,7 +12,7 @@ class NPC extends Entity {
         this.radius = 25;
         this.hover = hover;
         if (this.hover) {
-            this.game.addEntity(new HoverArrow(this.game, this.x, this.y - 24), "hud");
+            this.game.addEntity(new HoverArrow(this.game, this.x, this.y - 24), LAYERS.HUD);
         }
     }
 
@@ -24,7 +24,7 @@ class NPC extends Entity {
             }
         }
         //create a new one and set this entity as the privileged hover npc
-        this.game.addEntity(new HoverArrow(this.game, this.x, this.y - 24), "hud");
+        this.game.addEntity(new HoverArrow(this.game, this.x, this.y - 24), LAYERS.HUD);
         this.hover = true;
     }
 

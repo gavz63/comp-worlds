@@ -15,7 +15,7 @@ class Heart extends Entity
     this.animation.pause();
     this.set(true);
       
-    this.game.addEntity(this, "hud");
+    this.game.addEntity(this, LAYERS.HUD);
 
   }
   

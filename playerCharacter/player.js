@@ -40,7 +40,7 @@ class Player extends Entity {
         this.radius = STANDARD_ENTITY_RADIUS;
         this.width = this.radius * 2;
 
-        this.game.addEntity(this, "main");
+        this.game.addEntity(this, LAYERS.MAIN);
         this.game.setPlayer(this);
 
         this.hurt = false;
@@ -81,8 +81,8 @@ class Player extends Entity {
         //If x < 0 go back to character chooser
         if (this.x < 0) {
             this.game.game_state = GAME_STATES.CHARACTER_SELECT;
-            this.game.addEntity(new NPC(this.game, this.characterClass), "main");
-            this.game.addEntity(new ChooseYourFighter(this.game), "hud");
+            this.game.addEntity(new NPC(this.game, this.characterClass), LAYERS.MAIN);
+            this.game.addEntity(new ChooseYourFighter(this.game), LAYERS.HUD);
 
             for (let i = 0; i < this.game.entities[LAYERS.HUD].length; i++) {
                 if (this.game.entities[LAYERS.HUD][i] instanceof Tutorial) {

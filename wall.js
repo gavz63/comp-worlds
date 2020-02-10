@@ -10,7 +10,7 @@ class Wall {
      */
     constructor(game) {
         this._game = game;
-        this._game.addEntity(this, "floor");
+        this._game.addEntity(this, LAYERS.FLOOR);
         this._wallSheet = ASSET_MANAGER.getAsset("./img/map/walls.png");
         this._removeFromWorld = false;
 

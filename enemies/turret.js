@@ -29,7 +29,7 @@ class Turret extends Entity {
             that.fire();
         });
 
-        this.game.addEntity(this, "floor");
+        this.game.addEntity(this, LAYERS.FLOOR);
     }
 
     update() {

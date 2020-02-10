@@ -44,7 +44,7 @@ class Spawner {
             }
         );
 
-        this.game.addEntity(this, "floor");
+        this.game.addEntity(this, LAYERS.FLOOR);
     }
 
     // Make sure the player is in the radius of the spawner, if not reset and pause the spawn timer.

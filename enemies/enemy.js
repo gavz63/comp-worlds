@@ -2,7 +2,7 @@ class Enemy extends Entity {
     constructor(game, x, y, spawner) {
         super(game, x, y);
         this.spawner = spawner;
-        this.game.addEntity(this, "enemy");
+        this.game.addEntity(this, LAYERS.ENEMIES);
     }
 
     destroy() {

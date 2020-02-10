@@ -5,7 +5,7 @@ class Remnant extends Entity
     super(game, x ,y);
     this.animation = animation;
     
-    this.game.addEntity(this, "floor");
+    this.game.addEntity(this, LAYERS.FLOOR);
   }
   
   update = function ()
