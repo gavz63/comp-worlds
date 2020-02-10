@@ -23,7 +23,9 @@ class Snek extends Enemy {
 
         this.animation = this.moveAnimation;
         this.speed = 45;
-
+        this.collider = new Collider(0, 0, -8, 14, -14, 13, null, 150);
+        this.radius = STANDARD_ENTITY_RADIUS-10;
+        
         let that = this;
         this.attackTimer = new TimerCallback(this.game, 3, true, function () {
             that.attack();
@@ -36,9 +38,19 @@ class Snek extends Enemy {
         let vec = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
         let normVector = normalizeV(vec);
 
-
         this.x += normVector.x * this.speed * this.game._clockTick;
         this.y += normVector.y * this.speed * this.game._clockTick;
+        
+        let newPos = {x: this.x, y: this.y};
+        if(this.wallCollision(newPos))
+        {
+          this.x = this.oldPos.x;
+          this.y = this.oldPos.y;
+        }
+        else
+        {
+          this.oldPos = newPos;
+        }
 
         if (this.isAttacking) {
             if (this.animation.isDone()) {
@@ -55,7 +67,7 @@ class Snek extends Enemy {
                             normalizeV({x: i, y: j}),
                             100, 5,
                             this,
-                            this.projectileAnimation, 1, 20);
+                            this.projectileAnimation, 1, 1);
                     }
                 }
             }

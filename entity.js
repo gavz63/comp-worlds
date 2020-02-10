@@ -26,22 +26,22 @@ class Entity
   
   wallCollision(newPos)
   {
-    let dir = vectorToDir(dirV(this.oldPos, newPos));
+    let dir = dirV(this.oldPos, newPos);
     let xOffset = 0;
     let yOffset = 0;
-    if(dir === DIRECTION_UP)
+    if(dir.y < 0)
     {
       yOffset = this.collider._upHit;
     }
-    else if(dir === DIRECTION_DOWN)
+    if(dir.y > 0)
     {
       yOffset = this.collider._downHit;
     }
-    else if(dir === DIRECTION_LEFT)
+    if(dir.x < 0)
     {
       xOffset = this.collider._leftHit;
     }
-    else if(dir === DIRECTION_RIGHT)
+    if(dir.x > 0)
     {
       xOffset = this.collider._rightHit;
     }

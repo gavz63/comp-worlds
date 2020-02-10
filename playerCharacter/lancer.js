@@ -139,7 +139,7 @@ function Lancer() {
 
     this.stats = {
         maxHP: 3,
-        speed: 200,
+        speed: 1000,
         melee: true,
         projectileSpeed: 50,
         projectileLifetime: 0.25,

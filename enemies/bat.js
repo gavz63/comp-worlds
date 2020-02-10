@@ -20,8 +20,10 @@ class Bat extends Enemy {
         this.animation = this.moveAnimation;
 
         this.speed = 100;
-        this.radius = STANDARD_ENTITY_RADIUS;
-		this.inRange = false;
+        this.collider = new Collider(0, 0, -13, 12, -15, 16, null, 150);
+        this.oldCircle = 0;
+        this.radius = STANDARD_ENTITY_RADIUS-5;
+        this.inRange = false;
 
     }
 
@@ -45,6 +47,7 @@ class Bat extends Enemy {
           }
           else
           {
+            this.oldCircle = this.circle;
             this.circle = (this.circle + this.speed * this.game._clockTick) % 360;
           }
           attackVector = normalizeV(dirV({
@@ -61,5 +64,17 @@ class Bat extends Enemy {
         }
         this.x += attackVector.x * this.speed * this.game._clockTick;
         this.y += attackVector.y * this.speed * this.game._clockTick;
+        
+        let newPos = {x: this.x, y: this.y};
+        if(this.wallCollision(newPos))
+        {
+          this.x = this.oldPos.x;
+          this.y = this.oldPos.y;
+          this.circle = this.oldCircle;
+        }
+        else
+        {
+          this.oldPos = newPos;
+        }
     }
 }

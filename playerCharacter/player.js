@@ -9,7 +9,7 @@ class Player extends Entity {
     constructor(game, characterClass) {
         super(game, indexToCoordinate(game._sceneManager.level.spawn.x), indexToCoordinate(game._sceneManager.level.spawn.y));
         game._player = this;
-        this.keys = 0;
+        this.keys = 1;
         this.characterClass = characterClass;
         this.direction = DIRECTION_RIGHT;
         this.animation = characterClass.animation.idleRight;
@@ -37,7 +37,7 @@ class Player extends Entity {
             function () {
                 that.idle();
             });
-        this.radius = STANDARD_ENTITY_RADIUS;
+        this.radius = STANDARD_ENTITY_RADIUS-10;
         this.width = this.radius * 2;
 
         this.game.addEntity(this, LAYERS.MAIN);
