@@ -16,9 +16,6 @@ class Key extends Entity {
         if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
             this.game._player.keys += 1;
             this.destroy();
-            console.log('yo');
         }
-        console.log(this.id);
-
     }
 }

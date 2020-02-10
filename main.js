@@ -37,6 +37,9 @@ ASSET_MANAGER.queueDownload("./img/projectiles/PokeSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/StoneGolemSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/SnekSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/CactusBoiSheet.png");
+ASSET_MANAGER.queueDownload("./img/enemies/HedgeMonster.png");
+ASSET_MANAGER.queueDownload("./img/enemies/HedgeMove.png");
+ASSET_MANAGER.queueDownload("./img/enemies/HedgeMonsterToSleep.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/CactusSpine.png");
 
 ASSET_MANAGER.downloadAll(function () {

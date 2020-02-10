@@ -16,7 +16,7 @@ class Level1
 		this.layout =
 			"##################################" +
 			"########------######----##########" +
-			"S-----------------------------####" + // Hedge monster in this corner
+			"S---------------------------------" + // Hedge monster in this corner
 			"######V#------######----#####-####" +
 			"######-########----######---#-####" +
 			"######-########---------H-----####" +
@@ -65,6 +65,17 @@ class Level1
 		//////////////////////////////////
 		//////////// SPAWNERS ////////////
 		//////////////////////////////////
+
+		this.spawnerList.push({
+			x: 31,
+			y: 2,
+			max: 1,
+			freq: 10,
+			list: [HedgeMonster.prototype],
+			rand: false,
+			radius: 10000,
+			total: 1
+		});
 
 		this.spawnerList.push({
 			x: 20,
@@ -227,7 +238,7 @@ class Level1
 		 		pMove: EasingProjectile.prototype.circle,
 		 		pEasing: function (t) { return 0; }
 		 	});
-		
+
 		 this.hazardList.push (
 		 	{
 		 		x: 10,
@@ -240,7 +251,7 @@ class Level1
 		 		pMove: EasingProjectile.prototype.circle,
 		 		pEasing: function (t) { return 0.5; }
 		 	});
-		
+
 		 this.hazardList.push (
 		 	{
 		 		x: 10,
@@ -253,7 +264,7 @@ class Level1
 		 		pMove: EasingProjectile.prototype.circle,
 		 		pEasing: function (t) { return 0.42; }
 		 	});
-		
+
 		 this.hazardList.push (
 		 	{
 		 		x: 13,
@@ -266,7 +277,7 @@ class Level1
 		 		pMove: EasingProjectile.prototype.spiral,
 		 		pEasing: function (t) { return smoothStopN(t, 2); }
 		 	});
-		
+
 		 this.hazardList.push (
 		 	{
 		 		x: 13,
@@ -279,7 +290,7 @@ class Level1
 		 		pMove: EasingProjectile.prototype.spiral,
 		 		pEasing: function (t) { return smoothStopN(t, 2); }
 		 	});
-		
+
 		 this.hazardList.push (
 		 	{
 		 		x: 13,
