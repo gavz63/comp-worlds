@@ -27,12 +27,12 @@ class Projectile extends Entity {
         this.speed = speed;
 
         this.collider = new Collider(0, 0, -7, 7, -7, 8, null, 150);
-        
+        this.lifetime = lifetime;
         var that = this;
-        this.timer = new TimerCallback(this.game, lifetime, false, function () {
+        console.log(lifetime);
+        this.timer = new TimerCallback(that.game, that.lifetime, false, function () {
             that.destroy();
         });
-
         this.ctx = game.ctx;
         this.owner = owner;
 
@@ -164,4 +164,53 @@ class EasingProjectile extends Projectile {
         this.y = this.parentY + Math.sin(circle + t * 2 * Math.PI) * this.speed * t;
     }
 
+}
+
+class SpawnerProjectile extends EasingProjectile {
+  constructor(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing, timeToSpawn)
+  {
+    console.log("HEllo");
+    super(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing);
+    this.timeToSpawn = timeToSpawn;
+    let that = this;
+    this.spawnTimer = new TimerCallback(this.game, timeToSpawn, false,
+    function () {
+      if(!that.removeFromWorld)
+      {
+        let projectile = new SpawnerProjectile(that.game, that.x, that.y, that.dir, that.speed, that.lifetime, that, that.animation, that.dmg, that.radius, that.move, that.easing, that.timeToSpawn);
+        projectile.setAttachedToOwner(true);
+      }
+    });
+  }
+  update()
+  {
+    this.testCollision();
+
+    this.dx += this.dir.x * this.game._clockTick * this.speed;
+    this.dy += this.dir.y * this.game._clockTick * this.speed;
+
+    if (this.attachedToOwner) {
+        this.x = this.owner.x + this.dir.x * this.speed;
+        this.y = this.owner.y + this.dir.y * this.speed;
+    } else {
+        this.x = this.startX + this.dx;
+        this.y = this.startY + this.dy;
+    }
+    
+    let newPos = {x: this.x, y: this.y};
+    if(this.wallCollision(newPos))
+    {
+      console.log("Projectile to Wall collision");
+      this.destroy();
+    }
+    else
+    {
+      this.oldPos = newPos;
+    }
+  }
+  destroy()
+  {
+    this.removeFromWorld = true;
+    console.log("Goodbye");
+  }
 }

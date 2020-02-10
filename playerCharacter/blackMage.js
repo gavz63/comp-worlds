@@ -140,10 +140,10 @@ function BlackMage() {
         speed: 150,
         melee: false,
         projectileSpeed: 300,
-        projectileLifetime: 2,
-		specialMelee: false,
-		specialSpeed: 100,
-        specialLifetime: 10,
+        projectileLifetime: 0.5,
+        specialMelee: false,
+        specialSpeed: 50,
+        specialLifetime: 1.1,
         maxProjectiles: 3
     };
     this.npc = {

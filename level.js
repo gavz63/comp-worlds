@@ -268,6 +268,11 @@ class Level {
     
     quickCollision(x, y)
     {
+      if(x < 0 || y < 0 || this._binaryCollision[y].length <= x || this._binaryCollision.length <= y)
+      {
+        return 0;
+      }
+      
       return this._binaryCollision[y][x];
     }
 

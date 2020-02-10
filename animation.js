@@ -260,6 +260,10 @@ class Animation {
       let first = this._firstFrame.y * this._sheetWidth + this._firstFrame.x;
       let last = this._lastFrame.y * this._sheetWidth + this._lastFrame.x;
       return last - first;
-      
+    }
+    
+    copy()
+    {
+      return new Animation(this._spriteSheet, this._frameWidth, this._frameHeight, this._firstFrame, this._lastFrame, this._fps, this._loop, this._scale);
     }
 }

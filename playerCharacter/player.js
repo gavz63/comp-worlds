@@ -417,8 +417,8 @@ class Player extends Entity {
         {
           console.log("right Click");
           this.game.rightClick = false;
-          let projectile = new Projectile(this.game, this.x, this.y, attackVector, this.characterClass.stats.specialSpeed, this.characterClass.stats.specialLifetime, this, projectileAnimation, 1, 20);
-		  projectile.setAttachedToOwner(this.characterClass.stats.specialMelee);
+          let projectile = new SpawnerProjectile(this.game, this.x, this.y, attackVector, this.characterClass.stats.specialSpeed, this.characterClass.stats.specialLifetime, this, projectileAnimation, 1, 5, function() {}, function() {}, 1);
+          projectile.setAttachedToOwner(this.characterClass.stats.specialMelee);
         }
     }
 }

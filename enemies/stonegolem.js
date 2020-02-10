@@ -70,6 +70,8 @@ class StoneGolem extends Enemy {
             {
               this.x = this.oldPos.x;
               this.y = this.oldPos.y;
+              this.backToNormal();
+              this.attack();
             }
             else
             {
