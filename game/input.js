@@ -78,6 +78,7 @@ function Input() {
 
 			if (e.code === "Space") {
 				that.spacebar = true;
+				playSound();
 			}
 
 			// Temporary
