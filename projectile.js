@@ -29,7 +29,7 @@ class Projectile extends Entity {
         this.collider = new Collider(0, 0, -7, 7, -7, 8, null, 150);
         this.lifetime = lifetime;
         var that = this;
-        console.log(lifetime);
+        // console.log(lifetime);
         this.timer = new TimerCallback(that.game, that.lifetime, false, function () {
             that.destroy();
         });
