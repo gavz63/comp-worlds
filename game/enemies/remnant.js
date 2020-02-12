@@ -4,7 +4,9 @@ class Remnant extends Entity
   {
     super(game, x ,y);
     this.animation = animation;
-    
+    this.myScale = this.animation._scale;
+    this.animation._scale = this.myScale;
+    this.myAddScale = this.myScale / STANDARD_DRAW_SCALE;
     this.game.addEntity(this, LAYERS.FLOOR);
   }
   
@@ -17,7 +19,8 @@ class Remnant extends Entity
       let that = this;
       this.update = function () {
       console.log(STANDARD_DRAW_SCALE);
-      that.myScale[0] = STANDARD_DRAW_SCALE * that.myAddScale;};
+      that.myScale[0] = STANDARD_DRAW_SCALE * that.myAddScale;
+      console.log(that.myScale);};
     }
   }
 }

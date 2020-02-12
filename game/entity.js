@@ -20,7 +20,7 @@ class Entity
     this.collider = new Collider(0, 0, 10, 10, 10, 10, null, 150);
     
     this.myScale = [5 * STANDARD_DRAW_SCALE];
-    this.myAddScale;
+    this.myAddScale = 5;
     
     this.oldPos = {x: 0, y: 0};
 	}
