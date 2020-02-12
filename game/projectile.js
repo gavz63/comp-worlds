@@ -43,6 +43,7 @@ class Projectile extends Entity {
 
         this.dmg = dmg;
         this.radius = radius;
+        this.knockBack = 30;
 
         if (this.owner === this.game.player) {
             this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
@@ -89,7 +90,7 @@ class Projectile extends Entity {
                         if (that.dieOnHit) {
                             that.destroy();
                         }
-                        elem.destroy();
+                        elem.takeDamage(that.dmg, that.dir, that.knockBack);
                     }
                 }
             });
@@ -127,7 +128,7 @@ class EasingProjectile extends Projectile {
       this.move = move;
       this.easing = easing;
 
-        this.move();
+      this.move();
 
     }
 
@@ -209,6 +210,7 @@ class Flame extends EasingProjectile
     super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing);
     this._myScale[0] = 0;
     this.animation._scale = this._myScale;
+    this.knockBack = 30;
   }
   
   update() {
@@ -229,6 +231,7 @@ class FlameWall extends EasingProjectile
 		let that = this;
     this._myScale[0] = 0;
     this.animation._scale = this._myScale;
+    this.knockBack = 30;
 		this.spawnTimer = new TimerCallback(this.game, timeToSpawn, true,
 			function()
 			{
@@ -265,6 +268,7 @@ class Slash extends Projectile
 	{
 		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius);
 		this.attached = owner;
+    this.knockBack = 30;
 	}
 	
 	update()
@@ -304,9 +308,11 @@ class Shuriken extends EasingProjectile
 		that.animation.pause(); });
 		this.owner.ammo--;
 		this.done = false;
+    
+    this.knockBack = 10;
 	}
 	
-    update() {
+  update() {
 		if(!this.done)
 		{
 			this.testCollision();
@@ -322,7 +328,7 @@ class Shuriken extends EasingProjectile
 			}
 		}
 		this.testPlayerCollision();
-    }
+  }
 	
 	testCollision() {
         var that = this;
@@ -344,7 +350,7 @@ class Shuriken extends EasingProjectile
                         else{
                           that.setDone();
                         }
-                        elem.destroy();
+                        elem.takeDamage(that.dmg, that.dir, that.knockBack);
                     }
                 }
             });
@@ -405,15 +411,15 @@ class Spin extends Slash
 		this.owner.velocity.y = 0;
 		this.owner.speed = 75;
 		this.attached = owner;
+    this.knockBack = 10;
 	}
 	
 	testProjectileCollision()
 	{
-		
 		let that = this;
 		this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
             if (circleToCircle(that, elem)) {
-				elem.destroy();
+                elem.destroy();
                 //that.destroy(); // this was kinda awesome btw.
             }
         });

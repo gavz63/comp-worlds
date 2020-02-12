@@ -36,8 +36,8 @@ class Bat extends Enemy {
               x: this.game._player.x,
               y: this.game._player.y
           });
-		let length = lengthV(attackVector);
-		attackVector = normalizeV(attackVector);
+        let length = lengthV(attackVector);
+        attackVector = normalizeV(attackVector);
         if(length < 80) {
           if(this.inRange === false)
           {

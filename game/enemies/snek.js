@@ -26,6 +26,8 @@ class Snek extends Enemy {
         this.collider = new Collider(0, 0, -8, 14, -14, 13, null, 150);
         this.radius = STANDARD_ENTITY_RADIUS-10;
         
+        this.hp = 2;
+        
         let that = this;
         this.attackTimer = new TimerCallback(this.game, 3, true, function () {
             that.attack();
