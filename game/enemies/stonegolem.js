@@ -36,51 +36,52 @@ class StoneGolem extends Enemy {
     update() {
         super.update();
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
+        this.pathfind(1000, 50);
 
-        if (!this.isWaiting) {
-            let vec;
-            if (this.isCharging) {
-                vec = dirV({x: this.x, y: this.y}, {x: this.goalPoint.x, y: this.goalPoint.y});
-            } else {
-                vec = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
-            }
-            let normVector = normalizeV(vec);
-
-            if (this.isAttacking) {
-                if (this.animation.isDone()) {
-                    this.backToNormal();
-                    this.wait();
-                }
-            } else {
-                // this.animation = this.moveAnimation;
-                this.pathfind(1000, 50);
-
-                // if (lengthV(vec) < 240) {
-                //     if(!this.isCharging) {
-                //         this.charge();
-                //     } else if (lengthV(vec) < 5) {
-                //         this.backToNormal();
-                //         this.attack();
-                //     }
-                // }
-            }
-            let newPos = {x: this.x, y: this.y};
-            if(this.wallCollision(newPos))
-            {
-              this.x = this.oldPos.x;
-              this.y = this.oldPos.y;
-              this.backToNormal();
-              this.attack();
-            }
-            else
-            {
-              this.oldPos = newPos;
-            }
-        }
+        // if (!this.isWaiting) {
+        //     let vec;
+        //     if (this.isCharging) {
+        //         vec = dirV({x: this.x, y: this.y}, {x: this.goalPoint.x, y: this.goalPoint.y});
+        //     } else {
+        //         vec = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
+        //     }
+        //     let normVector = normalizeV(vec);
+        //
+        //     if (this.isAttacking) {
+        //         if (this.animation.isDone()) {
+        //             this.backToNormal();
+        //             this.wait();
+        //         }
+        //     } else {
+        //         // this.animation = this.moveAnimation;
+        //         this.pathfind(1000, 50);
+        //
+        //         // if (lengthV(vec) < 240) {
+        //         //     if(!this.isCharging) {
+        //         //         this.charge();
+        //         //     } else if (lengthV(vec) < 5) {
+        //         //         this.backToNormal();
+        //         //         this.attack();
+        //         //     }
+        //         // }
+        //     }
+        //     let newPos = {x: this.x, y: this.y};
+        //     if(this.wallCollision(newPos))
+        //     {
+        //       this.x = this.oldPos.x;
+        //       this.y = this.oldPos.y;
+        //       this.backToNormal();
+        //       this.attack();
+        //     }
+        //     else
+        //     {
+        //       this.oldPos = newPos;
+        //     }
+        // }
     }
 
     charge() {
-        this.goalPoint = {x: this.game._player.x, y: this.game._player.y};
+        this.goalPoint = {x: this.game.player.x, y: this.game.player.y};
 
         this.speed = 200;
         this.isCharging = true;

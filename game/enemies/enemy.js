@@ -14,49 +14,52 @@ class Enemy extends Entity {
     }
 
     pathfind(range, depth) {
-        let that = this;
         let myIndex = {x: coordinateToIndex(this.x), y: coordinateToIndex(this.y)};
         let playerIndex = {x: coordinateToIndex(this.game.player.x), y: coordinateToIndex(this.game.player.y)};
 
-        let vecToPlayer = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
+        let vecToPlayer = dirV({x: this.x, y: this.y}, {x: this.game.player.x, y: this.game.player.y});
         let normVecToPlayer = normalizeV(vecToPlayer);
-        console.log("PLAYER" + playerIndex.x + ", " + playerIndex.y);
 
         if (lengthV(vecToPlayer) < range) {
+            console.log("in range");
             let queue = [];
-            console.log("init: " + myIndex.x + ", " + myIndex.y);
 
             //If we're in the same tile as the player
             if (playerIndex.x === myIndex.x && playerIndex.y === myIndex.y) {
                 // Go straight toward the player
+                console.log("Zero away");
                 this.go(normVecToPlayer);
                 return;
             }
             let visited = [{x: myIndex.x, y: myIndex.y}];
 
             let directions = this.getDirections(myIndex.x, myIndex.y, visited);
-            directions.forEach(function (dir) {
-
+            for (let i = 0; i < directions.length; i++) {
+                let dir = directions[i];
                 let newNode = {x: myIndex.x + dir.x, y: myIndex.y + dir.y};
-                console.log("====" + newNode.x + ", " + newNode.y);
 
                 //If we are 1 tile away from the player
                 if (newNode.x === playerIndex.x && newNode.y === playerIndex.y) {
+                    console.log("One away");
                     // Go straight toward the player
-                    that.go(normVecToPlayer);
+                    this.go(normVecToPlayer);
                     return;
                 }
                 newNode.dir = dir;
                 queue.push(newNode);
                 visited.push(newNode);
-            });
+            }
+
+            console.log("PLAYER: " + playerIndex.x + ", " + playerIndex.y);
+            console.log("ME: " + myIndex.x + ", " + myIndex.y);
 
             for (let i = 0; i < depth; i++) {
                 let node = queue.shift();
                 if (node) {
-                    console.log("----" + node.x + ", " + node.y);
+                    console.log(node.x + ", " + node.y);
                     if (playerIndex.x === node.x && playerIndex.y === node.y) {
                         this.go(node.dir);
+                        console.log("found");
                         return;
                     } else {
                         directions = this.getDirections(node.x, node.y, visited);
@@ -67,6 +70,9 @@ class Enemy extends Entity {
                             visited.push(newNode);
                         });
                     }
+                } else {
+                    console.log("EMPTY QUEUE");
+                    break;
                 }
             }
         }
@@ -80,16 +86,16 @@ class Enemy extends Entity {
         let up = {x: x, y: y - 1};
         let down = {x: x, y: y + 1};
 
-        if (this.game.sceneManager.level.mapElementAt(left) === "-" && !visited.includes(left)) {
+        if (this.game.sceneManager.level.mapElementAt(left) === "-" && !this.isVisited(left, visited)) {
             directions.push({x: -1, y: 0});
         }
-        if (this.game.sceneManager.level.mapElementAt(right) === "-" && !visited.includes(right)) {
+        if (this.game.sceneManager.level.mapElementAt(right) === "-" && !this.isVisited(right, visited)) {
             directions.push({x: 1, y: 0});
         }
-        if (this.game.sceneManager.level.mapElementAt(up) === "-" && !visited.includes(up)) {
+        if (this.game.sceneManager.level.mapElementAt(up) === "-" && !!this.isVisited(up, visited)) {
             directions.push({x: 0, y: -1});
         }
-        if (this.game.sceneManager.level.mapElementAt(down) === "-" && !visited.includes(down)) {
+        if (this.game.sceneManager.level.mapElementAt(down) === "-" && !!this.isVisited(down, visited)) {
             directions.push({x: 0, y: 1});
         }
 
@@ -99,5 +105,15 @@ class Enemy extends Entity {
     go(dir) {
         this.x += dir.x * this.game._clockTick * this.speed;
         this.y += dir.y * this.game._clockTick * this.speed;
+        console.log(dir.x + ", " + dir.y);
+    }
+
+    isVisited(node, visited) {
+        for (let i = 0; i < visited.length; i++) {
+            if (visited[i].x === node.x && visited[i].y === node.y) {
+                return true;
+            }
+        }
+        return false;
     }
 }
