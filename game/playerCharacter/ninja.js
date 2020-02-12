@@ -132,7 +132,7 @@ function Ninja() {
 				attackVector,
 				player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 				false, player, projectileAnimation,
-				1, 20, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); }); // slowed down projectile for debugging
+				1, 5, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); }); // slowed down projectile for debugging
 		}
 	};
 	
