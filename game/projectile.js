@@ -64,15 +64,12 @@ class Projectile extends Entity {
             this.x = this.startX + this.dx;
             this.y = this.startY + this.dy;
         }
-        
+
         let newPos = {x: this.x, y: this.y};
-        if(this.wallCollision(newPos))
-        {
-          this.destroy();
-        }
-        else
-        {
-          this.oldPos = newPos;
+        if (this.wallCollision(newPos)) {
+            this.destroy();
+        } else {
+            this.oldPos = newPos;
         }
     }
 
@@ -130,7 +127,7 @@ class EasingProjectile extends Projectile {
       this.move = move;
       this.easing = easing;
 
-	    this.move();
+        this.move();
 
     }
 
@@ -191,21 +188,18 @@ class SpawnerProjectile extends EasingProjectile {
         this.x = this.startX + this.dx;
         this.y = this.startY + this.dy;
     }
-    
+
     let newPos = {x: this.x, y: this.y};
-    if(this.wallCollision(newPos))
-    {
-      this.destroy();
-    }
-    else
-    {
-      this.oldPos = newPos;
+    if (this.wallCollision(newPos)) {
+        this.destroy();
+    } else {
+        this.oldPos = newPos;
     }
   }
-  destroy()
-  {
-    this.removeFromWorld = true;
-  }
+
+    destroy() {
+        this.removeFromWorld = true;
+    }
 }
 
 class Flame extends EasingProjectile

@@ -53,17 +53,16 @@ class StoneGolem extends Enemy {
                 }
             } else {
                 // this.animation = this.moveAnimation;
-                this.x += normVector.x * this.speed * this.game._clockTick;
-                this.y += normVector.y * this.speed * this.game._clockTick;
+                this.pathfind(1000, 50);
 
-                if (lengthV(vec) < 240) {
-                    if(!this.isCharging) {
-                        this.charge();
-                    } else if (lengthV(vec) < 5) {
-                        this.backToNormal();
-                        this.attack();
-                    }
-                }
+                // if (lengthV(vec) < 240) {
+                //     if(!this.isCharging) {
+                //         this.charge();
+                //     } else if (lengthV(vec) < 5) {
+                //         this.backToNormal();
+                //         this.attack();
+                //     }
+                // }
             }
             let newPos = {x: this.x, y: this.y};
             if(this.wallCollision(newPos))
