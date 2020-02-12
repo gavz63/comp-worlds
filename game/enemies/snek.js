@@ -69,7 +69,7 @@ class Snek extends Enemy {
                             normalizeV({x: i, y: j}),
                             100, 5, true,
                             this,
-                            this.projectileAnimation, 1, 1);
+                            this.projectileAnimation, 1, 1, 10);
                     }
                 }
             }

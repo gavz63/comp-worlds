@@ -131,7 +131,7 @@ class Enemy extends Entity {
     {
       //if(!this.hurt)
       //{
-      
+        console.log(knockBack);
         this.x += dir.x * knockBack;
         this.y += dir.y * knockBack;
         this.hp -= dmg;

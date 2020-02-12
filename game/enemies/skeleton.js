@@ -63,7 +63,7 @@ class Skeleton extends Enemy
                 attackVector,
                 100, 2, true,
                 this, this.projectileAnimation,
-                1, 20);
+                1, 20, 10);
 		  //should transition to some idle animation here some day...
         }
       }

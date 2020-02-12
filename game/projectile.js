@@ -14,7 +14,7 @@
  * @constructor
  */
 class Projectile extends Entity {
-    constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius) {
+    constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback) {
         super(game, x, y);
 
         this.startX = x;
@@ -43,7 +43,7 @@ class Projectile extends Entity {
 
         this.dmg = dmg;
         this.radius = radius;
-        this.knockBack = 30;
+        this.knockBack = knockback;
 
         if (this.owner === this.game.player) {
             this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
@@ -53,7 +53,11 @@ class Projectile extends Entity {
     }
 
     update() {
-        this.testCollision();
+        
+        if(this.attached === null)
+        {
+          this.testCollision();
+        }
 
         this.dx += this.dir.x * this.game._clockTick * this.speed;
         this.dy += this.dir.y * this.game._clockTick * this.speed;
@@ -90,6 +94,7 @@ class Projectile extends Entity {
                         if (that.dieOnHit) {
                             that.destroy();
                         }
+                        that.done = true;
                         elem.takeDamage(that.dmg, that.dir, that.knockBack);
                     }
                 }
@@ -113,14 +118,22 @@ class Projectile extends Entity {
     }
 
     attachTo(attached) {
+
         this.attached = attached;
+       
+    }
+    
+    hitOnce()
+    {
+      let that = this;
+      new TimerCallback(this.game, this.lifetime/4, false, function () { console.log("ATTACK");that.testCollision(); });
     }
 
 }
 
 class EasingProjectile extends Projectile {
-    constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing) {
-      super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius);
+    constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing) {
+      super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
 
       this.parentX = x;
       this.parentY = y;
@@ -160,10 +173,10 @@ class EasingProjectile extends Projectile {
 }
 
 class SpawnerProjectile extends EasingProjectile {
-  constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing, timeToSpawn)
+  constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn)
   {
 
-    super(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing);
+    super(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, knockback, move, easing);
     this.timeToSpawn = timeToSpawn;
     let that = this;
     this.spawnTimer = new TimerCallback(this.game, timeToSpawn, false,
@@ -205,12 +218,11 @@ class SpawnerProjectile extends EasingProjectile {
 
 class Flame extends EasingProjectile
 {
-	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing)
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing)
 	{
-    super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing);
+    super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing);
     this._myScale[0] = 0;
     this.animation._scale = this._myScale;
-    this.knockBack = 30;
   }
   
   update() {
@@ -222,16 +234,15 @@ class Flame extends EasingProjectile
 
 class FlameWall extends EasingProjectile
 {
-	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing, timeToSpawn, length)
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn, length)
 	{
-    super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing);
+    super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing);
     this.timeToSpawn = timeToSpawn;
 		this.count = 1;
 		this.length = length;
 		let that = this;
     this._myScale[0] = 0;
     this.animation._scale = this._myScale;
-    this.knockBack = 30;
 		this.spawnTimer = new TimerCallback(this.game, timeToSpawn, true,
 			function()
 			{
@@ -244,7 +255,7 @@ class FlameWall extends EasingProjectile
 					for(let i = 0; i < that.count; i++)
 					{
             let animation = that.owner.characterClass.animation.specialProjectile();
-            new Flame(that.game, that.x + offsetX, that.y + offsetY, that.dir, that.speed, that.lifetime, that.dieOnHit, that.owner, animation, that.dmg, that.radius, that.move, that.easing);
+            new Flame(that.game, that.x + offsetX, that.y + offsetY, that.dir, that.speed, that.lifetime, that.dieOnHit, that.owner, animation, that.dmg, that.radius, that.knockBack, that.move, that.easing);
             offsetX += perp.x * that.speed;
             offsetY += perp.y * that.speed;
           }
@@ -264,11 +275,11 @@ class FlameWall extends EasingProjectile
 
 class Slash extends Projectile
 {
-	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius)
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback)
 	{
-		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius);
+		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
 		this.attached = owner;
-    this.knockBack = 30;
+    this.done = false;
 	}
 	
 	update()
@@ -279,8 +290,6 @@ class Slash extends Projectile
 		this.x = this.owner.x + this.dir.x * this.speed;
 		this.y = this.owner.y + this.dir.y * this.speed;
 	}
-	
-
 	
 	testProjectileCollision()
 	{
@@ -298,9 +307,9 @@ class Slash extends Projectile
 
 class Shuriken extends EasingProjectile
 {
-	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing, timeToSpawn)
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn)
 	{
-		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing, timeToSpawn);
+		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn);
 		this.timer.destroy();
 		let that = this;
 		this.timer = new TimerCallback(this.game, this.lifetime, false, function() { 
@@ -393,11 +402,12 @@ class Shuriken extends EasingProjectile
 
 class Spin extends Slash
 {
-	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius)
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback)
 	{
-		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius);
+		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
 		this.timer.destroy();
 		let that = this;
+    this.dmgTimer = new TimerCallback(that.game, 0.1, true, function () { console.log("SPIN");that.testCollision(); });
 		this.timer = new TimerCallback(that.game, that.lifetime, false,
 			function()
 			{ 
@@ -405,15 +415,57 @@ class Spin extends Slash
 				that.owner.velocity.x = 0;
 				that.owner.velocity.y = 0;
 				that.owner.speed = that.owner.characterClass.stats.speed; 
+        that.dmgTimer.destroy();
 			}
 		);
 		this.owner.velocity.x = 0;
 		this.owner.velocity.y = 0;
 		this.owner.speed = 75;
 		this.attached = owner;
-    this.knockBack = 10;
 	}
 	
+	update()
+	{
+		this.testProjectileCollision();
+		
+		this.x = this.owner.x + this.dir.x * this.speed;
+		this.y = this.owner.y + this.dir.y * this.speed;
+	}
+  
+  testCollision() {
+        var that = this;
+
+        if (this.animation.isDone()) {
+            this.animation.pause();
+            this.animation.setFrame(this.animation.getLastFrameAsInt());
+        }
+
+        if (this.owner instanceof Player) {
+            //For each enemy
+            this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
+                if (that.removeFromWorld !== true) {
+                    let direction = normalizeV(dirV({x: that.x, y: that.y}, {x: elem.x, y: elem.y}));
+                    if (circleToCircle(that, elem)) {
+                        if (that.dieOnHit) {
+                            that.destroy();
+                        }
+                        console.log("YO: " + that.knockBack);
+                        elem.takeDamage(that.dmg, direction, that.knockBack);
+                    }
+                }
+            });
+        } else {
+            if (circleToCircle(that, that.game.player)) {
+                let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
+                    x: this.game.player.x,
+                    y: this.game.player.y
+                }));
+                let attackedFromDir = vectorToDir(attackedFromVector);
+                this.game.player.takeDmg(1, attackedFromDir);
+            }
+        }
+  }
+  
 	testProjectileCollision()
 	{
 		let that = this;
