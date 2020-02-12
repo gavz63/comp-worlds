@@ -61,7 +61,7 @@ class Skeleton extends Enemy
           let projectile = new Projectile(this.game,
                 this.x, this.y,
                 attackVector,
-                100, 2,
+                100, 2, true,
                 this, this.projectileAnimation,
                 1, 20);
 		  //should transition to some idle animation here some day...

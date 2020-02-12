@@ -165,7 +165,7 @@ function Lancer() {
 	{
 		player.game.rightClick = false;
 		let projectile = new SpawnerProjectile(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, player, projectileAnimation, 1, 5, function() {}, function() {}, 1);
-		projectile.setAttachedToOwner(player.characterClass.stats.specialMelee);
+		projectile.setAttachedTo(player);
 	};
 
     this.collider = new Collider(0, 0, 14, 14, 9, 9, null, 120);

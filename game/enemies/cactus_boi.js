@@ -43,7 +43,7 @@ class CactusBoi extends Enemy {
                         new Projectile(this.game,
                             this.x, this.y,
                             {x: i, y: j},
-                            300, 0.3, this,
+                            300, 0.3, true, this,
                             this.projectileAnimation,
                             1, 2);
                     }
