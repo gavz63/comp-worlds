@@ -14,8 +14,8 @@ const LAYERS = {
     ENEMIES: 1,
     ENEMY_PROJECTILES: 2,
     PICKUPS: 3,
-    PLAYER_PROJECTILES: 4,
-    MAIN: 5,
+    PLAYER_PROJECTILES: 5,
+    MAIN: 4,
     WALL: 6,
     PARTICLES: 7,
     HUD: 8

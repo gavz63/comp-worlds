@@ -4,7 +4,7 @@ function Lancer() {
     var upAndDown = ASSET_MANAGER.getAsset("./img/player_characters/LancerUpDownSheet.png");
     var specialSheet = ASSET_MANAGER.getAsset("./img/player_characters/LancerSpecialMoveAllDirections.png");
     var dmgSheet = ASSET_MANAGER.getAsset("./img/player_characters/LancerDmgSheet.png");
-    var specialSlash = ASSET_MANAGER.getAsset("./img/projectiles/PureSlash.png");
+    var specialSlash = ASSET_MANAGER.getAsset("./img/projectiles/SpinToWin.png");
     var regPoke = ASSET_MANAGER.getAsset("./img/projectiles/PokeSheet.png");
 
 
@@ -117,22 +117,10 @@ function Lancer() {
             20, false, STANDARD_DRAW_SCALE*3); },
 			
 		//Special animations
-        specialProjectileUp: function() { return new Animation(regPoke,
+        specialProjectile: function() { return new Animation(specialSlash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 3, y: 0},
-            10, false, STANDARD_DRAW_SCALE*3); },
-        specialProjectileDown: function () { return new Animation(regPoke,
-            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 1}, {x: 3, y: 1},
-            20, false, STANDARD_DRAW_SCALE*3); },
-        specialProjectileLeft: function () { return new Animation(regPoke,
-            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 3, y: 2},
-            20, false, STANDARD_DRAW_SCALE*3); },
-        specialProjectileRight: function () { return new Animation(regPoke,
-            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 3}, {x: 3, y: 3},
-            20, false, STANDARD_DRAW_SCALE*3); }
+            16, true, STANDARD_DRAW_SCALE*6); }
     };
 
 	this.attack = function (player, attackVector)
@@ -156,15 +144,15 @@ function Lancer() {
 			player.x, player.y,
 			attackVector,
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
-			player, projectileAnimation,
+			false, player, projectileAnimation,
 			1, 20); // slowed down projectile for debugging
-		projectile.setAttachedToOwner(player.characterClass.stats.melee);
+		projectile.attachTo(player);
 	};
 	
 	this.specialAttack = function (player, attackVector)
 	{
-		let projectile = new SpawnerProjectile(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, player, projectileAnimation, 1, 5, function() {}, function() {}, 1);
-		projectile.setAttachedTo(player);
+		let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 2, 70);
+		projectile.attachTo(player);
 	};
 
     this.collider = new Collider(0, 0, 14, 14, 9, 9, null, 120);
@@ -176,8 +164,8 @@ function Lancer() {
         projectileSpeed: 50,
         projectileLifetime: 0.25,
 		specialMelee: true,
-		specialSpeed: 50,
-        specialLifetime: 0.25,
+		specialSpeed: 0,
+        specialLifetime: 3,
         maxProjectiles: 1
     };
 

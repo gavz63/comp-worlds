@@ -383,3 +383,24 @@ class Shuriken extends EasingProjectile
 		this.done = true;
 	}
 }
+
+class Spin extends Slash
+{
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius)
+	{
+		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius);
+		this.attached = owner;
+	}
+	
+	testProjectileCollision()
+	{
+		
+		let that = this;
+		this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
+            if (circleToCircle(that, elem)) {
+				elem.destroy();
+                //that.destroy(); // this was kinda awesome btw.
+            }
+        });
+	}
+}
