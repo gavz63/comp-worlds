@@ -3,6 +3,7 @@ class Enemy extends Entity {
         super(game, x, y);
         this.spawner = spawner;
         this.game.addEntity(this, LAYERS.ENEMIES);
+        this.goalPoint = null;
     }
 
     destroy() {
@@ -32,40 +33,50 @@ class Enemy extends Entity {
                 return;
             }
 
-            //Not close enough for a straight line, enqueue all adjacent nodes
+            //Not close enough for a straight line, make sure to go to center of the tile
+            if (this.goalPoint) {
+                let vec = dirV({x: this.x, y: this.y}, {x: this.goalPoint.x, y: this.goalPoint.y});
+                if (lengthV(vec) < 5) {
+                    this.goalPoint = null;
+                } else {
+                    this.go(normalizeV(vec));
+                }
+                return;
+            }
+
+
+            //In center of tile, enqueue all adj tiles
             let queue = [];
             let visited = [{x: myIndex.x, y: myIndex.y}];
-
-            console.log("PLAYER: " + playerIndex.x + ", " + playerIndex.y);
-            console.log("ME: " + myIndex.x + ", " + myIndex.y);
 
             let directions = this.getDirections(myIndex, visited);
             for (let i = 0; i < directions.length; i++) {
                 let dir = directions[i];
                 let newNode = {x: myIndex.x + dir.x, y: myIndex.y + dir.y};
-                newNode.originalDirection = dir;
+                newNode.orig = newNode;
                 queue.push(newNode);
             }
 
             for (let i = 0; i < depth; i++) {
                 let node = queue.shift();
                 if (node) {
-                    console.log(node.x + ", " + node.y);
                     if (playerIndex.x === node.x && playerIndex.y === node.y) {
-                        this.go(node.originalDirection);
+                        this.goalPoint = {
+                            x: indexToCoordinate(node.orig.x),
+                            y: indexToCoordinate(node.orig.y)
+                        };
                         console.log("found");
                         return;
                     } else {
                         directions = this.getDirections(node, visited);
                         for (let j = 0; j < directions.length; j++) {
                             let newNode = {x: node.x + directions[j].x, y: node.y + directions[j].y};
-                            newNode.originalDirection = node.originalDirection;
+                            newNode.orig = node.orig;
                             queue.push(newNode);
                             visited.push(newNode);
                         }
                     }
                 } else {
-                    console.log("EMPTY QUEUE");
                     break;
                 }
             }
@@ -110,6 +121,5 @@ class Enemy extends Entity {
     go(dir) {
         this.x += dir.x * this.game._clockTick * this.speed;
         this.y += dir.y * this.game._clockTick * this.speed;
-        console.log("GOING: " + dir.x + ", " + dir.y);
     }
 }
