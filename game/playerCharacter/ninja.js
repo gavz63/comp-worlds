@@ -162,7 +162,7 @@ function Ninja() {
 
     this.stats = {
         maxHP: 1,
-        speed: 300,
+        speed: 225,
         melee: false,
         projectileSpeed: 250,
         projectileLifetime: 2,

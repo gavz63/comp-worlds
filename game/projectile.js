@@ -389,6 +389,20 @@ class Spin extends Slash
 	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius)
 	{
 		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius);
+		this.timer.destroy();
+		let that = this;
+		this.timer = new TimerCallback(that.game, that.lifetime, false,
+			function()
+			{ 
+				that.destroy();
+				that.owner.velocity.x = 0;
+				that.owner.velocity.y = 0;
+				that.owner.speed = that.owner.characterClass.stats.speed; 
+			}
+		);
+		this.owner.velocity.x = 0;
+		this.owner.velocity.y = 0;
+		this.owner.speed = 75;
 		this.attached = owner;
 	}
 	

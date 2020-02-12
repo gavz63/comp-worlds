@@ -151,7 +151,7 @@ function Lancer() {
 	
 	this.specialAttack = function (player, attackVector)
 	{
-		let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 2, 70);
+		let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 2, 85);
 		projectile.attachTo(player);
 	};
 
