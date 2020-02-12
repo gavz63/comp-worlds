@@ -29,7 +29,6 @@ class Projectile extends Entity {
         this.collider = new Collider(0, 0, -7, 7, -7, 8, null, 150);
         this.lifetime = lifetime;
         var that = this;
-        console.log(lifetime);
         this.timer = new TimerCallback(that.game, that.lifetime, false, function () {
             that.destroy();
         });
@@ -69,7 +68,6 @@ class Projectile extends Entity {
         let newPos = {x: this.x, y: this.y};
         if(this.wallCollision(newPos))
         {
-          console.log("Projectile to Wall collision");
           this.destroy();
         }
         else
@@ -169,7 +167,7 @@ class EasingProjectile extends Projectile {
 class SpawnerProjectile extends EasingProjectile {
   constructor(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing, timeToSpawn)
   {
-    console.log("HEllo");
+
     super(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing);
     this.timeToSpawn = timeToSpawn;
     let that = this;
@@ -200,7 +198,6 @@ class SpawnerProjectile extends EasingProjectile {
     let newPos = {x: this.x, y: this.y};
     if(this.wallCollision(newPos))
     {
-      console.log("Projectile to Wall collision");
       this.destroy();
     }
     else
@@ -211,6 +208,28 @@ class SpawnerProjectile extends EasingProjectile {
   destroy()
   {
     this.removeFromWorld = true;
-    console.log("Goodbye");
   }
+}
+
+class FlameWall extends EasingProjectile
+{
+	constructor(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing, timeToSpawn, length)
+	{
+		this.count = 0;
+		this.length = length;
+		let that = this;
+		this.spawnTimer = new TimerCallback(this.game, timeToSpawn, false,
+			function()
+			{
+				if(that.count < that.length)
+				{
+					that.count++;
+					for(let i = 0; i < that.count; i++)
+					{
+						
+					}
+				}
+			}
+		);
+	}
 }

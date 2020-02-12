@@ -133,7 +133,14 @@ class Player extends Entity {
 
                 //Attack animation should supersede walking animation, so we can attack while moving
                 if (this.game.click) {
-                    this.regularAttack();
+					if(this.game.rightClick)
+					{
+						this.specialAttack();
+					}
+					else
+					{
+						this.regularAttack();
+					}
                 }
 
                 //If we were idle we aren't anymore, so reset the idle timer
@@ -350,75 +357,66 @@ class Player extends Entity {
      * Handles a regular attack (left click)
      */
     regularAttack() {
-        this.isAttacking = true;
-        this.game.click = false;
+		this.isAttacking = true;
+		this.game.click = false;
         let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
 
         let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
 
         var attackDir = vectorToDir(attackVector);
-        var projectileAnimation = null;
-		if(!this.game.rightClick)
-		{
-			switch (attackDir) {
-				case DIRECTION_DOWN:
-					this.animation = this.characterClass.animation.regAttackDown();
-					projectileAnimation = this.characterClass.animation.regProjectileDown();
-					break;
-				case DIRECTION_UP:
-					this.animation = this.characterClass.animation.regAttackUp();
-					projectileAnimation = this.characterClass.animation.regProjectileUp();
-					break;
-				case DIRECTION_LEFT:
-					this.animation = this.characterClass.animation.regAttackLeft();
-					projectileAnimation = this.characterClass.animation.regProjectileLeft();
-					break;
-				default:
-					this.animation = this.characterClass.animation.regAttackRight();
-					projectileAnimation = this.characterClass.animation.regProjectileRight();
-					break;
-			}
+		
+		switch (attackDir) {
+			case DIRECTION_DOWN:
+				this.animation = this.characterClass.animation.regAttackDown();
+				break;
+			case DIRECTION_UP:
+				this.animation = this.characterClass.animation.regAttackUp();
+				break;
+			case DIRECTION_LEFT:
+				this.animation = this.characterClass.animation.regAttackLeft();
+				break;
+			default:
+				this.animation = this.characterClass.animation.regAttackRight();
+				break;
 		}
-		else
-		{
-			switch (attackDir) {
-				case DIRECTION_DOWN:
-					this.animation = this.characterClass.animation.specialAttackDown();
-					projectileAnimation = this.characterClass.animation.specialProjectileDown();
-					break;
-				case DIRECTION_UP:
-					this.animation = this.characterClass.animation.specialAttackUp();
-					projectileAnimation = this.characterClass.animation.specialProjectileUp();
-					break;
-				case DIRECTION_LEFT:
-					this.animation = this.characterClass.animation.specialAttackLeft();
-					projectileAnimation = this.characterClass.animation.specialProjectileLeft();
-					break;
-				default:
-					this.animation = this.characterClass.animation.specialAttackRight();
-					projectileAnimation = this.characterClass.animation.specialProjectileRight();
-					break;
-			}
-		}
+		
         this.animation.resetAnimation();
         this.animation.unpause();
         this.direction = attackDir;
-        if(!this.game.rightClick)
-        {
-          let projectile = new Projectile(this.game,
-              this.x, this.y,
-              attackVector,
-              this.characterClass.stats.projectileSpeed, this.characterClass.stats.projectileLifetime,
-              this, projectileAnimation,
-              1, 20); // slowed down projectile for debugging
-          projectile.setAttachedToOwner(this.characterClass.stats.melee);
-        }
-        else
-        {
-          console.log("right Click");
-          this.game.rightClick = false;
-          let projectile = new SpawnerProjectile(this.game, this.x, this.y, attackVector, this.characterClass.stats.specialSpeed, this.characterClass.stats.specialLifetime, this, projectileAnimation, 1, 5, function() {}, function() {}, 1);
-          projectile.setAttachedToOwner(this.characterClass.stats.specialMelee);
-        }
+
+		this.characterClass.attack(this, attackVector);
     }
+	
+	specialAttack()
+	{
+		this.isAttacking = true;
+		this.game.click = false;
+		this.game.rightClick = false;
+        let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
+
+        let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
+
+        var attackDir = vectorToDir(attackVector);
+		
+		switch (attackDir) {
+			case DIRECTION_DOWN:
+				this.animation = this.characterClass.animation.regAttackDown();
+				break;
+			case DIRECTION_UP:
+				this.animation = this.characterClass.animation.regAttackUp();
+				break;
+			case DIRECTION_LEFT:
+				this.animation = this.characterClass.animation.regAttackLeft();
+				break;
+			default:
+				this.animation = this.characterClass.animation.regAttackRight();
+				break;
+		}
+		
+		this.animation.resetAnimation();
+        this.animation.unpause();
+        this.direction = attackDir;
+
+		this.characterClass.specialAttack(this, attackVector);
+	}
 }

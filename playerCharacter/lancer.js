@@ -135,6 +135,39 @@ function Lancer() {
             20, false, STANDARD_DRAW_SCALE*3); }
     };
 
+	this.attack = function (player, attackVector)
+	{	
+		let projectileAnimation = null;
+		switch (player.direction) {
+			case DIRECTION_DOWN:
+				projectileAnimation = player.characterClass.animation.regProjectileDown();
+				break;
+			case DIRECTION_UP:
+				projectileAnimation = player.characterClass.animation.regProjectileUp();
+				break;
+			case DIRECTION_LEFT:
+				projectileAnimation = player.characterClass.animation.regProjectileLeft();
+				break;
+			default:
+				projectileAnimation = player.characterClass.animation.regProjectileRight();
+				break;
+		}
+		let projectile = new Projectile(player.game,
+			player.x, player.y,
+			attackVector,
+			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
+			player, projectileAnimation,
+			1, 20); // slowed down projectile for debugging
+		projectile.setAttachedToOwner(player.characterClass.stats.melee);
+	};
+	
+	this.specialAttack = function (player, attackVector)
+	{
+		player.game.rightClick = false;
+		let projectile = new SpawnerProjectile(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, player, projectileAnimation, 1, 5, function() {}, function() {}, 1);
+		projectile.setAttachedToOwner(player.characterClass.stats.specialMelee);
+	};
+
     this.collider = new Collider(0, 0, 14, 14, 9, 9, null, 120);
 
     this.stats = {
