@@ -65,7 +65,7 @@ class Snek extends Enemy {
                         new Projectile(this.game,
                             this.x, this.y,
                             normalizeV({x: i, y: j}),
-                            100, 5,
+                            100, 5, true,
                             this,
                             this.projectileAnimation, 1, 1);
                     }
