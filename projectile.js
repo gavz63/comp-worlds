@@ -29,7 +29,6 @@ class Projectile extends Entity {
         this.collider = new Collider(0, 0, -7, 7, -7, 8, null, 150);
         this.lifetime = lifetime;
         var that = this;
-        // console.log(lifetime);
         this.timer = new TimerCallback(that.game, that.lifetime, false, function () {
             that.destroy();
         });
@@ -65,16 +64,12 @@ class Projectile extends Entity {
             this.x = this.startX + this.dx;
             this.y = this.startY + this.dy;
         }
-        
+
         let newPos = {x: this.x, y: this.y};
-        if(this.wallCollision(newPos))
-        {
-          console.log("Projectile to Wall collision");
-          this.destroy();
-        }
-        else
-        {
-          this.oldPos = newPos;
+        if (this.wallCollision(newPos)) {
+            this.destroy();
+        } else {
+            this.oldPos = newPos;
         }
     }
 
@@ -135,7 +130,7 @@ class EasingProjectile extends Projectile {
         this.move = move;
         this.easing = easing;
 
-	    this.move();
+        this.move();
 
     }
 
@@ -167,50 +162,61 @@ class EasingProjectile extends Projectile {
 }
 
 class SpawnerProjectile extends EasingProjectile {
-  constructor(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing, timeToSpawn)
-  {
-    console.log("HEllo");
-    super(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing);
-    this.timeToSpawn = timeToSpawn;
-    let that = this;
-    this.spawnTimer = new TimerCallback(this.game, timeToSpawn, false,
-    function () {
-      if(!that.removeFromWorld)
-      {
-        let projectile = new SpawnerProjectile(that.game, that.x, that.y, that.dir, that.speed, that.lifetime, that, that.animation, that.dmg, that.radius, that.move, that.easing, that.timeToSpawn);
-        projectile.setAttachedToOwner(true);
-      }
-    });
-  }
-  update()
-  {
-    this.testCollision();
+    constructor(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing, timeToSpawn) {
 
-    this.dx += this.dir.x * this.game._clockTick * this.speed;
-    this.dy += this.dir.y * this.game._clockTick * this.speed;
+        super(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing);
+        this.timeToSpawn = timeToSpawn;
+        let that = this;
+        this.spawnTimer = new TimerCallback(this.game, timeToSpawn, false,
+            function () {
+                if (!that.removeFromWorld) {
+                    let projectile = new SpawnerProjectile(that.game, that.x, that.y, that.dir, that.speed, that.lifetime, that, that.animation, that.dmg, that.radius, that.move, that.easing, that.timeToSpawn);
+                    projectile.setAttachedToOwner(true);
+                }
+            });
+    }
 
-    if (this.attachedToOwner) {
-        this.x = this.owner.x + this.dir.x * this.speed;
-        this.y = this.owner.y + this.dir.y * this.speed;
-    } else {
-        this.x = this.startX + this.dx;
-        this.y = this.startY + this.dy;
+    update() {
+        this.testCollision();
+
+        this.dx += this.dir.x * this.game._clockTick * this.speed;
+        this.dy += this.dir.y * this.game._clockTick * this.speed;
+
+        if (this.attachedToOwner) {
+            this.x = this.owner.x + this.dir.x * this.speed;
+            this.y = this.owner.y + this.dir.y * this.speed;
+        } else {
+            this.x = this.startX + this.dx;
+            this.y = this.startY + this.dy;
+        }
+
+        let newPos = {x: this.x, y: this.y};
+        if (this.wallCollision(newPos)) {
+            this.destroy();
+        } else {
+            this.oldPos = newPos;
+        }
     }
-    
-    let newPos = {x: this.x, y: this.y};
-    if(this.wallCollision(newPos))
-    {
-      console.log("Projectile to Wall collision");
-      this.destroy();
+
+    destroy() {
+        this.removeFromWorld = true;
     }
-    else
-    {
-      this.oldPos = newPos;
+}
+
+class FlameWall extends EasingProjectile {
+    constructor(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, move, easing, timeToSpawn, length) {
+        this.count = 0;
+        this.length = length;
+        let that = this;
+        this.spawnTimer = new TimerCallback(this.game, timeToSpawn, false,
+            function () {
+                if (that.count < that.length) {
+                    that.count++;
+                    for (let i = 0; i < that.count; i++) {
+
+                    }
+                }
+            }
+        );
     }
-  }
-  destroy()
-  {
-    this.removeFromWorld = true;
-    console.log("Goodbye");
-  }
 }
