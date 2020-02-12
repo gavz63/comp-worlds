@@ -132,7 +132,7 @@ function Ninja() {
 				attackVector,
 				player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 				false, player, projectileAnimation,
-				1, 20, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); }); // slowed down projectile for debugging
+				1, 5, 10, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); }); // slowed down projectile for debugging
 		}
 	};
 	
@@ -154,8 +154,9 @@ function Ninja() {
 				specialAnimation = player.characterClass.animation.specialProjectileRight();
 				break;
 		}		
-		let projectile = new Slash(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, specialAnimation, 2, 35);
+		let projectile = new Slash(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, specialAnimation, 2, 35, 25);
 		projectile.attachTo(player);
+    //projectile.hitOnce();
 	};
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
@@ -166,9 +167,9 @@ function Ninja() {
         melee: false,
         projectileSpeed: 250,
         projectileLifetime: 2,
-		specialMelee: true,
-		specialSpeed: 10,
-		specialLifetime: 0.25,
+        specialMelee: true,
+        specialSpeed: 10,
+        specialLifetime: 0.25,
         maxProjectiles: 3
     };
     this.npc = {

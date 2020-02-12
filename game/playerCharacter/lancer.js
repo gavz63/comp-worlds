@@ -145,13 +145,14 @@ function Lancer() {
 			attackVector,
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 			false, player, projectileAnimation,
-			1, 20); // slowed down projectile for debugging
-		projectile.attachTo(player);
+			0.75, 20, 5); // slowed down projectile for debugging
+      projectile.attachTo(player);
+      projectile.hitOnce();
 	};
 	
 	this.specialAttack = function (player, attackVector)
 	{
-		let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 2, 85);
+		let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 0.34, 85, 5);
 		projectile.attachTo(player);
 	};
 

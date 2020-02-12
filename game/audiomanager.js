@@ -1,5 +1,5 @@
 	function playSound()
 	{
-		document.getElementById('mySound').play();
+		document.getElementById('mySound').cloneNode(true).play();
 		//audioFile.play();
 	}

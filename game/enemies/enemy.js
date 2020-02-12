@@ -4,6 +4,12 @@ class Enemy extends Entity {
         this.spawner = spawner;
         this.game.addEntity(this, LAYERS.ENEMIES);
         this.goalPoint = null;
+        
+        let that = this;
+        /*this.damageTimer = new TimerCallback(this.game, 1, true, function() { that.hurt = false;
+        this.pause();});*/
+        this.hurt = false;
+        this.hp = 1;
     }
 
     destroy() {
@@ -22,7 +28,6 @@ class Enemy extends Entity {
         let normVecToPlayer = normalizeV(vecToPlayer);
 
         if (lengthV(vecToPlayer) < range) {
-            console.log("in range");
 
             //If we're in the same tile as the player or 1 tile away
             if ((playerIndex.x === myIndex.x &&
@@ -63,7 +68,6 @@ class Enemy extends Entity {
                             x: indexToCoordinate(node.orig.x),
                             y: indexToCoordinate(node.orig.y)
                         };
-                        console.log("found");
                         return;
                     } else {
                         directions = this.getDirections(node, visited);
@@ -119,5 +123,27 @@ class Enemy extends Entity {
     go(dir) {
         this.x += dir.x * this.game._clockTick * this.speed;
         this.y += dir.y * this.game._clockTick * this.speed;
+    }
+    
+    takeDamage(dmg, dir, knockBack)
+    {
+      //if(!this.hurt)
+      //{
+        console.log(knockBack);
+        this.x += dir.x * knockBack;
+        this.y += dir.y * knockBack;
+        this.hp -= dmg;
+        //this.hurt = true;
+        if(this.hp <= 0 )
+        {
+          this.destroy();
+        }
+        /*
+        else
+        {
+          this.damageTimer.reset();
+          this.damageTimer.unpause();
+        }*/
+      //}
     }
 }

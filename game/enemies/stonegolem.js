@@ -29,7 +29,7 @@ class StoneGolem extends Enemy {
         this.isWaiting = false;
         this.isAttacking = false;
         this.goalPoint = null;
-
+        this.hp = 4;
         this.wait();
     }
 

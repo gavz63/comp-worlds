@@ -120,12 +120,12 @@ function BlackMage() {
 			attackVector,
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 			true, player, projectileAnimation,
-			1, 20); // slowed down projectile for debugging
+			1, 20, 15); // slowed down projectile for debugging
 	};
 	
 	this.specialAttack = function (player, attackVector)
 	{
-		let projectile = new FlameWall(player.game, player.x + attackVector.x * that.stats.specialSpeed, player.y + attackVector.y * that.stats.specialSpeed, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, true, player, that.animation.specialProjectile(), 1, 5, function() {}, function(t) { return arch4(smoothStopN(t, 20));}, 0.1, 10);
+		let projectile = new FlameWall(player.game, player.x + attackVector.x * that.stats.specialSpeed, player.y + attackVector.y * that.stats.specialSpeed, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, true, player, that.animation.specialProjectile(), 1, 5, 30, function() {}, function(t) { return arch4(smoothStopN(t, 20));}, 0.1, 10);
 	};
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
