@@ -89,7 +89,7 @@ class Projectile extends Entity {
         if (this.owner instanceof Player) {
             //For each enemy
             this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
-                if (that.removeFromWorld !== true) {
+                if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
                     if (circleToCircle(that, elem)) {
                         if (that.dieOnHit) {
                             that.destroy();
@@ -221,14 +221,17 @@ class Flame extends EasingProjectile
 	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing)
 	{
     super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing);
-    this._myScale[0] = 0;
-    this.animation._scale = this._myScale;
+    this.myScale[0] = 0;
+    this.animation._scale = this.myScale;
   }
   
   update() {
-      this.testCollision();
+      if(this.timer.getPercent() < 0.1)
+      {
+        this.testCollision();
+      }
       this.move();
-      this._myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
+      this.myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
   }
 }
 
@@ -241,8 +244,8 @@ class FlameWall extends EasingProjectile
 		this.count = 1;
 		this.length = length;
 		let that = this;
-    this._myScale[0] = 0;
-    this.animation._scale = this._myScale;
+    this.myScale[0] = 0;
+    this.animation._scale = this.myScale;
 		this.spawnTimer = new TimerCallback(this.game, timeToSpawn, true,
 			function()
 			{
@@ -269,7 +272,7 @@ class FlameWall extends EasingProjectile
 	}
   update()
   {
-    this._myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
+    this.myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
   }
 }
 
