@@ -258,3 +258,128 @@ class FlameWall extends EasingProjectile
     this._myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
   }
 }
+
+class Slash extends Projectile
+{
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius)
+	{
+		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius);
+		this.attached = owner;
+	}
+	
+	update()
+	{
+		this.testCollision();
+		this.testProjectileCollision();
+		
+		this.x = this.owner.x + this.dir.x * this.speed;
+		this.y = this.owner.y + this.dir.y * this.speed;
+	}
+	
+
+	
+	testProjectileCollision()
+	{
+		
+		let that = this;
+		this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
+            if (circleToCircle(that, elem)) {
+				let p = new Projectile(that.game, elem.x, elem.y, that.dir, that.owner.characterClass.stats.projectileSpeed, 3, true, that.owner, elem.animation, elem.dmg, elem.radius);
+				elem.destroy();
+                //that.destroy(); // this was kinda awesome btw.
+            }
+        });
+	}
+}
+
+class Shuriken extends EasingProjectile
+{
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing, timeToSpawn)
+	{
+		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, move, easing, timeToSpawn);
+		this.timer.destroy();
+		let that = this;
+		this.timer = new TimerCallback(this.game, this.lifetime, false, function() { 
+		that.done = true;
+		that.animation.pause(); });
+		this.owner.ammo--;
+		this.done = false;
+	}
+	
+    update() {
+		if(!this.done)
+		{
+			this.testCollision();
+			this.move();
+			
+			let newPos = {x: this.x, y: this.y};
+			if (this.wallCollision(newPos)) {
+				this.x = this.oldPos.x;
+				this.y = this.oldPos.y;
+				this.setDone();
+			} else {
+				this.oldPos = newPos;
+			}
+		}
+		this.testPlayerCollision();
+    }
+	
+	testCollision() {
+        var that = this;
+
+        if (this.animation.isDone()) {
+            this.animation.pause();
+            this.animation.setFrame(this.animation.getLastFrameAsInt());
+        }
+
+        if (this.owner instanceof Player) {
+            //For each enemy
+            this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
+                if (that.removeFromWorld !== true) {
+                    if (circleToCircle(that, elem)) {
+                        if (that.dieOnHit) {
+                            that.destroy();
+                        }
+						else{
+							that.setDone();
+						}
+                        elem.destroy();
+                    }
+                }
+            });
+        } else {
+            if (circleToCircle(that, that.game.player)) {
+                let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
+                    x: this.game.player.x,
+                    y: this.game.player.y
+                }));
+                let attackedFromDir = vectorToDir(attackedFromVector);
+                this.game.player.takeDmg(1, attackedFromDir);
+            }
+        }
+    }
+	
+	testPlayerCollision()
+	{
+		if((this.done || this.timer.getPercent() > 0.7) && circleToCircle(this, this.owner))
+		{
+			this.destroy();
+		}
+	}
+	
+	destroy()
+	{
+		console.log("HEY");
+		this.removeFromWorld = true;
+		this.owner.ammo++;
+	}
+	
+	setDone()
+	{
+		this.timer.pause();
+		this.timer.destroy();
+		this.animation.setFrame(6);
+		this.animation.pause();
+		this.done = true;
+	}
+}

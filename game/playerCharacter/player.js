@@ -45,6 +45,8 @@ class Player extends Entity {
 
         this.hurt = false;
         this.hurt = true;
+		
+		this.ammo = 3;
     }
 
     /**
@@ -400,16 +402,16 @@ class Player extends Entity {
 		
 		switch (attackDir) {
 			case DIRECTION_DOWN:
-				this.animation = this.characterClass.animation.regAttackDown();
+				this.animation = this.characterClass.animation.specialAttackDown();
 				break;
 			case DIRECTION_UP:
-				this.animation = this.characterClass.animation.regAttackUp();
+				this.animation = this.characterClass.animation.specialAttackUp();
 				break;
 			case DIRECTION_LEFT:
-				this.animation = this.characterClass.animation.regAttackLeft();
+				this.animation = this.characterClass.animation.specialAttackLeft();
 				break;
 			default:
-				this.animation = this.characterClass.animation.regAttackRight();
+				this.animation = this.characterClass.animation.specialAttackRight();
 				break;
 		}
 		

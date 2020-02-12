@@ -10,7 +10,7 @@ function Ninja() {
         //Left facing animations
         idleLeft: new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 0, y: 3},
+            {x: 4, y: 2}, {x: 4, y: 3},
             6, false, STANDARD_DRAW_SCALE),
         walkingLeft: new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
@@ -32,7 +32,7 @@ function Ninja() {
         //Right facing animations
         idleRight: new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 0, y: 3},
+            {x: 4, y: 2}, {x: 4, y: 3},
             6, false, STANDARD_DRAW_SCALE),
         walkingRight: new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
@@ -54,7 +54,7 @@ function Ninja() {
         //Up facing animations
         idleUp: new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 0, y: 3},
+            {x: 4, y: 2}, {x: 4, y: 3},
             6, false, STANDARD_DRAW_SCALE),
         walkingUp: new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
@@ -76,7 +76,7 @@ function Ninja() {
         //Down facing animations
         idleDown: new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 0, y: 3},
+            {x: 4, y: 2}, {x: 4, y: 3},
             6, false, STANDARD_DRAW_SCALE),
         walkingDown: new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
@@ -96,22 +96,10 @@ function Ninja() {
             6, false, STANDARD_DRAW_SCALE),
 
         //Projectile animations
-        regProjectileUp: function () { return new Animation(shuriken,
+        regProjectile: function () { return new Animation(shuriken,
         STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
         {x: 0, y: 0}, {x: 7, y: 0},
         24, true, STANDARD_DRAW_SCALE); },
-        regProjectileDown: function () { return new Animation(shuriken,
-            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 7, y: 0},
-            24, true, STANDARD_DRAW_SCALE); },
-        regProjectileLeft: function () { return new Animation(shuriken,
-            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 7, y: 0},
-            24, true, STANDARD_DRAW_SCALE); },
-        regProjectileRight: function () { return new Animation(shuriken,
-            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 7, y: 0},
-            24, true, STANDARD_DRAW_SCALE); },
 			
 		//Special Projectile animations
         specialProjectileUp: function() { return new Animation(slash,
@@ -132,13 +120,51 @@ function Ninja() {
             20, false, STANDARD_DRAW_SCALE*3); }
     };
 
+	let that = this;
+	
+	this.attack = function (player, attackVector)
+	{
+		if(player.ammo > 0)
+		{
+			let projectileAnimation = that.animation.regProjectile();
+			let projectile = new Shuriken(player.game,
+				player.x, player.y,
+				attackVector,
+				player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
+				false, player, projectileAnimation,
+				1, 20, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); }); // slowed down projectile for debugging
+		}
+	};
+	
+	this.specialAttack = function (player, attackVector)
+	{
+		let specialAnimation = null;
+
+		switch (player.direction) {
+			case DIRECTION_DOWN:
+				specialAnimation = player.characterClass.animation.specialProjectileDown();
+				break;
+			case DIRECTION_UP:
+				specialAnimation = player.characterClass.animation.specialProjectileUp();
+				break;
+			case DIRECTION_LEFT:
+				specialAnimation = player.characterClass.animation.specialProjectileLeft();
+				break;
+			default:
+				specialAnimation = player.characterClass.animation.specialProjectileRight();
+				break;
+		}		
+		let projectile = new Slash(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, specialAnimation, 2, 35);
+		projectile.attachTo(player);
+	};
+
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
 
     this.stats = {
         maxHP: 1,
-        speed: 200,
+        speed: 300,
         melee: false,
-        projectileSpeed: 300,
+        projectileSpeed: 250,
         projectileLifetime: 2,
 		specialMelee: true,
 		specialSpeed: 10,

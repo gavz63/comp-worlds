@@ -163,7 +163,6 @@ function Lancer() {
 	
 	this.specialAttack = function (player, attackVector)
 	{
-		player.game.rightClick = false;
 		let projectile = new SpawnerProjectile(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, player, projectileAnimation, 1, 5, function() {}, function() {}, 1);
 		projectile.setAttachedTo(player);
 	};
