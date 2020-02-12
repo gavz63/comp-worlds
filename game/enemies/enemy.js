@@ -29,7 +29,7 @@ class Enemy extends Entity {
                 (playerIndex.y === myIndex.y || playerIndex.y === myIndex.y + 1 || playerIndex.y === myIndex.y - 1)) ||
                 (playerIndex.y === myIndex.y && (playerIndex.x === myIndex.x + 1 || playerIndex.x === myIndex.x - 1))) {
                 // Go straight toward the player
-                this.go(normVecToPlayer);
+                this.goalPoint = {x: this.game.player.x, y: this.game.player.y};
                 return;
             }
 
@@ -38,8 +38,6 @@ class Enemy extends Entity {
                 let vec = dirV({x: this.x, y: this.y}, {x: this.goalPoint.x, y: this.goalPoint.y});
                 if (lengthV(vec) < 5) {
                     this.goalPoint = null;
-                } else {
-                    this.go(normalizeV(vec));
                 }
                 return;
             }
