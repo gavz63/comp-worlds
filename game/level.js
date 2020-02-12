@@ -282,8 +282,8 @@ class Level {
 }
 
 /**
- * @param {num} index An index from the level array.
- * @returns number center coordinate of the tile referenced by index.
+ * @param {number} index An index from the level array.
+ * @returns {number} center coordinate of the tile referenced by index.
  */
 function indexToCoordinate(index) {
 	return index * 96 + 48;
