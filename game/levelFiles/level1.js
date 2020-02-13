@@ -166,27 +166,27 @@ class Level1
 		// 	total: 0
 		// });
 
-		// this.spawnerList.push({
-		// 	x: 25,
-		// 	y: 6,
-		// 	max: 1,
-		// 	freq: 3,
-		// 	list: [StoneGolem.prototype],
-		// 	rand: false,
-		// 	radius: 288,
-		// 	total: 0
-		// });
-		//
-		// this.spawnerList.push({
-		// 	x: 27,
-		// 	y: 6,
-		// 	max: 1,
-		// 	freq: 3,
-		// 	list: [StoneGolem.prototype],
-		// 	rand: false,
-		// 	radius: 288,
-		// 	total: 0
-		// });
+		this.spawnerList.push({
+			x: 25,
+			y: 6,
+			max: 1,
+			freq: 3,
+			list: [StoneGolem.prototype],
+			rand: false,
+			radius: 288,
+			total: 0
+		});
+
+		this.spawnerList.push({
+			x: 27,
+			y: 6,
+			max: 1,
+			freq: 3,
+			list: [StoneGolem.prototype],
+			rand: false,
+			radius: 288,
+			total: 0
+		});
 
 		// Snek Room
 		this.spawnerList.push({
