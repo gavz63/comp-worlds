@@ -48,7 +48,8 @@ class StoneGolem extends Enemy {
                 this.pathfind(1000, 50);
                 if (this.isCharging) {
                     this.go(this.dir);
-                } else if (this.goalPoint.x === this.game.player.x && this.goalPoint.y === this.game.player.y) {
+                } else if (this.goalPoint &&
+                    this.goalPoint.x === this.game.player.x && this.goalPoint.y === this.game.player.y) {
                     this.charge();
                 } else {
                     this.go(normalizeV(dirV(this, this.goalPoint)));
@@ -66,7 +67,11 @@ class StoneGolem extends Enemy {
     }
 
     charge() {
-        this.dir = normalizeV(dirV(this, this.game.player));
+        this.goalPoint = {
+            x: indexToCoordinate(coordinateToIndex(this.game.player.x)),
+            y: indexToCoordinate(coordinateToIndex(this.game.player.y)),
+        };
+        this.dir = normalizeV(dirV(this, this.goalPoint));
         this.speed = 200;
         this.isCharging = true;
         this.animation = this.chargeAnimation;
