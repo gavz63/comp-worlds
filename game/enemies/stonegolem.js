@@ -23,12 +23,13 @@ class StoneGolem extends Enemy {
 
         this.animation = this.moveAnimation;
 
-        this.speed = 30;
+        this.speed = 20;
         this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
         this.radius = STANDARD_ENTITY_RADIUS;
         this.isWaiting = false;
         this.isAttacking = false;
         this.goalPoint = null;
+        this.dir = null;
         this.hp = 4;
         this.wait();
     }
@@ -36,53 +37,36 @@ class StoneGolem extends Enemy {
     update() {
         super.update();
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
-        this.pathfind(1000, 50);
 
-        // if (!this.isWaiting) {
-        //     let vec;
-        //     if (this.isCharging) {
-        //         vec = dirV({x: this.x, y: this.y}, {x: this.goalPoint.x, y: this.goalPoint.y});
-        //     } else {
-        //         vec = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
-        //     }
-        //     let normVector = normalizeV(vec);
-        //
-        //     if (this.isAttacking) {
-        //         if (this.animation.isDone()) {
-        //             this.backToNormal();
-        //             this.wait();
-        //         }
-        //     } else {
-        //         // this.animation = this.moveAnimation;
-        //         this.pathfind(1000, 50);
-        //
-        //         // if (lengthV(vec) < 240) {
-        //         //     if(!this.isCharging) {
-        //         //         this.charge();
-        //         //     } else if (lengthV(vec) < 5) {
-        //         //         this.backToNormal();
-        //         //         this.attack();
-        //         //     }
-        //         // }
-        //     }
-        //     let newPos = {x: this.x, y: this.y};
-        //     if(this.wallCollision(newPos))
-        //     {
-        //       this.x = this.oldPos.x;
-        //       this.y = this.oldPos.y;
-        //       this.backToNormal();
-        //       this.attack();
-        //     }
-        //     else
-        //     {
-        //       this.oldPos = newPos;
-        //     }
-        // }
+        if (!this.isWaiting) {
+            if (this.isAttacking) {
+                if (this.animation.isDone()) {
+                    this.backToNormal();
+                    this.wait();
+                }
+            } else {
+                this.pathfind(1000, 50);
+                if (this.isCharging) {
+                    this.go(this.dir);
+                } else if (this.goalPoint.x === this.game.player.x && this.goalPoint.y === this.game.player.y) {
+                    this.charge();
+                } else {
+                    this.go(normalizeV(dirV(this, this.goalPoint)));
+                }
+                let newPos = {x: this.x, y: this.y};
+                if (this.wallCollision(newPos)) {
+                    this.x = this.oldPos.x;
+                    this.y = this.oldPos.y;
+                    this.attack();
+                } else {
+                    this.oldPos = newPos;
+                }
+            }
+        }
     }
 
     charge() {
-        this.goalPoint = {x: this.game.player.x, y: this.game.player.y};
-
+        this.dir = normalizeV(dirV(this, this.game.player));
         this.speed = 200;
         this.isCharging = true;
         this.animation = this.chargeAnimation;
@@ -104,13 +88,15 @@ class StoneGolem extends Enemy {
         this.isAttacking = false;
         this.animation = this.moveAnimation;
         this.animation.resetAnimation();
+        this.goalPoint = null;
+        this.dir = null;
     }
 
     wait() {
         this.isWaiting = true;
         let that = this;
-        new TimerCallback(this.game, 3, false, function() {
-             that.isWaiting = false;
+        new TimerCallback(this.game, 3, false, function () {
+            that.isWaiting = false;
         })
     }
 }
