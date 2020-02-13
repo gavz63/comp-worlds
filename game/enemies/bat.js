@@ -22,59 +22,52 @@ class Bat extends Enemy {
         this.speed = 100;
         this.collider = new Collider(0, 0, -13, 12, -15, 16, null, 150);
         this.oldCircle = 0;
-        this.radius = STANDARD_ENTITY_RADIUS-5;
+        this.radius = STANDARD_ENTITY_RADIUS - 5;
         this.inRange = false;
-
     }
 
     update() {
         this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
-        let attackVector = dirV({
-            x: this.x,
-            y: this.y
-          }, {
-              x: this.game._player.x,
-              y: this.game._player.y
-          });
-        let length = lengthV(attackVector);
-        attackVector = normalizeV(attackVector);
-        if(length < 80) {
-          if(this.inRange === false)
-          {
+        this.pathfind(1000, 50);
+        if (this.goalPoint) {
+
+            let vec = dirV(this, this.goalPoint);
+            if (this.goalPoint.x === this.game.player.x &&
+                this.goalPoint.y === this.game.player.y &&
+                lengthV(vec) < 80) {
+
+                this.circlePlayer();
+            } else {
+                this.inRange = false;
+                this.go(normalizeV(vec));
+            }
+        }
+
+        let newPos = {x: this.x, y: this.y};
+        if (this.wallCollision(newPos)) {
+            this.x = this.oldPos.x;
+            this.y = this.oldPos.y;
+            this.circle = this.oldCircle;
+        } else {
+            this.oldPos = newPos;
+        }
+    }
+
+    circlePlayer() {
+        let vec = dirV(this, this.goalPoint);
+        vec = normalizeV(vec);
+        if (!this.inRange) {
             this.inRange = true;
-            this.circle = Math.atan2(attackVector.y, attackVector.x);
-            this.circle = this.circle * 180/Math.PI + 180;
-          }
-          else
-          {
+            this.circle = Math.atan2(vec.y, vec.x);
+            this.circle = this.circle * 180 / Math.PI + 180;
+        }
+        else {
             this.oldCircle = this.circle;
             this.circle = (this.circle + this.speed * this.game._clockTick) % 360;
-          }
-          attackVector = normalizeV(dirV({
-            x: this.x,
-            y: this.y
-          }, {
-              x: this.game._player.x + (Math.cos((this.circle / 180) * Math.PI)) * (75),
-              y: this.game._player.y + (Math.sin((this.circle / 180) * Math.PI)) * 75
-          }));
         }
-        else
-        {
-          this.inRange = false;
-        }
-        this.x += attackVector.x * this.speed * this.game._clockTick;
-        this.y += attackVector.y * this.speed * this.game._clockTick;
-        
-        let newPos = {x: this.x, y: this.y};
-        if(this.wallCollision(newPos))
-        {
-          this.x = this.oldPos.x;
-          this.y = this.oldPos.y;
-          this.circle = this.oldCircle;
-        }
-        else
-        {
-          this.oldPos = newPos;
-        }
+        this.go(normalizeV(dirV(this, {
+            x: this.game.player.x + (Math.cos((this.circle / 180) * Math.PI)) * (75),
+            y: this.game.player.y + (Math.sin((this.circle / 180) * Math.PI)) * 75
+        })));
     }
 }
