@@ -31,7 +31,9 @@ class NPC extends Entity {
     update() {
         /* If idle() has already been called and we are in the middle of
                 playing the idle animation */
-        if (this.isIdling) {
+        if (this.game.game_state === GAME_STATES.CHANGING_LEVEL) {
+            this.animation.unpause();
+        } else if (this.isIdling) {
 
             //If the animation is finished, reset to single frame and reset idleTimer
             if (this.animation.isDone()) {

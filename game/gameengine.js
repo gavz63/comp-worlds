@@ -238,6 +238,7 @@ class GameEngine {
                 break;
 
             case GAME_STATES.PLAYING:
+            case GAME_STATES.CHANGING_LEVEL:
                 for (var i = 0; i < this._entities.length; i++) {
                     let entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
@@ -294,8 +295,9 @@ class GameEngine {
     }
 
     switchToCharacterChooserMode(player = null) {
-        this.camera.x = 0;
-        this.camera.y = this.sceneManager.level.spawn.y * 96;
+        
+        this.camera._desiredLoc.x = 0;
+        this.camera._desiredLoc.y = this.sceneManager.level.spawn.y * 96;
         for (let i = 0; i < this.entities[LAYERS.MAIN].length; i++) {
             let flag = true;
             if (this.entities[LAYERS.MAIN][i] instanceof NPC) {

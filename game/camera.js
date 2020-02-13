@@ -6,6 +6,8 @@ const STANDARD_DRAW_SCALE = [1.75];
 /** The radius of the camera bounding box around the player. */
 const CAMERA_BOUNDING_BOX = 20;
 
+const DEFAULT_ZOOM = (480 * 480);
+
 /**
  * The Camera class is used to change which part of the map is being viewed.
  */
@@ -20,6 +22,9 @@ class Camera {
         this._ctx = ctx;
         this._width = ctx.canvas.width;
         this._height = ctx.canvas.height;
+        this._zoom = DEFAULT_ZOOM;
+        this._desiredZoom = DEFAULT_ZOOM;
+        this._desiredLoc = {x: this._x, y: this._y};
     }
 
     /**
@@ -53,11 +58,38 @@ class Camera {
         this._ctx.webkitImageSmoothingEnabled = false;
         this._ctx.mozImageSmoothingEnabled = false;
         this._ctx.imageSmoothingEnabled = false;
-        STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / (640 * 480));
+        if (this._zoom !== this._desiredZoom) {
+            if (Math.floor(Math.abs(this._desiredZoom - this._zoom) / 25) < 2) {
+                this._zoom = this._desiredZoom;
+            } else {
+                this._zoom += (this._desiredZoom - this._zoom) / 25;
+            }
+        }
+        if (this._x !== this._desiredLoc.x || this._y !== this._desiredLoc.y) {
+            if (Math.floor(Math.abs(this._desiredLoc.x - this._x)) < 2) {
+                this._x = this._desiredLoc.x;
+            } else {
+                this._x += (this._desiredLoc.x - this._x) / 5;
+            }
+            if (Math.floor(Math.abs(this._desiredLoc.y - this._y)) < 2) {
+                this._y = this._desiredLoc.y;
+            } else {
+                this._y += (this._desiredLoc.y - this._y) / 5;
+            }
+        }
+        STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / this._zoom);
+    }
+
+    zoomCam(val) {
+        this._desiredZoom = val;
+    }
+
+    moveCam(point) {
+        this._desiredLoc = point;
     }
 
     get x() {return this._x;}
     get y() {return this._y;}
-    set x(val) {this._x = val;}
-    set y(val) {this._y = val;}
+    set x(val) {this._x = val; this._desiredLoc.x = val;}
+    set y(val) {this._y = val; this._desiredLoc.y = val;}
 }

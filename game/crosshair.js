@@ -5,11 +5,11 @@ class Crosshair
 		this.gameAnimation = new Animation(game.AM.getAsset("./img/hud/Crosshair.png"),
 			STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
 			{x: 0, y: 0}, {x: 1, y: 0},
-			0, true, 5 * STANDARD_DRAW_SCALE);
+			0, true, 6);
     this.menuAnimation = new Animation(game.AM.getAsset("./img/hud/menucursor.png"),
 			STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
 			{x: 0, y: 0}, {x: 1, y: 0},
-			0, true, 2 * STANDARD_DRAW_SCALE);
+			0, true, 4);
     this.animation = this.menuAnimation;
 		this.x = 800 - 64;
 		this.y = 64;
@@ -20,7 +20,9 @@ class Crosshair
 
 	draw()
 	{
-		this.animation.drawFrame(this.game.clockTick, this.game._ctx, this.x, this.y, true);
+		if (this.game.game_state !== GAME_STATES.CHANGING_LEVEL) {
+			this.animation.drawFrame(this.game.clockTick, this.game._ctx, this.x, this.y, true);
+		}
 	}
 
 	update()

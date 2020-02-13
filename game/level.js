@@ -153,10 +153,7 @@ class Level {
     move(collider, prevPos, newPos) {
         let updatedPos = newPos;
         let origin = {x: coordinateToIndex(prevPos.x), y: coordinateToIndex(prevPos.y)};
-        // Check if reached end of level.
-        if (this.mapElementAt({x: coordinateToIndex(updatedPos.x), y: coordinateToIndex(updatedPos.y)}) === "E") {
-            console.log("END OF LEVEL REACHED!");
-        }
+        
         // Center
         if (this.mapElementAt({x: origin.x, y: origin.y}) === "#") {
             let c = pushCollision({x: updatedPos.x, y: updatedPos.y},

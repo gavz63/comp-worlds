@@ -245,25 +245,30 @@ class Player extends Entity {
             let newPos = this.game._sceneManager.level.move(this._collider, oldPos, {x: this.x, y: this.y});
             this.x = newPos.x;
             this.y = newPos.y;
+
+            // Check if reached end of level.
+            if (this.game.sceneManager.level.mapElementAt({x: coordinateToIndex(this.x), y: coordinateToIndex(this.y)}) === "E") {
+                this.game.sceneManager.levelComplete();
+            }
         }
 
-        let cOffX = this.game._camera.x - this.x;
-        let cOffY = this.game._camera.y - this.y;
+        let cOffX = this.game._camera._desiredLoc.x - this.x;
+        let cOffY = this.game._camera._desiredLoc.y - this.y;
         while (Math.abs(cOffX) > CAMERA_BOUNDING_BOX) {
             if (cOffX > CAMERA_BOUNDING_BOX) {
-                this.game._camera.x--;
+                this.game._camera._desiredLoc.x--;
             } else if (cOffX < CAMERA_BOUNDING_BOX) {
-                this.game._camera.x++;
+                this.game._camera._desiredLoc.x++;
             }
-            cOffX = this.game._camera.x - this.x;
+            cOffX = this.game._camera._desiredLoc.x - this.x;
         }
         while (Math.abs(cOffY) > CAMERA_BOUNDING_BOX) {
             if (cOffY > CAMERA_BOUNDING_BOX) {
-                this.game._camera.y--;
+                this.game._camera._desiredLoc.y--;
             } else if (cOffY < CAMERA_BOUNDING_BOX) {
-                this.game._camera.y++
+                this.game._camera._desiredLoc.y++
             }
-            cOffY = this.game._camera.y - this.y;
+            cOffY = this.game._camera._desiredLoc.y - this.y;
         }
     }
 
