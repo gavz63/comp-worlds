@@ -102,7 +102,7 @@ function Lancer() {
         regProjectileUp: function() { return new Animation(regPoke,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 3, y: 0},
-            10, false, STANDARD_DRAW_SCALE*3); },
+            20, false, STANDARD_DRAW_SCALE*3); },
         regProjectileDown: function () { return new Animation(regPoke,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 1}, {x: 3, y: 1},
@@ -145,9 +145,10 @@ function Lancer() {
 			attackVector,
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 			false, player, projectileAnimation,
-			0.75, 20, 5); // slowed down projectile for debugging
+			0.75, 20, 7); // slowed down projectile for debugging
       projectile.attachTo(player);
       projectile.hitOnce();
+      projectile.GiveBackAmmo();
 	};
 	
 	this.specialAttack = function (player, attackVector)
@@ -163,10 +164,12 @@ function Lancer() {
         speed: 1000,
         melee: true,
         projectileSpeed: 50,
-        projectileLifetime: 0.25,
-		specialMelee: true,
-		specialSpeed: 0,
+        projectileLifetime: 0.1,
+        specialMelee: true,
+        specialSpeed: 0,
         specialLifetime: 3,
+        specialChargeTime: 25,
+        specialChargeFromKill: 1,
         maxProjectiles: 1
     };
 
