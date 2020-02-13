@@ -23,12 +23,13 @@ class StoneGolem extends Enemy {
 
         this.animation = this.moveAnimation;
 
-        this.speed = 100;
+        this.speed = 20;
         this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
         this.radius = STANDARD_ENTITY_RADIUS;
         this.isWaiting = false;
         this.isAttacking = false;
         this.goalPoint = null;
+        this.dir = null;
         this.hp = 4;
         this.wait();
     }
@@ -37,57 +38,35 @@ class StoneGolem extends Enemy {
         super.update();
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
 
-        this.pathfind(1000, 50);
-        if (this.goalPoint) {
-            this.go(normalizeV(dirV(this, this.goalPoint)));
+        if (!this.isWaiting) {
+            if (this.isAttacking) {
+                if (this.animation.isDone()) {
+                    this.backToNormal();
+                    this.wait();
+                }
+            } else {
+                this.pathfind(1000, 50);
+                if (this.isCharging) {
+                    this.go(this.dir);
+                } else if (this.goalPoint.x === this.game.player.x && this.goalPoint.y === this.game.player.y) {
+                    this.charge();
+                } else {
+                    this.go(normalizeV(dirV(this, this.goalPoint)));
+                }
+                let newPos = {x: this.x, y: this.y};
+                if (this.wallCollision(newPos)) {
+                    this.x = this.oldPos.x;
+                    this.y = this.oldPos.y;
+                    this.attack();
+                } else {
+                    this.oldPos = newPos;
+                }
+            }
         }
-
-        // if (!this.isWaiting) {
-        //     let vecToPlayer = dirV(this, this.game.player);
-        //
-        //     if (this.isAttacking) {
-        //         if (this.animation.isDone()) {
-        //             this.backToNormal();
-        //             this.wait();
-        //         }
-        //     } else {
-        //         if (this.goalPoint) {
-        //             let vecToGoal = dirV(this, this.goalPoint);
-        //
-        //             //If player is in same direction as goal point
-        //             if (((vecToPlayer.x <= 0 && vecToGoal.x <= 0) || (vecToPlayer.x > 0 && vecToGoal.x > 0)) &&
-        //                 ((vecToPlayer.y <= 0 && vecToGoal.y <= 0) || (vecToPlayer.y > 0 && vecToGoal.y > 0))) {
-        //                 if (!this.isCharging) {
-        //                     this.charge();
-        //                 } else if (lengthV(vecToPlayer) < 5) {
-        //                     this.backToNormal();
-        //                     this.attack();
-        //                 }
-        //             } else {
-        //                 this.go(normalizeV(vecToGoal));
-        //             }
-        //         } else {
-        //             this.pathfind(1000, 50);
-        //         }
-        //
-        //     }
-        //
-        //     let newPos = {x: this.x, y: this.y};
-        //     if (this.wallCollision(newPos)) {
-        //         this.x = this.oldPos.x;
-        //         this.y = this.oldPos.y;
-        //         this.backToNormal();
-        //         this.attack();
-        //         this.pathfind(1000, 50);
-        //     } else {
-        //         this.oldPos = newPos;
-        //     }
-        // }
     }
 
     charge() {
-        this.goalPoint = {x: this.game.player.x, y: this.game.player.y};
-
+        this.dir = normalizeV(dirV(this, this.game.player));
         this.speed = 200;
         this.isCharging = true;
         this.animation = this.chargeAnimation;
@@ -110,6 +89,7 @@ class StoneGolem extends Enemy {
         this.animation = this.moveAnimation;
         this.animation.resetAnimation();
         this.goalPoint = null;
+        this.dir = null;
     }
 
     wait() {
