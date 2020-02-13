@@ -25,7 +25,7 @@ class StoneGolem extends Enemy {
 
         this.speed = 20;
         this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
-        this.radius = STANDARD_ENTITY_RADIUS * 2;
+        this.radius = STANDARD_ENTITY_RADIUS * 0.6;
         this.isWaiting = false;
         this.isAttacking = false;
         this.goalPoint = null;

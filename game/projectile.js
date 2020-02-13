@@ -325,7 +325,7 @@ class Slash extends Projectile
 		let that = this;
 		this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
             if (circleToCircle(that, elem)) {
-				let p = new Projectile(that.game, elem.x, elem.y, that.dir, that.owner.characterClass.stats.projectileSpeed, 3, true, that.owner, elem.animation, elem.dmg, elem.radius);
+				let p = new Projectile(that.game, elem.x, elem.y, that.dir, that.owner.characterClass.stats.projectileSpeed, 3, true, that.owner, elem.animation, elem.dmg, elem.radius, elem.knockBack);
 				elem.destroy();
                 //that.destroy(); // this was kinda awesome btw.
             }

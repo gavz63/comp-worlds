@@ -46,7 +46,6 @@ class Player extends Entity {
         this.game.setPlayer(this);
 
         this.hurt = false;
-        this.hurt = true;
         
         this.progressBar = new ProgressBar(this.game, 0, 0);
         this.progressBar.offsetX = -(this.progressBar.bars[0].myScale * 16 + 1) * 5;
@@ -72,7 +71,6 @@ class Player extends Entity {
                 let attackedFromVector = normalizeV(dirV({x: elem.x, y: elem.y}, {x: that.x, y: that.y}));
                 var attackedFromDir = vectorToDir(attackedFromVector);
                 that.takeDmg(1, attackedFromDir);
-                elem.destroy();
             }
         });
         this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
@@ -323,7 +321,7 @@ class Player extends Entity {
             new TimerCallback(this.game, 1, false, function () {
                 that.isTakingDmg = false;
             }); // stunned
-            new TimerCallback(this.game, 1.5, false, function () {
+            new TimerCallback(this.game, 3, false, function () {
                 that.hurt = false;
             });        // invincibility
 
@@ -356,6 +354,8 @@ class Player extends Entity {
 
         this.x = 0;
         this.y = this.game.sceneManager.level.spawn.y * 96;
+		
+		this.progressBar.destroy();
 
         super.destroy();
     }

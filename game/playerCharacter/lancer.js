@@ -145,7 +145,7 @@ function Lancer() {
 			attackVector,
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 			false, player, projectileAnimation,
-			0.75, 20, 7); // slowed down projectile for debugging
+			1, 10, 5); // slowed down projectile for debugging
       projectile.attachTo(player);
       projectile.hitOnce();
       projectile.GiveBackAmmo();

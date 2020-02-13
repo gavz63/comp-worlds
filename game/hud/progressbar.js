@@ -65,6 +65,14 @@ class ProgressBar extends Entity
   {
     this.attached = attached;
   }
+  
+  destroy()
+  {
+	  for(let i = 0; i < 10; i++)
+	  {
+		  this.bars[i].destroy();
+	  }
+  }
 }
 
 class Bar extends Entity
