@@ -44,6 +44,8 @@ class Projectile extends Entity {
         this.dmg = dmg;
         this.radius = radius;
         this.knockBack = knockback;
+        
+        this.giveBackAmmo = false;
 
         if (this.owner === this.game.player) {
             this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
@@ -127,6 +129,23 @@ class Projectile extends Entity {
     {
       let that = this;
       new TimerCallback(this.game, this.lifetime/4, false, function () { console.log("ATTACK");that.testCollision(); });
+    }
+    
+    destroy()
+    {
+      if(!this.removeFromWorld)
+      {
+        this.removeFromWorld = true;
+        if(this.giveBackAmmo)
+        {
+          this.owner.attackCounter--;
+        }
+      }
+    }
+    
+    GiveBackAmmo()
+    {
+      this.giveBackAmmo = true;
     }
 
 }
@@ -274,6 +293,12 @@ class FlameWall extends EasingProjectile
   {
     this.myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
   }
+  
+  destroy()
+  {
+    this.removeFromWorld = true;
+    this.owner.progressBar.timer.unpause();
+  }
 }
 
 class Slash extends Projectile
@@ -306,6 +331,12 @@ class Slash extends Projectile
             }
         });
 	}
+  
+  destroy()
+  {
+    this.removeFromWorld = true;
+    this.owner.progressBar.timer.unpause();
+  }
 }
 
 class Shuriken extends EasingProjectile
@@ -318,7 +349,6 @@ class Shuriken extends EasingProjectile
 		this.timer = new TimerCallback(this.game, this.lifetime, false, function() { 
 		that.done = true;
 		that.animation.pause(); });
-		this.owner.ammo--;
 		this.done = false;
     
     this.knockBack = 10;
@@ -384,13 +414,6 @@ class Shuriken extends EasingProjectile
 		{
 			this.destroy();
 		}
-	}
-	
-	destroy()
-	{
-		console.log("HEY");
-		this.removeFromWorld = true;
-		this.owner.ammo++;
 	}
 	
 	setDone()
@@ -479,4 +502,10 @@ class Spin extends Slash
             }
         });
 	}
+  
+  destroy()
+  {
+    this.removeFromWorld = true;
+    this.owner.progressBar.timer.unpause();
+  }
 }

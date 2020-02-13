@@ -124,16 +124,14 @@ function Ninja() {
 	
 	this.attack = function (player, attackVector)
 	{
-		if(player.ammo > 0)
-		{
 			let projectileAnimation = that.animation.regProjectile();
 			let projectile = new Shuriken(player.game,
 				player.x, player.y,
 				attackVector,
 				player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 				false, player, projectileAnimation,
-				1, 5, 10, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); }); // slowed down projectile for debugging
-		}
+				1, 5, 10, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); });
+        projectile.GiveBackAmmo();
 	};
 	
 	this.specialAttack = function (player, attackVector)
@@ -170,7 +168,9 @@ function Ninja() {
         specialMelee: true,
         specialSpeed: 10,
         specialLifetime: 0.25,
-        maxProjectiles: 3
+        specialChargeTime: 3,
+        specialChargeFromKill: 5,
+        maxProjectiles: 3,
     };
     this.npc = {
         x: -64,

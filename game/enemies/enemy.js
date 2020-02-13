@@ -13,6 +13,7 @@ class Enemy extends Entity {
     }
 
     destroy() {
+        this.game.player.progressBar.progress += this.game.player.characterClass.stats.specialChargeFromKill;
         this.spawner.spawn_timer.unpause();
         this.spawner.numOut--;
         this.spawner.spawn_timer.unpause();
@@ -131,11 +132,11 @@ class Enemy extends Entity {
         this.x += dir.x * this.game._clockTick * this.speed;
         this.y += dir.y * this.game._clockTick * this.speed;
     }
-
-    takeDamage(dmg, dir, knockBack) {
-        //if(!this.hurt)
-        //{
-        console.log(knockBack);
+    
+    takeDamage(dmg, dir, knockBack)
+    {
+      //if(!this.hurt)
+      //{
         this.x += dir.x * knockBack;
         this.y += dir.y * knockBack;
         this.hp -= dmg;

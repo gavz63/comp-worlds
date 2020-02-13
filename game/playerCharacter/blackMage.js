@@ -89,7 +89,7 @@ function BlackMage() {
             24, false, STANDARD_DRAW_SCALE); },
         specialAttackDown: function () { return new Animation(upAndDown,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 3}, {x: 5, y: 7},
+            {x: 0, y: 7}, {x: 5, y: 7},
             6, false, STANDARD_DRAW_SCALE); },
         dmgFromDown: new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
@@ -121,12 +121,13 @@ function BlackMage() {
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 			true, player, projectileAnimation,
 			1, 20, 15); // slowed down projectile for debugging
+      projectile.GiveBackAmmo();
 	};
 	
 	this.specialAttack = function (player, attackVector)
 	{
 		let projectile = new FlameWall(player.game, player.x + attackVector.x * that.stats.specialSpeed, player.y + attackVector.y * that.stats.specialSpeed, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, that.animation.specialProjectile(), 1, 5, 30, function() {}, function(t) { return arch4(smoothStopN(t, 20));}, 0.1, 10);
-	};
+  };
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
 
@@ -135,11 +136,13 @@ function BlackMage() {
         speed: 150,
         melee: false,
         projectileSpeed: 300,
-        projectileLifetime: 0.5,
+        projectileLifetime: 1.5,
         specialMelee: false,
         specialSpeed: 20,
         specialLifetime: 3,
-        maxProjectiles: 3
+        specialChargeTime: 40,
+        specialChargeFromKill: 2,
+        maxProjectiles: 2
     };
     this.npc = {
         x: -32,
