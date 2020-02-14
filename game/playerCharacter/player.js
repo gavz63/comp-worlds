@@ -357,8 +357,11 @@ class Player extends Entity {
             new Key(this.game, this.x + 10 * i, this.y + 10 * i);
         }
 
-        this.x = 0;
-        this.y = this.game.sceneManager.level.spawn.y * 96;
+		if(this.game.game_state != GAME_STATES.CHANGING_LEVEL)
+		{
+			this.x = 0;
+			this.y = this.game.sceneManager.level.spawn.y * 96;
+		}
 		
 		this.progressBar.destroy();
 

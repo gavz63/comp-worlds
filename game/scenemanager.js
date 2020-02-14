@@ -12,6 +12,9 @@ class SceneManager
 	}
 
 	levelComplete() {
+		
+		this.game.game_state = GAME_STATES.CHANGING_LEVEL;
+		
 		// Player's final position
 		let playPos = {x: this.game.player.x, y: this.game.player.y};
 		// Remaining party members as NPC's.
