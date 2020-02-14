@@ -90,6 +90,8 @@ class Animation {
         this._frameHeight = frameHeight;
         this._sheetWidth = this._spriteSheet.width / this._frameWidth;
         this._sheetHeight = this._spriteSheet.height / this._frameHeight;
+		this._width = frameWidth;
+		this._height = frameHeight;
         this._firstFrame = firstFrame;
         this._lastFrame = lastFrame;
         this._frameDuration = Infinity;
@@ -154,7 +156,7 @@ class Animation {
             cF.x * this._frameWidth, cF.y * this._frameHeight,  // Sprite's top-left position on sprite sheet.
             this._frameWidth, this._frameHeight, // Size of source sprite.
             drawX, drawY, // Position to draw sprite on the canvas.
-            this._frameWidth * this._scale, this._frameHeight * this._scale); // Size to draw sprite on canvas.
+            this._width * this._scale, this._height * this._scale); // Size to draw sprite on canvas.
         
         // Update time.
         if(!this._paused)

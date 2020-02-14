@@ -47,9 +47,11 @@ class Player extends Entity {
 
         this.hurt = false;
         //this.hurt = true;
-        this.progressBar = new ProgressBar(this.game, 0, 0);
-        this.progressBar.offsetX = -(this.progressBar.bars[0].myScale * 16 + 1) * 5;
-        this.progressBar.offsetY = this.myScale[0] * this.myAddScale/2 + this.progressBar.bars[0].myScale[0];
+		
+        this.progressBar = new ProgressBar(this.game, 0, 0, this.animation._frameWidth, 100/this.characterClass.stats.specialChargeTime);
+        this.progressBar.offsetX = 0;
+        this.progressBar.offsetY = (this.animation._frameHeight + this.progressBar.barFront.animation._height) * 1.1;
+		
         this.progressBar.attachTo(this);
     }
 
@@ -437,11 +439,11 @@ class Player extends Entity {
       this.animation.resetAnimation();
       this.animation.unpause();
       this.direction = attackDir;
-    if(this.progressBar.progress === 10)
-    {
-      this.progressBar.progress = 0;
-      this.progressBar.timer.pause();
-      this.characterClass.specialAttack(this, attackVector);
-    }
+	  if(this.progressBar.progress === 100)
+	  {
+	    this.progressBar.progress = 0;
+	    this.progressBar.paused = true;
+	    this.characterClass.specialAttack(this, attackVector);
+	  }
 	}
 }

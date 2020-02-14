@@ -168,8 +168,8 @@ function Lancer() {
         specialMelee: true,
         specialSpeed: 0,
         specialLifetime: 3,
-        specialChargeTime: 25,
-        specialChargeFromKill: 1,
+        specialChargeTime: 10,
+        specialChargeFromKill: 0,
         maxProjectiles: 1
     };
 

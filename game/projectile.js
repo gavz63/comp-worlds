@@ -298,7 +298,7 @@ class FlameWall extends EasingProjectile
   destroy()
   {
     this.removeFromWorld = true;
-    this.owner.progressBar.timer.unpause();
+    this.owner.progressBar.paused = false;
   }
 }
 
@@ -339,7 +339,7 @@ class Slash extends Projectile
   destroy()
   {
     this.removeFromWorld = true;
-    this.owner.progressBar.timer.unpause();
+    this.owner.progressBar.paused = false;
   }
 }
 
@@ -509,6 +509,6 @@ class Spin extends Slash
   destroy()
   {
     this.removeFromWorld = true;
-    this.owner.progressBar.timer.unpause();
+    this.owner.progressBar.paused = false;
   }
 }
