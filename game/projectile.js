@@ -65,8 +65,9 @@ class Projectile extends Entity {
         this.dy += this.dir.y * this.game._clockTick * this.speed;
 
         if (this.attached !== null) {
-            this.x = this.owner.x + this.dir.x * this.speed;
-            this.y = this.owner.y + this.dir.y * this.speed;
+            let direction = dirToVector(vectorToDir(this.dir));
+            this.x = this.owner.x + direction.x * this.speed;
+            this.y = this.owner.y + direction.y * this.speed;
         } else {
             this.x = this.startX + this.dx;
             this.y = this.startY + this.dy;
@@ -346,9 +347,9 @@ class Shuriken extends EasingProjectile
 		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn);
 		this.timer.destroy();
 		let that = this;
-		this.timer = new TimerCallback(this.game, this.lifetime, false, function() { 
-		that.done = true;
-		that.animation.pause(); });
+		this.timer = new TimerCallback(this.game, this.lifetime, false, function() {
+            that.setDone();
+		});
 		this.done = false;
     
     this.knockBack = 10;
@@ -423,6 +424,8 @@ class Shuriken extends EasingProjectile
 		this.animation.setFrame(6);
 		this.animation.pause();
 		this.done = true;
+		let that = this;
+        new TimerCallback(this.game, this.lifetime, false, function (){ that.destroy(); });
 	}
 }
 
@@ -444,9 +447,6 @@ class Spin extends Slash
         that.dmgTimer.destroy();
 			}
 		);
-		this.owner.velocity.x = 0;
-		this.owner.velocity.y = 0;
-		this.owner.speed = 75;
 		this.attached = owner;
 	}
 	

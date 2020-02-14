@@ -34,11 +34,11 @@ function perpendicularV(vector) {
 function dirToVector(dir) {
     switch (dir) {
         case DIRECTION_UP:
-            return {x: 0, y: 1};
+            return {x: 0, y: -1};
         case DIRECTION_LEFT:
             return {x: -1, y: 0};
         case DIRECTION_DOWN:
-            return {x: 0, y: -1};
+            return {x: 0, y: 1};
         case DIRECTION_RIGHT:
             return {x: 1, y: 0};
         default:

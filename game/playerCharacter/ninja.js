@@ -170,7 +170,7 @@ function Ninja() {
         specialLifetime: 0.25,
         specialChargeTime: 3,
         specialChargeFromKill: 5,
-        maxProjectiles: 3,
+        maxProjectiles: 10,
     };
     this.npc = {
         x: -64,

@@ -102,19 +102,19 @@ function Lancer() {
         regProjectileUp: function() { return new Animation(regPoke,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 3, y: 0},
-            20, false, STANDARD_DRAW_SCALE*3); },
+            20, true, STANDARD_DRAW_SCALE*3); },
         regProjectileDown: function () { return new Animation(regPoke,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 1}, {x: 3, y: 1},
-            20, false, STANDARD_DRAW_SCALE*3); },
+            20,true, STANDARD_DRAW_SCALE*3); },
         regProjectileLeft: function () { return new Animation(regPoke,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 3, y: 2},
-            20, false, STANDARD_DRAW_SCALE*3); },
+            20, true, STANDARD_DRAW_SCALE*3); },
         regProjectileRight: function () { return new Animation(regPoke,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 3}, {x: 3, y: 3},
-            20, false, STANDARD_DRAW_SCALE*3); },
+            20, true, STANDARD_DRAW_SCALE*3); },
 			
 		//Special animations
         specialProjectile: function() { return new Animation(specialSlash,
@@ -145,7 +145,7 @@ function Lancer() {
 			attackVector,
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 			false, player, projectileAnimation,
-			1, 10, 5); // slowed down projectile for debugging
+			2, 40, 10); // slowed down projectile for debugging
       projectile.attachTo(player);
       projectile.hitOnce();
       projectile.GiveBackAmmo();
@@ -161,10 +161,10 @@ function Lancer() {
 
     this.stats = {
         maxHP: 3,
-        speed: 1000,
+        speed: 250, //speed: 300
         melee: true,
         projectileSpeed: 50,
-        projectileLifetime: 0.1,
+        projectileLifetime: 0.3,
         specialMelee: true,
         specialSpeed: 0,
         specialLifetime: 3,
