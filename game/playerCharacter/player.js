@@ -46,7 +46,7 @@ class Player extends Entity {
         this.game.setPlayer(this);
 
         this.hurt = false;
-        //this.hurt = true;
+        this.hurt = true;
 		
         this.progressBar = new ProgressBar(this.game, 0, 0, this.animation._frameWidth, 100/this.characterClass.stats.specialChargeTime);
         this.progressBar.offsetX = 0;

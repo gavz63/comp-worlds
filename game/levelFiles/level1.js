@@ -84,7 +84,7 @@ class Level1
 			y: 1,
 			max: 1,
 			freq: 10,
-			list: [Bat.prototype],
+			list: [Skeleton.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
@@ -158,17 +158,6 @@ class Level1
 			 total: 0,
 			roomNum: 0
 		});
-
-		// this.spawnerList.push({
-		// 	x: 27,
-		// 	y: 4,
-		// 	max: 1,
-		// 	freq: 3,
-		// 	list: [StoneGolem.prototype],
-		// 	rand: false,
-		// 	radius: 200,
-		// 	total: 0
-		// });
 
 		this.spawnerList.push({
 			x: 25,
