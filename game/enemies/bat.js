@@ -29,12 +29,23 @@ class Bat extends Enemy {
     update() {
         this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
         this.pathfind(1000, 50);
+        console.log(this.goalPoint);
         if (this.goalPoint) {
+            if (this.goalPoint.x === this.game.player.x &&
+                this.goalPoint.y === this.game.player.y) {
+                console.log("EQUAL");
+            } else {
+                console.log("PLAYER: " +  this.game.player.x + ", " + this.game.player.y);
+                console.log("Goal pt: " +  this.goalPoint.x + ", " + this.goalPoint.y);
+            }
 
             let vec = dirV(this, this.goalPoint);
-            if (this.goalPoint.x === this.game.player.x &&
-                this.goalPoint.y === this.game.player.y &&
-                lengthV(vec) < 80) {
+            let dist = dirV(this, this.game.player);
+            if (lengthV(dist) < 80 ||
+                (
+                    this.goalPoint.x === this.game.player.x &&
+                    this.goalPoint.y === this.game.player.y)
+                ) {
 
                 this.circlePlayer();
             } else {
