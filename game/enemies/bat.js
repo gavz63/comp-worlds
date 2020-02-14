@@ -29,7 +29,6 @@ class Bat extends Enemy {
     update() {
         this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
         this.pathfind(1000, 50);
-        console.log(this.goalPoint);
         if (this.goalPoint) {
             let vec = dirV(this, this.goalPoint);
             let dist = dirV(this, this.game.player);

@@ -1,59 +1,43 @@
 class ProgressBar extends Entity
 {
-  constructor(game, x, y)
+  constructor(game, x, y, width, chargeAmount)
   {
     super(game, x, y);
     
     this.offsetX = x;
     this.offsetY = y;
-    this.progress = 10;
-    this.lastProgress = 10;
+	this.width = width;
+    this.progress = 100;
+	this.amt = chargeAmount;
     let that = this;
-    this.timer = new TimerCallback(game, game.player.characterClass.stats.specialChargeTime/10, true, function() 
-      { 
-        if(that.progress < 10)that.progress++;
-      }
-    );
     this.attached = null;
-    
-    this.bars = [];
-    for(let i = 0; i < 10; i++)
-    {
-      let bar = new Bar(this.game, 0, 0, this);
-      bar.offsetX = i * (bar.myScale * 16 + 1);
-      this.bars.push(bar);
-    }
+    this.paused = false;
+	//this.barBack = new Bar(this.game, 0, 0, this);
+	//this.barBack.isBack = true;
+	this.barFront = new Bar(this.game, 0, 0, this);
     
     this.game.addEntity(this, LAYERS.HUD);
   }
   
   update()
   {
-    if(this.progress > 10)
-    {
-      this.progress = 10;
-    }
+	if(!this.paused)
+	{
+		this.progress += this.amt * this.game._clockTick;
+	}
+	if (this.progress < 100)
+	{
+	  this.barFront.animation.setFrame(1);
+	}
+	else
+	{
+	  this.progress = 100;
+	  this.barFront.animation.setFrame(0);
+	}
     if(this.attached !== null)
     {
       this.x = this.attached.x + this.offsetX;
       this.y = this.attached.y + this.offsetY;
-    }
-    if(this.lastProgress !== this.progress)
-    {
-      let start = this.lastProgress;
-      let end = this.progress;
-      let frame = 0;
-      if(start > end)
-      {
-        start = this.progress;
-        end = this.lastProgress;
-        frame = 1;
-      }
-      for(let i = start; i < end; i++)
-      {
-        this.bars[i].animation.setFrame(frame);
-      }
-      this.lastProgress = this.progress;
     }
   }
   
@@ -68,10 +52,8 @@ class ProgressBar extends Entity
   
   destroy()
   {
-	  for(let i = 0; i < 10; i++)
-	  {
-		  this.bars[i].destroy();
-	  }
+	//this.barBack.destroy();
+	this.barFront.destroy();
   }
 }
 
@@ -81,18 +63,17 @@ class Bar extends Entity
   constructor(game, x, y, attached)
   {
     super(game, x, y);
-    this.addScale = 0.1;
-    this.myScale[0] = STANDARD_DRAW_SCALE * this.addScale;
     this.offsetX = x;
     this.offsetY = y;
-    this.progress = 10;
-    this.lastProgress = 10;
     this.attached = attached;
+	this.isBack = false;
     
     this.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/ProgressBar.png"),
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 0, y: 1},
-            0, true, this.myScale);
+            0, true, attached.myScale);
+			
+	this.animation._height = this.animation._frameHeight / 10;
     
     this.game.addEntity(this, LAYERS.HUD);
   }
@@ -101,7 +82,15 @@ class Bar extends Entity
   {
       this.x = this.attached.x + this.offsetX;
       this.y = this.attached.y + this.offsetY;
-  
-      this.myScale[0] = STANDARD_DRAW_SCALE * this.addScale;
+	  
+	  if(!this.isBack)
+	  {
+		let t = this.attached.progress / 100;
+		this.animation._width = mix(smoothStartN(t, 3), smoothStopN(t, 3), t) * this.attached.width;
+	  }
+	  else
+	  {
+		  this.animation._width = this.attached.width;
+	  }
   }
 }

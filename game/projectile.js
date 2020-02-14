@@ -298,7 +298,7 @@ class FlameWall extends EasingProjectile
   destroy()
   {
     this.removeFromWorld = true;
-    this.owner.progressBar.timer.unpause();
+    this.owner.progressBar.paused = false;
   }
 }
 
@@ -308,12 +308,15 @@ class Slash extends Projectile
 	{
 		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
 		this.attached = owner;
-    this.done = false;
+		this.done = false;
 	}
 	
 	update()
 	{
-		this.testCollision();
+		if(!this.hitOnce)
+		{
+			this.testCollision();
+		}
 		this.testProjectileCollision();
 		
 		this.x = this.owner.x + this.dir.x * this.speed;
@@ -336,7 +339,7 @@ class Slash extends Projectile
   destroy()
   {
     this.removeFromWorld = true;
-    this.owner.progressBar.timer.unpause();
+    this.owner.progressBar.paused = false;
   }
 }
 
@@ -352,7 +355,7 @@ class Shuriken extends EasingProjectile
 		});
 		this.done = false;
     
-    this.knockBack = 10;
+		this.knockBack = knockback;
 	}
 	
   update() {
@@ -411,7 +414,7 @@ class Shuriken extends EasingProjectile
 	
 	testPlayerCollision()
 	{
-		if((this.done || this.timer.getPercent() > 0.7) && circleToCircle(this, this.owner))
+		if((this.done || this.timer.getPercent() > 0.3) && circleToCircle(this, this.owner))
 		{
 			this.destroy();
 		}
@@ -425,7 +428,7 @@ class Shuriken extends EasingProjectile
 		this.animation.pause();
 		this.done = true;
 		let that = this;
-        new TimerCallback(this.game, this.lifetime, false, function (){ that.destroy(); });
+        new TimerCallback(this.game, this.lifetime * 3, false, function (){ that.destroy(); });
 	}
 }
 
@@ -506,6 +509,6 @@ class Spin extends Slash
   destroy()
   {
     this.removeFromWorld = true;
-    this.owner.progressBar.timer.unpause();
+    this.owner.progressBar.paused = false;
   }
 }

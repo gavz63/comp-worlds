@@ -1,3 +1,43 @@
+class RoomSpawner
+{
+	constructor(game, x, y, spawners, room, dropKey)
+	{
+		this.game = game;
+		this.x = indexToCoordinate(x);
+		this.y = indexToCoordinate(y);
+		this.spawners = spawners;
+		this.room = room;
+		this.dropKey = dropKey;
+		this.finishedCount = 0;
+		this.removeFromWorld = false;
+		
+		this.game.addEntity(this, LAYERS.FLOOR);
+	}
+	
+	draw()
+	{
+	}
+	
+	update()
+	{
+		if(this.finishedCount === this.spawners.length)
+		{
+			if(this.dropKey)
+			{
+				//drop Key
+				new Key(this.game, this.x, this.y);
+				console.log("DROP KEY");
+			}
+			this.destroy();
+		}
+	}
+	
+	destroy()
+	{
+		this.removeFromWorld = true;
+	}
+}
+
 /**
  * An object that will create enemies at a certain point in the game world
  * @author Joel Johnson, Gavin Montes
@@ -19,7 +59,7 @@ class Spawner {
      * @param maxSpawn, How many total enemies the spawner can create before permanently self destructing. (Think battle room).
      * Set to 0 if no maximum
      */
-    constructor(game, x, y, maxAtOnce, frequency, spawnList, random, radius, maxSpawn) {
+    constructor(game, x, y, maxAtOnce, frequency, spawnList, random, radius, maxSpawn, owner) {
         this.game = game;
         this.x = indexToCoordinate(x);
         this.y = indexToCoordinate(y);
@@ -33,6 +73,8 @@ class Spawner {
         this.totalSpawned = 0;
         this.choice = 0;
         this.hasSpawned = false;
+		this.owner = owner;
+		this.removeFromWorld = false;
 
         var that = this;
 
@@ -51,19 +93,45 @@ class Spawner {
     update() {
         if (this.game.player !== undefined) {
             //If player is in radius
-            if (circleToCircle(this.game.player, this)) {
-                // Spawn immediately the first time
-                if (!this.hasSpawned) {
-                    this.spawn();
-                    this.hasSpawned = true;
-                } else {
-                    this.spawn_timer.unpause();
-                }
-            } else {
-                this.spawn_timer.pause();
-            }
+			if(this.owner === null)
+			{
+				if (circleToCircle(this.game.player, this)) {
+					// Spawn immediately the first time
+					this.trySpawn();
+				} else {
+					this.spawn_timer.pause();
+				}
+			}
+			else
+			{
+				let x = coordinateToIndex(this.game.player.x);
+				let y = coordinateToIndex(this.game.player.y);
+				if(x <= this.owner.room.bottomRight.x && x >= this.owner.room.upperLeft.x && y <= this.owner.room.bottomRight.y && y >= this.owner.room.upperLeft.y)
+				{
+					this.trySpawn();
+				}
+				else
+				{
+					this.spawn_timer.pause();
+				}
+				if(this.maxSpawn === 0 || (this.totalSpawned >= this.maxSpawn && this.numOut === 0)){
+					this.owner.finishedCount++;
+					this.destroy();
+					return false;
+				}
+			}
         }
     }
+	
+	trySpawn()
+	{
+		if (!this.hasSpawned) {
+			this.spawn();
+			this.hasSpawned = true;
+		} else {
+			this.spawn_timer.unpause();
+		}
+	}
 
     draw() {
     }
@@ -75,9 +143,6 @@ class Spawner {
             if (this.maxAtOnce === 0 || this.numOut < this.maxAtOnce) {
                 return true;
             }
-        } else {
-            this.destroy();
-            return false;
         }
     }
 
@@ -101,5 +166,6 @@ class Spawner {
 
     destroy() {
         this.spawn_timer.destroy();
+		this.removeFromWorld = true;
     }
 }

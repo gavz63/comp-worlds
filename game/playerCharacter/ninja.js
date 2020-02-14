@@ -105,19 +105,19 @@ function Ninja() {
         specialProjectileUp: function() { return new Animation(slash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 3, y: 2},
-            20, false, STANDARD_DRAW_SCALE*3); },
+            30, false, STANDARD_DRAW_SCALE*3); },
         specialProjectileDown: function () { return new Animation(slash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 3}, {x: 3, y: 3},
-            20, false, STANDARD_DRAW_SCALE*3); },
+            30, false, STANDARD_DRAW_SCALE*3); },
         specialProjectileLeft: function () { return new Animation(slash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 3, y: 0},
-            20, false, STANDARD_DRAW_SCALE*3); },
+            30, false, STANDARD_DRAW_SCALE*3); },
         specialProjectileRight: function () { return new Animation(slash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 1}, {x: 3, y: 1},
-            20, false, STANDARD_DRAW_SCALE*3); }
+            30, false, STANDARD_DRAW_SCALE*3); }
     };
 
 	let that = this;
@@ -130,7 +130,7 @@ function Ninja() {
 				attackVector,
 				player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 				false, player, projectileAnimation,
-				1, 5, 10, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); });
+				1, 5, 7, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); });
         projectile.GiveBackAmmo();
 	};
 	
@@ -152,9 +152,9 @@ function Ninja() {
 				specialAnimation = player.characterClass.animation.specialProjectileRight();
 				break;
 		}		
-		let projectile = new Slash(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, specialAnimation, 2, 35, 25);
+		let projectile = new Slash(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, specialAnimation, 2, 40, 10);
 		projectile.attachTo(player);
-    //projectile.hitOnce();
+		projectile.hitOnce();
 	};
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
@@ -163,13 +163,13 @@ function Ninja() {
         maxHP: 1,
         speed: 225,
         melee: false,
-        projectileSpeed: 250,
-        projectileLifetime: 2,
+        projectileSpeed: 150,
+        projectileLifetime: 1,
         specialMelee: true,
         specialSpeed: 10,
         specialLifetime: 0.25,
-        specialChargeTime: 3,
-        specialChargeFromKill: 5,
+        specialChargeTime: 1,
+        specialChargeFromKill: 0,
         maxProjectiles: 10,
     };
     this.npc = {

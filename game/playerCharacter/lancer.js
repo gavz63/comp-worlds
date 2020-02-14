@@ -153,7 +153,7 @@ function Lancer() {
 	
 	this.specialAttack = function (player, attackVector)
 	{
-		let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 0.34, 85, 5);
+		let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 1, 85, 5);
 		projectile.attachTo(player);
 	};
 
@@ -168,8 +168,8 @@ function Lancer() {
         specialMelee: true,
         specialSpeed: 0,
         specialLifetime: 3,
-        specialChargeTime: 25,
-        specialChargeFromKill: 1,
+        specialChargeTime: 10,
+        specialChargeFromKill: 0,
         maxProjectiles: 1
     };
 
