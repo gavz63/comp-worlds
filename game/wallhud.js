@@ -81,78 +81,30 @@ class WallHUD {
 
         for (let i = 1; i < 4; i++) {
             for (let j = 0; j < this._level._walls.length; j++) {
-                drawWall(this._game._camera.drawPosTranslation({
-                        x: indexToCoordinate(this._level._walls[j].x),
-                        y: indexToCoordinate(this._level._walls[j].y)},
-                        (STANDARD_DRAW_SCALE * ((.04 * i) / 1.75)) + 1), i);
+                if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._walls[j].x), y: indexToCoordinate(this._game._sceneManager.level._walls[j].y)}, 96, 96, STANDARD_DRAW_SCALE * ((.04 * i) / 1.75))) {
+                    let xDir = (this._game._camera._x > indexToCoordinate(this._game._sceneManager.level._walls[j].x)) ? 1 : -1;
+                    let yDir = (this._game._camera._y > indexToCoordinate(this._game._sceneManager.level._walls[j].y)) ? 1 : -1;
+                    if (i == 3
+                    || this._game._sceneManager.level.mapElementAt({x: this._game._sceneManager.level._walls[j].x + xDir, y: this._game._sceneManager.level._walls[j].y}) !== MAP_TILES.WALL
+                    || this._game._sceneManager.level.mapElementAt({x: this._game._sceneManager.level._walls[j].x, y: this._game._sceneManager.level._walls[j].y + yDir}) !== MAP_TILES.WALL) {
+                        drawWall(this._game._camera.drawPosTranslation({
+                                x: indexToCoordinate(this._level._walls[j].x),
+                                y: indexToCoordinate(this._level._walls[j].y)},
+                                (STANDARD_DRAW_SCALE * ((.04 * i) / 1.75)) + 1), i);
+                    }
+                }
             }
             if (i == 2) {
                 for (let k = 0; k < this._level._doors.length; k++) {
-                    drawDoor(this._game._camera.drawPosTranslation({
-                            x: indexToCoordinate(this._level._doors[k].x),
-                            y: indexToCoordinate(this._level._doors[k].y)},
-                            (STANDARD_DRAW_SCALE * ((.04 * i) / 1.75)) + 1), this._level._doors[k].d);
-                }
-            }
-        }
-        
-
-        // Layer 1.
-        /*for (let i = 0; i < this._level._map.length; i++) {
-            for (let j = 0; j < this._level._map[i].length; j++) {
-                let tile = this._level._map[i][j];
-                if (tile === "W" || tile === "H" || tile === "V") {
-                    let pos1 = this._game._camera.drawPosTranslation({x: this._level.indexToCoordinate(i), y: this._level.indexToCoordinate(j)}, (STANDARD_DRAW_SCALE * (.04 / 1.75)) + 1);
-                    if (this._level._wallType === "0") {
-                        if (tile === "W") this._outsideWall1.drawFrame(this._game._clockTick, ctx, pos1.x, pos1.y, true);
-                        if (tile === "H") this._outsideHDoor1.drawFrame(this._game._clockTick, ctx, pos1.x, pos1.y, true);
-                        if (tile === "V") this._outsideVDoor1.drawFrame(this._game._clockTick, ctx, pos1.x, pos1.y, true);
-                    } else {
-                        if (tile === "W") this._insideWall1.drawFrame(this._game._clockTick, ctx, pos1.x, pos1.y, true);
-                        if (tile === "H") this._insideHDoor1.drawFrame(this._game._clockTick, ctx, pos1.x, pos1.y, true);
-                        if (tile === "V") this._insideVDoor1.drawFrame(this._game._clockTick, ctx, pos1.x, pos1.y, true);
+                    if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._doors[k].x), y: indexToCoordinate(this._game._sceneManager.level._doors[k].y)}, 96, 96, STANDARD_DRAW_SCALE * ((.04 * i) / 1.75))) {
+                        drawDoor(this._game._camera.drawPosTranslation({
+                                x: indexToCoordinate(this._level._doors[k].x),
+                                y: indexToCoordinate(this._level._doors[k].y)},
+                                (STANDARD_DRAW_SCALE * ((.04 * i) / 1.75)) + 1), this._level._doors[k].d);
                     }
                 }
             }
         }
-
-        // Layer 2.
-        for (let i = 0; i < this._level._map.length; i++) {
-            for (let j = 0; j < this._level._map[i].length; j++) {
-                let tile = this._level._map[i][j];
-                if (tile === "W" || tile === "H" || tile === "V") {
-                    let pos2 = this._game._camera.drawPosTranslation({x: this._level.indexToCoordinate(i), y: this._level.indexToCoordinate(j)}, (STANDARD_DRAW_SCALE * (.08 / 1.75)) + 1);
-                    if (this._level._wallType === "0") {
-                        if (tile === "W") this._outsideWall2.drawFrame(this._game._clockTick, ctx, pos2.x, pos2.y, true);
-                        if (tile === "H") this._outsideHDoor2.drawFrame(this._game._clockTick, ctx, pos2.x, pos2.y, true);
-                        if (tile === "V") this._outsideVDoor2.drawFrame(this._game._clockTick, ctx, pos2.x, pos2.y, true);
-                    } else {
-                        if (tile === "W") this._insideWall2.drawFrame(this._game._clockTick, ctx, pos2.x, pos2.y, true);
-                        if (tile === "H") this._insideHDoor2.drawFrame(this._game._clockTick, ctx, pos2.x, pos2.y, true);
-                        if (tile === "V") this._insideVDoor2.drawFrame(this._game._clockTick, ctx, pos2.x, pos2.y, true);
-                    }
-                }
-            }
-        }
-
-        // Layer 3.
-        for (let i = 0; i < this._level._map.length; i++) {
-            for (let j = 0; j < this._level._map[i].length; j++) {
-                let tile = this._level._map[i][j];
-                if (tile === "W" || tile === "H" || tile === "V") {
-                    let pos3 = this._game._camera.drawPosTranslation({x: this._level.indexToCoordinate(i), y: this._level.indexToCoordinate(j)}, (STANDARD_DRAW_SCALE * (.12 / 1.75)) + 1);
-                    if (this._level._wallType === "0") {
-                        if (tile === "W") this._outsideWall3.drawFrame(this._game._clockTick, ctx, pos3.x, pos3.y, true);
-                        if (tile === "H") this._outsideHDoor3.drawFrame(this._game._clockTick, ctx, pos3.x, pos3.y, true);
-                        if (tile === "V") this._outsideVDoor3.drawFrame(this._game._clockTick, ctx, pos3.x, pos3.y, true);
-                    } else {
-                        if (tile === "W") this._insideWall3.drawFrame(this._game._clockTick, ctx, pos3.x, pos3.y, true);
-                        if (tile === "H") this._insideHDoor3.drawFrame(this._game._clockTick, ctx, pos3.x, pos3.y, true);
-                        if (tile === "V") this._insideVDoor3.drawFrame(this._game._clockTick, ctx, pos3.x, pos3.y, true);
-                    }
-                }
-            }
-        }*/
     }
 
     /**

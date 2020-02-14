@@ -1,5 +1,14 @@
 // Gordon McCreary (January 2020)
 
+const MAP_TILES = {
+    FLOOR: "-",
+    WALL: "#",
+    VERTICAL_DOOR: "V",
+    HORIZONTAL_DOOR: "H",
+    SPAWN: "S",
+    EXIT: "E",
+};
+
 /**
  * The Level class is used to generate and represent the current level being
  * played by the main character.
@@ -51,23 +60,23 @@ class Level {
             for (let j = 0; j < this._width; j++) {
                 this._binaryCollision[i][j] = 0; // assume not a wall.
                 let type = seed[(this._width * i) + j];
-                if (type === "S") {
+                if (type === MAP_TILES.SPAWN) {
                     this._spawn = {x: j, y: i};
                 }
-                if (type === "-") {
+                if (type === MAP_TILES.FLOOR) {
                     this._floors.push({x: j, y: i});
                 }
-                if (type === "#") {
+                if (type === MAP_TILES.WALL) {
                     this._walls.push({x: j, y: i});
                     this._binaryCollision[i][j] = 1; // overwrite as wall
                 }
-                if (type === "H") {
+                if (type === MAP_TILES.HORIZONTAL_DOOR) {
                     this._doors.push({x: j, y: i, d: "H"});
                 }
-                if (type === "V") {
+                if (type === MAP_TILES.VERTICAL_DOOR) {
                     this._doors.push({x: j, y: i, d: "V"});
                 }
-                if (type === "E") {
+                if (type === MAP_TILES.EXIT) {
                     this._exit = {x: j, y: i};
                 }
                 this._map[j][i] = type;
@@ -153,7 +162,7 @@ class Level {
     move(collider, prevPos, newPos) {
         let updatedPos = newPos;
         let origin = {x: coordinateToIndex(prevPos.x), y: coordinateToIndex(prevPos.y)};
-        
+
         // Center
         if (this.mapElementAt({x: origin.x, y: origin.y}) === "#") {
             let c = pushCollision({x: updatedPos.x, y: updatedPos.y},

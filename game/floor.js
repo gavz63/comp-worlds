@@ -37,17 +37,25 @@ class Floor {
         };
 
         for (let i = 0; i < this._game._sceneManager.level._floors.length; i++) {
-            drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._floors[i].x),
-                    y: indexToCoordinate(this._game._sceneManager.level._floors[i].y)}, 1));
+            if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._floors[i].x), y: indexToCoordinate(this._game._sceneManager.level._floors[i].y)}, 96, 96, STANDARD_DRAW_SCALE)) {
+                drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._floors[i].x),
+                        y: indexToCoordinate(this._game._sceneManager.level._floors[i].y)}, 1));
+            }
         }
         for (let i = 0; i < this._game._sceneManager.level._doors.length; i++) {
-            drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._doors[i].x),
-                    y: indexToCoordinate(this._game._sceneManager.level._doors[i].y)}, 1));
+            if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._doors[i].x), y: indexToCoordinate(this._game._sceneManager.level._doors[i].y)}, 96, 96, STANDARD_DRAW_SCALE)) {
+                drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._doors[i].x),
+                        y: indexToCoordinate(this._game._sceneManager.level._doors[i].y)}, 1));
+            }
         }
-        drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level.spawn.x),
-                y: indexToCoordinate(this._game._sceneManager.level.spawn.y)}, 1));
-        drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._exit.x),
-                y: indexToCoordinate(this._game._sceneManager.level._exit.y)}, 1));
+        if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level.spawn.x), y: indexToCoordinate(this._game._sceneManager.level.spawn.y)}, 96, 96, STANDARD_DRAW_SCALE)) {
+            drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level.spawn.x),
+                    y: indexToCoordinate(this._game._sceneManager.level.spawn.y)}, 1));
+        }
+        if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._exit.x), y: indexToCoordinate(this._game._sceneManager.level._exit.y)}, 96, 96, STANDARD_DRAW_SCALE)) {
+            drawFloor(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._exit.x),
+                    y: indexToCoordinate(this._game._sceneManager.level._exit.y)}, 1));
+        }
     }
 
     /**
