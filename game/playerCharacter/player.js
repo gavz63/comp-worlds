@@ -46,7 +46,7 @@ class Player extends Entity {
         this.game.setPlayer(this);
 
         this.hurt = false;
-        this.hurt = true;
+        //this.hurt = true;
         this.progressBar = new ProgressBar(this.game, 0, 0);
         this.progressBar.offsetX = -(this.progressBar.bars[0].myScale * 16 + 1) * 5;
         this.progressBar.offsetY = this.myScale[0] * this.myAddScale/2 + this.progressBar.bars[0].myScale[0];

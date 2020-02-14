@@ -33,7 +33,7 @@ class Level {
     constructor(game, level) {
 		this.game = game;
 		this.levelFile = level;
-    this.resetLevel(level);
+		this.resetLevel(level);
     }
 
     /**
@@ -83,9 +83,24 @@ class Level {
             }
         }
         let that = this;
+		let lastRoomNum = 0;
+		let roomSpawnerList = [];
+		this.roomSpawners.forEach(function (elem)
+		{
+			roomSpawnerList.push(new RoomSpawner(that.game, elem.x, elem.y, [], elem.room, elem.dropKey));
+		});
         this.spawners.forEach(function (elem) 
         {
-          new Spawner(that.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total);
+		  let owner = null;
+		  if(elem.roomNum > 0)
+		  {
+			  owner = roomSpawnerList[elem.roomNum - 1];
+		  }
+          let s = new Spawner(that.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total, owner);
+		  if(owner !== null)
+		  {
+			  owner.spawners.push(s);
+		  }
         });
         this.pickups.forEach(function (elem)
         {
@@ -133,6 +148,7 @@ class Level {
         this._exit = null;
         this._wallType = levelFile.wallType;
         this._floorType = levelFile.floorType;
+		this.roomSpawners = levelFile.roomSpawnerList;
         this.spawners = levelFile.spawnerList;
         this.pickups = levelFile.pickupList;
         this.hazards = levelFile.hazardList;
