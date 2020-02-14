@@ -49,6 +49,17 @@ class Camera {
                 y: ((point.y - (this._height / 2)) / STANDARD_DRAW_SCALE[0]) + this._y};
     }
 
+    isOnScreen(pos, width, height, scale) {
+        if ((this.drawPosTranslation({x: pos.x, y: 0}, 1).x + (width * scale) < 0
+        || this.drawPosTranslation({x: pos.x, y: 0}, 1).x - (width * scale) > this._ctx.canvas.width)
+        && (this.drawPosTranslation({x: 0, y: pos.y}, 1).y + (height * scale) < 0
+        || this.drawPosTranslation({x: 0, y: pos.y}, 1).y - (height * scale) > this._ctx.canvas.height)){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     draw(ctx){}
     update(){
         this._ctx.canvas.width = window.innerWidth;

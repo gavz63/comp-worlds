@@ -31,8 +31,10 @@ class Wall {
             }
         };
         for (let i = 0; i < this._game._sceneManager.level._walls.length; i++) {
-            drawWall(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._walls[i].x),
-                    y: indexToCoordinate(this._game._sceneManager.level._walls[i].y)}, 1));
+            if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._walls[i].x), y: indexToCoordinate(this._game._sceneManager.level._walls[i].y)}, 96, 96, STANDARD_DRAW_SCALE)) {
+                drawWall(this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._walls[i].x),
+                        y: indexToCoordinate(this._game._sceneManager.level._walls[i].y)}, 1));
+            }
         }
     }
 

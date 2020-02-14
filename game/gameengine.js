@@ -178,15 +178,15 @@ class GameEngine {
      * Calls draw() on every entity in memory.
      */
     draw() {
-        this._ctx.clearRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height);
-        this._ctx.save();
+        //this._ctx.clearRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height);
+        //this._ctx.save();
         for (let i = 0; i < this._entities.length; i++) {
             for (let j = 0; j < this._entities[i].length; j++) {
                 this._entities[i][j].draw(this._ctx);
             }
         }
 
-        this._ctx.restore();
+        //this._ctx.restore();
     }
 
     destroyLevel() {
