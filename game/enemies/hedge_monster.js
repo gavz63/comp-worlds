@@ -51,7 +51,7 @@ class HedgeMonster extends Enemy {
                     this.isAwake = true;
                     this.animation = this.moveAnimation;
                 }
-            } else if (lengthV(vecToPlayer) < 64) {
+            } else if (lengthV(vecToPlayer) < 300) {
                 this.wakeUp();
             }
         } else if (lengthV(vecToHome) > 5) {
