@@ -52,11 +52,15 @@ class CactusBoi extends Enemy {
         } else {
             let vec = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
 
-            let normVector = normalizeV(vec);
-            this.x += normVector.x * this.speed * this.game._clockTick;
-            this.y += normVector.y * this.speed * this.game._clockTick;
-            if (lengthV(vec) < 100) {
-                this.attack();
+            this.pathfind(1000, 50);
+            if (this.goalPoint) {
+                if (lengthV(vec) < 100 &&
+                    (this.goalPoint.x === this.game.player.x &&
+                        this.goalPoint.y === this.game.player.y)) {
+                    this.attack();
+                } else {
+                    this.go(normalizeV(dirV(this, this.goalPoint)));
+                }
             }
         }
     }

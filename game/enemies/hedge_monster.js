@@ -22,40 +22,40 @@ class HedgeMonster extends Enemy {
 
         this.home = {x: spawner.x, y: spawner.y};
 
-        this.radius = STANDARD_ENTITY_RADIUS;
+        this.radius = STANDARD_ENTITY_RADIUS * 4;
+        this.width = 96;
         this.isWaking = false;
         this.isAwake = false;
-        this.isGoingHome = false;
+        this.isActivated = false;
         this.speed = 100;
     }
 
     update() {
         super.update();
 
-        let vecToHome = dirV({x: this.x, y: this.y}, {x: this.home.x, y: this.home.y});
+        let dist = lengthV(dirV(this, this.game.player));
+        if (this.isActivated) {
+            console.log("ACTIVATED");
+            this.pursue();
+        } else if (this.isWaking) {
+            console.log("WAKING");
+            if (this.animation.isDone()) {
+                this.isActivated = true;
+                this.isWaking = false;
+                this.animation = this.moveAnimation;
+                this.animation.unpause();
+            }
+        } else if (dist < this.radius * 2) {
+            this.pathfind(500, 20);
+            if (this.goalPoint &&
+                this.goalPoint.x === this.game.player.x &&
+                this.goalPoint.y === this.game.player.y) {
 
-        if (this.game.player) {
-            let vecToPlayer = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
-
-            if (this.isAwake) {
-                let vecToPlayer = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
-
-                if (lengthV(vecToPlayer) > lengthV(vecToHome) && (lengthV(vecToHome) > 200 || this.isGoingHome)) {
-                    this.goHome();
-                } else {
-                    this.pursue();
-                }
-            } else if (this.isWaking) {
-                if (this.animation.isDone()) {
-                    this.isWaking = false;
-                    this.isAwake = true;
-                    this.animation = this.moveAnimation;
-                }
-            } else if (lengthV(vecToPlayer) < 300) {
                 this.wakeUp();
             }
-        } else if (lengthV(vecToHome) > 5) {
-            this.goHome();
+        } else if (dist > this.width * 4) {
+            console.log("NOT ON SCReen");
+            this.pursue();
         }
     }
 
@@ -67,26 +67,9 @@ class HedgeMonster extends Enemy {
     }
 
     pursue() {
-        this.isGoingHome = false;
-        this.animation = this.moveAnimation;
-        this.animation.unpause();
-        let vecToPlayer = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
-        let normVecToPlayer = normalizeV(vecToPlayer);
-
-        this.x += normVecToPlayer.x * this.game._clockTick * this.speed;
-        this.y += normVecToPlayer.y * this.game._clockTick * this.speed;
-    }
-
-    goHome() {
-        this.isGoingHome = true;
-        let vecToHome = dirV({x: this.x, y: this.y}, {x: this.home.x, y: this.home.y});
-        let normVecToHome = normalizeV(vecToHome);
-
-        if (lengthV(vecToHome) < 5) {
-            this.goToSleep();
-        } else {
-            this.x += normVecToHome.x * this.game._clockTick * this.speed;
-            this.y += normVecToHome.y * this.game._clockTick * this.speed;
+        this.pathfind(this.game.sceneManager.level._width * this.game.sceneManager.level._width + this.game.sceneManager.level._height * this.game.sceneManager.level._height, Infinity);
+        if (this.goalPoint) {
+            this.go(normalizeV(dirV(this, this.goalPoint)));
         }
     }
 

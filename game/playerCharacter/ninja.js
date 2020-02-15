@@ -173,7 +173,7 @@ function Ninja() {
         maxProjectiles: 10,
     };
     this.npc = {
-        x: -64,
+        x: -32 - 50,
         y: 0
     }
 }
