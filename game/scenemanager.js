@@ -3,6 +3,7 @@ class SceneManager
 	constructor(game)
 	{
 		this.game = game;
+		this.revived = [];
 	}
 	
 	LoadLevel(levelFile)
@@ -27,6 +28,10 @@ class SceneManager
 			if (ent instanceof NPC) {
 				remaining.push(new NPC(this.game, ent.characterClass));
 			}
+		});
+		let that = this;
+		this.revived.forEach(function(elem) {
+			remaining.push(new NPC(that.game, elem.characterClass));
 		});
 
 		new Transition(this.game, remaining, playPos, new Level1());

@@ -46,7 +46,7 @@ class Player extends Entity {
         this.game.setPlayer(this);
 
         this.hurt = false;
-        this.hurt = true;
+        //this.hurt = true;
 		
         this.progressBar = new ProgressBar(this.game, 0, 0, this.animation._frameWidth, 100/this.characterClass.stats.specialChargeTime);
         this.progressBar.offsetX = 0;
@@ -290,8 +290,23 @@ class Player extends Entity {
      * @param direction, the direction from which we were hit, so that the player can fly back from the impact.
      */
     takeDmg(dmg, direction) {
+        switch (direction) {
+            case DIRECTION_LEFT:
+                this.animation = this.characterClass.animation.dmgFromRight;
+                break;
+            case DIRECTION_RIGHT:
+                this.animation = this.characterClass.animation.dmgFromLeft;
+                break;
+            case DIRECTION_UP:
+                this.animation = this.characterClass.animation.dmgFromDown;
+                break;
+            case DIRECTION_DOWN:
+                this.animation = this.characterClass.animation.dmgFromUp;
+        }
         if (this.hurt !== true) {
             if (this.hp === 0) {
+                new PCRemnant(this.game, this.x, this.y, this.characterClass, this.animation);
+
                 this.game.switchToCharacterChooserMode();
                 this.destroy();
                 return;
@@ -307,19 +322,7 @@ class Player extends Entity {
             }
             this.hp -= dmg;
             this.isTakingDmg = true;
-            switch (direction) {
-                case DIRECTION_LEFT:
-                    this.animation = this.characterClass.animation.dmgFromRight;
-                    break;
-                case DIRECTION_RIGHT:
-                    this.animation = this.characterClass.animation.dmgFromLeft;
-                    break;
-                case DIRECTION_UP:
-                    this.animation = this.characterClass.animation.dmgFromDown;
-                    break;
-                case DIRECTION_DOWN:
-                    this.animation = this.characterClass.animation.dmgFromUp;
-            }
+
             this.animation.resetAnimation();
 
             this.hurt = true;
