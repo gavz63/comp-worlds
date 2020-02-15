@@ -164,6 +164,11 @@ class Animation {
           this._elapsedTime += tick;
           if (this.isDone()) {
               if (that._loop === true) that._elapsedTime = 0;
+              else
+              {
+                that.pause();
+                that.setFrame(that.getLastFrameAsInt);
+              }
           }
         }
     }
