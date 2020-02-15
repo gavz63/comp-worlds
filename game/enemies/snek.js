@@ -37,21 +37,9 @@ class Snek extends Enemy {
     update() {
         super.update();
 
-        let vec = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
-        let normVector = normalizeV(vec);
-
-        this.x += normVector.x * this.speed * this.game._clockTick;
-        this.y += normVector.y * this.speed * this.game._clockTick;
-        
-        let newPos = {x: this.x, y: this.y};
-        if(this.wallCollision(newPos))
-        {
-          this.x = this.oldPos.x;
-          this.y = this.oldPos.y;
-        }
-        else
-        {
-          this.oldPos = newPos;
+        this.pathfind(1000, 50);
+        if (this.goalPoint) {
+            this.go(normalizeV(dirV(this, this.goalPoint)));
         }
 
         if (this.isAttacking) {
