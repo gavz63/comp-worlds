@@ -1,7 +1,6 @@
 class PuddleJumper extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
-        //console.log("HELLO:");
         this.moveAnimation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
@@ -23,21 +22,19 @@ class PuddleJumper extends Enemy {
     update() {
         if (this.animation._elapsedTime > this.animation._totalTime * 14 / STANDARD_ENTITY_FRAME_WIDTH &&
             this.animation._elapsedTime < this.animation._totalTime * 19 / STANDARD_ENTITY_FRAME_WIDTH) {
-            
-            
-            if(!this.directionSet)
-            {
-			
-              this.targetVector = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y}));
-              this.directionSet = true;
+
+
+            if (!this.directionSet) {
+
+                this.pathfind(1000, 50);
+                this.directionSet = true;
             }
-            
-            this.x += this.targetVector.x * this.game._clockTick * this.speed;
-            this.y += this.targetVector.y * this.game._clockTick * this.speed;
-        }
-        else
-        {
-          this.directionSet = false;
+
+            if (this.goalPoint) {
+                this.go(normalizeV(dirV(this, this.goalPoint)));
+            }
+        } else {
+            this.directionSet = false;
         }
     }
 }

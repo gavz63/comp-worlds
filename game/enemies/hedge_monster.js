@@ -35,10 +35,8 @@ class HedgeMonster extends Enemy {
 
         let dist = lengthV(dirV(this, this.game.player));
         if (this.isActivated) {
-            console.log("ACTIVATED");
             this.pursue();
         } else if (this.isWaking) {
-            console.log("WAKING");
             if (this.animation.isDone()) {
                 this.isActivated = true;
                 this.isWaking = false;
@@ -54,7 +52,6 @@ class HedgeMonster extends Enemy {
                 this.wakeUp();
             }
         } else if (dist > this.width * 4) {
-            console.log("NOT ON SCReen");
             this.pursue();
         }
     }

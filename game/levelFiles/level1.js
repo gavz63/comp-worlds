@@ -84,7 +84,7 @@ class Level1
 			y: 1,
 			max: 1,
 			freq: 10,
-			list: [CactusBoi.prototype],
+			list: [PuddleJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
