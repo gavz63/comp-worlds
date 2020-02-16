@@ -173,6 +173,7 @@ class Player extends Entity {
                         this.animation = this.characterClass.animation.idleUp;
                         break;
                 }
+				this.idleAnimation = this.animation;
 
                 /* If idle() has already been called and we are in the middle of
                 playing the idle animation */
@@ -331,6 +332,8 @@ class Player extends Entity {
 
             new TimerCallback(this.game, 1, false, function () {
                 that.isTakingDmg = false;
+				that.animation = that.idleAnimation;
+				that.animation.resetAnimation();
             }); // stunned
             new TimerCallback(this.game, 3, false, function () {
                 that.hurt = false;
