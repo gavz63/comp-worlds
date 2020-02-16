@@ -1,17 +1,28 @@
-h1 {
-    text-align: center;
-}
-
 .section {
     width: 100%;
     padding: 30px;
+    text-align: center;
+    background-color: black;
+    color: whitesmoke;
 }
+
+h1 {
+    text-transform: uppercase;
+    background: -webkit-gradient(linear, left top, left bottom, from(#400f49), to(#7b098e));
+    background: -o-linear-gradient(#400f49, #7b098e);
+    background: linear-gradient(#400f49, #7b098e);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    font-size: 40px;
+}
+
 #lead, #support, #tester {
     width:100%;
 }
 
 body {
-    overflow: hidden;
     margin: 0;
     padding: 0;
 }
@@ -37,42 +48,38 @@ button {
 
 #main, #main:hover, #main:active {
     background-size: contain;
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    -moz-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
+    /*position: absolute;*/
+    /*top: 80%;*/
+    /*left: 50%;*/
+    /*-moz-transform: translateX(-50%) translateY(-50%);*/
+    /*-webkit-transform: translateX(-50%) translateY(-50%);*/
+    /*transform: translateX(-50%) translateY(-50%);*/
 }
 
-#lead {
-    position: absolute;
-    top: 0%;
-    left: 40%;
-}
+/*#lead {*/
+/*    position: absolute;*/
+/*    top: 0%;*/
+/*    left: 40%;*/
+/*}*/
 
-#support {
-    position: absolute;
-    top: 25%;
-    left: 40%;
-}
+/*#support {*/
+/*    position: absolute;*/
+/*    top: 25%;*/
+/*    left: 40%;*/
+/*}*/
 
-#tester {
-    position: absolute;
-    top: 40%;
-    left: 40%;
-}
+/*#tester {*/
+/*    position: absolute;*/
+/*    top: 40%;*/
+/*    left: 40%;*/
+/*}*/
 
 *:focus {
     outline: none;
 }
 
 * {
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+    font-family: Verdana, sans-serif;
     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
     image-rendering: -moz-crisp-edges;          /* Firefox                        */
     image-rendering: -o-crisp-edges;            /* Opera                          */
