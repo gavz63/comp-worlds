@@ -121,9 +121,7 @@ class Projectile extends Entity {
     }
 
     attachTo(attached) {
-
         this.attached = attached;
-       
     }
     
     hitOnce()
@@ -193,35 +191,25 @@ class EasingProjectile extends Projectile {
 }
 
 class SpawnerProjectile extends EasingProjectile {
-  constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn)
+  constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn, spawn, attach, shots)
   {
-
-    super(game, x, y, dir, speed, lifetime, owner, animation, dmg, radius, knockback, move, easing);
+    super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing);
     this.timeToSpawn = timeToSpawn;
+	this.spawn = spawn;
+	this.attach = attach;
+	this.shots = shots;
     let that = this;
-    this.spawnTimer = new TimerCallback(this.game, timeToSpawn, false,
-    function () {
-      if(!that.removeFromWorld)
-      {
-        let projectile = new SpawnerProjectile(that.game, that.x, that.y, that.dir, that.speed, that.lifetime, that.dieOnHit, that, that.animation, that.dmg, that.radius, that.move, that.easing, that.timeToSpawn);
-        projectile.setAttachedToOwner(true);
-      }
-    });
+    this.spawnTimer = new TimerCallback(this.game, timeToSpawn, true, function () { if(that.removeFromWorld !== true)that.spawn(); });
   }
+  
+  /*
   update()
   {
-    this.testCollision();
-
     this.dx += this.dir.x * this.game._clockTick * this.speed;
     this.dy += this.dir.y * this.game._clockTick * this.speed;
 
-    if (this.attached !== null) {
-        this.x = this.owner.x + this.dir.x * this.speed;
-        this.y = this.owner.y + this.dir.y * this.speed;
-    } else {
-        this.x = this.startX + this.dx;
-        this.y = this.startY + this.dy;
-    }
+	this.x = this.startX + this.dx;
+	this.y = this.startY + this.dy;
 
     let newPos = {x: this.x, y: this.y};
     if (this.wallCollision(newPos)) {
@@ -229,11 +217,84 @@ class SpawnerProjectile extends EasingProjectile {
     } else {
         this.oldPos = newPos;
     }
+  }*/
+  
+  cross()
+  {
+	 for(let i = 0; i < this.shots; i++)
+	 {
+		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+			16, 16,
+			{x: 0, y: 0}, {x: 3, y: 0},
+			6, true, STANDARD_DRAW_SCALE);
+		let p = new Projectile(this.game, 0, 0, {x: 0, y: -1}, i * 10, 1, true, this, a, 1, 1, 0);
+		p.attachTo(this);
+	 }
+	 
+	 for(let i = 0; i < this.shots; i++)
+	 {
+		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+			16, 16,
+			{x: 0, y: 0}, {x: 3, y: 0},
+			6, true, STANDARD_DRAW_SCALE);
+		let p = new Projectile(this.game, 0, 0, {x: 0, y: 1}, i * 10, 1, true, this, a, 1, 1, 0);
+		p.attachTo(this);
+	 }
+	 
+	 for(let i = 0; i < this.shots; i++)
+	 {
+		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+			16, 16,
+			{x: 0, y: 0}, {x: 3, y: 0},
+			6, true, STANDARD_DRAW_SCALE);
+		let p = new Projectile(this.game, 0, 0, {x: -1, y: 0}, i * 10, 1, true, this, a, 1, 1, 0);
+		p.attachTo(this);
+	 }
+	 
+	 for(let i = 0; i < this.shots; i++)
+	 {
+		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+			16, 16,
+			{x: 0, y: 0}, {x: 3, y: 0},
+			6, true, STANDARD_DRAW_SCALE);
+		let p = new Projectile(this.game, 0, 0, {x: 1, y: 0}, i * 10, 1, true, this, a, 1, 1, 0);
+		p.attachTo(this);
+	 }
+  }
+  
+  something()
+  {
+	 for(let i = 0; i < this.shots; i++)
+	 {
+		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+			16, 16,
+			{x: 0, y: 0}, {x: 3, y: 0},
+			6, true, STANDARD_DRAW_SCALE);
+		let p = new Projectile(this.game, this.x, this.y, {x: 0, y: 1}, 40, 5, true, this, a, 1, 1, 0);
+	 }
+	 
+	 for(let i = 0; i < this.shots; i++)
+	 {
+		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+			16, 16,
+			{x: 0, y: 0}, {x: 3, y: 0},
+			6, true, STANDARD_DRAW_SCALE);
+		let p = new Projectile(this.game, this.x, this.y, {x: 0, y: -1}, 40, 5, true, this, a, 1, 1, 0);
+	 }
+	 
+	 for(let i = 0; i < this.shots; i++)
+	 {
+		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+			16, 16,
+			{x: 0, y: 0}, {x: 3, y: 0},
+			6, true, STANDARD_DRAW_SCALE);
+		let p = new Projectile(this.game, this.x, this.y, {x: -1, y: 0}, 40, 5, true, this, a, 1, 1, 0);
+	 }
   }
 
-    destroy() {
-        this.removeFromWorld = true;
-    }
+	destroy() {
+		this.removeFromWorld = true;
+	}
 }
 
 class Flame extends EasingProjectile
