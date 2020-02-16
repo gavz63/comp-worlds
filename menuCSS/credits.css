@@ -1,3 +1,15 @@
+h1 {
+    text-align: center;
+}
+
+.section {
+    width: 100%;
+    padding: 30px;
+}
+#lead, #support, #tester {
+    width:100%;
+}
+
 body {
     overflow: hidden;
     margin: 0;

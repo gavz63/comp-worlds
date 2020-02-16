@@ -35,6 +35,7 @@ class SceneManager
 		});
 
 		new Transition(this.game, remaining, playPos, new this.levelFile.nextLevel.constructor());
+		this.revived = [];
 	}
 	
 	Reset()
