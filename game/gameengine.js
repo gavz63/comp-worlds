@@ -11,14 +11,15 @@ const GAME_STATES = {
 
 const LAYERS = {
     FLOOR: 0,
-    ENEMIES: 1,
-    ENEMY_PROJECTILES: 2,
-    PICKUPS: 3,
-    PLAYER_PROJECTILES: 5,
-    MAIN: 4,
-    WALL: 6,
-    PARTICLES: 7,
-    HUD: 8
+	REMNANTS: 1,
+    ENEMIES: 2,
+    ENEMY_PROJECTILES: 3,
+    PICKUPS: 4,
+    PLAYER_PROJECTILES: 6,
+    MAIN: 5,
+    WALL: 7,
+    PARTICLES: 8,
+    HUD: 9
 };
 
 // ORIGINAL LAYERS WERE
@@ -43,6 +44,7 @@ class GameEngine {
         this._camera = camera;
         this._entities = [];
         this._entities[LAYERS.FLOOR] = [];
+        this._entities[LAYERS.REMNANTS] = [];
         this._entities[LAYERS.ENEMIES] = [];
         this._entities[LAYERS.ENEMY_PROJECTILES] = [];
         this._entities[LAYERS.PICKUPS] = [];

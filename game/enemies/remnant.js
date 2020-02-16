@@ -1,13 +1,13 @@
 class Remnant extends Entity
 {
-	constructor(game, x, y, animation)
+  constructor(game, x, y, animation)
   {
     super(game, x ,y);
     this.animation = animation;
     this.myScale = this.animation._scale;
     this.animation._scale = this.myScale;
     this.myAddScale = this.myScale / STANDARD_DRAW_SCALE;
-    this.game.addEntity(this, LAYERS.FLOOR);
+    this.game.addEntity(this, LAYERS.REMNANTS);
   }
   
   update = function ()
