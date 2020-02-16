@@ -9,7 +9,7 @@ class Player extends Entity {
     constructor(game, characterClass) {
         super(game, indexToCoordinate(game._sceneManager.level.spawn.x), indexToCoordinate(game._sceneManager.level.spawn.y));
         game._player = this;
-        this.keys = 1;
+        this.keys = 0;
         this.characterClass = characterClass;
         this.direction = DIRECTION_RIGHT;
         this.animation = characterClass.animation.idleRight;
@@ -290,6 +290,7 @@ class Player extends Entity {
      * @param direction, the direction from which we were hit, so that the player can fly back from the impact.
      */
     takeDmg(dmg, direction) {
+        if (this.hurt !== true) {
         switch (direction) {
             case DIRECTION_LEFT:
                 this.animation = this.characterClass.animation.dmgFromRight;
@@ -303,7 +304,7 @@ class Player extends Entity {
             case DIRECTION_DOWN:
                 this.animation = this.characterClass.animation.dmgFromUp;
         }
-        if (this.hurt !== true) {
+
             if (this.hp === 0) {
                 new PCRemnant(this.game, this.x, this.y, this.characterClass, this.animation);
 
@@ -369,6 +370,7 @@ class Player extends Entity {
 		}
 		
 		this.progressBar.destroy();
+		this.idleTimer.destroy();
 
         super.destroy();
     }

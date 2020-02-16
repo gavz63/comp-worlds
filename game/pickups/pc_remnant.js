@@ -9,11 +9,14 @@ class PCRemnant extends Entity {
     }
 
     update() {
-        console.log(this.animation._paused);
         if(this.animation.isDone()) {
-            this.animation.pause();
+			this.animation.pause();
             this.animation.setFrame(this.animation.getLastFrameAsInt());
+						console.log(this.animation.getFrame());
         }
+		else{
+			console.log("HEY");
+		}
         if (circleToCircle(this, this.game.player)) {
             this.revive();
             this.destroy();

@@ -26,7 +26,7 @@ function Ninja() {
             10, false, STANDARD_DRAW_SCALE); },
         dmgFromLeft: new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 1}, {x: 5, y: 1},
+            {x: 0, y: 3}, {x: 5, y: 3},
             6, false, STANDARD_DRAW_SCALE),
 
         //Right facing animations
