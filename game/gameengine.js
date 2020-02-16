@@ -311,7 +311,7 @@ class GameEngine {
 		new TimerCallback(this, 2, false, function () {
 			that.camera._desiredLoc.x = 0;
 			that.camera._desiredLoc.y = that.sceneManager.level.spawn.y * 96;
-			this.game_state = GAME_STATES.CHARACTER_SELECT;
+			that.game_state = GAME_STATES.CHARACTER_SELECT;
 		});
 		
         for (let i = 0; i < this.entities[LAYERS.MAIN].length; i++) {
