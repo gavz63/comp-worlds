@@ -17,7 +17,7 @@ class Player extends Entity {
         this._collider = characterClass.collider;
         this.speed = characterClass.stats.speed;
         this.hp = characterClass.stats.maxHP;
-        
+
         this.attackCounter = 0;
 
         this.hearts = [new LastHeart(game, 1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE, 1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE)];
@@ -30,8 +30,8 @@ class Player extends Entity {
         this.isTakingDmg = false;
         this.isAttacking = false;
         this.isIdling = false;
-		
-		this.screen = false;
+
+        this.screen = false;
 
         let that = this;
 
@@ -41,7 +41,7 @@ class Player extends Entity {
             function () {
                 that.idle();
             });
-        this.radius = STANDARD_ENTITY_RADIUS-10;
+        this.radius = STANDARD_ENTITY_RADIUS - 10;
         this.width = this.radius * 2;
 
         this.game.addEntity(this, LAYERS.MAIN);
@@ -49,30 +49,26 @@ class Player extends Entity {
 
         this.hurt = false;
         //this.hurt = true;
-		
-        this.progressBar = new ProgressBar(this.game, 0, 0, this.animation._frameWidth, 100/this.characterClass.stats.specialChargeTime);
+
+        this.progressBar = new ProgressBar(this.game, 0, 0, this.animation._frameWidth, 100 / this.characterClass.stats.specialChargeTime);
         this.progressBar.offsetX = 0;
         this.progressBar.offsetY = (this.animation._frameHeight + this.progressBar.barFront.animation._height) * 1.1;
-		
+
         this.progressBar.attachTo(this);
     }
-	
-	
-	draw()
-	{
-		if (this.game._camera.isOnScreen({x: this.x, y: this.y}, 100, 100, STANDARD_DRAW_SCALE)) {
-			let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
-			if(this.screen)
-			{
-				this.animation._screen = true;
-			}
-			else
-			{
-				this.animation._screen = false;
-			}
-			this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true);
-		}
-	}
+
+
+    draw() {
+        if (this.game._camera.isOnScreen({x: this.x, y: this.y}, 100, 100, STANDARD_DRAW_SCALE)) {
+            let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+            if (this.screen) {
+                this.animation._screen = true;
+            } else {
+                this.animation._screen = false;
+            }
+            this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true);
+        }
+    }
 
     /**
      * Part of the game loop, update the player to the position and state it should now be in.
@@ -159,14 +155,11 @@ class Player extends Entity {
 
                 //Attack animation should supersede walking animation, so we can attack while moving
                 if (this.game.click) {
-                  if(this.game.rightClick)
-                  {
-                    this.specialAttack();
-                  }
-                  else
-                  {
-                    this.regularAttack();
-                  }
+                    if (this.game.rightClick) {
+                        this.specialAttack();
+                    } else {
+                        this.regularAttack();
+                    }
                 }
 
                 //If we were idle we aren't anymore, so reset the idle timer
@@ -192,7 +185,7 @@ class Player extends Entity {
                         this.animation = this.characterClass.animation.idleUp;
                         break;
                 }
-				this.idleAnimation = this.animation;
+                this.idleAnimation = this.animation;
 
                 /* If idle() has already been called and we are in the middle of
                 playing the idle animation */
@@ -269,7 +262,10 @@ class Player extends Entity {
             this.y = newPos.y;
 
             // Check if reached end of level.
-            if (this.game.sceneManager.level.mapElementAt({x: coordinateToIndex(this.x), y: coordinateToIndex(this.y)}) === "E") {
+            if (this.game.sceneManager.level.mapElementAt({
+                x: coordinateToIndex(this.x),
+                y: coordinateToIndex(this.y)
+            }) === "E") {
                 this.game.sceneManager.levelComplete();
             }
         }
@@ -311,19 +307,19 @@ class Player extends Entity {
      */
     takeDmg(dmg, direction) {
         if (this.hurt !== true) {
-        switch (direction) {
-            case DIRECTION_LEFT:
-                this.animation = this.characterClass.animation.dmgFromRight;
-                break;
-            case DIRECTION_RIGHT:
-                this.animation = this.characterClass.animation.dmgFromLeft;
-                break;
-            case DIRECTION_UP:
-                this.animation = this.characterClass.animation.dmgFromDown;
-                break;
-            case DIRECTION_DOWN:
-                this.animation = this.characterClass.animation.dmgFromUp;
-        }
+            switch (direction) {
+                case DIRECTION_LEFT:
+                    this.animation = this.characterClass.animation.dmgFromRight;
+                    break;
+                case DIRECTION_RIGHT:
+                    this.animation = this.characterClass.animation.dmgFromLeft;
+                    break;
+                case DIRECTION_UP:
+                    this.animation = this.characterClass.animation.dmgFromDown;
+                    break;
+                case DIRECTION_DOWN:
+                    this.animation = this.characterClass.animation.dmgFromUp;
+            }
 
             if (this.hp === 0) {
                 new PCRemnant(this.game, this.x, this.y, this.characterClass, this.animation);
@@ -351,13 +347,13 @@ class Player extends Entity {
 
             new TimerCallback(this.game, 1, false, function () {
                 that.isTakingDmg = false;
-				that.animation = that.idleAnimation;
-				that.animation.resetAnimation();
-				that.screen = true;
+                that.animation = that.idleAnimation;
+                that.animation.resetAnimation();
+                that.screen = true;
             }); // stunned
             new TimerCallback(this.game, 3, false, function () {
                 that.hurt = false;
-				that.screen = false;
+                that.screen = false;
             });        // invincibility
 
 
@@ -367,17 +363,15 @@ class Player extends Entity {
             }
         }
     }
-	
-	heal(hp)
-	{
-		for(let i = hp; this.hp + 1 <= this.characterClass.stats.maxHP && i > 0; i--)
-		{
-			this.hearts[this.hp].set(true);
-			this.hp += 1;
-		}
-	}
 
-  destroy() {
+    heal(hp) {
+        for (let i = hp; this.hp + 1 <= this.characterClass.stats.maxHP && i > 0; i--) {
+            this.hearts[this.hp].set(true);
+            this.hp += 1;
+        }
+    }
+
+    destroy() {
         console.log("THIS HAPPENED");
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].destroy();
@@ -387,14 +381,13 @@ class Player extends Entity {
             new Key(this.game, this.x + 10 * i, this.y + 10 * i);
         }
 
-		if(this.game.game_state != GAME_STATES.CHANGING_LEVEL)
-		{
-			this.x = 0;
-			this.y = this.game.sceneManager.level.spawn.y * 96;
-		}
-		
-		this.progressBar.destroy();
-		this.idleTimer.destroy();
+        if (this.game.game_state != GAME_STATES.CHANGING_LEVEL) {
+            this.x = 0;
+            this.y = this.game.sceneManager.level.spawn.y * 96;
+        }
+
+        this.progressBar.destroy();
+        this.idleTimer.destroy();
 
         super.destroy();
     }
@@ -402,77 +395,76 @@ class Player extends Entity {
     /**
      * Handles a regular attack (left click)
      */
-  regularAttack() {
+    regularAttack() {
 
-		this.game.click = false;
-    this.isAttacking = true;
+        this.game.click = false;
+        this.isAttacking = true;
 
-    let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
+        let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
 
-    let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
+        let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
 
-    var attackDir = vectorToDir(attackVector);
+        var attackDir = vectorToDir(attackVector);
 
-    switch (attackDir) {
-      case DIRECTION_DOWN:
-        this.animation = this.characterClass.animation.regAttackDown();
-        break;
-      case DIRECTION_UP:
-        this.animation = this.characterClass.animation.regAttackUp();
-        break;
-      case DIRECTION_LEFT:
-        this.animation = this.characterClass.animation.regAttackLeft();
-        break;
-      default:
-        this.animation = this.characterClass.animation.regAttackRight();
-        break;
+        switch (attackDir) {
+            case DIRECTION_DOWN:
+                this.animation = this.characterClass.animation.regAttackDown();
+                break;
+            case DIRECTION_UP:
+                this.animation = this.characterClass.animation.regAttackUp();
+                break;
+            case DIRECTION_LEFT:
+                this.animation = this.characterClass.animation.regAttackLeft();
+                break;
+            default:
+                this.animation = this.characterClass.animation.regAttackRight();
+                break;
+        }
+
+        this.animation.resetAnimation();
+        this.animation.unpause();
+        this.direction = attackDir;
+        if (this.attackCounter < this.characterClass.stats.maxProjectiles) {
+            this.attackCounter++;
+            this.characterClass.attack(this, attackVector);
+        }
     }
-  
-    this.animation.resetAnimation();
-    this.animation.unpause();
-    this.direction = attackDir;
-    if(this.attackCounter < this.characterClass.stats.maxProjectiles)
-    {
-      this.attackCounter++;
-      this.characterClass.attack(this, attackVector);
+
+    specialAttack() {
+        this.game.click = false;
+        this.game.rightClick = false;
+
+        this.isAttacking = true;
+        let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
+
+        let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
+
+        var attackDir = vectorToDir(attackVector);
+
+        switch (attackDir) {
+            case DIRECTION_DOWN:
+                this.animation = this.characterClass.animation.specialAttackDown();
+                break;
+            case DIRECTION_UP:
+                this.animation = this.characterClass.animation.specialAttackUp();
+                break;
+            case DIRECTION_LEFT:
+                this.animation = this.characterClass.animation.specialAttackLeft();
+                break;
+            default:
+                this.animation = this.characterClass.animation.specialAttackRight();
+                break;
+        }
+
+        this.animation.resetAnimation();
+        this.animation.unpause();
+        this.direction = attackDir;
+        if (this.progressBar.progress === 100) {
+            this.progressBar.progress = 0;
+            this.progressBar.paused = true;
+            this.characterClass.specialAttack(this, attackVector);
+        } else if (this.characterClass instanceof Lancer) {
+            this.isAttacking = false;
+        }
     }
-  }
-	
-	specialAttack()
-	{
-		this.game.click = false;
-		this.game.rightClick = false;
-
-      this.isAttacking = true;
-      let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
-
-      let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
-
-      var attackDir = vectorToDir(attackVector);
-      
-      switch (attackDir) {
-        case DIRECTION_DOWN:
-          this.animation = this.characterClass.animation.specialAttackDown();
-          break;
-        case DIRECTION_UP:
-          this.animation = this.characterClass.animation.specialAttackUp();
-          break;
-        case DIRECTION_LEFT:
-          this.animation = this.characterClass.animation.specialAttackLeft();
-          break;
-        default:
-          this.animation = this.characterClass.animation.specialAttackRight();
-          break;
-      }
-      
-      this.animation.resetAnimation();
-      this.animation.unpause();
-      this.direction = attackDir;
-	  if(this.progressBar.progress === 100)
-	  {
-	    this.progressBar.progress = 0;
-	    this.progressBar.paused = true;
-	    this.characterClass.specialAttack(this, attackVector);
-	  }
-	}
 }

@@ -23,10 +23,10 @@ function Lancer() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 5, y: 2},
             24, false, STANDARD_DRAW_SCALE); },
-        specialAttackLeft: function () { return new Animation(sideToSide,
+        specialAttackLeft: function () { return new Animation(specialSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 5, y: 2},
-            24, false, STANDARD_DRAW_SCALE); },
+            {x: 5, y: 0}, {x: 4, y: 0},
+            24, true, STANDARD_DRAW_SCALE); },
         dmgFromLeft: new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 1}, {x: 5, y: 1},
@@ -45,10 +45,10 @@ function Lancer() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 5}, {x: 5, y: 5},
             24, false, STANDARD_DRAW_SCALE); },
-        specialAttackRight: function () { return new Animation(sideToSide,
+        specialAttackRight: function () { return new Animation(specialSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 5}, {x: 5, y: 5},
-            24, false, STANDARD_DRAW_SCALE); },
+            {x: 2, y: 0}, {x: 1, y: 0},
+            24, true, STANDARD_DRAW_SCALE); },
         dmgFromRight: new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 5, y: 0},
@@ -67,10 +67,10 @@ function Lancer() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 5}, {x: 5, y: 5},
             24, false, STANDARD_DRAW_SCALE); },
-        specialAttackUp: function () { return new Animation(upAndDown,
+        specialAttackUp: function () { return new Animation(specialSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 5}, {x: 5, y: 5},
-            24, false, STANDARD_DRAW_SCALE); },
+            {x: 3, y: 0}, {x: 2, y: 0},
+            24, true, STANDARD_DRAW_SCALE); },
         dmgFromUp: new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 3}, {x: 5, y: 3},
@@ -89,10 +89,10 @@ function Lancer() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 5, y: 2},
             24, false, STANDARD_DRAW_SCALE); },
-        specialAttackDown: function () { return new Animation(upAndDown,
+        specialAttackDown: function () { return new Animation(specialSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 5, y: 2},
-            24, false, STANDARD_DRAW_SCALE); },
+            {x: 0, y: 0}, {x: 5, y: 0},
+            24, true, STANDARD_DRAW_SCALE); },
         dmgFromDown: new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 5, y: 2},
@@ -153,7 +153,13 @@ function Lancer() {
 	
 	this.specialAttack = function (player, attackVector)
 	{
-		let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 1, 85, 5);
+        new TimerCallback(player.game, player.characterClass.stats.specialLifetime, false, function() {
+            player.animation = player.idleAnimation;
+            player.animation.resetAnimation();
+            player.animation.pause();
+        });
+
+        let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 1, 85, 5);
 		projectile.attachTo(player);
 	};
 
