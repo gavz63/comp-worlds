@@ -4,6 +4,7 @@ class Level7 {
         this.height = 20;
         this.floorType = 0;
         this.wallType = 0;
+        this.musicId = 'hedgeMazeMusic';
 
         this.layout =
             "###-----------------" +

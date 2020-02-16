@@ -5,6 +5,7 @@ class Level6 {
         this.floorType = 0;
         this.wallType = 0;
         this.nextLevel = Level7.prototype;
+        this.musicId = 'hedgeMazeMusic';
 
         this.layout =
             "###-----------------" +

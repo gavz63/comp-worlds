@@ -69,6 +69,12 @@ class GameEngine {
     }
 
     LoadLevel(levelFile, npcClasses) {
+        if (this.audioManager.music) {
+            this.audioManager.pauseMusic();
+        }
+        this.audioManager.setMusic(levelFile.musicId);
+        this.audioManager.restartMusic();
+        this.audioManager.playMusic();
         this.destroyLevel();
         this.game_state = GAME_STATES.CHARACTER_SELECT;
 
@@ -100,6 +106,7 @@ class GameEngine {
      * @param {*} ctx The HTML canvas' 2D context.
      */
     init(ctx) {
+        this.audioManager = new AudioManager();
         this.LoadLevel(new Level1(), [new BlackMage(), new Lancer(), new Ninja()]);
         this._ctx = ctx;
         this._surfaceWidth = this._ctx.canvas.width;

@@ -57,6 +57,10 @@ class HedgeMonster extends Enemy {
     }
 
     wakeUp() {
+        this.game.audioManager.pauseMusic();
+        this.game.audioManager.setMusic('hedgeMonsterMusic');
+        this.game.audioManager.restartMusic();
+        this.game.audioManager.playMusic();
         this.isWaking = true;
         this.animation = this.wakeAnimation;
         this.animation.resetAnimation();
@@ -74,5 +78,14 @@ class HedgeMonster extends Enemy {
         this.animation = this.wakeAnimation;
         this.animation.resetAnimation();
         this.animation.pause();
+    }
+
+    destroy() {
+        super.destroy();
+
+        this.game.audioManager.pauseMusic();
+        this.game.audioManager.setMusic('hedgeMazeMusic');
+        this.game.audioManager.restartMusic();
+        this.game.audioManager.playMusic();
     }
 }

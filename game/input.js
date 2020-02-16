@@ -76,10 +76,10 @@ function Input() {
 				that.a = false;
 			}
 
-			if (e.code === "Space") {
-				that.spacebar = true;
-				playSound();
-			}
+			// if (e.code === "Space") {
+			// 	that.spacebar = true;
+			// 	playSound();
+			// }
 
 			// Temporary
 			if (e.code === "KeyP") {

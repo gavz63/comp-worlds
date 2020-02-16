@@ -1,6 +1,5 @@
-﻿
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <link rel="icon" href="./img/icon.png">
     <link rel="stylesheet" href="styles.css">
@@ -53,7 +52,7 @@
     <script type="text/javascript" src="./hud/heart.js"></script>
     <script type="text/javascript" src="./hud/progressbar.js"></script>
     <script type="text/javascript" src="./assetmanager.js"></script>
-    <script type="text/javascript" src="./audiomanager.js"></script>
+    <script type="text/javascript" src="sounds/audiomanager.js"></script>
     <script type="text/javascript" src="enemies/spawner.js"></script>
     <script type="text/javascript" src="enemies/turret.js"></script>
     <script type="text/javascript" src="./hud/choose_your_fighter.js"></script>
@@ -69,9 +68,11 @@
 
     <script type="text/javascript" src="./main.js"></script>
 	
-	<audio preload = "auto" id="mySound" src="./fear_unfinished.mp3">
-	 muted="muted"</audio>
-    
+	<audio preload="auto" id="bossMusic" src="./sounds/fear_unfinished.mp3" loop muted></audio>
+    <audio preload="auto" id="hedgeMazeMusic" src="./sounds/wobble_unfinished.mp3" loop muted></audio>
+    <audio preload="auto" id="hedgeMonsterMusic" src="./sounds/monster_unfinished2.mp3" loop muted></audio>
+    <audio preload="auto" id="churchMusic" src="./sounds/respite_unfinished.mp3" loop muted></audio>
+
 </head>
 <body>
 <div id="canvas_div_no_cursor">
