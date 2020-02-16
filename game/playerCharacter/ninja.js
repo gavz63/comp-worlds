@@ -1,7 +1,7 @@
 function Ninja() {
     //Load in the sprite sheets
     var spriteSheet = ASSET_MANAGER.getAsset("./img/player_characters/Ninja.png");
-    var dmgSheet = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageDmgSheet.png");
+    var dmgSheet = ASSET_MANAGER.getAsset("./img/player_characters/NinjaDmgSheet.png");
     var shuriken = ASSET_MANAGER.getAsset("./img/projectiles/Shuriken.png");
     var slash = ASSET_MANAGER.getAsset("./img/projectiles/PureSlash.png");
 
@@ -48,7 +48,7 @@ function Ninja() {
             10, false, STANDARD_DRAW_SCALE); },
         dmgFromRight: new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 5, y: 0},
+            {x: 0, y: 1}, {x: 5, y: 1},
             6, false, STANDARD_DRAW_SCALE),
 
         //Up facing animations
@@ -70,7 +70,7 @@ function Ninja() {
             10, false, STANDARD_DRAW_SCALE); },
         dmgFromUp: new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 3}, {x: 5, y: 3},
+            {x: 0, y: 2}, {x: 5, y: 2},
             6, false, STANDARD_DRAW_SCALE),
 
         //Down facing animations
@@ -92,7 +92,7 @@ function Ninja() {
             10, false, STANDARD_DRAW_SCALE); },
         dmgFromDown: new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 5, y: 2},
+            {x: 0, y: 0}, {x: 5, y: 0},
             6, false, STANDARD_DRAW_SCALE),
 
         //Projectile animations
@@ -152,7 +152,7 @@ function Ninja() {
 				specialAnimation = player.characterClass.animation.specialProjectileRight();
 				break;
 		}		
-		let projectile = new Slash(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, specialAnimation, 2, 40, 10);
+		let projectile = new Slash(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, specialAnimation, 4, 40, 10);
 		projectile.attachTo(player);
 		projectile.hitOnce();
 	};

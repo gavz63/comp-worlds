@@ -25,6 +25,7 @@ ASSET_MANAGER.queueDownload("./img/projectiles/BoneProjectile.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageSideToSideSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageDmgSheet.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/NinjaDmgSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerSideToSideSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerSpecialMoveAllDirections.png");

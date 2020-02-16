@@ -14,7 +14,7 @@ class PuddleJumper extends Enemy {
         this.animation = this.moveAnimation;
 
         this.speed = 300;
-        this.radius = STANDARD_ENTITY_RADIUS;
+        this.radius = 1;
         this.directionSet = false;
         this.targetVector = null;
     }
