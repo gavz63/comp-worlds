@@ -233,6 +233,19 @@ class GameEngine {
                 }
                 this.click = false;
 
+                var timersCount = this.timers.length;
+
+                for (var i = 0; i < timersCount; i++) {
+                    let tim = this.timers[i];
+                    if (tim.removeFromWorld) {
+                        this.removeTimer(tim);
+                        timersCount = this.timers.length;
+                        i--;
+                        continue;
+                    }
+                    this.timers[i].update();
+                }
+
                 break;
 
             case GAME_STATES.PLAYING:
@@ -294,8 +307,12 @@ class GameEngine {
 
     switchToCharacterChooserMode(player = null) {
         
-        this.camera._desiredLoc.x = 0;
-        this.camera._desiredLoc.y = this.sceneManager.level.spawn.y * 96;
+		let that = this;
+		new TimerCallback(this, 2, false, function () {
+			that.camera._desiredLoc.x = 0;
+			that.camera._desiredLoc.y = that.sceneManager.level.spawn.y * 96;
+		});
+		
         for (let i = 0; i < this.entities[LAYERS.MAIN].length; i++) {
             let flag = true;
             if (this.entities[LAYERS.MAIN][i] instanceof NPC) {
