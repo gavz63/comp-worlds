@@ -68,7 +68,7 @@ class GameEngine {
         this.game_state = GAME_STATES.CHARACTER_SELECT;
     }
 
-    LoadLevel(levelFile) {
+    LoadLevel(levelFile, npcClasses) {
         this.destroyLevel();
         this.game_state = GAME_STATES.CHARACTER_SELECT;
 
@@ -84,12 +84,10 @@ class GameEngine {
         new Floor(this);
         new Wall(this);
 
-        let charClasses = [new BlackMage(), new Lancer(), new Ninja()];
-
         let hover = true;
         this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
-        for (var i = 0; i < charClasses.length; i++) {
-            this.addEntity(new NPC(this, charClasses[i], hover), LAYERS.MAIN);
+        for (var i = 0; i < npcClasses.length; i++) {
+            this.addEntity(new NPC(this, npcClasses[i], hover), LAYERS.MAIN);
             if (i === 0) {
                 hover = false;
             }
@@ -102,7 +100,7 @@ class GameEngine {
      * @param {*} ctx The HTML canvas' 2D context.
      */
     init(ctx) {
-        this.LoadLevel(new Level1());
+        this.LoadLevel(new Level1(), [new BlackMage(), new Lancer(), new Ninja()]);
         this._ctx = ctx;
         this._surfaceWidth = this._ctx.canvas.width;
         this._surfaceHeight = this._ctx.canvas.height;

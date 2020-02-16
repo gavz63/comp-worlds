@@ -4,8 +4,11 @@ class Transition {
         game.addEntity(this, LAYERS.MAIN);
         game.game_state = GAME_STATES.CHANGING_LEVEL;
         this._npcList = npcList;
+        this._charClassList = [];
+        let that = this;
         npcList.forEach((npc) => {
             npc.animation = npc.characterClass.animation.walkingRight;
+            this._charClassList.push(npc.characterClass);
         });
         npcList[0].x = pos.x;
         npcList[0].y = pos.y;
@@ -88,7 +91,7 @@ class Transition {
             this._progress++;
             if (this._progress === 250) {
                 this._progress = 0;
-                this._game.LoadLevel(this._nextLevel);
+                this._game.LoadLevel(this._nextLevel, this._charClassList);
                 this._game._camera._desiredZoom = DEFAULT_ZOOM;
             }
         }

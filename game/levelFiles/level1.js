@@ -12,6 +12,7 @@ class Level1
 		this.height = 16;
 		this.floorType = 0;
 		this.wallType = 0;
+		this.nextLevel = Level2.prototype;
 
 		this.layout =
 			"##################################" +

@@ -34,7 +34,7 @@ class SceneManager
 			remaining.push(new NPC(that.game, elem.characterClass));
 		});
 
-		new Transition(this.game, remaining, playPos, new Level1());
+		new Transition(this.game, remaining, playPos, new this.levelFile.nextLevel.constructor());
 	}
 	
 	Reset()
