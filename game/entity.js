@@ -22,6 +22,8 @@ class Entity
 		this.myScale = [STANDARD_DRAW_SCALE];
 		this.myAddScale = [this.myScale[0] / STANDARD_DRAW_SCALE[0]];
 		
+		//draw modes
+		
 		this.oldPos = {x: 0, y: 0};
 	}
   

@@ -30,6 +30,8 @@ class Player extends Entity {
         this.isTakingDmg = false;
         this.isAttacking = false;
         this.isIdling = false;
+		
+		this.screen = false;
 
         let that = this;
 
@@ -54,6 +56,23 @@ class Player extends Entity {
 		
         this.progressBar.attachTo(this);
     }
+	
+	
+	draw()
+	{
+		if (this.game._camera.isOnScreen({x: this.x, y: this.y}, 100, 100, STANDARD_DRAW_SCALE)) {
+			let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+			if(this.screen)
+			{
+				this.animation._screen = true;
+			}
+			else
+			{
+				this.animation._screen = false;
+			}
+			this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true);
+		}
+	}
 
     /**
      * Part of the game loop, update the player to the position and state it should now be in.
@@ -313,7 +332,7 @@ class Player extends Entity {
                 this.destroy();
                 return;
             } else if (this.hp === 1) {
-                new TimerCallback(this.game, 15, false, function () {
+                new TimerCallback(this.game, 7, false, function () {
                     that.hp = 1;
                     that.hearts[0].set(true);
                 });
@@ -334,9 +353,11 @@ class Player extends Entity {
                 that.isTakingDmg = false;
 				that.animation = that.idleAnimation;
 				that.animation.resetAnimation();
+				that.screen = true;
             }); // stunned
             new TimerCallback(this.game, 3, false, function () {
                 that.hurt = false;
+				that.screen = false;
             });        // invincibility
 
 

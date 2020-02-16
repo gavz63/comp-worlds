@@ -104,6 +104,7 @@ class Animation {
         this._loop = loop;
         this._scale = scale;
         this._totalFrames = 0;
+		this._screen = false;
 
         // Calculate total frames using row-major order.
         if (this._firstFrame.y < this._lastFrame.y
@@ -149,7 +150,15 @@ class Animation {
 			console.log(this._paused);
 		}
 		cF = this.currentFrame();
-         
+        
+		if(this._screen)
+		{
+			ctx.globalCompositeOperation = "screen";
+		}
+		else
+		{
+			ctx.globalCompositeOperation = "source-over";
+		}
 
         // Draw image.
         ctx.drawImage(this._spriteSheet,
