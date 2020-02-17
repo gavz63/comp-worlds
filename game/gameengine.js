@@ -317,11 +317,20 @@ class GameEngine {
     switchToCharacterChooserMode(player = null) {
         
 		let that = this;
-		new TimerCallback(this, 2, false, function () {
+		if(player === null)
+		{
+			new TimerCallback(this, 2, false, function () {
+				that.camera._desiredLoc.x = 0;
+				that.camera._desiredLoc.y = that.sceneManager.level.spawn.y * 96;
+				that.game_state = GAME_STATES.CHARACTER_SELECT;
+			});
+		}
+		else
+		{
 			that.camera._desiredLoc.x = 0;
 			that.camera._desiredLoc.y = that.sceneManager.level.spawn.y * 96;
 			that.game_state = GAME_STATES.CHARACTER_SELECT;
-		});
+		}
 		
         for (let i = 0; i < this.entities[LAYERS.MAIN].length; i++) {
             let flag = true;
