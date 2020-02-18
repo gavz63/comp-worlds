@@ -4,16 +4,46 @@
     <title>Attack of the Overgrowth</title>
     <link rel="icon" href="./menuImages/favicon.png">
     <link rel="stylesheet" href="./menuCSS/controls.css">
+    <link rel="stylesheet" href="./menuCSS/gavgrids.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/animate-css-grid@latest"></script>
+
+    <script>
+        const grid = document.querySelector(".grid");
+        animateCSSGrid.wrapGrid(grid, {duration : 600});
+    </script>
+    <script type="text/javascript" src="./menuJS/gavgrids.js"></script>
+
 </head>
 
 <body>
-    <div class="grid">
-        <div class="grid-item">
-<!--            <img src=""-->
-<!--            <canvas id="lancer" tabindex="1" width="320" height="320" autofocus style="background-color: rgb(0, 0, 0)"></canvas>-->
+    <div class="gav-grid">
+        <div class="gav-grid-item gav-default-item lots-of-content">
+            <div>
+                <div class="gav-base">
+                    <img src="./game/img/player_characters/LancerUpDownSheet.png">
+                    <div class="gav-overlay">
+                        <p>Lancer</p>
+                        <div aria-hidden="true" class="gav-button"><img src="more.svg" style="width: 50px"></div>
+                    </div>
+                </div>
+                <div class="gav-extra">
+                    <div class="gav-extra-img">
+                        <img src="./game/img/player_characters/LancerUpDownSheet.png">
+                    </div>
+                    <div class="gav-extra-content">
+                        <div aria-hidden="true" class="gav-button"><img src="minus.svg" width="50px" height="50px"></div>
+                        <h3>Lancer</h3>
+                        <p>check out the lancer boiiiiii</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <button id="main" onclick="window.location.href = './index.html'"></button>
+
+    <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+    <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 </body>
 </html>
