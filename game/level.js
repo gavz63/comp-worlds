@@ -58,7 +58,6 @@ class Level {
         }
         for (let i = 0; i < this._height; i++) {
             for (let j = 0; j < this._width; j++) {
-                this._binaryCollision[i][j] = 0; // assume not a wall.
                 let type = seed[(this._width * i) + j];
                 if (type === MAP_TILES.SPAWN) {
                     this._spawn = {x: j, y: i};
@@ -68,7 +67,6 @@ class Level {
                 }
                 if (type === MAP_TILES.WALL) {
                     this._walls.push({x: j, y: i});
-                    this._binaryCollision[i][j] = 1; // overwrite as wall
                 }
                 if (type === MAP_TILES.HORIZONTAL_DOOR) {
                     this._doors.push({x: j, y: i, d: "H"});
@@ -110,7 +108,6 @@ class Level {
         {
           new Turret(that.game, elem.x, elem.y, elem.fireRate, elem.spinning, elem.cross, elem.pSpeed, elem.pLifeTime, elem.pMove, elem.pEasing);
         });
-        console.log(this._binaryCollision);
     }
 
     /**
@@ -132,13 +129,6 @@ class Level {
         this._map = [];
         this._width = levelFile.width;
         this._height = levelFile.height;
-        
-        //Binary collision is used for a quick collision test for projectiles and enemies. Stores a 1 if there is a wall 0 else.
-        this._binaryCollision = [];
-        for(let i = 0; i < this._height; i++)
-        {
-          this._binaryCollision[i] = [];
-        }
         
         this._spawn = null;
         this._floors = [];
@@ -288,14 +278,15 @@ class Level {
         return updatedPos;
     }
     
-    quickCollision(x, y)
+    quickCollision(X, Y)
     {
-      if(x < 0 || y < 0 || this._binaryCollision[y].length <= x || this._binaryCollision.length <= y)
-      {
-        return 0;
-      }
+	  let map = this.mapElementAt({x: X, y: Y});
+	  if(map === "#")
+	  {
+		  return 1;
+	  }
       
-      return this._binaryCollision[y][x];
+      return 0;
     }
 
     get spawn() {

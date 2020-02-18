@@ -20,20 +20,21 @@ class RoomSpawner
 	
 	update()
 	{
+		
 		if(this.finishedCount === this.spawners.length)
 		{
 			if(this.dropKey)
 			{
 				//drop Key
 				new Key(this.game, this.x, this.y);
-				console.log("DROP KEY");
+				this.destroy();
 			}
-			this.destroy();
 		}
 	}
 	
 	destroy()
 	{
+		this.game.player.camLocked = false;
 		this.removeFromWorld = true;
 	}
 }
@@ -108,10 +109,14 @@ class Spawner {
 				let y = coordinateToIndex(this.game.player.y);
 				if(x <= this.owner.room.bottomRight.x && x >= this.owner.room.upperLeft.x && y <= this.owner.room.bottomRight.y && y >= this.owner.room.upperLeft.y)
 				{
+					this.game._camera._desiredLoc.x = this.owner.x;
+					this.game._camera._desiredLoc.y = this.owner.y;
+					this.game.player.camLocked = true;
 					this.trySpawn();
 				}
 				else
 				{
+					this.game.player.camLocked = false;
 					this.spawn_timer.pause();
 				}
 				if(this.maxSpawn === 0 || (this.totalSpawned >= this.maxSpawn && this.numOut === 0)){
