@@ -83,14 +83,7 @@ function Input() {
 
 			// Temporary
 			if (e.code === "KeyP") {
-				console.log(that._sceneManager.level._wallType);
-				console.log(that._sceneManager.level._wallType);
-				that.currentLevel += 1;
-        if(that.currentLevel >= that.levels.length)
-        {
-          that.currentLevel = 0;
-        }
-          that.LoadLevel(new that.levels[that.currentLevel].constructor());
+				that.sceneManager.levelComplete();
 			}
 			
 			that.chars[e.code] = true;

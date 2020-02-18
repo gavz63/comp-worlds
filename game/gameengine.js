@@ -226,6 +226,12 @@ class GameEngine {
                     }
                     this.entities[LAYERS.MAIN][i].update();
                 }
+				for (i = 0; i < this.entities[LAYERS.ENEMY_PROJECTILES].length; i++) {
+                    if (this.entities[LAYERS.ENEMY_PROJECTILES][i].removeFromWorld) {
+                        this.removeEntity(this.entities[LAYERS.ENEMY_PROJECTILES][i]);
+                        continue;
+                    }
+                }
                 for (i = 0; i < this.entities[LAYERS.WALL].length; i++) {
                     if (this.entities[LAYERS.WALL][i].removeFromWorld) {
                         this.removeEntity(this.entities[LAYERS.WALL][i]);

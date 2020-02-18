@@ -58,10 +58,10 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.start();
 	
-	/*let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+	let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
 			16, 16,
 			{x: 0, y: 0}, {x: 3, y: 0},
 			6, true, STANDARD_DRAW_SCALE);
 			console.log(a);
-	new SpawnerProjectile(gameEngine, 100, 240, {x: 1, y: 0}, 1000, 20, false, null, a, 0, 0, 0, EasingProjectile.prototype.line, function (t) { return t; }, 1, SpawnerProjectile.prototype.something, true, 5);*/
+	new SpawnerProjectile(gameEngine, 100, 240, {x: 1, y: 0}, 1000, 20, false, null, a, 0, 0, 0, EasingProjectile.prototype.line, function (t) { return t; }, 1/60, SpawnerProjectile.prototype.cross, true, 5, 1);
 });

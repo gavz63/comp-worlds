@@ -32,6 +32,7 @@ class Player extends Entity {
         this.isIdling = false;
 
         this.screen = false;
+		this.camLocked = false;
 
         let that = this;
 
@@ -269,25 +270,28 @@ class Player extends Entity {
                 this.game.sceneManager.levelComplete();
             }
         }
-
-        let cOffX = this.game._camera._desiredLoc.x - this.x;
-        let cOffY = this.game._camera._desiredLoc.y - this.y;
-        while (Math.abs(cOffX) > CAMERA_BOUNDING_BOX) {
-            if (cOffX > CAMERA_BOUNDING_BOX) {
-                this.game._camera._desiredLoc.x--;
-            } else if (cOffX < CAMERA_BOUNDING_BOX) {
-                this.game._camera._desiredLoc.x++;
-            }
-            cOffX = this.game._camera._desiredLoc.x - this.x;
-        }
-        while (Math.abs(cOffY) > CAMERA_BOUNDING_BOX) {
-            if (cOffY > CAMERA_BOUNDING_BOX) {
-                this.game._camera._desiredLoc.y--;
-            } else if (cOffY < CAMERA_BOUNDING_BOX) {
-                this.game._camera._desiredLoc.y++
-            }
-            cOffY = this.game._camera._desiredLoc.y - this.y;
-        }
+		
+		if(!this.camLocked)
+		{
+			let cOffX = this.game._camera._desiredLoc.x - this.x;
+			let cOffY = this.game._camera._desiredLoc.y - this.y;
+			while (Math.abs(cOffX) > CAMERA_BOUNDING_BOX) {
+				if (cOffX > CAMERA_BOUNDING_BOX) {
+					this.game._camera._desiredLoc.x--;
+				} else if (cOffX < CAMERA_BOUNDING_BOX) {
+					this.game._camera._desiredLoc.x++;
+				}
+				cOffX = this.game._camera._desiredLoc.x - this.x;
+			}
+			while (Math.abs(cOffY) > CAMERA_BOUNDING_BOX) {
+				if (cOffY > CAMERA_BOUNDING_BOX) {
+					this.game._camera._desiredLoc.y--;
+				} else if (cOffY < CAMERA_BOUNDING_BOX) {
+					this.game._camera._desiredLoc.y++
+				}
+				cOffY = this.game._camera._desiredLoc.y - this.y;
+			}
+		}
     }
 
     /**
