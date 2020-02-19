@@ -154,6 +154,7 @@ function Lancer() {
 	this.specialAttack = function (player, attackVector)
 	{
         new TimerCallback(player.game, player.characterClass.stats.specialLifetime, false, function() {
+            player.isAttacking = false;
             player.animation = player.idleAnimation;
             player.animation.resetAnimation();
             player.animation.pause();
