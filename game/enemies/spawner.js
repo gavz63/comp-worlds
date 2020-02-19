@@ -1,6 +1,6 @@
 class RoomSpawner
 {
-	constructor(game, x, y, spawners, room, dropKey)
+	constructor(game, x, y, spawners, room, lockCam, dropKey)
 	{
 		this.game = game;
 		this.x = indexToCoordinate(x);
@@ -10,8 +10,11 @@ class RoomSpawner
 		this.dropKey = dropKey;
 		this.finishedCount = 0;
 		this.removeFromWorld = false;
+    this.lastCam = false;
+    this.lockCam = lockCam;
+    this.camLocked = false;
 		
-		this.game.addEntity(this, LAYERS.FLOOR);
+		this.game.addEntity(this, LAYERS.SPAWNERS);
 	}
 	
 	draw()
@@ -20,7 +23,11 @@ class RoomSpawner
 	
 	update()
 	{
-		
+    if(this.lockCam && this.lastCam != this.camLocked)
+    {
+      this.game.player.camLocked = this.camLocked;
+      this.lastCam = this.camLocked;
+    }
 		if(this.finishedCount === this.spawners.length)
 		{
 			if(this.dropKey)
@@ -75,8 +82,8 @@ class Spawner {
         this.totalSpawned = 0;
         this.choice = 0;
         this.hasSpawned = false;
-		this.owner = owner;
-		this.removeFromWorld = false;
+        this.owner = owner;
+        this.removeFromWorld = false;
 
         var that = this;
 
@@ -88,7 +95,7 @@ class Spawner {
             }
         );
 
-        this.game.addEntity(this, LAYERS.FLOOR);
+        this.game.addEntity(this, LAYERS.SPAWNERS);
     }
 
     // Make sure the player is in the radius of the spawner, if not reset and pause the spawn timer.
@@ -112,15 +119,15 @@ class Spawner {
 				{
 					this.game._camera._desiredLoc.x = this.owner.x;
 					this.game._camera._desiredLoc.y = this.owner.y;
-					this.game.player.camLocked = true;
+					this.owner.camLocked = true;
 					this.trySpawn();
 				}
 				else
 				{
-					this.game.player.camLocked = false;
+          this.owner.camLocked = false;
 					this.spawn_timer.pause();
 				}
-				if(this.maxSpawn === 0 || (this.totalSpawned >= this.maxSpawn && this.numOut === 0)){
+				if(!this.shouldSpawn() && this.numOut === 0){
 					this.owner.finishedCount++;
 					this.destroy();
 					return false;
@@ -150,6 +157,7 @@ class Spawner {
                 return true;
             }
         }
+        return false;
     }
 
     spawn() {
