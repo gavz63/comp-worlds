@@ -86,7 +86,7 @@
         font-weight: bold;
         padding-top: 0.5em;
         padding-bottom: 1em;
-        background-color: whitesmoke;
+        background-color: rgba(96, 96, 96, 0.5);
     }
 
     .gav-base .gav-overlay p {
