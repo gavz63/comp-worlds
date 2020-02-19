@@ -27,8 +27,9 @@ class RoomSpawner
 			{
 				//drop Key
 				new Key(this.game, this.x, this.y);
-				this.destroy();
+				
 			}
+			this.destroy();
 		}
 	}
 	
