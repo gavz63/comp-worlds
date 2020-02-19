@@ -11,15 +11,17 @@ const GAME_STATES = {
 
 const LAYERS = {
     FLOOR: 0,
-	REMNANTS: 1,
-    ENEMIES: 2,
-    ENEMY_PROJECTILES: 3,
-    PICKUPS: 4,
-    PLAYER_PROJECTILES: 6,
-    MAIN: 5,
-    WALL: 7,
-    PARTICLES: 8,
-    HUD: 9
+    SPAWNERS: 1,
+    REMNANTS: 2,
+    ENEMIES: 3,
+    ENEMY_PROJECTILES: 4,
+    PICKUPS: 5,
+    MAIN: 6,
+    PLAYER_PROJECTILES: 7,
+    WALL: 8,
+    DOOR: 9,
+    PARTICLES: 10,
+    HUD: 11
 };
 
 // ORIGINAL LAYERS WERE
@@ -226,7 +228,7 @@ class GameEngine {
                     }
                     this.entities[LAYERS.MAIN][i].update();
                 }
-				for (i = 0; i < this.entities[LAYERS.ENEMY_PROJECTILES].length; i++) {
+                for (i = 0; i < this.entities[LAYERS.ENEMY_PROJECTILES].length; i++) {
                     if (this.entities[LAYERS.ENEMY_PROJECTILES][i].removeFromWorld) {
                         this.removeEntity(this.entities[LAYERS.ENEMY_PROJECTILES][i]);
                         continue;

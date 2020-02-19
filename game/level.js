@@ -52,7 +52,6 @@ class Level {
      */
     buildLevel(string) {
         let seed = string;
-        //Note: This should probably be _height.
         for (let i = 0; i < this._width; i++) {
             this._map[i] = [];
         }
@@ -138,7 +137,7 @@ class Level {
         this._exit = null;
         this._wallType = levelFile.wallType;
         this._floorType = levelFile.floorType;
-		this.roomSpawners = levelFile.roomSpawnerList;
+        this.roomSpawners = levelFile.roomSpawnerList;
         this.spawners = levelFile.spawnerList;
         this.pickups = levelFile.pickupList;
         this.hazards = levelFile.hazardList;

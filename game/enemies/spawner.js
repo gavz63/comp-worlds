@@ -11,7 +11,7 @@ class RoomSpawner
 		this.finishedCount = 0;
 		this.removeFromWorld = false;
 		
-		this.game.addEntity(this, LAYERS.FLOOR);
+		this.game.addEntity(this, LAYERS.SPAWNERS);
 	}
 	
 	draw()
@@ -88,7 +88,7 @@ class Spawner {
             }
         );
 
-        this.game.addEntity(this, LAYERS.FLOOR);
+        this.game.addEntity(this, LAYERS.SPAWNERS);
     }
 
     // Make sure the player is in the radius of the spawner, if not reset and pause the spawn timer.
