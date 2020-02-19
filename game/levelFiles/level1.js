@@ -50,7 +50,7 @@ class Level1
 			y: 6,
 			type: Key.prototype
 		});
-		
+		//room 1
 		this.roomSpawnerList.push (
 		{
 			x: 9.75,
@@ -143,6 +143,7 @@ class Level1
       delay: 0
 		});
     
+    //Room 2
     this.turretList.push (
     {
       x: 14.5,
@@ -238,6 +239,7 @@ class Level1
 			type: StarPotion.prototype
 		});
     
+    // Room 3: num 2
     this.roomSpawnerList.push (
 		{
 			x: 15.5,
@@ -251,12 +253,51 @@ class Level1
 		{
 			x: 13,
 			y: 5,
-			max: 0,
+			max: 1,
 			freq: 3,
-			list: [Bat.prototype],
+			list: [Snek.prototype],
 			rand: false,
 			radius: 96,
-			total: 2,
+			total: 4,
+			roomNum: 2,
+      delay: 0
+		});		
+		this.spawnerList.push (
+		{
+			x: 18,
+			y: 5,
+			max: 1,
+			freq: 3,
+			list: [Snek.prototype],
+			rand: false,
+			radius: 96,
+			total: 4,
+			roomNum: 2,
+      delay: 0
+		});		
+		this.spawnerList.push (
+		{
+			x: 13,
+			y: 8,
+			max: 1,
+			freq: 3,
+			list: [Snek.prototype],
+			rand: false,
+			radius: 96,
+			total: 4,
+			roomNum: 2,
+      delay: 0
+		});		
+		this.spawnerList.push (
+		{
+			x: 18,
+			y: 8,
+			max: 1,
+			freq: 3,
+			list: [Snek.prototype],
+			rand: false,
+			radius: 96,
+			total: 4,
 			roomNum: 2,
       delay: 0
 		});
