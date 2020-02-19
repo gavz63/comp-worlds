@@ -1,5 +1,5 @@
 class Turret extends Entity {
-    constructor(game, x, y, fireRate, spinning, cross, projectileSpeed, projectileLifeTime, projectileDirection, projectileMove, projectileEasing) {
+    constructor(game, x, y, fireRate, spinning, cross, projectileSpeed, projectileLifeTime, projectileDirection, projectileMove, projectileEasing, initialDelay, burstDelay = 2, burstFire = 3) {
         super(game, x, y);
         this.x = indexToCoordinate(x);
         this.y = indexToCoordinate(y);
@@ -15,6 +15,9 @@ class Turret extends Entity {
         this.pLifeTime = projectileLifeTime;
         this.pMove = projectileMove;
         this.pEasing = projectileEasing;
+        
+        this.burstFire = burstFire;
+        this.burstDelay = burstDelay;
 
         this.projectileSprite = game.AM.getAsset("./img/projectiles/Fireball.png");
 
@@ -26,8 +29,19 @@ class Turret extends Entity {
         let that = this;
 
         this.attackTimer = new TimerCallback(this.game, 1 / this.fireRate, true, function () {
-            that.fire();
+            if(that.burstDelay > 0)
+            {
+              that.attackTimer.pause();
+              new TimerCallback(that.game, that.burstDelay, false, function() { that.attackTimer.unpause(); });
+            }
+            for(let i = 0; i < that.burstFire; i++)
+            {
+              new TimerCallback(that.game, i / that.fireRate, false, function() {that.fire();});
+            }
+
         });
+        this.attackTimer.pause();
+        new TimerCallback(this.game, initialDelay, false, function () { that.attackTimer.unpause(); });
 
         this.game.addEntity(this, LAYERS.FLOOR);
     }

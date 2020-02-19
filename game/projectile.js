@@ -540,7 +540,6 @@ class Spin extends Slash
                         if (that.dieOnHit) {
                             that.destroy();
                         }
-                        console.log("YO: " + that.knockBack);
                         elem.takeDamage(that.dmg, direction, that.knockBack);
                     }
                 }

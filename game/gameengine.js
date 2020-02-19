@@ -230,7 +230,9 @@ class GameEngine {
      */
     update() {
         
-        if(this.entities[LAYERS.PUDDLEREMNANTS].length >= 9)
+        
+        
+        if(this.entities[LAYERS.PUDDLEREMNANTS].length >= 90)
         {
           console.log("HEY");
           this.entities[LAYERS.PUDDLEREMNANTS].length = 3;
@@ -352,7 +354,7 @@ class GameEngine {
 		let that = this;
 		if(player === null)
 		{
-			new TimerCallback(this, 2, false, function () {
+      new TimerCallback(this, 2, false, function () {
 				that.camera._desiredLoc.x = 0;
 				that.camera._desiredLoc.y = that.sceneManager.level.spawn.y * 96;
 				that.game_state = GAME_STATES.CHARACTER_SELECT;

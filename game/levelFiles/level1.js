@@ -19,11 +19,11 @@ class Level1
 		"#----------##------#" +
 		"#-#####-----#------#" +
 		"#-------###-#------#" +
-		"####-####-#-H------#" +
+		"####V####-#-H------#" +
 		"#----##-#V##########" +
     
 		"#----##-#---########" +
-		"#----##-#-------####" +
+		"#-#####-#-------####" +
 		"#-------#---#---####" +
 		"#------##-------####" +
 		"#----######---######" +
@@ -70,7 +70,8 @@ class Level1
 			rand: false,
 			radius: 96,
 			total: 2,
-			roomNum: 1
+			roomNum: 1,
+      delay: 0
 		});
 				
 		this.spawnerList.push (
@@ -82,7 +83,8 @@ class Level1
 			list: [Bat.prototype],
 			rand: false,
 			total: 2,
-			roomNum: 1
+			roomNum: 1,
+      delay: 0
 		});
 				
 		this.spawnerList.push (
@@ -95,7 +97,8 @@ class Level1
 			rand: false,
 			radius: 96,
 			total: 2,
-			roomNum: 1
+			roomNum: 1,
+      delay: 0
 		});
 				
 		this.spawnerList.push (
@@ -108,7 +111,8 @@ class Level1
 			rand: false,
 			radius: 96,
 			total: 2,
-			roomNum: 1
+			roomNum: 1,
+      delay: 0
 		});	
 		
 		this.spawnerList.push (
@@ -121,7 +125,8 @@ class Level1
 			rand: false,
 			radius: 96,
 			total: 2,
-			roomNum: 1
+			roomNum: 1,
+      delay: 0
 		});		
 		
 		this.spawnerList.push (
@@ -134,7 +139,8 @@ class Level1
 			rand: false,
 			radius: 96,
 			total: 2,
-			roomNum: 1
+			roomNum: 1,
+      delay: 0
 		});
     
     this.turretList.push (
@@ -148,7 +154,10 @@ class Level1
       pSpeed: 96*2,
       pLifeTime: 4,
       pMove: EasingProjectile.prototype.line,
-      pEasing: function (t) { return t; }
+      pEasing: function (t) { return t; },
+      initialDelay: 0,
+      burstDelay: 0,
+      burstNum: 1
     });    
     
     this.turretList.push (
@@ -162,7 +171,10 @@ class Level1
       pSpeed: 96 * 3,
       pLifeTime: 6,
       pMove: EasingProjectile.prototype.line,
-      pEasing: function (t) { return t; }
+      pEasing: function (t) { return t; },
+      initialDelay: 0,
+      burstDelay: 0,
+      burstNum: 1
     });   
     
     this.turretList.push (
@@ -176,7 +188,10 @@ class Level1
       pSpeed: 96 * 1,
       pLifeTime: 2,
       pMove: EasingProjectile.prototype.line,
-      pEasing: function (t) { return t; }
+      pEasing: function (t) { return t; },
+      initialDelay: 0,
+      burstDelay: 0,
+      burstNum: 1
     });
     
     this.turretList.push (
@@ -190,7 +205,10 @@ class Level1
       pSpeed: 96 * 2,
       pLifeTime: 4,
       pMove: EasingProjectile.prototype.line,
-      pEasing: function (t) { return t; }
+      pEasing: function (t) { return t; },
+      initialDelay: 0,
+      burstDelay: 0,
+      burstNum: 1
     });
 		this.spawnerProjectileList.push (
     {
@@ -239,7 +257,8 @@ class Level1
 			rand: false,
 			radius: 96,
 			total: 2,
-			roomNum: 2
+			roomNum: 2,
+      delay: 0
 		});
     
     this.pickupList.push(
@@ -253,7 +272,7 @@ class Level1
 		{
 			x: 15.5,
 			y: 6.5,
-			room: {upperLeft: {x: 3, y: 4}, bottomRight: {x: 9, y: 7}},
+			room: {upperLeft: {x: 2, y: 5}, bottomRight: {x: 9, y: 7}},
       lockCam: false,
 			dropKey: false
 		});
@@ -262,108 +281,291 @@ class Level1
 			x: 1,
 			y: 4.75,
 			max: 0,
-			freq: 3.45,
+			freq: 4,
 			list: [LineJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
-			roomNum: 3
+			roomNum: 3,
+      delay: 0
 		});
     this.spawnerList.push (
 		{
 			x: 1,
 			y: 5.25,
 			max: 0,
-			freq: 3.45,
+			freq: 4,
 			list: [LineJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
-			roomNum: 3
+			roomNum: 3,
+      delay: 0
 		});
     this.spawnerList.push (
 		{
 			x: 1.25,
 			y: 5,
 			max: 0,
-			freq: 3.45,
+			freq: 4,
 			list: [LineJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
-			roomNum: 3
+			roomNum: 3,
+      delay: 0
 		});
-        this.spawnerList.push (
+    this.spawnerList.push (
 		{
 			x: 1.5,
 			y: 4.75,
 			max: 0,
-			freq: 3.45,
+			freq: 4,
 			list: [LineJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
-			roomNum: 3
+			roomNum: 3,
+      delay: 0
 		});
     this.spawnerList.push (
 		{
 			x: 1.5,
 			y: 5.25,
 			max: 0,
-			freq: 3.45,
+			freq: 4,
 			list: [LineJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
-			roomNum: 3
+			roomNum: 3,
+      delay: 0
 		});
     this.spawnerList.push (
 		{
 			x: 1.75,
 			y: 5,
 			max: 0,
-			freq: 3.45,
+			freq: 4,
 			list: [LineJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
-			roomNum: 3
+			roomNum: 3,
+      delay: 0
 		});
         this.spawnerList.push (
 		{
 			x: 2,
 			y: 4.75,
 			max: 0,
-			freq: 3.45,
+			freq: 4,
 			list: [LineJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
-			roomNum: 3
+			roomNum: 3,
+      delay: 0
 		});
     this.spawnerList.push (
 		{
 			x: 2,
 			y: 5.25,
 			max: 0,
-			freq: 3.45,
+			freq: 4,
 			list: [LineJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
-			roomNum: 3
+			roomNum: 3,
+      delay: 0
 		});
     this.spawnerList.push (
 		{
 			x: 2.25,
 			y: 5,
 			max: 0,
-			freq: 3.45,
+			freq: 4,
 			list: [LineJumper.prototype],
 			rand: false,
 			radius: 96,
 			total: 0,
-			roomNum: 3
+			roomNum: 3,
+      delay: 0
+		});
+        
+    this.turretList.push (
+    {
+      x: 0.5,
+      y: 6.75,
+      fireRate: 9,
+      spinning: false,
+      cross: false,
+      pDirection: 0,
+      pSpeed: 96 * 7,
+      pLifeTime: 5,
+      pMove: EasingProjectile.prototype.line,
+      pEasing: function (t) { return t; },
+      initialDelay: 0,
+      burstDelay: 4,
+      burstNum: 5
+    });
+    
+    this.turretList.push (
+    {
+      x: 0.5,
+      y: 7,
+      fireRate: 9,
+      spinning: false,
+      cross: false,
+      pDirection: 0,
+      pSpeed: 96 * 7,
+      pLifeTime: 5,
+      pMove: EasingProjectile.prototype.line,
+      pEasing: function (t) { return t; },
+      initialDelay: 1,
+      burstDelay: 4,
+      burstNum: 5
+    });
+    
+    this.turretList.push (
+    {
+      x: 0.5,
+      y: 7.25,
+      fireRate: 9,
+      spinning: false,
+      cross: false,
+      pDirection: 0,
+      pSpeed: 96 * 7,
+      pLifeTime: 5,
+      pMove: EasingProjectile.prototype.line,
+      pEasing: function (t) { return t; },
+      initialDelay: 2,
+      burstDelay: 4,
+      burstNum: 5
+    });
+    this.pickupList.push(
+    {
+      x: 1,
+      y: 9,
+      type: HealthPotion.prototype
+    });
+    this.pickupList.push(
+    {
+      x: 2,
+      y: 9,
+      type: HealthPotion.prototype
+    });
+    
+    this.pickupList.push(
+    {
+      x: 7,
+      y: 9,
+      type: Key.prototype
+    });
+    this.roomSpawnerList.push (
+		{
+			x: 7,
+			y: 10.5,
+			room: {upperLeft: {x: 7, y: 9}, bottomRight: {x: 7, y: 11}},
+      lockCam: true,
+			dropKey: false
+		});
+    this.spawnerList.push (
+		{
+			x: 7,
+			y: 12,
+			max: 1,
+			freq: 10,
+			list: [Bat.prototype],
+			rand: false,
+			radius: 96,
+			total: 1,
+			roomNum: 4,
+      delay: Number.POSITIVE_INFINITY
+		});
+    
+    this.roomSpawnerList.push (
+		{
+			x: 7,
+			y: 10.5,
+			room: {upperLeft: {x: 7, y: 9}, bottomRight: {x: 7, y: 9}},
+      lockCam: false,
+			dropKey: false
+		});
+    this.spawnerList.push (
+		{
+			x: 7,
+			y: 12,
+			max: 1,
+			freq: 10,
+			list: [StoneGolem.prototype],
+			rand: false,
+			radius: 96,
+			total: 1,
+			roomNum: 5,
+      delay: 0
+		});
+    
+    this.turretList.push (
+    {
+        x: 5,
+        y: 13.5,
+        fireRate: 9,
+        spinning: false,
+        cross: false,
+        pDirection: 0.75,
+        pSpeed: 96 * 2,
+        pLifeTime: 1,
+        pMove: EasingProjectile.prototype.line,
+        pEasing: function (t) { return t; },
+        initialDelay: 0,
+        burstDelay: 2,
+        burstNum: 10
+    });
+    
+    this.roomSpawnerList.push (
+		{
+			x: 4.5,
+			y: 17,
+			room: {upperLeft: {x: 2, y: 16}, bottomRight: {x: 8, y: 19}},
+      lockCam: true,
+			dropKey: false
+		});
+    this.spawnerList.push (
+		{
+			x: 7,
+			y: 16,
+			max: 1,
+			freq: 4,
+			list: [Snek.prototype],
+			rand: false,
+			radius: 96,
+			total: 3,
+			roomNum: 6,
+      delay: 0
+		});
+    
+    this.roomSpawnerList.push (
+		{
+			x: 17,
+			y: 18,
+			room: {upperLeft: {x: 15, y: 18}, bottomRight: {x: 19, y: 18}},
+      lockCam: true,
+			dropKey: false
+		});
+    this.spawnerList.push (
+		{
+			x: 7,
+			y: 16,
+			max: 1,
+			freq: 4,
+			list: [Snek.prototype],
+			rand: false,
+			radius: 96,
+			total: 3,
+			roomNum: 7,
+      delay: Number.POSITIVE_INFINITY
 		});
 	}		
 }

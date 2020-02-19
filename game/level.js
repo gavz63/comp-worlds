@@ -95,7 +95,7 @@ class Level {
       {
         owner = roomSpawnerList[elem.roomNum - 1];
       }
-      let s = new Spawner(that.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total, owner);
+      let s = new Spawner(that.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total, owner, elem.delay);
       if(owner !== null)
       {
         owner.spawners.push(s);
@@ -107,7 +107,7 @@ class Level {
             });
         this.turrets.forEach(function (elem) 
         {
-          new Turret(that.game, elem.x, elem.y, elem.fireRate, elem.spinning, elem.cross, elem.pSpeed, elem.pLifeTime, elem.pDirection, elem.pMove, elem.pEasing);
+          new Turret(that.game, elem.x, elem.y, elem.fireRate, elem.spinning, elem.cross, elem.pSpeed, elem.pLifeTime, elem.pDirection, elem.pMove, elem.pEasing, elem.initialDelay, elem.burstDelay, elem.burstNum);
         });
         this.spawnerProjectiles.forEach(function (elem) 
         {
