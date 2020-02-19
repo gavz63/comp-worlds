@@ -17,6 +17,7 @@ class Player extends Entity {
         this._collider = characterClass.collider;
         this.speed = characterClass.stats.speed;
         this.hp = characterClass.stats.maxHP;
+	this.idleAnimation = this.animation;
 
         this.attackCounter = 0;
 
