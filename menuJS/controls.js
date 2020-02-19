@@ -27,15 +27,12 @@ ASSET_MANAGER.queueDownload("./img/hud/ProgressBar.png");
 ASSET_MANAGER.downloadAll(function () {
     let characters = [
         {name: 'lancer', class: new Lancer()},
-        // {name: 'black-mage', class: BlackMage.prototype},
-        // {name: 'ninja', class: Ninja.prototype}
+        {name: 'black-mage', class: new BlackMage()},
+        {name: 'ninja', class: new Ninja()}
     ];
 
     let canvases = [
         {type: '-base', callback: function(game) {
-
-            }},
-        {type: '-extra', callback: function(game) {
 
             }},
         {type: '-reg', callback: function(game) {
