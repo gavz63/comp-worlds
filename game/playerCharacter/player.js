@@ -393,6 +393,8 @@ class Player extends Entity {
 
         this.progressBar.destroy();
         this.idleTimer.destroy();
+        this.x = -Infinity;
+        this.y = -Infinity;
 
         super.destroy();
     }

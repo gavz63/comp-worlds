@@ -10,8 +10,8 @@ body {
 button {
     margin: 0;
     border: 0;
-    width: 22vw;
-    height: 6.88vw;
+    width: 24vw;
+    height: 8vw;
 }
 
 
@@ -144,8 +144,8 @@ button {
     button {
         margin: 0;
         border: 0;
-        width: 30vh;
-        height: 9.44vh;
+        width: 24vh;
+        height: 8vh;
     }
 
     #buttons {
