@@ -3,8 +3,8 @@ body {
     background-size: 400vh 100vh;
     height: 100%;
     width: 100%;
-    animation: slide 40s linear infinite;
-    -webkit-animation: slide 30s linear infinite;
+    animation: slide 25s linear infinite;
+    -webkit-animation: slide 25s linear infinite;
 }
 
 button {
