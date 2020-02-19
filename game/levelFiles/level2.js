@@ -1,149 +1,307 @@
+//S PlayerSpawner
+//E End
+//V Vertical
+//H Horizontal
+//
+
 class Level2
 {
 	constructor()
 	{
-		this.width = 20;
-		this.height = 20;
-		this.floorType = 3;
-		this.wallType = 1;
-		this.nextLevel = Level3.prototype;
-		this.musicId = 'churchMusic';
+		this.width = 34;
+		this.height = 16;
+		this.floorType = 0;
+		this.wallType = 0;
+		this.nextLevel = Level2.prototype;
+		this.musicId = 'hedgeMazeMusic';
 
-		this.layout = 
-		"####################" +
-		"S---#-#------#-----#" +
-		"###---H------H-----#" +
-		"#######------#-----E" +
-		"###############--###" +
-		"#----------##------#" +
-		"#-#####-----#------#" +
-		"#-------###-#------#" +
-		"####-####-#-H------#" +
-		"#----##-#V##########" +
-		"#----##-#---########" +
-		"#----##-#-------####" +
-		"#-------#---#---####" +
-		"#------##-------####" +
-		"#----######---######" +
-		"##--########---#####" +
-		"##------######--####" +
-		"##------#######V####" +
-		"####---------------E" +
-		"####################";
-		
+		this.layout =
+			"##################################" +
+			"########------######----##########" +
+			"S-----------------------------####" +
+			"######V#------######----#####-####" +
+			"######-########----######---#-####" +
+			"######-########---------H-----####" +
+			"#-####-------------######---##---#" +
+			"#-####-#######################---#" +
+			"#-####-##############----------###" +
+			"#---------------------#-------####" +
+			"#-----------############-----#####" +
+			"#--------#####------H-###---######" +
+			"#-----####-------####-####-#######" +
+			"#V#####----##########-####-#######" +
+			"#-------#############------------E" +
+			"##################################";
+
 		this.roomSpawnerList = [];
 		this.spawnerList = [];
 		this.hazardList = [];
 		this.pickupList = [];
-		
-		this.hazardList.push (
-		{
-		   x: 4,
-		   y: 10,
-		   fireRate: 5,
-		   spinning: true,
-		   cross: true,
-		   pSpeed: 100,
-		   pLifeTime: 2,
-		   pMove: EasingProjectile.prototype.spiral,
-		   pEasing: function (t) { return t; }
+
+		// Key in Stone Golem room
+		this.pickupList.push({
+			x: 27,
+			y: 4,
+			type: Key.prototype
 		});
-		
-		this.roomSpawnerList.push (
-		{
-			x: 10,
-			y: 2,
-			room: {upperLeft: {x: 7, y: 1}, bottomRight: {x: 12, y: 4}},
-			dropKey: true
-		});
-		
-		this.spawnerList.push (
-		{
+
+		// Pickups in first shortcut
+		this.pickupList.push({
 			x: 7,
-			y: 1,
-			max: 0,
-			freq: 3,
-			list: [Bat.prototype],
-			rand: false,
-			radius: 96,
-			total: 2,
-			roomNum: 1
+			y: 6,
+			type: Key.prototype
 		});
-				
-		this.spawnerList.push (
-		{
+
+		this.pickupList.push({
 			x: 8,
-			y: 1,
-			max: 0,
-			freq: 3,
-			list: [Bat.prototype],
-			rand: false,
-			total: 2,
-			roomNum: 1
+			y: 6,
+			type: HealthPotion.prototype
 		});
-				
-		this.spawnerList.push (
-		{
-			x: 9,
-			y: 1,
-			max: 0,
-			freq: 3,
-			list: [Bat.prototype],
-			rand: false,
-			radius: 96,
-			total: 2,
-			roomNum: 1
-		});
-				
-		this.spawnerList.push (
-		{
-			x: 10,
-			y: 1,
-			max: 0,
-			freq: 3,
-			list: [Bat.prototype],
-			rand: false,
-			radius: 96,
-			total: 2,
-			roomNum: 1
-		});	
-		
-		this.spawnerList.push (
-		{
-			x: 11,
-			y: 1,
-			max: 0,
-			freq: 3,
-			list: [Bat.prototype],
-			rand: false,
-			radius: 96,
-			total: 2,
-			roomNum: 1
-		});		
-		
-		this.spawnerList.push (
-		{
-			x: 12,
-			y: 1,
-			max: 0,
-			freq: 3,
-			list: [Bat.prototype],
-			rand: false,
-			radius: 96,
-			total: 2,
-			roomNum: 1
-		});
-		
+
+		// Key out of the snek room
 		this.pickupList.push({
-			x: 5,
-			y: 1,
+			x: 1,
+			y: 6,
 			type: Key.prototype
 		});
-		
-		this.pickupList.push({
-			x: 7,
+
+		//////////////////////////////////
+		//////////// SPAWNERS ////////////
+		//////////////////////////////////
+
+		this.spawnerList.push({
+			x: 30,
+			y: 6,
+			max: 1,
+			freq: 10,
+			list: [HedgeMonster.prototype],
+			rand: false,
+			radius: 10000,
+			total: 1,
+			roomNum: 0
+		});
+
+		this.spawnerList.push({
+			x: 20,
+			y: 1,
+			max: 0,
+			freq: 3,
+			list: [PuddleJumper.prototype],
+			rand: false,
+			radius: 96,
+			total: 2,
+			roomNum: 0
+		});
+
+		// this.spawnerList.push({
+		// 	x: 21,
+		// 	y: 1,
+		// 	max: 1,
+		// 	freq: 10,
+		// 	list: [Bat.prototype],
+		// 	rand: false,
+		// 	radius: 96,
+		// 	total: 0
+		// });
+		//
+		// this.spawnerList.push({
+		// 	x: 22,
+		// 	y: 1,
+		// 	max: 1,
+		// 	freq: 10,
+		// 	list: [Bat.prototype],
+		// 	rand: false,
+		// 	radius: 96,
+		// 	total: 0
+		// });
+		//
+		// this.spawnerList.push({
+		// 	x: 20,
+		// 	y: 3,
+		// 	max: 1,
+		// 	freq: 10,
+		// 	list: [Bat.prototype],
+		// 	rand: false,
+		// 	radius: 96,
+		// 	total: 0
+		// });
+		//
+		// this.spawnerList.push({
+		// 	x: 21,
+		// 	y: 3,
+		// 	max: 1,
+		// 	freq: 10,
+		// 	list: [Bat.prototype],
+		// 	rand: false,
+		// 	radius: 96,
+		// 	total: 0
+		// });
+		//
+		// this.spawnerList.push({
+		// 	x: 22,
+		// 	y: 3,
+		// 	max: 1,
+		// 	freq: 10,
+		// 	list: [Bat.prototype],
+		// 	rand: false,
+		// 	radius: 96,
+		// 	total: 0
+		// });
+
+		//Stone Golem Room
+		this.spawnerList.push({
+			 x: 25,
+			 y: 4,
+			 max: 1,
+			 freq: 3,
+			 list: [StoneGolem.prototype],
+			 rand: false,
+			 radius: 288,
+			 total: 0,
+			roomNum: 0
+		});
+
+		this.spawnerList.push({
+			x: 25,
+			y: 6,
+			max: 1,
+			freq: 3,
+			list: [StoneGolem.prototype],
+			rand: false,
+			radius: 288,
+			total: 0,
+			roomNum: 0
+		});
+
+		this.spawnerList.push({
+			x: 27,
+			y: 6,
+			max: 1,
+			freq: 3,
+			list: [StoneGolem.prototype],
+			rand: false,
+			radius: 288,
+			total: 0,
+			roomNum: 0
+		});
+
+		// Snek Room
+		this.spawnerList.push({
+			x: 3,
 			y: 9,
-			type: Key.prototype
+			max: 1,
+			freq: 7,
+			list: [Snek.prototype],
+			rand: false,
+			radius: 4 * 96,
+			total: 0,
+			roomNum: 0
 		});
-	}		
+
+		this.spawnerList.push({
+			x: 9,
+			y: 9,
+			max: 1,
+			freq: 7,
+			list: [Snek.prototype],
+			rand: false,
+			radius: 4 * 96,
+			total: 0,
+			roomNum: 0
+		});
+
+		this.spawnerList.push({
+			x: 6,
+			y: 11,
+			max: 1,
+			freq: 7,
+			list: [Snek.prototype],
+			rand: false,
+			radius: 4 * 96,
+			total: 0,
+			roomNum: 0
+		});
+
+		/////////////////////////////////
+		//////////// HAZARDS ////////////
+		/////////////////////////////////
+
+		 this.hazardList.push (
+		 	{
+		 		x: 8,
+		 		y: 2,
+		 		fireRate: 10,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 75,
+		 		pLifeTime: 3,
+		 		pMove: EasingProjectile.prototype.circle,
+		 		pEasing: function (t) { return 0; }
+		 	});
+
+		 this.hazardList.push (
+		 	{
+		 		x: 10,
+		 		y: 1,
+		 		fireRate: 10,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 75,
+		 		pLifeTime: 3,
+		 		pMove: EasingProjectile.prototype.circle,
+		 		pEasing: function (t) { return 0.5; }
+		 	});
+
+		 this.hazardList.push (
+		 	{
+		 		x: 10,
+		 		y: 3,
+		 		fireRate: 10,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 75,
+		 		pLifeTime: 3,
+		 		pMove: EasingProjectile.prototype.circle,
+		 		pEasing: function (t) { return 0.42; }
+		 	});
+
+		 this.hazardList.push (
+		 	{
+		 		x: 13,
+		 		y: 2,
+		 		fireRate: 6,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 100,
+		 		pLifeTime: 2,
+		 		pMove: EasingProjectile.prototype.spiral,
+		 		pEasing: function (t) { return smoothStopN(t, 2); }
+		 	});
+
+		 this.hazardList.push (
+		 	{
+		 		x: 13,
+		 		y: 2,
+		 		fireRate: 6,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 100,
+		 		pLifeTime: 4,
+		 		pMove: EasingProjectile.prototype.spiral,
+		 		pEasing: function (t) { return smoothStopN(t, 2); }
+		 	});
+
+		 this.hazardList.push (
+		 	{
+		 		x: 13,
+		 		y: 2,
+		 		fireRate: 6,
+		 		spinning: true,
+		 		cross: false,
+		 		pSpeed: 100,
+		 		pLifeTime: 5,
+		 		pMove: EasingProjectile.prototype.spiral,
+		 		pEasing: function (t) { return smoothStopN(t, 2); }
+		 	});
+	}
 }

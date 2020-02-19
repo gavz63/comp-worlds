@@ -1,10 +1,10 @@
 class Turret extends Entity {
-    constructor(game, x, y, fireRate, spinning, cross, projectileSpeed, projectileLifeTime, projectileMove, projectileEasing) {
+    constructor(game, x, y, fireRate, spinning, cross, projectileSpeed, projectileLifeTime, projectileDirection, projectileMove, projectileEasing) {
         super(game, x, y);
         this.x = indexToCoordinate(x);
         this.y = indexToCoordinate(y);
 
-        this.rotation = 0;
+        this.rotation = projectileDirection * 2 * Math.PI;
         this.timer = new Timer(this.game, 4, true);
         this.fireRate = fireRate;
         this.lastShotTime = 0;
