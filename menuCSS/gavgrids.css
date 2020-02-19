@@ -86,16 +86,15 @@
         font-weight: bold;
         padding-top: 0.5em;
         padding-bottom: 1em;
+        background-color: whitesmoke;
     }
 
     .gav-base .gav-overlay p {
         padding-left: 1em;
         padding-right: 3em;
         margin-bottom: 0px;
-    }
+        margin-top: 0px;
 
-    .gav-base .gav-overlay:hover {
-        background-color: rgba(51, 0, 111, 0.75);
     }
 
     .gav-base .gav-overlay .gav-button {
