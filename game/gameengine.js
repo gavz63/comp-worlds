@@ -192,7 +192,7 @@ class GameEngine {
                 this._entities[i][j].draw(this._ctx);
             }
         }
-
+        
         //this._ctx.restore();
     }
 
