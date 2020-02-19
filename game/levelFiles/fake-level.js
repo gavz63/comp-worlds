@@ -18,6 +18,7 @@ class LevelFake
 
         this.roomSpawnerList = [];
         this.spawnerList = [];
+        this.turretList = [];
         this.hazardList = [];
         this.pickupList = [];
     }
