@@ -57,6 +57,7 @@ class Player extends Entity {
         this.progressBar.offsetY = (this.animation._frameHeight + this.progressBar.barFront.animation._height) * 1.1;
 
         this.progressBar.attachTo(this);
+        this.dead = false;
     }
 
 
@@ -326,6 +327,7 @@ class Player extends Entity {
             }
 
             if (this.hp === 0) {
+                this.dead = true;
                 new PCRemnant(this.game, this.x, this.y, this.characterClass, this.animation);
 
                 this.game.switchToCharacterChooserMode();
@@ -376,7 +378,7 @@ class Player extends Entity {
     }
 
     destroy() {
-        console.log("THIS HAPPENED");
+
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].destroy();
         }
@@ -393,6 +395,9 @@ class Player extends Entity {
         this.progressBar.destroy();
         this.idleTimer.destroy();
 
+        if (this.dead) {
+            // todo switch to game over
+        }
         super.destroy();
     }
 

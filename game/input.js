@@ -76,10 +76,16 @@ function Input() {
 				that.a = false;
 			}
 
-			// if (e.code === "Space") {
-			// 	that.spacebar = true;
-			// 	playSound();
-			// }
+			if (e.code === "Space") {
+				that.spacebar = true;
+			}
+
+			if (e.code === "KeyL") {
+				that.l = true;
+				if (that.player) {
+					that.player.takeDmg(1, {x: 0, y: 1});
+				}
+			}
 
 			// Temporary
 			if (e.code === "KeyP") {
@@ -144,7 +150,12 @@ function Input() {
 		if (e.code === "Space") {
 			that.spacebar = false;
 		}
-		
+
+		if (e.code === "KeyL") {
+			that.l = false;
+		}
+
+
 		that.chars[e.code] = false;
 		// Step backwards through the stack to find the last key pressed that is still held down.
 		if(that.lastKey === e.code)

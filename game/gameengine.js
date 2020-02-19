@@ -232,7 +232,6 @@ class GameEngine {
         
         if(this.entities[LAYERS.PUDDLEREMNANTS].length >= 9)
         {
-          console.log("HEY");
           this.entities[LAYERS.PUDDLEREMNANTS].length = 3;
         }
     
@@ -382,8 +381,9 @@ class GameEngine {
             }
         }
 
-        this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
         if (player) player.destroy();
+
+        this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
     }
 
     // Getters and setters.
