@@ -39,6 +39,14 @@ class Level1
 		this.turretList = [];
 		this.spawnerProjectileList = [];
 		this.pickupList = [];
+    this.unlockableCharacter = [];
+    
+    this.unlockableCharacter.push(
+    {
+      x: 9,
+      y: 8,
+      characterClass: new Lancer("")
+    });
     
     this.pickupList.push({
 			x: 5,
@@ -608,5 +616,23 @@ class Level1
 			roomNum: 7,
       delay: Number.POSITIVE_INFINITY
 		});
+    this.pickupList.push(
+    {
+      x: 1,
+      y: 1,
+      type: Key.prototype
+    });
+    this.pickupList.push(
+    {
+      x: 1,
+      y: 1,
+      type: Key.prototype
+    });
+    this.pickupList.push(
+    {
+      x: 1,
+      y: 1,
+      type: Key.prototype
+    });
 	}		
 }
