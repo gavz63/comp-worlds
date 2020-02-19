@@ -79,7 +79,8 @@ class Level2
 			rand: false,
 			radius: 10000,
 			total: 1,
-			roomNum: 0
+			roomNum: 0,
+      delay: 0
 		});
 
 		this.spawnerList.push({
@@ -91,7 +92,8 @@ class Level2
 			rand: false,
 			radius: 96,
 			total: 2,
-			roomNum: 0
+			roomNum: 0,
+      delay: 0
 		});
 
 		// this.spawnerList.push({
@@ -159,7 +161,8 @@ class Level2
 			 rand: false,
 			 radius: 288,
 			 total: 0,
-			roomNum: 0
+			roomNum: 0,
+      delay: 0
 		});
 
 		this.spawnerList.push({
@@ -171,7 +174,8 @@ class Level2
 			rand: false,
 			radius: 288,
 			total: 0,
-			roomNum: 0
+			roomNum: 0,
+      delay: 0
 		});
 
 		this.spawnerList.push({
@@ -183,7 +187,8 @@ class Level2
 			rand: false,
 			radius: 288,
 			total: 0,
-			roomNum: 0
+			roomNum: 0,
+      delay: 0
 		});
 
 		// Snek Room
@@ -196,7 +201,8 @@ class Level2
 			rand: false,
 			radius: 4 * 96,
 			total: 0,
-			roomNum: 0
+			roomNum: 0,
+      delay: 0
 		});
 
 		this.spawnerList.push({
@@ -208,7 +214,8 @@ class Level2
 			rand: false,
 			radius: 4 * 96,
 			total: 0,
-			roomNum: 0
+			roomNum: 0,
+      delay: 0
 		});
 
 		this.spawnerList.push({
@@ -220,7 +227,8 @@ class Level2
 			rand: false,
 			radius: 4 * 96,
 			total: 0,
-			roomNum: 0
+			roomNum: 0,
+      delay: 0
 		});
 
 		/////////////////////////////////
@@ -237,7 +245,10 @@ class Level2
 		 		pSpeed: 75,
 		 		pLifeTime: 3,
 		 		pMove: EasingProjectile.prototype.circle,
-		 		pEasing: function (t) { return 0; }
+		 		pEasing: function (t) { return 0; },
+        initialDelay: 0,
+        burstDelay: 0,
+        burstNum: 1
 		 	});
 
 		 this.turretList.push (
@@ -250,7 +261,10 @@ class Level2
 		 		pSpeed: 75,
 		 		pLifeTime: 3,
 		 		pMove: EasingProjectile.prototype.circle,
-		 		pEasing: function (t) { return 0.5; }
+		 		pEasing: function (t) { return 0.5; },
+        initialDelay: 0,
+        burstDelay: 0,
+        burstNum: 1
 		 	});
 
 		 this.turretList.push (
@@ -263,7 +277,10 @@ class Level2
 		 		pSpeed: 75,
 		 		pLifeTime: 3,
 		 		pMove: EasingProjectile.prototype.circle,
-		 		pEasing: function (t) { return 0.42; }
+		 		pEasing: function (t) { return 0.42; },
+        initialDelay: 0,
+        burstDelay: 0,
+        burstNum: 1
 		 	});
 
 		 this.turretList.push (
@@ -276,7 +293,10 @@ class Level2
 		 		pSpeed: 100,
 		 		pLifeTime: 2,
 		 		pMove: EasingProjectile.prototype.spiral,
-		 		pEasing: function (t) { return smoothStopN(t, 2); }
+		 		pEasing: function (t) { return smoothStopN(t, 2); },
+        initialDelay: 0,
+        burstDelay: 0,
+        burstNum: 1
 		 	});
 
 		 this.turretList.push (
@@ -289,7 +309,10 @@ class Level2
 		 		pSpeed: 100,
 		 		pLifeTime: 4,
 		 		pMove: EasingProjectile.prototype.spiral,
-		 		pEasing: function (t) { return smoothStopN(t, 2); }
+		 		pEasing: function (t) { return smoothStopN(t, 2); },
+        initialDelay: 0,
+        burstDelay: 0,
+        burstNum: 1
 		 	});
 
 		 this.turretList.push (
@@ -302,7 +325,10 @@ class Level2
 		 		pSpeed: 100,
 		 		pLifeTime: 5,
 		 		pMove: EasingProjectile.prototype.spiral,
-		 		pEasing: function (t) { return smoothStopN(t, 2); }
+		 		pEasing: function (t) { return smoothStopN(t, 2); },
+        initialDelay: 0,
+        burstDelay: 0,
+        burstNum: 1
 		 	});
 	}
 }

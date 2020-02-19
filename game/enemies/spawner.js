@@ -68,7 +68,7 @@ class Spawner {
      * @param maxSpawn, How many total enemies the spawner can create before permanently self destructing. (Think battle room).
      * Set to 0 if no maximum
      */
-    constructor(game, x, y, maxAtOnce, frequency, spawnList, random, radius, maxSpawn, owner) {
+    constructor(game, x, y, maxAtOnce, frequency, spawnList, random, radius, maxSpawn, owner, delay) {
         this.game = game;
         this.x = indexToCoordinate(x);
         this.y = indexToCoordinate(y);
@@ -94,6 +94,10 @@ class Spawner {
                 }
             }
         );
+        this.spawn_timer.pause();
+        this.delayTimer = new TimerCallback(game, delay, false, function() {that.spawn_timer.unpause();});
+        this.delayTimer.pause();
+        
 
         this.game.addEntity(this, LAYERS.SPAWNERS);
     }
@@ -117,15 +121,32 @@ class Spawner {
 				let y = coordinateToIndex(this.game.player.y);
 				if(x <= this.owner.room.bottomRight.x && x >= this.owner.room.upperLeft.x && y <= this.owner.room.bottomRight.y && y >= this.owner.room.upperLeft.y)
 				{
-					this.game._camera._desiredLoc.x = this.owner.x;
-					this.game._camera._desiredLoc.y = this.owner.y;
-					this.owner.camLocked = true;
-					this.trySpawn();
+          if(this.delayTimer.removeFromWorld !== true)
+          {
+            this.delayTimer.unpause();
+          }
+          else
+          {
+            this.trySpawn();
+          }
+          if(this.owner.lockCam === true)
+          {
+            this.game._camera._desiredLoc.x = this.owner.x;
+            this.game._camera._desiredLoc.y = this.owner.y;
+            this.owner.camLocked = true;
+          }
 				}
 				else
 				{
+          if(this.delayTimer.removeFromWorld !== true)
+          {
+            this.delayTimer.reset();
+          }
+          else
+          {
+            this.spawn_timer.pause();
+          }
           this.owner.camLocked = false;
-					this.spawn_timer.pause();
 				}
 				if(!this.shouldSpawn() && this.numOut === 0){
 					this.owner.finishedCount++;
