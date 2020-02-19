@@ -75,6 +75,7 @@ class GameEngine {
     }
 
     LoadLevel(levelFile, npcClasses) {
+        this.player = null;
         if (this.audioManager.music) {
             this.audioManager.pauseMusic();
         }
