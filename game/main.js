@@ -47,6 +47,7 @@ ASSET_MANAGER.queueDownload("./img/enemies/HedgeMonster.png");
 ASSET_MANAGER.queueDownload("./img/enemies/HedgeMove.png");
 ASSET_MANAGER.queueDownload("./img/enemies/HedgeMonsterToSleep.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/CactusSpine.png");
+ASSET_MANAGER.queueDownload("./img/hud/GameOver.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');

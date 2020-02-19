@@ -397,8 +397,10 @@ class Player extends Entity {
         this.progressBar.destroy();
         this.idleTimer.destroy();
 
-        if (this.dead) {
+        if (this.dead && this.game.entities[LAYERS.MAIN].length === 1) {
             // todo switch to game over
+            this.game.gameOver();
+            console.log("Gameover");
         }
         super.destroy();
     }

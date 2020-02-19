@@ -7,7 +7,8 @@ const GAME_STATES = {
     CHARACTER_SELECT: "char_select",
     PLAYING: "playing_level",
     CHANGING_LEVEL: "changing level",
-    CONTROLS_TUTORIAL: "controls tutorial"
+    CONTROLS_TUTORIAL: "controls tutorial",
+    GAME_OVER: "you lose loser"
 };
 
 const LAYERS = {
@@ -116,7 +117,7 @@ class GameEngine {
      */
     init(ctx) {
         this.audioManager = new AudioManager();
-        this.LoadLevel(new Level1(), [new BlackMage(""), new Lancer(""), new Ninja("")]);
+        this.LoadLevel(new Level1(), [new BlackMage(), new Lancer(), new Ninja()]);
         this._ctx = ctx;
         this._surfaceWidth = this._ctx.canvas.width;
         this._surfaceHeight = this._ctx.canvas.height;
@@ -293,6 +294,7 @@ class GameEngine {
             case GAME_STATES.CONTROLS_TUTORIAL:
             case GAME_STATES.PLAYING:
             case GAME_STATES.CHANGING_LEVEL:
+            case GAME_STATES.GAME_OVER:
                 for (var i = 0; i < this._entities.length; i++) {
                     let entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
@@ -333,6 +335,16 @@ class GameEngine {
         this._clockTick = this._clock.tick();
         this.update();
         this.draw();
+    }
+
+    gameOver() {
+        this.game_state = GAME_STATES.GAME_OVER;
+        this.entities[LAYERS.HUD].forEach(function(elem) {
+            if (elem instanceof ChooseYourFighter) {
+                elem.destroy();
+            }
+        });
+        this.addEntity(new GameOver(this), LAYERS.HUD);
     }
 
     switchToPlayMode(npc) {
