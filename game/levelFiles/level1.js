@@ -84,12 +84,12 @@ class Level1
 		this.spawnerList.push({
 			x: 20,
 			y: 1,
-			max: 1,
-			freq: 10,
+			max: 0,
+			freq: 3,
 			list: [PuddleJumper.prototype],
 			rand: false,
 			radius: 96,
-			total: 0,
+			total: 2,
 			roomNum: 0
 		});
 
