@@ -65,7 +65,11 @@ class Projectile extends Entity {
         this.dy += this.dir.y * this.game._clockTick * this.speed;
 
         if (this.attached !== null) {
-            let direction = this.dir;
+			let direction = this.dir;
+			if(this.owner === this.game.player)
+			{
+				direction = dirToVector(vectorToDir(this.dir));
+			}
             this.x = this.owner.x + direction.x * this.speed;
             this.y = this.owner.y + direction.y * this.speed;
         } else {
@@ -127,7 +131,7 @@ class Projectile extends Entity {
     hitOnce()
     {
       let that = this;
-      new TimerCallback(this.game, this.lifetime/4, false, function () { console.log("ATTACK");that.testCollision(); });
+      new TimerCallback(this.game, this.lifetime/4, false, function () { that.testCollision(); });
     }
     
     destroy()
@@ -191,7 +195,7 @@ class EasingProjectile extends Projectile {
 }
 
 class SpawnerProjectile extends EasingProjectile {
-  constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn, spawn, attach, shots, circleTime)
+  constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn, spawn, attach, shots, circleTime, loop)
   {
     super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing);
     this.timeToSpawn = timeToSpawn;
@@ -205,6 +209,16 @@ class SpawnerProjectile extends EasingProjectile {
 	if(circleTime !== 0)
 	{
 		this.circleTimer = new Timer(this.game, circleTime, true);
+	}
+	this.loop = true;
+	if(this.loop)
+	{
+		this.timer.destroy();
+		this.timer = new TimerCallback(that.game, that.lifetime, true, function () {
+			that.parentX = that.parentX + that.dir.x * that.speed;
+			that.parentY = that.parentY + that.dir.y * that.speed;
+			that.dir = {x: -that.dir.x, y: -that.dir.y};
+		});
 	}
   }
   
@@ -512,7 +526,7 @@ class Spin extends Slash
 		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
 		this.timer.destroy();
 		let that = this;
-    this.dmgTimer = new TimerCallback(that.game, 0.1, true, function () { console.log("SPIN");that.testCollision(); });
+    this.dmgTimer = new TimerCallback(that.game, 0.1, true, function () { that.testCollision(); });
 		this.timer = new TimerCallback(that.game, that.lifetime, false,
 			function()
 			{ 
