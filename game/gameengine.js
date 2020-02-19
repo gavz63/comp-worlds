@@ -14,15 +14,16 @@ const LAYERS = {
     FLOOR: 0,
     SPAWNERS: 1,
     REMNANTS: 2,
-    ENEMIES: 3,
-    ENEMY_PROJECTILES: 4,
-    PICKUPS: 5,
-    MAIN: 6,
-    PLAYER_PROJECTILES: 7,
-    WALL: 8,
-    DOOR: 9,
-    PARTICLES: 10,
-    HUD: 11
+    REMNANTS: 3,
+    ENEMIES: 4,
+    ENEMY_PROJECTILES: 5,
+    PICKUPS: 6,
+    MAIN: 7,
+    PLAYER_PROJECTILES: 8,
+    WALL: 9,
+    DOOR: 10,
+    PARTICLES: 11,
+    HUD: 12
 };
 
 // ORIGINAL LAYERS WERE
@@ -48,6 +49,7 @@ class GameEngine {
         this._entities = [];
         this._entities[LAYERS.FLOOR] = [];
         this._entities[LAYERS.REMNANTS] = [];
+        this._entities[LAYERS.PUDDLEREMNANTS] = [];
         this._entities[LAYERS.ENEMIES] = [];
         this._entities[LAYERS.ENEMY_PROJECTILES] = [];
         this._entities[LAYERS.PICKUPS] = [];
@@ -228,6 +230,11 @@ class GameEngine {
      */
     update() {
 
+        if(this.entities[LAYERS.PUDDLEREMNANTS].length > 10)
+        {
+          this.entities[LAYERS.PUDDLEREMNANTS].length = 10;
+        }
+    
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
                 var i = 0;

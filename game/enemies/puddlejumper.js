@@ -72,10 +72,19 @@ class LineJumper extends Enemy
               this.y += this.dir.y * this.speed * this.game._clockTick;
               let newPos = {x: this.x, y: this.y};
               if (this.wallCollision(newPos)) {
-                  this.destroy();
+                  this.destroyWall();
               } else {
                   this.oldPos = newPos;
               }
             }
+    }
+    
+    destroyWall() {
+        this.game.player.progressBar.progress += this.game.player.characterClass.stats.specialChargeFromKill;
+        this.spawner.spawn_timer.unpause();
+        this.spawner.numOut--;
+        this.spawner.spawn_timer.unpause();
+        new PuddleRemnant(this.game, this.x, this.y, this.deathAnimation);
+        super.destroy();
     }
 }

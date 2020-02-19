@@ -6,7 +6,7 @@ class Level1
 		this.height = 20;
 		this.floorType = 3;
 		this.wallType = 1;
-		this.nextLevel = Level2.prototype;
+		this.nextLevel = Level3.prototype;
 		this.musicId = 'churchMusic';
 
 		this.layout = 
@@ -253,7 +253,7 @@ class Level1
 		{
 			x: 15.5,
 			y: 6.5,
-			room: {upperLeft: {x: 0, y: 4}, bottomRight: {x: 9, y: 7}},
+			room: {upperLeft: {x: 3, y: 4}, bottomRight: {x: 9, y: 7}},
       lockCam: false,
 			dropKey: false
 		});
