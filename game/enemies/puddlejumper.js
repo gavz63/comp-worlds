@@ -85,6 +85,6 @@ class LineJumper extends Enemy
         this.spawner.numOut--;
         this.spawner.spawn_timer.unpause();
         new PuddleRemnant(this.game, this.x, this.y, this.deathAnimation);
-        super.destroy();
+        this.removeFromWorld = true;
     }
 }

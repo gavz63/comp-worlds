@@ -14,7 +14,7 @@ const LAYERS = {
     FLOOR: 0,
     SPAWNERS: 1,
     REMNANTS: 2,
-    REMNANTS: 3,
+    PUDDLEREMNANTS: 3,
     ENEMIES: 4,
     ENEMY_PROJECTILES: 5,
     PICKUPS: 6,
@@ -229,10 +229,11 @@ class GameEngine {
      * needed anymore.
      */
     update() {
-
-        if(this.entities[LAYERS.PUDDLEREMNANTS].length > 10)
+        
+        if(this.entities[LAYERS.PUDDLEREMNANTS].length >= 9)
         {
-          this.entities[LAYERS.PUDDLEREMNANTS].length = 10;
+          console.log("HEY");
+          this.entities[LAYERS.PUDDLEREMNANTS].length = 3;
         }
     
         switch (this.game_state) {
