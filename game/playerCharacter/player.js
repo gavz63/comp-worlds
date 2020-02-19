@@ -17,7 +17,7 @@ class Player extends Entity {
         this._collider = characterClass.collider;
         this.speed = characterClass.stats.speed;
         this.hp = characterClass.stats.maxHP;
-	this.idleAnimation = this.animation;
+        this.idleAnimation = this.animation;
 
         this.attackCounter = 0;
 
@@ -76,7 +76,7 @@ class Player extends Entity {
      * Part of the game loop, update the player to the position and state it should now be in.
      */
     update() {
-    
+
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].x = (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE);
             this.hearts[i].y = 1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE;
@@ -271,28 +271,27 @@ class Player extends Entity {
                 this.game.sceneManager.levelComplete();
             }
         }
-		
-		if(!this.camLocked)
-		{
-			let cOffX = this.game._camera._desiredLoc.x - this.x;
-			let cOffY = this.game._camera._desiredLoc.y - this.y;
-			while (Math.abs(cOffX) > CAMERA_BOUNDING_BOX) {
-				if (cOffX > CAMERA_BOUNDING_BOX) {
-					this.game._camera._desiredLoc.x--;
-				} else if (cOffX < CAMERA_BOUNDING_BOX) {
-					this.game._camera._desiredLoc.x++;
-				}
-				cOffX = this.game._camera._desiredLoc.x - this.x;
-			}
-			while (Math.abs(cOffY) > CAMERA_BOUNDING_BOX) {
-				if (cOffY > CAMERA_BOUNDING_BOX) {
-					this.game._camera._desiredLoc.y--;
-				} else if (cOffY < CAMERA_BOUNDING_BOX) {
-					this.game._camera._desiredLoc.y++
-				}
-				cOffY = this.game._camera._desiredLoc.y - this.y;
-			}
-		}
+
+        if (!this.camLocked) {
+            let cOffX = this.game._camera._desiredLoc.x - this.x;
+            let cOffY = this.game._camera._desiredLoc.y - this.y;
+            while (Math.abs(cOffX) > CAMERA_BOUNDING_BOX) {
+                if (cOffX > CAMERA_BOUNDING_BOX) {
+                    this.game._camera._desiredLoc.x--;
+                } else if (cOffX < CAMERA_BOUNDING_BOX) {
+                    this.game._camera._desiredLoc.x++;
+                }
+                cOffX = this.game._camera._desiredLoc.x - this.x;
+            }
+            while (Math.abs(cOffY) > CAMERA_BOUNDING_BOX) {
+                if (cOffY > CAMERA_BOUNDING_BOX) {
+                    this.game._camera._desiredLoc.y--;
+                } else if (cOffY < CAMERA_BOUNDING_BOX) {
+                    this.game._camera._desiredLoc.y++
+                }
+                cOffY = this.game._camera._desiredLoc.y - this.y;
+            }
+        }
     }
 
     /**

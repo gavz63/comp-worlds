@@ -26,7 +26,7 @@ ASSET_MANAGER.queueDownload("./img/hud/ProgressBar.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let characters = [
-        {name: 'lancer', class: Lancer.prototype},
+        {name: 'lancer', class: new Lancer()},
         // {name: 'black-mage', class: BlackMage.prototype},
         // {name: 'ninja', class: Ninja.prototype}
     ];
@@ -63,7 +63,7 @@ ASSET_MANAGER.downloadAll(function () {
             gameEngine.controlsPageInit(ctx);
             gameEngine.start();
 
-            gameEngine.addEntity(new Player(gameEngine, new character.class.constructor()), LAYERS.MAIN);
+            gameEngine.addEntity(new Player(gameEngine, character.class), LAYERS.MAIN);
             gameEngine.entities[LAYERS.HUD].forEach(function (elem) {
                 if (elem instanceof Heart) {
                     elem.removeFromWorld = true;
@@ -71,7 +71,9 @@ ASSET_MANAGER.downloadAll(function () {
             });
             gameEngine.camera.x = gameEngine.player.x;
             gameEngine.camera.y = gameEngine.player.y;
-            gameEngine.camera.zoomCam(6000);
+            gameEngine.camera.zoomCam(20000);
+            gameEngine.mouseX = 2000;
+            gameEngine.mouseY = 16;
             cvs.callback(gameEngine);
         });
     });
