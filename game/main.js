@@ -63,5 +63,5 @@ ASSET_MANAGER.downloadAll(function () {
 			{x: 0, y: 0}, {x: 3, y: 0},
 			6, true, STANDARD_DRAW_SCALE);
 			console.log(a);
-	new SpawnerProjectile(gameEngine, 100, 240, {x: 1, y: 0}, 100, 5, false, null, a, 0, 0, 0, EasingProjectile.prototype.line, function (t) { return t; }, 1/60, SpawnerProjectile.prototype.cross, true, 5, 5, true);
+	new SpawnerProjectile(gameEngine, 100, 240, {x: 1, y: 0}, 0, 5, false, null, a, 0, 0, 0, EasingProjectile.prototype.line, function (t) { return t; }, 1/60, SpawnerProjectile.prototype.spawn, true, 10, 5, true, {up: false, down: false, left: true, right: true});
 });
