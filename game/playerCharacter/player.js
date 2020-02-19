@@ -33,7 +33,7 @@ class Player extends Entity {
         this.isIdling = false;
 
         this.screen = false;
-		this.camLocked = false;
+        this.camLocked = false;
 
         let that = this;
 
@@ -76,7 +76,7 @@ class Player extends Entity {
      * Part of the game loop, update the player to the position and state it should now be in.
      */
     update() {
-
+    
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].x = (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE);
             this.hearts[i].y = 1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE;

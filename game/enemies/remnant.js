@@ -18,7 +18,7 @@ class Remnant extends Entity
       this.animation.setFrame(this.animation.getLastFrameAsInt());
       let that = this;
       this.update = function () {
-      that.myScale[0] = STANDARD_DRAW_SCALE * that.myAddScale;
+        that.myScale[0] = STANDARD_DRAW_SCALE * that.myAddScale;
       }
     }
   }

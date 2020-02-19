@@ -65,13 +65,13 @@ class Projectile extends Entity {
         this.dy += this.dir.y * this.game._clockTick * this.speed;
 
         if (this.attached !== null) {
-			let direction = this.dir;
-			if(this.owner === this.game.player)
-			{
-				direction = dirToVector(vectorToDir(this.dir));
-			}
-            this.x = this.owner.x + direction.x * this.speed;
-            this.y = this.owner.y + direction.y * this.speed;
+            let direction = this.dir;
+            if(this.owner === this.game.player)
+            {
+              direction = dirToVector(vectorToDir(this.dir));
+            }
+            this.x = this.attached.x + direction.x * this.speed;
+            this.y = this.attached.y + direction.y * this.speed;
         } else {
             this.x = this.startX + this.dx;
             this.y = this.startY + this.dy;
@@ -157,9 +157,6 @@ class EasingProjectile extends Projectile {
     constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing) {
       super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
 
-      this.parentX = x;
-      this.parentY = y;
-
       this.move = move;
       this.easing = easing;
 
@@ -174,57 +171,51 @@ class EasingProjectile extends Projectile {
 
     line() {
         let t = this.easing(this.timer.getPercent());
-        this.x = this.parentX + t * this.dir.x * this.speed;
-        this.y = this.parentY + t * this.dir.y * this.speed;
+        this.x = this.startX + t * this.dir.x * this.speed;
+        this.y = this.startY + t * this.dir.y * this.speed;
     }
 
     circle() {
         let t = this.easing(this.timer.getPercent());
         let circle = Math.atan2(this.dir.y, this.dir.x);
-        this.x = this.parentX + Math.cos(circle + t * 2 * Math.PI) * this.speed;
-        this.y = this.parentY + Math.sin(circle + t * 2 * Math.PI) * this.speed;
+        this.x = this.startX + Math.cos(circle + t * 2 * Math.PI) * this.speed;
+        this.y = this.startY + Math.sin(circle + t * 2 * Math.PI) * this.speed;
     }
 
     spiral() {
         let t = this.easing(this.timer.getPercent());
         let circle = Math.atan2(this.dir.y, this.dir.x);
-        this.x = this.parentX + Math.cos(circle + t * 2 * Math.PI) * this.speed * t;
-        this.y = this.parentY + Math.sin(circle + t * 2 * Math.PI) * this.speed * t;
+        this.x = this.startX + Math.cos(circle + t * 2 * Math.PI) * this.speed * t;
+        this.y = this.startY + Math.sin(circle + t * 2 * Math.PI) * this.speed * t;
     }
 
 }
 
 class SpawnerProjectile extends EasingProjectile {
-  constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn, spawn, attach, shots, circleTime, loop, spawnDir)
+  constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn, attach, shots, circleTime, loop, spawnDir)
   {
     super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing);
+    this.startX = indexToCoordinate(x);
+    this.startY = indexToCoordinate(y);
     this.timeToSpawn = timeToSpawn;
-	this.spawn = spawn;
-	this.attach = attach;
-	this.shots = shots;
-	this.circleTime = 0;
+    this.attach = attach;
+    this.shots = shots;
+    this.circleTime = 0;
     let that = this;
     this.spawnTimer = new TimerCallback(this.game, timeToSpawn, true, function () { if(that.removeFromWorld !== true)that.spawn(); });
-	this.circleTimer = null;
-	this.spawnDir = spawnDir;
-	this.radius = -100;
-	if(circleTime !== 0)
-	{
-		this.circleTimer = new Timer(this.game, circleTime, true);
-	}
-	this.loop = true;
-	if(this.loop)
-	{
-		this.timer.destroy();
-		this.timer = new TimerCallback(that.game, that.lifetime, true, function () {
-			if(that.move === EasingProjectile.prototype.line)
-			{
-			  that.parentX = that.parentX + that.dir.x * that.speed;
-			  that.parentY = that.parentY + that.dir.y * that.speed;
-			  that.dir = {x: -that.dir.x, y: -that.dir.y};
-			}
-		});
-	}
+    this.circleTimer = null;
+    this.spawnDir = spawnDir;
+    this.radius = -100;
+    if(circleTime !== 0)
+    {
+      this.circleTimer = new Timer(this.game, circleTime, true);
+    }
+    this.loop = true;
+    if(this.loop)
+    {
+      this.timer.destroy();
+      this.timer = new Timer(that.game, that.lifetime, true);
+    }
   }
   
   /*
@@ -260,8 +251,8 @@ class SpawnerProjectile extends EasingProjectile {
 				16, 16,
 				{x: 0, y: 0}, {x: 3, y: 0},
 				6, true, STANDARD_DRAW_SCALE);
-			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + t * 2 * Math.PI), y: Math.sin(circle + t * 2 * Math.PI)}, i * 10, 1/50, true, this, a, 1, 1, 0);
-			if(this.attach)p.attachTo(this);
+			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + t * 2 * Math.PI), y: Math.sin(circle + t * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
+			if(this.attach) p.attachTo(this);
 		 }
 	 }
 	 if(this.spawnDir.down)
@@ -272,7 +263,7 @@ class SpawnerProjectile extends EasingProjectile {
 				16, 16,
 				{x: 0, y: 0}, {x: 3, y: 0},
 				6, true, STANDARD_DRAW_SCALE);
-			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + (t + 0.25) * 2 * Math.PI), y: Math.sin(circle + (t + 0.25) * 2 * Math.PI)}, i * 10, 1/50, true, this, a, 1, 1, 0);
+			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + (t + 0.25) * 2 * Math.PI), y: Math.sin(circle + (t + 0.25) * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
 			if(this.attach)p.attachTo(this);
 		 }
 	 }
@@ -284,7 +275,7 @@ class SpawnerProjectile extends EasingProjectile {
 				16, 16,
 				{x: 0, y: 0}, {x: 3, y: 0},
 				6, true, STANDARD_DRAW_SCALE);
-			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + (t + 0.5) * 2 * Math.PI), y: Math.sin(circle + (t + 0.5) * 2 * Math.PI)}, i * 10, 1/50, true, this, a, 1, 1, 0);
+			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + (t + 0.5) * 2 * Math.PI), y: Math.sin(circle + (t + 0.5) * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
 			if(this.attach)p.attachTo(this);
 		 }
 	 }
@@ -296,42 +287,12 @@ class SpawnerProjectile extends EasingProjectile {
 				16, 16,
 				{x: 0, y: 0}, {x: 3, y: 0},
 				6, true, STANDARD_DRAW_SCALE);
-			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + (t + 0.75) * 2 * Math.PI), y: Math.sin(circle + (t + 0.75) * 2 * Math.PI)}, i * 10, 1/50, true, this, a, 1, 1, 0);
+			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + (t + 0.75) * 2 * Math.PI), y: Math.sin(circle + (t + 0.75) * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
 			if(this.attach)p.attachTo(this);
 		 }
 	 }
   }
   
-  something()
-  {
-	 for(let i = 0; i < this.shots; i++)
-	 {
-		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
-			16, 16,
-			{x: 0, y: 0}, {x: 3, y: 0},
-			6, true, STANDARD_DRAW_SCALE);
-		let p = new Projectile(this.game, this.x, this.y, {x: 0, y: 1}, 40, 5, true, this, a, 1, 1, 0);
-	 }
-	 
-	 for(let i = 0; i < this.shots; i++)
-	 {
-		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
-			16, 16,
-			{x: 0, y: 0}, {x: 3, y: 0},
-			6, true, STANDARD_DRAW_SCALE);
-		let p = new Projectile(this.game, this.x, this.y, {x: 0, y: -1}, 40, 5, true, this, a, 1, 1, 0);
-	 }
-	 
-	 for(let i = 0; i < this.shots; i++)
-	 {
-		let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
-			16, 16,
-			{x: 0, y: 0}, {x: 3, y: 0},
-			6, true, STANDARD_DRAW_SCALE);
-		let p = new Projectile(this.game, this.x, this.y, {x: -1, y: 0}, 40, 5, true, this, a, 1, 1, 0);
-	 }
-  }
-
 	destroy() {
 		this.removeFromWorld = true;
 	}

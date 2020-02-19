@@ -52,6 +52,7 @@ class Level {
      */
     buildLevel(string) {
         let seed = string;
+        //Note: This should probably be _height.
         for (let i = 0; i < this._width; i++) {
             this._map[i] = [];
         }
@@ -84,28 +85,37 @@ class Level {
 		let roomSpawnerList = [];
 		this.roomSpawners.forEach(function (elem)
 		{
-			roomSpawnerList.push(new RoomSpawner(that.game, elem.x, elem.y, [], elem.room, elem.dropKey));
+			roomSpawnerList.push(new RoomSpawner(that.game, elem.x, elem.y, [], elem.room, elem.lockCam, elem.dropKey));
 		});
-        this.spawners.forEach(function (elem) 
-        {
-		  let owner = null;
-		  if(elem.roomNum > 0)
-		  {
-			  owner = roomSpawnerList[elem.roomNum - 1];
-		  }
-          let s = new Spawner(that.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total, owner);
-		  if(owner !== null)
-		  {
-			  owner.spawners.push(s);
-		  }
-        });
+    console.log(roomSpawnerList);
+    this.spawners.forEach(function (elem) 
+    {
+      let owner = null;
+      if(elem.roomNum > 0)
+      {
+        owner = roomSpawnerList[elem.roomNum - 1];
+      }
+      let s = new Spawner(that.game, elem.x, elem.y, elem.max, elem.freq, elem.list, elem.rand, elem.radius, elem.total, owner);
+      if(owner !== null)
+      {
+        owner.spawners.push(s);
+      }
+    });
         this.pickups.forEach(function (elem)
         {
                 new elem.type.constructor(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y));
             });
-        this.hazards.forEach(function (elem) 
+        this.turrets.forEach(function (elem) 
         {
-          new Turret(that.game, elem.x, elem.y, elem.fireRate, elem.spinning, elem.cross, elem.pSpeed, elem.pLifeTime, elem.pMove, elem.pEasing);
+          new Turret(that.game, elem.x, elem.y, elem.fireRate, elem.spinning, elem.cross, elem.pSpeed, elem.pLifeTime, elem.pDirection, elem.pMove, elem.pEasing);
+        });
+        this.spawnerProjectiles.forEach(function (elem) 
+        {
+          let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+            16, 16,
+            {x: 0, y: 0}, {x: 3, y: 0},
+            6, true, STANDARD_DRAW_SCALE);
+          new SpawnerProjectile(that.game, elem.x, elem.y, elem.dir, elem.speed, elem.lifeTime, elem.dieOnHit, elem.owner, a, elem.dmg, elem.radius, elem.knockback, elem.move, elem.easing, elem.timeToSpawn, elem.attach, elem.shots, elem.circleTime, elem.loop, elem.spawnDirections);
         });
     }
 
@@ -140,7 +150,8 @@ class Level {
         this.roomSpawners = levelFile.roomSpawnerList;
         this.spawners = levelFile.spawnerList;
         this.pickups = levelFile.pickupList;
-        this.hazards = levelFile.hazardList;
+        this.turrets = levelFile.turretList;
+        this.spawnerProjectiles = levelFile.spawnerProjectileList;
         this.buildLevel(levelFile.layout);
     }
 	
