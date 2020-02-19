@@ -31,10 +31,11 @@ class Level4 {
 
         this.roomSpawnerList = [];
         this.spawnerList = [];
-        this.hazardList = [];
+        this.turretList = [];
+        this.spawnerProjectileList = [];
         this.pickupList = [];
 
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 1,
                 y: 1,
@@ -48,7 +49,7 @@ class Level4 {
                     return smoothStopN(t, 2);
                 }
             });
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 4,
                 y: 1,
@@ -62,7 +63,7 @@ class Level4 {
                     return smoothStopN(t, 2);
                 }
             });
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 1,
                 y: 4,
@@ -76,7 +77,7 @@ class Level4 {
                     return smoothStopN(t, 2);
                 }
             });
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 4,
                 y: 4,
@@ -91,7 +92,7 @@ class Level4 {
                 }
             });
         //2
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 7,
                 y: 1,
@@ -105,7 +106,7 @@ class Level4 {
                     return smoothStopN(t, 2);
                 }
             });
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 10,
                 y: 1,
@@ -119,7 +120,7 @@ class Level4 {
                     return smoothStopN(t, 2);
                 }
             });
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 7,
                 y: 4,
@@ -133,7 +134,7 @@ class Level4 {
                     return smoothStopN(t, 2);
                 }
             });
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 10,
                 y: 4,
@@ -148,7 +149,7 @@ class Level4 {
                 }
             });
         //3
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 1,
                 y: 7,
@@ -162,7 +163,7 @@ class Level4 {
                     return smoothStopN(t, 2);
                 }
             });
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 4,
                 y: 7,
@@ -176,7 +177,7 @@ class Level4 {
                     return smoothStopN(t, 2);
                 }
             });
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 1,
                 y: 10,
@@ -190,7 +191,7 @@ class Level4 {
                     return smoothStopN(t, 2);
                 }
             });
-        this.hazardList.push(
+        this.turretList.push(
             {
                 x: 4,
                 y: 10,

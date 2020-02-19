@@ -12,7 +12,7 @@ class Level2
 		this.height = 16;
 		this.floorType = 0;
 		this.wallType = 0;
-		this.nextLevel = Level2.prototype;
+		this.nextLevel = Level3.prototype;
 		this.musicId = 'hedgeMazeMusic';
 
 		this.layout =
@@ -35,7 +35,8 @@ class Level2
 
 		this.roomSpawnerList = [];
 		this.spawnerList = [];
-		this.hazardList = [];
+		this.turretList = [];
+		this.spawnerProjectileList = [];
 		this.pickupList = [];
 
 		// Key in Stone Golem room
@@ -226,7 +227,7 @@ class Level2
 		//////////// HAZARDS ////////////
 		/////////////////////////////////
 
-		 this.hazardList.push (
+		 this.turretList.push (
 		 	{
 		 		x: 8,
 		 		y: 2,
@@ -239,7 +240,7 @@ class Level2
 		 		pEasing: function (t) { return 0; }
 		 	});
 
-		 this.hazardList.push (
+		 this.turretList.push (
 		 	{
 		 		x: 10,
 		 		y: 1,
@@ -252,7 +253,7 @@ class Level2
 		 		pEasing: function (t) { return 0.5; }
 		 	});
 
-		 this.hazardList.push (
+		 this.turretList.push (
 		 	{
 		 		x: 10,
 		 		y: 3,
@@ -265,7 +266,7 @@ class Level2
 		 		pEasing: function (t) { return 0.42; }
 		 	});
 
-		 this.hazardList.push (
+		 this.turretList.push (
 		 	{
 		 		x: 13,
 		 		y: 2,
@@ -278,7 +279,7 @@ class Level2
 		 		pEasing: function (t) { return smoothStopN(t, 2); }
 		 	});
 
-		 this.hazardList.push (
+		 this.turretList.push (
 		 	{
 		 		x: 13,
 		 		y: 2,
@@ -291,7 +292,7 @@ class Level2
 		 		pEasing: function (t) { return smoothStopN(t, 2); }
 		 	});
 
-		 this.hazardList.push (
+		 this.turretList.push (
 		 	{
 		 		x: 13,
 		 		y: 2,

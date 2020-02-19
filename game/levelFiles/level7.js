@@ -30,7 +30,8 @@ class Level7 {
 
         this.roomSpawnerList = [];
         this.spawnerList = [];
-        this.hazardList = [];
+        this.turretList = [];
+        this.spawnerProjectileList = [];
         this.pickupList = [];
     }
 }
