@@ -275,8 +275,7 @@ class Player extends Entity {
             }
         }
 
-        if (!this.camLocked) {
-          console.log("HERE");
+        if (!this.camLocked && this.game.player.removeFromWorld === false) {
             let cOffX = this.game._camera._desiredLoc.x - this.x;
             let cOffY = this.game._camera._desiredLoc.y - this.y;
             while (Math.abs(cOffX) > CAMERA_BOUNDING_BOX) {
@@ -380,6 +379,7 @@ class Player extends Entity {
     }
 
     destroy() {
+    console.log("DESTROY");
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].destroy();
         }
