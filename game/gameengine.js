@@ -89,7 +89,7 @@ class GameEngine {
         this.destroyLevel();
         this.game_state = GAME_STATES.CHARACTER_SELECT;
 
-        this._sceneManager.LoadLevel(levelFile);
+        this._sceneManager.LoadLevel(levelFile, npcClasses);
 
         this.addEntity(this._camera, LAYERS.HUD);
         this._camera.update();

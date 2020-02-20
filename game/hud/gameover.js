@@ -22,8 +22,8 @@ class GameOver {
                     {x: 0, y: 0}, {x: 0, y: 0}, 1, true, 1),
             },
             function () {
-                //TODO figure out how to restart the level
-                //that.game.restartLevel(this.dead);
+                that.game.destroyLevel();
+                that.game.LoadLevel(that.game.sceneManager.levelFile, that.game.sceneManager.npcsAtStartOfLevel);
             });
 
         this.restartButton = new Button(game, 0, 100, {
@@ -35,7 +35,8 @@ class GameOver {
                     {x: 0, y: 0}, {x: 0, y: 0}, 1, true, 1),
             },
             function () {
-                window.location.href = "./";
+                that.game.destroyLevel();
+                that.game.init(that.game.ctx);
             });
 
         this.creditsButton = new Button(game, 0, 202, {
@@ -71,6 +72,8 @@ class GameOver {
         this.retryButton.draw();
         this.restartButton.draw();
         this.creditsButton.draw();
+        this.menuButton.draw();
+
     }
 
     update() {
@@ -80,6 +83,7 @@ class GameOver {
         this.retryButton.update();
         this.restartButton.update();
         this.creditsButton.update();
+        this.menuButton.update();
     }
 }
 
