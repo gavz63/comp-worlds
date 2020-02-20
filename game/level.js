@@ -81,7 +81,13 @@ class Level {
             }
         }
         let that = this;
-		let lastRoomNum = 0;
+        
+        this.unlockableCharacter.forEach(function (elem)
+        {
+          console.log(elem.characterClass);
+          new PCRemnant(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y), elem.characterClass, elem.characterClass.animation.dmgFromRight);
+        });
+        
 		let roomSpawnerList = [];
 		this.roomSpawners.forEach(function (elem)
 		{
@@ -147,6 +153,7 @@ class Level {
         this._exit = null;
         this._wallType = levelFile.wallType;
         this._floorType = levelFile.floorType;
+        this.unlockableCharacter = levelFile.unlockableCharacter;
         this.roomSpawners = levelFile.roomSpawnerList;
         this.spawners = levelFile.spawnerList;
         this.pickups = levelFile.pickupList;

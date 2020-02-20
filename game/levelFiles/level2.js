@@ -38,7 +38,15 @@ class Level2
 		this.turretList = [];
 		this.spawnerProjectileList = [];
 		this.pickupList = [];
-
+    this.unlockableCharacter = [];
+    
+    this.unlockableCharacter.push(
+    {
+      x: 20,
+      y: 11,
+      characterClass: new Ninja("")
+    });
+    
 		// Key in Stone Golem room
 		this.pickupList.push({
 			x: 27,

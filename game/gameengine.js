@@ -118,7 +118,7 @@ class GameEngine {
      */
     init(ctx) {
         this.audioManager = new AudioManager();
-        this.LoadLevel(new Level1(), [/*new BlackMage(), new Lancer(), */new Ninja()]);
+        this.LoadLevel(new Level1(), [new BlackMage()]);
         this._ctx = ctx;
         ctx.canvas.click();
         this._surfaceWidth = this._ctx.canvas.width;
