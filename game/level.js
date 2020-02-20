@@ -81,12 +81,13 @@ class Level {
             }
         }
         let that = this;
-        
-        this.unlockableCharacter.forEach(function (elem)
-        {
-          console.log(elem.characterClass);
-          new PCRemnant(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y), elem.characterClass, elem.characterClass.animation.dmgFromRight);
-        });
+        if (this.unlockableCharacter) {
+            this.unlockableCharacter.forEach(function (elem)
+            {
+                console.log(elem.characterClass);
+                new PCRemnant(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y), elem.characterClass, elem.characterClass.animation.dmgFromRight);
+            });
+        }
         
 		let roomSpawnerList = [];
 		this.roomSpawners.forEach(function (elem)
