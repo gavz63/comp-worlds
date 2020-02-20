@@ -1,3 +1,12 @@
+if (sessionStorage.getItem('master_volume') === null
+|| sessionStorage.getItem('music_volume') === null
+|| sessionStorage.getItem('gameplay_volume') === null
+|| sessionStorage.getItem('fps') === null
+|| sessionStorage.getItem('level') === null
+|| sessionStorage.getItem('npcs') === null) {
+    window.location.href = '../index.html';
+}
+
 const ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/map/grounds.png");

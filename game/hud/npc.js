@@ -88,3 +88,11 @@ class NPC extends Entity {
         this.isIdling = true;
     }
 }
+
+function parseNPC(npcs) {
+    list = npcs.split(' ');
+    for (let i = 0; i < list.length; i++) {
+        list[i] = new (eval(list[i]))();
+    }
+    return list;
+}

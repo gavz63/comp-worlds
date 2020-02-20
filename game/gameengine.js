@@ -118,7 +118,14 @@ class GameEngine {
      */
     init(ctx) {
         this.audioManager = new AudioManager();
-        this.LoadLevel(new Level1(), [new BlackMage(), new Ninja()]);
+        //this.LoadLevel(new Level1(), [new BlackMage(), new Ninja()]);
+        let level;
+        if (sessionStorage.getItem('level') === 'endless') {
+            level = new Endless();
+        } else {
+            level = new (eval("Level" + sessionStorage.getItem('level')))();
+        }
+        this.LoadLevel(level, parseNPC(sessionStorage.getItem('npcs')));
         this._ctx = ctx;
         ctx.canvas.click();
         this._surfaceWidth = this._ctx.canvas.width;

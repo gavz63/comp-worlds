@@ -272,6 +272,7 @@ class Player extends Entity {
                 x: coordinateToIndex(this.x),
                 y: coordinateToIndex(this.y)
             }) === "E") {
+                if (sessionStorage.getItem('level') !== 'endless') sessionStorage.setItem('level', "" + (eval(sessionStorage.getItem('level')) + 1));
                 this.game.sceneManager.levelComplete();
             }
         }

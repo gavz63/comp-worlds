@@ -170,7 +170,7 @@ class EasingProjectile extends Projectile {
     }
 
     update() {
-		console.log(this.myAddScale);
+		//console.log(this.myAddScale);
 		this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
         this.testCollision();
         this.move();
