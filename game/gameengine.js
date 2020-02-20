@@ -75,6 +75,7 @@ class GameEngine {
         this._sceneManager = new SceneManager(this);
 
         this.game_state = GAME_STATES.CHARACTER_SELECT;
+        this.mousePos = {x: 0, y: 0};
     }
 
     LoadLevel(levelFile, npcClasses) {
@@ -117,8 +118,9 @@ class GameEngine {
      */
     init(ctx) {
         this.audioManager = new AudioManager();
-        this.LoadLevel(new Level1(), [new BlackMage(), new Lancer(), new Ninja()]);
+        this.LoadLevel(new Level1(), [/*new BlackMage(), new Lancer(), */new Ninja()]);
         this._ctx = ctx;
+        ctx.canvas.click();
         this._surfaceWidth = this._ctx.canvas.width;
         this._surfaceHeight = this._ctx.canvas.height;
         this.startInput();
@@ -295,6 +297,7 @@ class GameEngine {
             case GAME_STATES.PLAYING:
             case GAME_STATES.CHANGING_LEVEL:
             case GAME_STATES.GAME_OVER:
+
                 for (var i = 0; i < this._entities.length; i++) {
                     let entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
@@ -308,7 +311,6 @@ class GameEngine {
                         this.entities[i][j].update();
                     }
                 }
-
                 var timersCount = this.timers.length;
 
                 for (var i = 0; i < timersCount; i++) {
@@ -343,6 +345,10 @@ class GameEngine {
             if (elem instanceof ChooseYourFighter) {
                 elem.destroy();
             }
+        });
+
+        this.timers.forEach(function(elem) {
+            elem.destroy();
         });
         this.addEntity(new GameOver(this), LAYERS.HUD);
     }

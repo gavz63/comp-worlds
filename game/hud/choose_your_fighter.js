@@ -1,6 +1,6 @@
 class ChooseYourFighter extends Entity{
     constructor(game) {
-        super(game, -128, game.sceneManager.level.spawn.y * 96);
+        super(game, -128, indexToCoordinate(game.sceneManager.level.spawn.y - 1.5));
         this._myScale = [STANDARD_DRAW_SCALE * 4];
         this.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/ChooseYourFighter.png"),
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,

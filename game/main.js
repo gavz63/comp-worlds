@@ -48,6 +48,18 @@ ASSET_MANAGER.queueDownload("./img/enemies/HedgeMove.png");
 ASSET_MANAGER.queueDownload("./img/enemies/HedgeMonsterToSleep.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/CactusSpine.png");
 ASSET_MANAGER.queueDownload("./img/hud/GameOver.png");
+ASSET_MANAGER.queueDownload("../menuImages/retry.png");
+ASSET_MANAGER.queueDownload("../menuImages/retryhover.png");
+ASSET_MANAGER.queueDownload("../menuImages/retrypress.png");
+ASSET_MANAGER.queueDownload("../menuImages/restart.png");
+ASSET_MANAGER.queueDownload("../menuImages/restarthover.png");
+ASSET_MANAGER.queueDownload("../menuImages/restartpress.png");
+ASSET_MANAGER.queueDownload("../menuImages/credits.png");
+ASSET_MANAGER.queueDownload("../menuImages/creditshover.png");
+ASSET_MANAGER.queueDownload("../menuImages/creditspress.png");
+ASSET_MANAGER.queueDownload("../menuImages/main.png");
+ASSET_MANAGER.queueDownload("../menuImages/mainhover.png");
+ASSET_MANAGER.queueDownload("../menuImages/mainpress.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');

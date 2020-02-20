@@ -157,7 +157,7 @@ class Animation {
 		}
 		else
 		{
-			ctx.globalCompositeOperation = "source-over";
+			ctx.globalCompositeOperation = "source-over";//color filter
 		}
 
         // Draw image.

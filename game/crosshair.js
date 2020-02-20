@@ -27,7 +27,7 @@ class Crosshair
 
 	update()
 	{
-    if(this.game.game_state === GAME_STATES.CHARACTER_SELECT)
+    if(this.game.game_state === GAME_STATES.CHARACTER_SELECT || this.game.game_state === GAME_STATES.GAME_OVER)
     {
       this.animation = this.menuAnimation;
     }
