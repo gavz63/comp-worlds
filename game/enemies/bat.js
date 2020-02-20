@@ -2,20 +2,20 @@ class Bat extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
         this.circle = Math.floor(Math.random() * 360);
-        this._myScale = [2 * STANDARD_DRAW_SCALE];
+        this.myScale = [2 * STANDARD_DRAW_SCALE];
 
         this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 3, y: 0}, 10, true, this._myScale);
+            {x: 0, y: 0}, {x: 3, y: 0}, 10, true, this.myScale);
         this.attackAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 1}, {x: 3, y: 1}, 10, true, this._myScale);
+            {x: 0, y: 1}, {x: 3, y: 1}, 10, true, this.myScale);
         this.deathAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 3, y: 2}, 10, false, this._myScale);
+            {x: 0, y: 2}, {x: 3, y: 2}, 10, false, this.myScale);
 
         this.animation = this.moveAnimation;
 
@@ -27,7 +27,7 @@ class Bat extends Enemy {
     }
 
     update() {
-        this._myScale[0] = 2 * STANDARD_DRAW_SCALE;
+        this.myScale[0] = 2 * STANDARD_DRAW_SCALE;
         this.pathfind(1000, 50);
         if (this.goalPoint) {
             let vec = dirV(this, this.goalPoint);

@@ -70,7 +70,7 @@ class GameEngine {
         this.lastChar = null;
 
         this.currentLevel = 0;
-        this.levels = [Level1.prototype, Level2.prototype, Level3.prototype, Level4.prototype, Level5.prototype, Level6.prototype, Level7.prototype];
+        this.levels = [Level1.prototype, Level2.prototype];
 
         this._sceneManager = new SceneManager(this);
 
@@ -118,7 +118,7 @@ class GameEngine {
      */
     init(ctx) {
         this.audioManager = new AudioManager();
-        this.LoadLevel(new Level1(), [new BlackMage()]);
+        this.LoadLevel(new Level1(), [new BlackMage(), new Ninja()]);
         this._ctx = ctx;
         ctx.canvas.click();
         this._surfaceWidth = this._ctx.canvas.width;

@@ -20,7 +20,7 @@ class Entity
 		this.collider = new Collider(0, 0, 10, 10, 10, 10, null, 150);
 		
 		this.myScale = [STANDARD_DRAW_SCALE];
-		this.myAddScale = [this.myScale[0] / STANDARD_DRAW_SCALE[0]];
+		this.myAddScale = this.myScale[0] / STANDARD_DRAW_SCALE[0];
 		
 		//draw modes
 		

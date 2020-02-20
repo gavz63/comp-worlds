@@ -34,7 +34,14 @@ class SceneManager
 			remaining.push(new NPC(that.game, elem.characterClass));
 		});
 
-		new Transition(this.game, remaining, playPos, new this.levelFile.nextLevel.constructor());
+		if(this.levelFile.nextLevel !== null)
+		{
+			new Transition(this.game, remaining, playPos, new this.levelFile.nextLevel.constructor());
+		}
+		else // end of game. YOU WIN
+		{
+			new Transition(this.game, remaining, playPos, null);
+		}
 		this.revived = [];
 	}
 	

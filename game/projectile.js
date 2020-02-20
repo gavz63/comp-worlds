@@ -52,10 +52,16 @@ class Projectile extends Entity {
         } else {
             this.game.addEntity(this, LAYERS.ENEMY_PROJECTILES);
         }
+	
+		this.myAddScale = 1;	
+		this.myScale = [this.animation._scale];
+
+		
+		this.animation._scale = this.myScale;
     }
 
     update() {
-        
+		this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
         if(this.attached === null)
         {
           this.testCollision();
@@ -161,10 +167,11 @@ class EasingProjectile extends Projectile {
       this.easing = easing;
 
       this.move();
-
     }
 
     update() {
+		console.log(this.myAddScale);
+		this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
         this.testCollision();
         this.move();
     }

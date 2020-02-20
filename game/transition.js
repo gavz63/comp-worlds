@@ -91,7 +91,15 @@ class Transition {
             this._progress++;
             if (this._progress === 250) {
                 this._progress = 0;
-                this._game.LoadLevel(this._nextLevel, this._charClassList);
+				if(this._nextLevel != null)
+				{
+					this._game.LoadLevel(this._nextLevel, this._charClassList);
+				}
+				else
+				{
+					console.log("THANKS FOR PLAYING");
+					window.location.href = "../credits.html";
+				}
                 this._game._camera._desiredZoom = DEFAULT_ZOOM;
             }
         }
