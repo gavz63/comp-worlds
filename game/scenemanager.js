@@ -10,6 +10,15 @@ class SceneManager {
         this.levelFile = levelFile;
         this.level = new Level(this.game, this.levelFile);
         this.npcsAtStartOfLevel = npcs;
+
+        let string_npcs = [];
+        npcs.forEach(function(elem) {
+            string_npcs.push(elem.constructor.name);
+        });
+
+        string_npcs = string_npcs.join(" ");
+        console.log(string_npcs);
+        sessionStorage.setItem('npcs', string_npcs);
     }
 
     levelComplete() {
