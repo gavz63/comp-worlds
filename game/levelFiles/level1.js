@@ -20,17 +20,17 @@ class Level1
 		"#-#####-----#------#" +
 		"#-------###-#------#" +
 		"####V####-#-H------#" +
-		"#----##-#V##########" +
+		"#----####-##########" +
     
-		"#----##-#---########" +
-		"#-#####-#-------####" +
-		"#-------#---#---####" +
-		"#------##-------####" +
-		"#----######---######" +
+		"#----####-##########" +
+		"#-######--##########" +
+		"#--------###########" +
+		"#------#############" +
+		"#----###############" +
     
-		"##--########---#####" +
-		"##------######--####" +
-		"##------#######V####" +
+		"##--################" +
+		"##------#########-##" +
+		"##------#########V##" +
 		"####---------------E" +
 		"####################";
 		
@@ -43,8 +43,8 @@ class Level1
     
     this.unlockableCharacter.push(
     {
-      x: 9,
-      y: 8,
+      x: 17,
+      y: 16,
       characterClass: new Lancer("")
     });
     
@@ -514,9 +514,9 @@ class Level1
     });
     this.roomSpawnerList.push (
 		{
-			x: 7,
-			y: 10.5,
-			room: {upperLeft: {x: 7, y: 9}, bottomRight: {x: 7, y: 11}},
+			x: 9,
+			y: 9.5,
+			room: {upperLeft: {x: 9, y: 8}, bottomRight: {x: 9, y: 11}},
       lockCam: true,
 			dropKey: false
 		});
@@ -536,16 +536,16 @@ class Level1
     
     this.roomSpawnerList.push (
 		{
-			x: 7,
-			y: 10.5,
-			room: {upperLeft: {x: 7, y: 9}, bottomRight: {x: 7, y: 9}},
+			x: 9,
+			y: 8,
+			room: {upperLeft: {x: 9, y: 8}, bottomRight: {x: 9, y: 8}},
       lockCam: false,
 			dropKey: false
 		});
     this.spawnerList.push (
 		{
-			x: 7,
-			y: 12,
+			x: 9,
+			y: 11,
 			max: 1,
 			freq: 10,
 			list: [StoneGolem.prototype],
@@ -598,8 +598,8 @@ class Level1
     this.roomSpawnerList.push (
 		{
 			x: 17,
-			y: 18,
-			room: {upperLeft: {x: 15, y: 18}, bottomRight: {x: 19, y: 18}},
+			y: 17,
+			room: {upperLeft: {x: 15, y: 15}, bottomRight: {x: 19, y: 18}},
       lockCam: true,
 			dropKey: false
 		});
@@ -618,8 +618,8 @@ class Level1
 		});
     this.pickupList.push(
     {
-      x: 1,
-      y: 1,
+      x: 9,
+      y: 8,
       type: Key.prototype
     });
     this.pickupList.push(
