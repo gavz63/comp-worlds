@@ -101,7 +101,7 @@ class StoneGolem extends Enemy {
     wait() {
         this.isWaiting = true;
         let that = this;
-        new TimerCallback(this.game, 3, false, function () {
+        new TimerCallback(this.game, 1.75, false, function () {
             that.isWaiting = false;
         })
     }
