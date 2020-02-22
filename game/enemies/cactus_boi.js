@@ -32,12 +32,12 @@ class CactusBoi extends Enemy {
     }
 
     update() {
-        super.update();
+        let vecToPlayer = dirV(this, this.game._player);
+        let attackVector = normalizeV(vecToPlayer);
+
         if (this.isAttacking) {
             if (this.animation.isDone()) {
-                this.animation = this.moveAnimation;
                 this.isAttacking = false;
-                this.animation.resetAnimation();
                 for (let i = -1; i < 1.5; i += 0.5) {
                     for (let j = -1; j < 1.5; j += 0.5) {
                         new Projectile(this.game,
@@ -48,26 +48,32 @@ class CactusBoi extends Enemy {
                             1, 2);
                     }
                 }
+                this.animation = this.moveAnimation;
+                this.animation.unpause();
             }
         } else {
-            let vec = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
-
             this.pathfind(1000, 50);
-            if (this.goalPoint) {
-                if (lengthV(vec) < 100 &&
-                    (this.goalPoint.x === this.game.player.x &&
-                        this.goalPoint.y === this.game.player.y)) {
-                    this.attack();
-                } else {
+            if (lengthV(vecToPlayer) > 150 ||
+                (this.goalPoint.x === this.game.player.x &&
+                    this.goalPoint === this.game.player.y)) {
+
+                if (this.aboutToAttackTimer) {
+                    this.aboutToAttackTimer.destroy();
+                    this.aboutToAttackTimer = null;
+                }
+                if (this.goalPoint) {
                     this.go(normalizeV(dirV(this, this.goalPoint)));
                 }
+            } else {
+                this.attack();
             }
         }
     }
 
     attack() {
-        this.isAttacking = true;
         this.animation = this.attackAnimation;
         this.animation.resetAnimation();
+        this.isAttacking = true;
+        this.animation.unpause();
     }
 }

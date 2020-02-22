@@ -33,22 +33,19 @@ class Skeleton extends Enemy {
     }
 
     update() {
-        let skelPlayVector = dirV({x: this.x, y: this.y}, {x: this.game._player.x, y: this.game._player.y});
+        let skelPlayVector = dirV(this, this.game._player);
         let attackVector = normalizeV(skelPlayVector);
 
         if (this.isAttacking) {
             if (this.animation.isDone()) {
                 this.animation.resetAnimation();
                 this.animation.unpause();
-                //this.isAttacking = false;
                 new Projectile(this.game,
                     this.x, this.y,
                     attackVector,
                     200, 4, true,
                     this, this.projectileAnimation,
                     1, 20, 10);
-                // this.animation = this.moveAnimation;
-                // this.animation.unpause();
             }
         } else {
             this.pathfind(1000, 50);
@@ -73,7 +70,6 @@ class Skeleton extends Enemy {
     }
 
     attack() {
-        this.aboutToAttack = false;
         this.animation = this.attackAnimation;
         this.animation.resetAnimation();
         this.isAttacking = true;
