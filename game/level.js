@@ -92,7 +92,7 @@ class Level {
 		let roomSpawnerList = [];
 		this.roomSpawners.forEach(function (elem)
 		{
-			roomSpawnerList.push(new RoomSpawner(that.game, elem.x, elem.y, [], elem.room, elem.lockCam, elem.dropKey));
+			roomSpawnerList.push(new RoomSpawner(that.game, elem.x, elem.y, [], elem.room, elem.lockCam, elem.dropKey, elem.dropPotion));
 		});
     console.log(roomSpawnerList);
     this.spawners.forEach(function (elem) 

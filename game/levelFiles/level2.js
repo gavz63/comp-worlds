@@ -25,7 +25,7 @@ class Level2 {
             "###-##-##############----------###" +
             "#-------##------------#-------####" +
             "#-----------############-----#####" +
-            "#-------######---------###-#######" +
+            "#-------######-------#####-#######" +
             "#-#########---------######-#######" +
             "#V#####-----##------######-#######" +
             "#-----------##############-------E" +
@@ -40,7 +40,7 @@ class Level2 {
 
         this.unlockableCharacter.push(
             {
-                x: 21,
+                x: 20,
                 y: 11,
                 characterClass: new Ninja()
             });
@@ -462,6 +462,100 @@ class Level2 {
             delay: 0
         });
 
+        ////////////////////////////////////
+        ///////////// ROOM 6 ///////////////
+        ////////////////////////////////////
+        this.roomSpawnerList.push({
+            x: 17,
+            y: 12,
+            room: {upperLeft: {x: 14, y: 11}, bottomRight: {x: 19, y: 14}},
+            lockCam: true,
+            dropKey: false
+        });
+        this.spawnerList.push({
+            x: 14,
+            y: 11,
+            max: 1,
+            freq: 10,
+            list: [CactusBoi.prototype],
+            rand: false,
+            radius: 96,
+            total: 1,
+            roomNum: 6,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 14,
+            y: 13,
+            max: 1,
+            freq: 10,
+            list: [CactusBoi.prototype],
+            rand: false,
+            radius: 96,
+            total: 1,
+            roomNum: 6,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x:19,
+            y: 11,
+            max: 1,
+            freq: 10,
+            list: [CactusBoi.prototype],
+            rand: false,
+            radius: 96,
+            total: 1,
+            roomNum: 6,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 19,
+            y: 13,
+            max: 1,
+            freq: 10,
+            list: [CactusBoi.prototype],
+            rand: false,
+            radius: 96,
+            total: 1,
+            roomNum: 6,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 16,
+            y: 12,
+            max: 1,
+            freq: 10,
+            list: [CactusBoi.prototype],
+            rand: false,
+            radius: 96,
+            total: 1,
+            roomNum: 6,
+            delay: 0
+        });
+
+        ////////////////////////////////////
+        ///////////// ROOM 7 ///////////////
+        ////////////////////////////////////
+        this.roomSpawnerList.push({
+            x: 9,
+            y: 13.5,
+            room: {upperLeft: {x: 7, y: 13}, bottomRight: {x: 11, y: 15}},
+            lockCam: true,
+            dropKey: false,
+            dropPotion: true
+        });
+        this.spawnerList.push({
+            x: 9,
+            y: 13.5,
+            max: 1,
+            freq: 10,
+            list: [Snek.prototype],
+            rand: false,
+            radius: 96,
+            total: 1,
+            roomNum: 7,
+            delay: 0
+        });
 
         //Guarding key to snek room
         this.spawnerList.push({

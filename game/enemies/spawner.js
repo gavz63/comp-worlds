@@ -1,6 +1,6 @@
 class RoomSpawner
 {
-	constructor(game, x, y, spawners, room, lockCam, dropKey)
+	constructor(game, x, y, spawners, room, lockCam, dropKey, dropPotion)
 	{
 		this.game = game;
 		this.x = indexToCoordinate(x);
@@ -8,6 +8,7 @@ class RoomSpawner
 		this.spawners = spawners;
 		this.room = room;
 		this.dropKey = dropKey;
+		this.dropPotion = dropPotion;
 		this.finishedCount = 0;
 		this.removeFromWorld = false;
     this.lastCam = false;
@@ -36,6 +37,9 @@ class RoomSpawner
 				new Key(this.game, this.x, this.y);
 				
 			}
+			if (this.dropPotion) {
+			    new HealthPotion(this.game, this.x, this.y);
+            }
 			this.destroy();
 		}
 	}
