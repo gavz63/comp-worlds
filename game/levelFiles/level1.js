@@ -34,6 +34,7 @@ class Level1
 		"####---------------E" +
 		"####################";
 		
+		this.playerSpawner = null;
 		this.roomSpawnerList = [];
 		this.spawnerList = [];
 		this.turretList = [];

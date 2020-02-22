@@ -20,7 +20,11 @@ class HedgeMonster extends Enemy {
         this.animation = this.wakeAnimation;
         this.animation.pause();
 
-        this.home = {x: spawner.x, y: spawner.y};
+        if (spawner !== null) {
+            this.home = {x: spawner.x, y: spawner.y};
+        } else {
+            this.home = {x: 0, y: 0};
+        }
 
         this.radius = STANDARD_ENTITY_RADIUS * 4;
         this.width = 96;

@@ -208,3 +208,100 @@ class Spawner {
 		this.removeFromWorld = true;
     }
 }
+
+
+class PlayerSpawner {
+    constructor(game, maxAtOnce, spawnList, probs) {
+        this.x = 0;
+        this.y = 0;
+        this._game = game;
+        game.addEntity(this, LAYERS.FLOOR);
+        this._maxAtOnce = maxAtOnce;
+        this._spawnList = spawnList;
+        this._probs = probs;
+        this._start = false;
+        this._currentEnemies = [];
+    }
+
+    draw(ctx) {}
+
+    destroy() {
+        this.removeFromWorld = true;
+    };
+
+    update() {
+        if (this._game.game_state === GAME_STATES.PLAYING && this._currentEnemies.length < this._maxAtOnce && (this._start === true || this._game.player.x > 300)) {
+            this._start = true;
+            let TL = {x: coordinateToIndex(this._game._camera.clickPosTranslation({x: 0 - (96 * STANDARD_DRAW_SCALE), y: 0}).x),
+                y: coordinateToIndex(this._game._camera.clickPosTranslation({x: 0, y: 0 - (96 * STANDARD_DRAW_SCALE)}).y)};
+            let BR = {x: coordinateToIndex(this._game._camera.clickPosTranslation({x: this._game.ctx.canvas.width + (96 * STANDARD_DRAW_SCALE), y: 0}).x),
+                y: coordinateToIndex(this._game._camera.clickPosTranslation({x: 0, y: this._game.ctx.canvas.height + (96 * STANDARD_DRAW_SCALE)}).y)};
+
+            let spawnStuff = (x, y) => {
+                let i = Math.floor(Math.random() * this._probs.length);
+                if (Math.random() * 100 <= this._probs[i]) {
+                    this._currentEnemies.push(new this._spawnList[i].constructor(this._game, x, y, null));
+                }
+            };
+            /*
+            for (let h = TL.x; h <= BR.x; h++) {
+                if (!(h < 0 || h >= this._game._sceneManager.level._width
+                    || TL.y < 0 || TL.y >= this._game._sceneManager.level._height
+                    || BR.y < 0 || BR.y >= this._game._sceneManager.level._height)) {
+                    if (this._game._sceneManager.level._map[h][TL.y] === "-") {
+                        spawnStuff(indexToCoordinate(h), indexToCoordinate(TL.y));
+                    }
+                    if (this._game._sceneManager.level._map[h][BR.y] === "-") {
+                        spawnStuff(indexToCoordinate(h), indexToCoordinate(BR.y));
+                    }
+                }
+            }
+
+            for (let v = TL.y + 1; v <= BR.y - 1; v++) {
+                if (!(v < 0 || v >= this._game._sceneManager.level._height
+                    || TL.x < 0 || TL.x >= this._game._sceneManager.level._width
+                    || BR.x < 0 || BR.x >= this._game._sceneManager.level._width)) {
+                    if (this._game._sceneManager.level._map[TL.x][v] === "-") {
+                        spawnStuff(indexToCoordinate(TL.x), indexToCoordinate(v));
+                    }
+                    if (this._game._sceneManager.level._map[BR.x][v] === "-") {
+                        spawnStuff(indexToCoordinate(BR.x), indexToCoordinate(v));
+                    }
+                }
+            }
+            */
+            let x1 = Math.floor(Math.random() * (BR.x - TL.x + 1)) + TL.x;
+            let x2 = Math.floor(Math.random() * (BR.x - TL.x + 1)) + TL.x;
+            let y1 = Math.floor(Math.random() * (BR.y - TL.y + 1)) + TL.y;
+            let y2 = Math.floor(Math.random() * (BR.y - TL.y + 1)) + TL.y;
+            if (x1 >= 0 && x1 < this._game._sceneManager.level._width 
+            && TL.y >= 0 && TL.y < this._game._sceneManager.level._height
+            && this._game._sceneManager.level._map[x1][TL.y] === "-") spawnStuff(indexToCoordinate(x1), indexToCoordinate(TL.y));
+            if (x2 >= 0 && x2 < this._game._sceneManager.level._width
+            && BR.y >= 0 && BR.y < this._game._sceneManager.level._height
+            && this._game._sceneManager.level._map[x2][BR.y] === "-") spawnStuff(indexToCoordinate(x2), indexToCoordinate(BR.y));
+            if (y1 >= 0 && y1 < this._game._sceneManager.level._height
+            && TL.x >= 0 && TL.x < this._game._sceneManager.level._width
+            && this._game._sceneManager.level._map[TL.x][y1] === "-") spawnStuff(indexToCoordinate(TL.x), indexToCoordinate(y1));
+            if (y2 >= 0 && y2 < this._game._sceneManager.level._height
+            && BR.x >= 0 && BR.x < this._game._sceneManager.level._width
+            && this._game._sceneManager.level._map[BR.x][y2] === "-") spawnStuff(indexToCoordinate(BR.x), indexToCoordinate(y2));
+        }
+
+        if (this._game.game_state === GAME_STATES.PLAYING) {
+            let clear = true;
+            let p = {x: this._game.player.x, y: this._game.player.y};
+            this._currentEnemies.forEach((e) => {
+                if (Math.sqrt((p.x - e.x) * (p.x - e.x) + (p.y - e.y) * (p.y - e.y)) < 420) {
+                    clear = false;
+                }
+            });
+            if (clear) {
+                this._currentEnemies.forEach((e) => {
+                    e.destroy();
+                });
+                this._currentEnemies = [];
+            }
+        }
+    }
+}

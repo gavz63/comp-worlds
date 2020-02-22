@@ -16,6 +16,7 @@ class LevelFake
         this.layout =
             "S-E";
 
+        this.playerSpawner = null;
         this.roomSpawnerList = [];
         this.spawnerList = [];
         this.turretList = [];

@@ -14,9 +14,11 @@ class Enemy extends Entity {
 
     destroy() {
         this.game.player.progressBar.progress += this.game.player.characterClass.stats.specialChargeFromKill;
-        this.spawner.spawn_timer.unpause();
-        this.spawner.numOut--;
-        this.spawner.spawn_timer.unpause();
+        if (this.spawner !== null) {
+            this.spawner.spawn_timer.unpause();
+            this.spawner.numOut--;
+            this.spawner.spawn_timer.unpause();
+        }
         new Remnant(this.game, this.x, this.y, this.deathAnimation);
         super.destroy();
     }

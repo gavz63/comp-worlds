@@ -1,9 +1,13 @@
 class Endless {
 	constructor() {
-		this.width = Math.floor(Math.random() * 40) + 20;
+		this.width = Math.floor(Math.random() * 25) + 20;
 		this.height = Math.floor(Math.random() * 25) + 20;
-		this.floorType = 0;
-		this.wallType = 0;
+		this.floorType = Math.floor(Math.random() * 4);
+		if (this.floorType <= 0) {
+            this.wallType = 0;
+        } else {
+            this.wallType = 1;
+        }
 		this.nextLevel = Endless.prototype;
 		this.musicId = 'hedgeMazeMusic';
 
@@ -15,8 +19,127 @@ class Endless {
 		this.spawnerProjectileList = [];
 		this.pickupList = [];
         this.unlockableCharacter = [];
+
+        this.playerSpawner = {
+            maxAtOnce: 25,
+            spawnList:
+            [Bat.prototype, CactusBoi.prototype, HedgeMonster.prototype,
+            PuddleJumper.prototype, Skeleton.prototype, Snek.prototype,
+            StoneGolem.prototype],
+            probs: [50, 10, (this.floorType === 0) ? 1 : 0, 40, 35, 25, 15]
+        };
     }
+/*
+    buildLevel() {
+        let map = [];
     
+        // Build Map
+        for (let i = 0; i < this.width; i++) {
+            map[i] = [];
+        }
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                map[x][y] = {tile: "#", massID: null, massSize: 0};
+                if (x < 2 || x >= this.width - 2 || y < 2 || y >= this.height - 2) {
+                    // Outer walls.
+                    map[x][y].massID = undefined;
+                } else {
+                    // Generate random walls inside.
+                    if (Math.floor(Math.random() * 2) === 0) map[x][y].tile = "-";
+                }
+            }
+        }
+    
+        // Spawn and Exit
+        let spawn = {x: 0, y: 2 + Math.floor(Math.random() * (this.height - 4))};
+        let exit = {x: this.width - 1, y: 2 + Math.floor(Math.random() * (this.height - 4))};
+        map[spawn.x][spawn.y].tile = "S";
+        map[spawn.x][spawn.y].massID = -1;
+        map[spawn.x][spawn.y].massSize = 3;
+        map[spawn.x + 1][spawn.y].tile = "-";
+        map[spawn.x + 1][spawn.y].massID = -1;
+        map[spawn.x + 1][spawn.y].massSize = 3;
+        map[spawn.x + 2][spawn.y].tile = "-";
+        map[spawn.x + 2][spawn.y].massID = -1;
+        map[spawn.x + 2][spawn.y].massSize = 3;
+        map[exit.x][exit.y].tile = "E";
+        map[exit.x][exit.y].massID = -2;
+        map[exit.x][exit.y].massSize = 3;
+        map[exit.x - 1][exit.y].tile = "-";
+        map[exit.x - 1][exit.y].massID = -2;
+        map[exit.x - 1][exit.y].massSize = 3;
+        map[exit.x - 2][exit.y].tile = "-";
+        map[exit.x - 2][exit.y].massID = -2;
+        map[exit.x - 2][exit.y].massSize = 3;
+
+        let massCount = 0;
+        for (let y = 2; y < this.height - 2; y++) {
+            for (let x = 2; x < this.width - 2; x++) {
+                if (map[x][y].tile === "-" && map[x][y].massID === null) {
+
+                    let ids = [];
+                    let neighbors = [];
+                    if (typeof map[x + 1][y].massID === Number && map[x + 1][y].tile === "-") ids.push({id: map[x + 1][y].massID, size: map[x + 1][y].massSize});
+                    if (map[x + 1][y].tile === "-") neighbors.push({x: x + 1, y: y});
+                    if (typeof map[x - 1][y].massID === Number && map[x - 1][y].tile === "-") ids.push({id: map[x - 1][y].massID, size: map[x - 1][y].massSize});
+                    if (map[x - 1][y].tile === "-") neighbors.push({x: x - 1, y: y});
+                    if (typeof map[x][y + 1].massID === Number && map[x][y + 1].tile === "-") ids.push({id: map[x][y + 1].massID, size: map[x][y + 1].massSize});
+                    if (map[x][y + 1].tile === "-") neighbors.push({x: x, y: y + 1});
+                    if (typeof map[x][y - 1].massID === Number && map[x][y - 1].tile === "-") ids.push({id: map[x][y - 1].massID, size: map[x][y - 1].massSize});
+                    if (map[x][y - 1].tile === "-") neighbors.push({x: x, y: y - 1});
+                    if (ids.length === 0) { // No neighbor masses.
+                        if (neighbors.length > 0) { // Not just a dot.
+                            map[x][y].massID = massCount;
+                            map[x][y].massCount = neighbors.length + 1;
+                            neighbors.forEach((n) => {
+                                map[n.x][n.y].massID = massCount;
+                                map[n.x][n.y].massCount = neighbors.length + 1;
+                            });
+                            massCount++;
+                        } else { // Eliminate dots.
+                            map[x][y].tile = "#";
+                        }
+                    } else { // Neighbor mass.
+
+                        // Get smallest mass ID.
+                        let newID = 0;
+                        let min = ids[0].id;
+                        let idN = 1;
+                        for (let cnt = 1; cnt < ids.length; cnt++) {
+                            if (ids[cnt].id < min) {
+                                min = ids[cnt].id;
+                                newID = cnt;
+                            } else if (ids[cnt].id === min) {
+                                idN++;
+                            }
+                        }
+
+                        // Add all to mass.
+                        map[x][y].massID = min;
+                        map[x][y].massSize = newID.massSize - idN;
+                        neighbors.forEach((n) => {
+                            map[n.x][n.y].massID = min;
+                            map[n.x][n.y].massCount = newID.massSize - idN;
+                        });
+                    }
+                }
+            }
+        }
+
+    
+    
+        // Convert to String
+        let result = "";
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                result += map[x][y].tile;
+            }
+        }
+    
+        return result;
+    }
+    */
+     //First Attempt
     buildLevel() {
         let map = [];
     
@@ -116,4 +239,5 @@ class Endless {
     
         return result;
     }
+    
 }
