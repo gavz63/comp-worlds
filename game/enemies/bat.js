@@ -44,15 +44,6 @@ class Bat extends Enemy {
                 this.go(normalizeV(vec));
             }
         }
-
-        let newPos = {x: this.x, y: this.y};
-        if (this.wallCollision(newPos)) {
-            this.x = this.oldPos.x;
-            this.y = this.oldPos.y;
-            this.circle = this.oldCircle;
-        } else {
-            this.oldPos = newPos;
-        }
     }
 
     circlePlayer() {

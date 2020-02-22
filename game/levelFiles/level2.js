@@ -25,10 +25,10 @@ class Level2 {
             "###-##-##############----------###" +
             "#-------##------------#-------####" +
             "#-----------############-----#####" +
-            "#-------######------H-###---######" +
-            "#-########-------####-####-#######" +
-            "#V#####----##########-####-#######" +
-            "#-------#############------------E" +
+            "#-------######---------###-#######" +
+            "#-#########---------######-#######" +
+            "#V#####-----##------######-#######" +
+            "#-----------##############-------E" +
             "##################################";
 
         this.roomSpawnerList = [];
@@ -237,7 +237,7 @@ class Level2 {
         ////////////////////////////////////
         this.pickupList.push({
             x: 1,
-            y: 7,
+            y: 6,
             type: Key.prototype
         });
         this.roomSpawnerList.push({
@@ -255,7 +255,7 @@ class Level2 {
             list: [Snek.prototype],
             rand: false,
             radius: 4 * 96,
-            total: 0,
+            total: 3,
             roomNum: 3,
             delay: 0
         });
@@ -267,15 +267,229 @@ class Level2 {
             list: [Snek.prototype],
             rand: false,
             radius: 4 * 96,
-            total: 0,
+            total: 3,
+            roomNum: 3,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 1,
+            y: 12,
+            max: 4,
+            freq: 7,
+            list: [Bat.prototype],
+            rand: false,
+            radius: 4 * 96,
+            total: 4,
+            roomNum: 3,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 7,
+            y: 12,
+            max: 4,
+            freq: 7,
+            list: [Bat.prototype],
+            rand: false,
+            radius: 4 * 96,
+            total: 4,
+            roomNum: 3,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 0,
+            y: 11,
+            max: 1,
+            freq: 7,
+            list: [Skeleton.prototype],
+            rand: false,
+            radius: 4 * 96,
+            total: 1,
+            roomNum: 3,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 8,
+            y: 11,
+            max: 1,
+            freq: 7,
+            list: [Skeleton.prototype],
+            rand: false,
+            radius: 4 * 96,
+            total: 1,
             roomNum: 3,
             delay: 0
         });
 
+        ////////////////////////////////////
+        ///////////// ROOM 4 ///////////////
+        ////////////////////////////////////
+        this.roomSpawnerList.push({
+            x: 17,
+            y: 5,
+            room: {upperLeft: {x: 15, y: 4}, bottomRight: {x: 19, y: 6}},
+            lockCam: true,
+            dropKey: false
+        });
+        this.spawnerList.push({
+            x: 13,
+            y: 6,
+            max: 1,
+            freq: 7,
+            list: [CactusBoi.prototype],
+            rand: false,
+            radius: 4 * 96,
+            total: 1,
+            roomNum: 4,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 12,
+            y: 6,
+            max: 1,
+            freq: 7,
+            list: [CactusBoi.prototype],
+            rand: false,
+            radius: 4 * 96,
+            total: 1,
+            roomNum: 4,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 11,
+            y: 6,
+            max: 1,
+            freq: 7,
+            list: [CactusBoi.prototype],
+            rand: false,
+            radius: 4 * 96,
+            total: 1,
+            roomNum: 4,
+            delay: 0
+        });
+
+        ////////////////////////////////////
+        ///////////// ROOM 5 ///////////////
+        ////////////////////////////////////
+        this.roomSpawnerList.push({
+            x: 26,
+            y: 9,
+            room: {upperLeft: {x: 24, y: 8}, bottomRight: {x: 28, y: 10}},
+            lockCam: true,
+            dropKey: false
+        });
+        this.spawnerList.push({
+            x: 25,
+            y: 11,
+            max: 1,
+            freq: 10,
+            list: [Skeleton.prototype],
+            rand: false,
+            radius: 96 * 4,
+            total: 3,
+            roomNum: 5,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 27,
+            y: 11,
+            max: 1,
+            freq: 10,
+            list: [Skeleton.prototype],
+            rand: false,
+            radius: 96 * 4,
+            total: 3,
+            roomNum: 5,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 26,
+            y: 9,
+            max: 1,
+            freq: 10,
+            list: [Snek.prototype],
+            rand: false,
+            radius: 96 * 4,
+            total: 1,
+            roomNum: 5,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 25,
+            y: 7,
+            max: 3,
+            freq: 10,
+            list: [PuddleJumper.prototype],
+            rand: false,
+            radius: 96 * 4,
+            total: 0,
+            roomNum: 5,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 27,
+            y: 7,
+            max: 3,
+            freq: 10,
+            list: [PuddleJumper.prototype],
+            rand: false,
+            radius: 96 * 4,
+            total: 0,
+            roomNum: 5,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 23,
+            y: 9,
+            max: 1,
+            freq: 10,
+            list: [StoneGolem.prototype],
+            rand: false,
+            radius: 96 * 2,
+            total: 1,
+            roomNum: 5,
+            delay: 0
+        });
+        this.spawnerList.push({
+            x: 29,
+            y: 9,
+            max: 1,
+            freq: 10,
+            list: [StoneGolem.prototype],
+            rand: false,
+            radius: 96 * 5,
+            total: 1,
+            roomNum: 5,
+            delay: 0
+        });
 
 
-
-
+        //Guarding key to snek room
+        this.spawnerList.push({
+            x: 4,
+            y: 6,
+            max: 1,
+            freq: 10,
+            list: [Skeleton.prototype],
+            rand: false,
+            radius: 96,
+            total: 1,
+            roomNum: 0,
+            delay: 0
+        });
+        // Charges into room 5 and follows you to end
+        this.spawnerList.push({
+            x: 26,
+            y: 14,
+            max: 1,
+            freq: 5,
+            list: [StoneGolem.prototype],
+            rand: false,
+            radius: 96 * 6,
+            total: 0,
+            roomNum: 0,
+            delay: 0
+        });
+        //Sneaky sneak.
         this.spawnerList.push({
             x: 30,
             y: 6,
@@ -289,131 +503,116 @@ class Level2 {
             delay: 0
         });
 
-        this.spawnerList.push({
-            x: 4,
-            y: 6,
-            max: 1,
-            freq: 10,
-            list: [Skeleton.prototype],
-            rand: false,
-            radius: 96,
-            total: 1,
-            roomNum: 0,
-            delay: 0
-        });
-
-
-
         /////////////////////////////////
         //////////// HAZARDS ////////////
         /////////////////////////////////
 
-    //     this.turretList.push(
-    //         {
-    //             x: 8,
-    //             y: 2,
-    //             fireRate: 10,
-    //             spinning: true,
-    //             cross: false,
-    //             pSpeed: 75,
-    //             pLifeTime: 3,
-    //             pMove: EasingProjectile.prototype.circle,
-    //             pEasing: function (t) {
-    //                 return 0;
-    //             },
-    //             initialDelay: 0,
-    //             burstDelay: 0,
-    //             burstNum: 1
-    //         });
-    //
-    //     this.turretList.push(
-    //         {
-    //             x: 10,
-    //             y: 1,
-    //             fireRate: 10,
-    //             spinning: true,
-    //             cross: false,
-    //             pSpeed: 75,
-    //             pLifeTime: 3,
-    //             pMove: EasingProjectile.prototype.circle,
-    //             pEasing: function (t) {
-    //                 return 0.5;
-    //             },
-    //             initialDelay: 0,
-    //             burstDelay: 0,
-    //             burstNum: 1
-    //         });
-    //
-    //     this.turretList.push(
-    //         {
-    //             x: 10,
-    //             y: 3,
-    //             fireRate: 10,
-    //             spinning: true,
-    //             cross: false,
-    //             pSpeed: 75,
-    //             pLifeTime: 3,
-    //             pMove: EasingProjectile.prototype.circle,
-    //             pEasing: function (t) {
-    //                 return 0.42;
-    //             },
-    //             initialDelay: 0,
-    //             burstDelay: 0,
-    //             burstNum: 1
-    //         });
-    //
-    //     this.turretList.push(
-    //         {
-    //             x: 13,
-    //             y: 2,
-    //             fireRate: 6,
-    //             spinning: true,
-    //             cross: false,
-    //             pSpeed: 100,
-    //             pLifeTime: 2,
-    //             pMove: EasingProjectile.prototype.spiral,
-    //             pEasing: function (t) {
-    //                 return smoothStopN(t, 2);
-    //             },
-    //             initialDelay: 0,
-    //             burstDelay: 0,
-    //             burstNum: 1
-    //         });
-    //
-    //     this.turretList.push(
-    //         {
-    //             x: 13,
-    //             y: 2,
-    //             fireRate: 6,
-    //             spinning: true,
-    //             cross: false,
-    //             pSpeed: 100,
-    //             pLifeTime: 4,
-    //             pMove: EasingProjectile.prototype.spiral,
-    //             pEasing: function (t) {
-    //                 return smoothStopN(t, 2);
-    //             },
-    //             initialDelay: 0,
-    //             burstDelay: 0,
-    //             burstNum: 1
-    //         });
-    //
-    //     this.turretList.push(
-    //         {
-    //             x: 13,
-    //             y: 2,
-    //             fireRate: 6,
-    //             spinning: true,
-    //             cross: false,
-    //             pSpeed: 100,
-    //             pLifeTime: 5,
-    //             pMove: EasingProjectile.prototype.spiral,
-    //             pEasing: function (t) {
-    //                 return smoothStopN(t, 2);
-    //             },
-    //             initialDelay: 0,
-    //             burstDelay: 0,
-    //             burstNum: 1
-    //         });
+        this.turretList.push(
+            {
+                x: 8,
+                y: 2,
+                fireRate: 10,
+                spinning: true,
+                cross: false,
+                pSpeed: 75,
+                pLifeTime: 3,
+                pMove: EasingProjectile.prototype.circle,
+                pEasing: function (t) {
+                    return 0;
+                },
+                initialDelay: 0,
+                burstDelay: 0,
+                burstNum: 1
+            });
+
+        this.turretList.push(
+            {
+                x: 10,
+                y: 1,
+                fireRate: 10,
+                spinning: true,
+                cross: false,
+                pSpeed: 75,
+                pLifeTime: 3,
+                pMove: EasingProjectile.prototype.circle,
+                pEasing: function (t) {
+                    return 0.5;
+                },
+                initialDelay: 0,
+                burstDelay: 0,
+                burstNum: 1
+            });
+
+        this.turretList.push(
+            {
+                x: 10,
+                y: 3,
+                fireRate: 10,
+                spinning: true,
+                cross: false,
+                pSpeed: 75,
+                pLifeTime: 3,
+                pMove: EasingProjectile.prototype.circle,
+                pEasing: function (t) {
+                    return 0.42;
+                },
+                initialDelay: 0,
+                burstDelay: 0,
+                burstNum: 1
+            });
+
+        this.turretList.push(
+            {
+                x: 13,
+                y: 2,
+                fireRate: 6,
+                spinning: true,
+                cross: false,
+                pSpeed: 100,
+                pLifeTime: 2,
+                pMove: EasingProjectile.prototype.spiral,
+                pEasing: function (t) {
+                    return smoothStopN(t, 2);
+                },
+                initialDelay: 0,
+                burstDelay: 0,
+                burstNum: 1
+            });
+
+        this.turretList.push(
+            {
+                x: 13,
+                y: 2,
+                fireRate: 6,
+                spinning: true,
+                cross: false,
+                pSpeed: 100,
+                pLifeTime: 4,
+                pMove: EasingProjectile.prototype.spiral,
+                pEasing: function (t) {
+                    return smoothStopN(t, 2);
+                },
+                initialDelay: 0,
+                burstDelay: 0,
+                burstNum: 1
+            });
+
+        this.turretList.push(
+            {
+                x: 13,
+                y: 2,
+                fireRate: 6,
+                spinning: true,
+                cross: false,
+                pSpeed: 100,
+                pLifeTime: 5,
+                pMove: EasingProjectile.prototype.spiral,
+                pEasing: function (t) {
+                    return smoothStopN(t, 2);
+                },
+                initialDelay: 0,
+                burstDelay: 0,
+                burstNum: 1
+            });
     }
 }
