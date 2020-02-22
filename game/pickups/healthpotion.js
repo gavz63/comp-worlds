@@ -11,7 +11,7 @@ class HealthPotion extends Entity {
     update() {
         this.scale[0] = STANDARD_DRAW_SCALE * this.addScale;
         if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
-            this.game._player.heal(1);
+            this.game._player.heal(this.game.player.characterClass.stats.maxHP - this.game.player.hp);
             this.destroy();
         }
     }

@@ -13,7 +13,7 @@ class Level1
 		"####################" +
 		"S---#-#------#-----#" +
 		"###---H------H-----#" +
-		"###-###------#-----#" +
+		"#######------#-----#" +
 		"###-###########--###" +
     
 		"#----------##------#" +
@@ -45,7 +45,7 @@ class Level1
     {
       x: 17,
       y: 16,
-      characterClass: new Lancer("")
+      characterClass: new Lancer()
     });
     
     this.pickupList.push({
@@ -622,17 +622,5 @@ class Level1
       y: 8,
       type: Key.prototype
     });
-    this.pickupList.push(
-    {
-      x: 1,
-      y: 1,
-      type: Key.prototype
-    });
-    this.pickupList.push(
-    {
-      x: 1,
-      y: 1,
-      type: Key.prototype
-    });
-	}		
+	}
 }
