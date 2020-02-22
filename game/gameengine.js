@@ -136,7 +136,7 @@ class GameEngine {
 
     controlsPageInit(ctx) {
         this.destroyLevel();
-        this._sceneManager.LoadLevel(new LevelFake());
+        this._sceneManager.LoadLevel(new LevelFake(), []);
 
         this._ctx = ctx;
         this._surfaceWidth = this._ctx.canvas.width;
