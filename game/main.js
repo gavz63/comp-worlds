@@ -7,6 +7,10 @@ if (sessionStorage.getItem('master_volume') === null
     window.location.href = '../index.html';
 }
 
+window.onbeforeunload = function() {
+    return "Leaving this page will reset the wizard";
+};
+
 const ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/map/grounds.png");
