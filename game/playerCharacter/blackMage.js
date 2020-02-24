@@ -140,7 +140,7 @@ function BlackMage() {
         specialMelee: false,
         specialSpeed: 20,
         specialLifetime: 3,
-        specialChargeTime: 0.1,
+        specialChargeTime: 10,
         specialChargeFromKill: 0,
         maxProjectiles: 2
     };
