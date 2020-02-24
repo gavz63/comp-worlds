@@ -43,7 +43,7 @@ class Turret extends Entity {
         this.attackTimer.pause();
         new TimerCallback(this.game, initialDelay, false, function () { that.attackTimer.unpause(); });
 
-        this.game.addEntity(this, LAYERS.ENEMY_PROJECTILES);
+        this.game.addEntity(this, LAYERS.FLOOR);
     }
 
     update() {
