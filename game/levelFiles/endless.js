@@ -21,7 +21,7 @@ class Endless {
         this.unlockableCharacter = [];
 
         this.playerSpawner = {
-            maxAtOnce: 25,
+            maxAtOnce: 15,
             spawnList:
             [Bat.prototype, CactusBoi.prototype, HedgeMonster.prototype,
             PuddleJumper.prototype, Skeleton.prototype, Snek.prototype,
