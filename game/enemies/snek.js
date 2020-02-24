@@ -19,7 +19,7 @@ class Snek extends Enemy {
         this.projectileAnimation = new Animation(game.AM.getAsset("./img/projectiles/BallPulseGreen.png"),
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 3, y: 0},
-            10, true, STANDARD_DRAW_SCALE/2);
+            10, true, STANDARD_DRAW_SCALE, 0.75);
 
         this.animation = this.moveAnimation;
         this.speed = 45;

@@ -53,11 +53,15 @@ class Projectile extends Entity {
             this.game.addEntity(this, LAYERS.ENEMY_PROJECTILES);
         }
 	
-		this.myAddScale = 1;	
-		this.myScale = [this.animation._scale];
+        this.myAddScale = 1;
+        if(this.animation._addScale !== -1)
+        {
+          this.myAddScale = this.animation._addScale;
+        }
+        this.myScale = [this.animation._scale];
 
-		
-		this.animation._scale = this.myScale;
+        
+        this.animation._scale = this.myScale;
     }
 
     update() {
@@ -92,6 +96,8 @@ class Projectile extends Entity {
     }
 
     testCollision() {
+      if(this.game.player !== null)
+      {
         var that = this;
 
         if (this.animation.isDone()) {
@@ -122,6 +128,7 @@ class Projectile extends Entity {
                 this.game.player.takeDmg(1, attackedFromDir);
             }
         }
+      }
     }
 
     draw() {
@@ -170,10 +177,10 @@ class EasingProjectile extends Projectile {
     }
 
     update() {
-		//console.log(this.myAddScale);
-		this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
-        this.testCollision();
-        this.move();
+      //console.log(this.myAddScale);
+      this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+      this.testCollision();
+      this.move();
     }
 
     line() {
@@ -244,60 +251,60 @@ class SpawnerProjectile extends EasingProjectile {
   
   spawn()
   {
-	 let t = 0;
-	 if(this.circleTimer !== null)
-	 {
-		t = this.easing(this.circleTimer.getPercent());
-	 }
-	 let circle = 0;
-	 if(this.spawnDir.right)
-	 {
-		 for(let i = 0; i < this.shots; i++)
-		 {
-			let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
-				16, 16,
-				{x: 0, y: 0}, {x: 3, y: 0},
-				6, true, STANDARD_DRAW_SCALE);
-			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + t * 2 * Math.PI), y: Math.sin(circle + t * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
-			if(this.attach) p.attachTo(this);
-		 }
-	 }
-	 if(this.spawnDir.down)
-	 {
-		 for(let i = 0; i < this.shots; i++)
-		 {
-			let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
-				16, 16,
-				{x: 0, y: 0}, {x: 3, y: 0},
-				6, true, STANDARD_DRAW_SCALE);
-			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + (t + 0.25) * 2 * Math.PI), y: Math.sin(circle + (t + 0.25) * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
-			if(this.attach)p.attachTo(this);
-		 }
-	 }
-	 if(this.spawnDir.left)
-	 {
-		 for(let i = 0; i < this.shots; i++)
-		 {
-			let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
-				16, 16,
-				{x: 0, y: 0}, {x: 3, y: 0},
-				6, true, STANDARD_DRAW_SCALE);
-			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + (t + 0.5) * 2 * Math.PI), y: Math.sin(circle + (t + 0.5) * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
-			if(this.attach)p.attachTo(this);
-		 }
-	 }
-	 if(this.spawnDir.up)
-	 {
-		 for(let i = 0; i < this.shots; i++)
-		 {
-			let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
-				16, 16,
-				{x: 0, y: 0}, {x: 3, y: 0},
-				6, true, STANDARD_DRAW_SCALE);
-			let p = new Projectile(this.game, 0, 0, {x: Math.cos(circle + (t + 0.75) * 2 * Math.PI), y: Math.sin(circle + (t + 0.75) * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
-			if(this.attach)p.attachTo(this);
-		 }
-	 }
+    let t = 0;
+    if(this.circleTimer !== null)
+    {
+    t = this.easing(this.circleTimer.getPercent());
+    }
+    let circle = 0;
+    if(this.spawnDir.right)
+    {
+     for(let i = 0; i < this.shots; i++)
+     {
+      let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+        16, 16,
+        {x: 0, y: 0}, {x: 3, y: 0},
+        6, true, STANDARD_DRAW_SCALE);
+      let p = new Projectile(this.game, this.x, this.y, {x: Math.cos(circle + t * 2 * Math.PI), y: Math.sin(circle + t * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
+      if(this.attach) p.attachTo(this);
+     }
+    }
+    if(this.spawnDir.down)
+    {
+     for(let i = 0; i < this.shots; i++)
+     {
+      let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+        16, 16,
+        {x: 0, y: 0}, {x: 3, y: 0},
+        6, true, STANDARD_DRAW_SCALE);
+      let p = new Projectile(this.game, this.x, this.y, {x: Math.cos(circle + (t + 0.25) * 2 * Math.PI), y: Math.sin(circle + (t + 0.25) * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
+      if(this.attach)p.attachTo(this);
+     }
+    }
+    if(this.spawnDir.left)
+    {
+     for(let i = 0; i < this.shots; i++)
+     {
+      let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+        16, 16,
+        {x: 0, y: 0}, {x: 3, y: 0},
+        6, true, STANDARD_DRAW_SCALE);
+      let p = new Projectile(this.game, this.x, this.y, {x: Math.cos(circle + (t + 0.5) * 2 * Math.PI), y: Math.sin(circle + (t + 0.5) * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
+      if(this.attach)p.attachTo(this);
+     }
+    }
+    if(this.spawnDir.up)
+    {
+     for(let i = 0; i < this.shots; i++)
+     {
+      let a = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+        16, 16,
+        {x: 0, y: 0}, {x: 3, y: 0},
+        6, true, STANDARD_DRAW_SCALE);
+      let p = new Projectile(this.game, this.x, this.y, {x: Math.cos(circle + (t + 0.75) * 2 * Math.PI), y: Math.sin(circle + (t + 0.75) * 2 * Math.PI)}, i * 9.6, 1/50, true, this, a, 1, 1, 0);
+      if(this.attach)p.attachTo(this);
+     }
+    }
   }
   
 	destroy() {

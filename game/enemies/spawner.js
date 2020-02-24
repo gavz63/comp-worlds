@@ -108,56 +108,56 @@ class Spawner {
 
     // Make sure the player is in the radius of the spawner, if not reset and pause the spawn timer.
     update() {
-        if (this.game.player !== undefined) {
+        if (this.game.player !== undefined && this.game.player !== null) {
             //If player is in radius
-			if(this.owner === null)
-			{
-				if (circleToCircle(this.game.player, this)) {
-					// Spawn immediately the first time
-					this.trySpawn();
-				} else {
-					this.spawn_timer.pause();
-				}
-			}
-			else
-			{
-				let x = coordinateToIndex(this.game.player.x);
-				let y = coordinateToIndex(this.game.player.y);
-				if(x <= this.owner.room.bottomRight.x && x >= this.owner.room.upperLeft.x && y <= this.owner.room.bottomRight.y && y >= this.owner.room.upperLeft.y)
-				{
-          if(this.delayTimer.removeFromWorld !== true)
+          if(this.owner === null)
           {
-            this.delayTimer.unpause();
+            if (circleToCircle(this.game.player, this)) {
+              // Spawn immediately the first time
+              this.trySpawn();
+            } else {
+              this.spawn_timer.pause();
+            }
           }
           else
           {
-            this.trySpawn();
+            let x = coordinateToIndex(this.game.player.x);
+            let y = coordinateToIndex(this.game.player.y);
+            if(x <= this.owner.room.bottomRight.x && x >= this.owner.room.upperLeft.x && y <= this.owner.room.bottomRight.y && y >= this.owner.room.upperLeft.y)
+            {
+              if(this.delayTimer.removeFromWorld !== true)
+              {
+                this.delayTimer.unpause();
+              }
+              else
+              {
+                this.trySpawn();
+              }
+              if(this.owner.lockCam === true)
+              {
+                this.game._camera._desiredLoc.x = this.owner.x;
+                this.game._camera._desiredLoc.y = this.owner.y;
+                this.owner.camLocked = true;
+              }
+            }
+            else
+            {
+              if(this.delayTimer.removeFromWorld !== true)
+              {
+                this.delayTimer.reset();
+              }
+              else
+              {
+                this.spawn_timer.pause();
+              }
+              this.owner.camLocked = false;
+            }
+            if(!this.shouldSpawn() && this.numOut === 0){
+              this.owner.finishedCount++;
+              this.destroy();
+              return false;
+            }
           }
-          if(this.owner.lockCam === true)
-          {
-            this.game._camera._desiredLoc.x = this.owner.x;
-            this.game._camera._desiredLoc.y = this.owner.y;
-            this.owner.camLocked = true;
-          }
-				}
-				else
-				{
-          if(this.delayTimer.removeFromWorld !== true)
-          {
-            this.delayTimer.reset();
-          }
-          else
-          {
-            this.spawn_timer.pause();
-          }
-          this.owner.camLocked = false;
-				}
-				if(!this.shouldSpawn() && this.numOut === 0){
-					this.owner.finishedCount++;
-					this.destroy();
-					return false;
-				}
-			}
         }
     }
 	
