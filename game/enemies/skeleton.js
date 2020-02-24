@@ -1,7 +1,7 @@
 class Skeleton extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
-        this._myScale = [2 * STANDARD_DRAW_SCALE];
+        this._myScale = [1.5 * STANDARD_DRAW_SCALE];
         
         this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/SkeletonWalk.png"),
             STANDARD_ENTITY_FRAME_WIDTH,

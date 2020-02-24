@@ -13,9 +13,12 @@ class Key extends Entity {
     update() {
         this.scale[0] = STANDARD_DRAW_SCALE * this.addScale;
 
-        if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
-            this.game._player.keys += 1;
-            this.destroy();
+        if(this.game._player !== undefined)
+        {
+          if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
+              this.game._player.keys += 1;
+              this.destroy();
+          }
         }
     }
 }

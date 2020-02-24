@@ -240,8 +240,6 @@ class GameEngine {
      */
     update() {
         
-        
-        
         if(this.entities[LAYERS.PUDDLEREMNANTS].length >= 90)
         {
           this.entities[LAYERS.PUDDLEREMNANTS].length = 3;
@@ -249,43 +247,19 @@ class GameEngine {
     
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
-                var i = 0;
-                for (i = 0; i < this._entities[LAYERS.FLOOR].length; i++) {
-                    if (this.entities[LAYERS.FLOOR][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.FLOOR][i]);
-                        continue;
-                    }
-                    this.entities[LAYERS.FLOOR][i].update();
-                }
-                for (i = 0; i < this.entities[LAYERS.MAIN].length; i++) {
-                    if (this.entities[LAYERS.MAIN][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.MAIN][i]);
-                        continue;
-                    }
-                    this.entities[LAYERS.MAIN][i].update();
-                }
-                for (i = 0; i < this.entities[LAYERS.ENEMY_PROJECTILES].length; i++) {
-                    if (this.entities[LAYERS.ENEMY_PROJECTILES][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.ENEMY_PROJECTILES][i]);
-                        continue;
-                    }
-                }
-                for (i = 0; i < this.entities[LAYERS.WALL].length; i++) {
-                    if (this.entities[LAYERS.WALL][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.WALL][i]);
-                        continue;
-                    }
-                    this.entities[LAYERS.WALL][i].update();
-                }
-                for (i = 0; i < this._entities[LAYERS.HUD].length; i++) {
-                    if (this.entities[LAYERS.HUD][i].removeFromWorld) {
-                        this.removeEntity(this.entities[LAYERS.HUD][i]);
-                        continue;
-                    }
-                    this.entities[LAYERS.HUD][i].update();
-                }
-                this.click = false;
+                for (var i = 0; i < this._entities.length; i++) {
+                    let entityCount = this._entities[i].length;
+                    for (var j = 0; j < entityCount; j++) {
+                        if (this.entities[i][j].removeFromWorld) {
+                            this.removeEntity(this.entities[i][j]);
+                            entityCount = this.entities[i].length;
+                            j--;
+                            continue;
+                        }
 
+                        this.entities[i][j].update();
+                    }
+                }
                 var timersCount = this.timers.length;
 
                 for (var i = 0; i < timersCount; i++) {

@@ -44,7 +44,7 @@ class Animation {
      * @param {*} scale The scaling ratio that you would like your animation to
      *      be drawn with. Throws an exception if scale isn't positive.
      */
-    constructor(spriteSheet, frameWidth, frameHeight, firstFrame, lastFrame, fps, loop, scale) {
+    constructor(spriteSheet, frameWidth, frameHeight, firstFrame, lastFrame, fps, loop, scale, addScale = -1) {
         // Check width.
         let i = 0;
         while (i < spriteSheet.width) {
@@ -90,21 +90,22 @@ class Animation {
         this._frameHeight = frameHeight;
         this._sheetWidth = this._spriteSheet.width / this._frameWidth;
         this._sheetHeight = this._spriteSheet.height / this._frameHeight;
-		this._width = frameWidth;
-		this._height = frameHeight;
+        this._width = frameWidth;
+        this._height = frameHeight;
         this._firstFrame = firstFrame;
         this._lastFrame = lastFrame;
         this._frameDuration = Infinity;
-		this._setFrame = 0;
-		this._paused = false;
+        this._setFrame = 0;
+        this._paused = false;
         if (fps !== 0) {
             this._frameDuration = (1 / Math.abs(fps));
         }
         this._reverse = (fps < 0) ? true : false;
         this._loop = loop;
         this._scale = scale;
+        this._addScale = addScale;
         this._totalFrames = 0;
-		this._screen = false;
+        this._screen = false;
 
         // Calculate total frames using row-major order.
         if (this._firstFrame.y < this._lastFrame.y

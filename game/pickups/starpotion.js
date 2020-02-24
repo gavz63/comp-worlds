@@ -9,10 +9,13 @@ class StarPotion extends Entity {
     }
 
     update() {
-        this.scale[0] = STANDARD_DRAW_SCALE * this.addScale;
-        if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
-            console.log("mario star");
-            this.destroy();
+        if(this.game._player !== undefined)
+        {
+          this.scale[0] = STANDARD_DRAW_SCALE * this.addScale;
+          if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
+              console.log("mario star");
+              this.destroy();
+          }
         }
     }
 }
