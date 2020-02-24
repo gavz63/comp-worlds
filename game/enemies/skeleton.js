@@ -2,7 +2,7 @@ class Skeleton extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
         this._myScale = [1.5 * STANDARD_DRAW_SCALE];
-        
+
         this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/SkeletonWalk.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
@@ -20,11 +20,11 @@ class Skeleton extends Enemy {
         this.animation.unpause();
 
         this.speed = 75;
-        this.radius = STANDARD_ENTITY_RADIUS*0.5;
+        this.radius = STANDARD_ENTITY_RADIUS * 0.5;
         this.isAttacking = false;
 
         this.hp = 3;
-        
+
         this.projectileAnimation = new Animation(game.AM.getAsset("./img/projectiles/BoneProjectile.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
@@ -33,38 +33,41 @@ class Skeleton extends Enemy {
     }
 
     update() {
-        let skelPlayVector = dirV(this, this.game._player);
-        let attackVector = normalizeV(skelPlayVector);
+        let vecToPlayer = dirV(this, this.game._player);
+        let attackVector = normalizeV(vecToPlayer);
 
         if (this.isAttacking) {
             if (this.animation.isDone()) {
-                this.animation.resetAnimation();
-                this.animation.unpause();
+
                 new Projectile(this.game,
                     this.x, this.y,
                     attackVector,
-                    200, 4, true,
-                    this, this.projectileAnimation,
-                    1, 20, 10);
+                    200, 1.25, true, this,
+                    this.projectileAnimation,
+                    1, 2);
+
+                this.animation.resetAnimation();
+                this.animation.unpause();
             }
         } else {
             this.pathfind(1000, 50);
-            if (lengthV(skelPlayVector) > 150 ||
+            if (lengthV(vecToPlayer) > 125 ||
                 (this.goalPoint.x === this.game.player.x &&
                     this.goalPoint === this.game.player.y)) {
 
-                if (this.aboutToAttackTimer) {
-                    this.aboutToAttackTimer.destroy();
-                    this.aboutToAttackTimer = null;
+                if (this.waitTimer) {
+                    this.waitTimer.destroy();
+                    this.waitTimer = null;
+                }
+                if (this.attackTimer) {
+                    this.attackTimer.destroy();
+                    this.attackTimer = null;
                 }
                 if (this.goalPoint) {
                     this.go(normalizeV(dirV(this, this.goalPoint)));
                 }
-            } else {
-                let that = this;
-                this.aboutToAttackTimer = new TimerCallback(this.game, 2.5, false, function () {
-                        that.attack();
-                    });
+            } else if (!this.waitTimer) {
+                this.attack();
             }
         }
     }
@@ -77,10 +80,13 @@ class Skeleton extends Enemy {
         let that = this;
 
         //Attack repeatedly until this calls back
-        new TimerCallback(this.game, 1.5, false, function () {
+        this.attackTimer = new TimerCallback(this.game, 1.5, false, function () {
             that.isAttacking = false;
             that.animation = that.moveAnimation;
             that.animation.unpause();
+            that.waitTimer = new TimerCallback(that.game, 0.5, false, function () {
+                that.waitTimer = null;
+            })
         });
     }
 }
