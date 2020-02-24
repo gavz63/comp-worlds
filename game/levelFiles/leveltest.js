@@ -43,7 +43,7 @@ class Level3 {
             y: 2,
             max: 1,
             freq: 3,
-            list: [CactusBoi.prototype],
+            list: [Skeleton.prototype],
             rand: false,
             radius: 96 * 4,
             total: 1,
