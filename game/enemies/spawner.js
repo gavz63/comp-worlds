@@ -243,33 +243,7 @@ class PlayerSpawner {
                     this._currentEnemies.push(new this._spawnList[i].constructor(this._game, x, y, null));
                 }
             };
-            /*
-            for (let h = TL.x; h <= BR.x; h++) {
-                if (!(h < 0 || h >= this._game._sceneManager.level._width
-                    || TL.y < 0 || TL.y >= this._game._sceneManager.level._height
-                    || BR.y < 0 || BR.y >= this._game._sceneManager.level._height)) {
-                    if (this._game._sceneManager.level._map[h][TL.y] === "-") {
-                        spawnStuff(indexToCoordinate(h), indexToCoordinate(TL.y));
-                    }
-                    if (this._game._sceneManager.level._map[h][BR.y] === "-") {
-                        spawnStuff(indexToCoordinate(h), indexToCoordinate(BR.y));
-                    }
-                }
-            }
 
-            for (let v = TL.y + 1; v <= BR.y - 1; v++) {
-                if (!(v < 0 || v >= this._game._sceneManager.level._height
-                    || TL.x < 0 || TL.x >= this._game._sceneManager.level._width
-                    || BR.x < 0 || BR.x >= this._game._sceneManager.level._width)) {
-                    if (this._game._sceneManager.level._map[TL.x][v] === "-") {
-                        spawnStuff(indexToCoordinate(TL.x), indexToCoordinate(v));
-                    }
-                    if (this._game._sceneManager.level._map[BR.x][v] === "-") {
-                        spawnStuff(indexToCoordinate(BR.x), indexToCoordinate(v));
-                    }
-                }
-            }
-            */
             let x1 = Math.floor(Math.random() * (BR.x - TL.x + 1)) + TL.x;
             let x2 = Math.floor(Math.random() * (BR.x - TL.x + 1)) + TL.x;
             let y1 = Math.floor(Math.random() * (BR.y - TL.y + 1)) + TL.y;

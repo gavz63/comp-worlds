@@ -44,7 +44,7 @@ class Turtle extends Enemy {
         } else if (!this.reloading && !this.isAttacking) {
             this.pathfind(1000, 50);
             let vecToPlayer = dirV(this, this.game._player);
-            if (lengthV(vecToPlayer) > 60 ||
+            if (lengthV(vecToPlayer) > 75 ||
                 (this.goalPoint.x === this.game.player.x &&
                 this.goalPoint === this.game.player.y)) {
 
