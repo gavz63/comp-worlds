@@ -288,11 +288,11 @@ class PlayerSpawner {
             && this._game._sceneManager.level._map[BR.x][y2] === "-") spawnStuff(indexToCoordinate(BR.x), indexToCoordinate(y2));
         }
 
-        if (this._game.game_state === GAME_STATES.PLAYING) {
+        if (this._game.game_state === GAME_STATES.PLAYING && this._currentEnemies.length == this._maxAtOnce) {
             let clear = true;
             let p = {x: this._game.player.x, y: this._game.player.y};
             this._currentEnemies.forEach((e) => {
-                if (Math.sqrt((p.x - e.x) * (p.x - e.x) + (p.y - e.y) * (p.y - e.y)) < 420) {
+                if (Math.sqrt((p.x - e.x) * (p.x - e.x) + (p.y - e.y) * (p.y - e.y)) < 500) {
                     clear = false;
                 }
             });

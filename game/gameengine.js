@@ -24,7 +24,8 @@ const LAYERS = {
     WALL: 9,
     DOOR: 10,
     PARTICLES: 11,
-    HUD: 12
+    HUD: 12,
+    PRIORITY: 13
 };
 
 // ORIGINAL LAYERS WERE
@@ -59,6 +60,7 @@ class GameEngine {
         this._entities[LAYERS.WALL] = [];
         this._entities[LAYERS.PARTICLES] = [];
         this._entities[LAYERS.HUD] = [];
+        this._entities[LAYERS.PRIORITY] = [];
         this._ctx = null;
 
         this.timers = [];
@@ -177,7 +179,7 @@ class GameEngine {
     addEntity(entity, layer) {
 
         entity.layer = layer;
-        if(layer < LAYERS.FLOOR || layer > LAYERS.HUD) {
+        if(layer < LAYERS.FLOOR || layer > LAYERS.PRIORITY) {
             throw "Invalid layer int parameter.";
         }
 
@@ -228,7 +230,7 @@ class GameEngine {
     }
 
     destroyLevel() {
-        for (let i = 0; i < this._entities.length; i++) {
+        for (let i = 0; i < this._entities.length - 1; i++) {
             this._entities[i] = [];
         }
         this.timers = []
@@ -239,6 +241,17 @@ class GameEngine {
      * needed anymore.
      */
     update() {
+
+        let entityCount = this.entities[LAYERS.PRIORITY].length;
+        for (let i = 0; i < entityCount; i++) {
+            if (this.entities[LAYERS.PRIORITY][j].removeFromWorld) {
+                this.removeEntity(this.entities[LAYERS.PRIORITY][j]);
+                entityCount = this.entities[LAYERS.PRIORITY].length;
+                i--;
+                continue;
+            }
+            this.entities[LAYERS.PRIORITY][i].update();
+        }
         
         if(this.entities[LAYERS.PUDDLEREMNANTS].length >= 90)
         {
@@ -248,7 +261,7 @@ class GameEngine {
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
                 for (var i = 0; i < this._entities.length; i++) {
-                    let entityCount = this._entities[i].length;
+                    entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
                         if (this.entities[i][j].removeFromWorld) {
                             this.removeEntity(this.entities[i][j]);
@@ -280,7 +293,7 @@ class GameEngine {
             case GAME_STATES.GAME_OVER:
 
                 for (var i = 0; i < this._entities.length; i++) {
-                    let entityCount = this._entities[i].length;
+                    entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
                         if (this.entities[i][j].removeFromWorld) {
                             this.removeEntity(this.entities[i][j]);
