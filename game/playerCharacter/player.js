@@ -413,6 +413,10 @@ class Player extends Entity {
         this.isAttacking = true;
 
         let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
+		
+		let that = this;
+		
+	    console.log(raycast({x: that.x, y: that.y}, cursorCenter, 20, function(pt) { return that.game._sceneManager.level.quickCollision(coordinateToIndex(pt.x), coordinateToIndex(pt.y)); }));
 
         let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
 
