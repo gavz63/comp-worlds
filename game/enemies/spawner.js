@@ -241,6 +241,7 @@ class PlayerSpawner {
                 let i = Math.floor(Math.random() * this._probs.length);
                 if (Math.random() * 100 <= this._probs[i]) {
                     this._currentEnemies.push(new this._spawnList[i].constructor(this._game, x, y, null));
+                    console.log("enemy spawned");
                 }
             };
             /*
@@ -288,7 +289,7 @@ class PlayerSpawner {
             && this._game._sceneManager.level._map[BR.x][y2] === "-") spawnStuff(indexToCoordinate(BR.x), indexToCoordinate(y2));
         }
 
-        if (this._game.game_state === GAME_STATES.PLAYING && this._currentEnemies.length == this._maxAtOnce) {
+        if (this._game.game_state === GAME_STATES.PLAYING && this._currentEnemies.length >= this._maxAtOnce) {
             let clear = true;
             let p = {x: this._game.player.x, y: this._game.player.y};
             this._currentEnemies.forEach((e) => {

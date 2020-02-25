@@ -34,13 +34,23 @@ class Level1
 		"####---------------E" +
 		"####################";
 		
-		this.playerSpawner = null;
+		//this.playerSpawner = null;
+		this.playerSpawner = {
+            maxAtOnce: 1,
+            spawnList:
+            [Bat.prototype, CactusBoi.prototype,
+            PuddleJumper.prototype, Skeleton.prototype, Snek.prototype,
+            StoneGolem.prototype],
+            probs: [50, 10, 40, 35, 25, 15]
+        };
+
+
 		this.roomSpawnerList = [];
 		this.spawnerList = [];
 		this.turretList = [];
 		this.spawnerProjectileList = [];
 		this.pickupList = [];
-    this.unlockableCharacter = [];
+    	this.unlockableCharacter = [];
     
     this.unlockableCharacter.push(
     {

@@ -1,8 +1,12 @@
 class Endless {
 	constructor() {
 		this.width = Math.floor(Math.random() * 25) + 20;
-		this.height = Math.floor(Math.random() * 25) + 20;
-		this.floorType = Math.floor(Math.random() * 4);
+        this.height = Math.floor(Math.random() * 25) + 20;
+        let randomness = Math.floor(Math.random() * 100);
+        if (randomness < 50) this.floorType = 0;
+        if (randomness >= 50 && randomness < 75) this.floorType = 3;
+        if (randomness >= 75 && randomness < 87) this.floorType = 1;
+        if (randomness >= 87 && randomness < 100) this.floorType = 2;
 		if (this.floorType <= 0) {
             this.wallType = 0;
         } else {
