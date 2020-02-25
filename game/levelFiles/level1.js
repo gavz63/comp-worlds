@@ -321,6 +321,8 @@ class Level1
       delay: 0
 		});
     
+	
+	// room 4
     this.pickupList.push(
     {
       x: 10,
@@ -332,7 +334,7 @@ class Level1
 		{
 			x: 15.5,
 			y: 6.5,
-			room: {upperLeft: {x: 2, y: 5}, bottomRight: {x: 9, y: 7}},
+			room: {upperLeft: {x: 3, y: 5}, bottomRight: {x: 9, y: 7}},
       lockCam: false,
 			dropKey: false
 		});
@@ -453,7 +455,57 @@ class Level1
 			roomNum: 3,
       delay: 0
 		});
-        
+	this.turretList.push (
+    {
+      x: 0.5,
+      y: 6.75,
+      fireRate: 9,
+      spinning: false,
+      cross: false,
+      pDirection: 0,
+      pSpeed: 96 * 7,
+      pLifeTime: 5,
+      pMove: EasingProjectile.prototype.line,
+      pEasing: function (t) { return t; },
+      initialDelay: 0,
+      burstDelay: 3,
+      burstNum: 3
+    });
+    
+    this.turretList.push (
+    {
+      x: 0.5,
+      y: 7,
+      fireRate: 9,
+      spinning: false,
+      cross: false,
+      pDirection: 0,
+      pSpeed: 96 * 7,
+      pLifeTime: 5,
+      pMove: EasingProjectile.prototype.line,
+      pEasing: function (t) { return t; },
+      initialDelay: 0,
+      burstDelay: 3,
+      burstNum: 3
+    });
+    
+    this.turretList.push (
+    {
+      x: 0.5,
+      y: 7.25,
+      fireRate: 9,
+      spinning: false,
+      cross: false,
+      pDirection: 0,
+      pSpeed: 96 * 7,
+      pLifeTime: 5,
+      pMove: EasingProjectile.prototype.line,
+      pEasing: function (t) { return t; },
+      initialDelay: 0,
+      burstDelay: 3,
+      burstNum: 3
+    });
+    /*   
     this.turretList.push (
     {
       x: 0.5,
@@ -503,7 +555,7 @@ class Level1
       initialDelay: 2,
       burstDelay: 4,
       burstNum: 5
-    });
+    });*/
     this.pickupList.push(
     {
       x: 1,
