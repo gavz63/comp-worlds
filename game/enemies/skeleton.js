@@ -84,7 +84,7 @@ class Skeleton extends Enemy {
             that.isAttacking = false;
             that.animation = that.moveAnimation;
             that.animation.unpause();
-            that.waitTimer = new TimerCallback(that.game, 0.5, false, function () {
+            that.waitTimer = new TimerCallback(that.game, 1, false, function () {
                 that.waitTimer = null;
             })
         });
