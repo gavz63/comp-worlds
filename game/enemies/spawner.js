@@ -241,7 +241,6 @@ class PlayerSpawner {
                 let i = Math.floor(Math.random() * this._probs.length);
                 if (Math.random() * 100 <= this._probs[i]) {
                     this._currentEnemies.push(new this._spawnList[i].constructor(this._game, x, y, null));
-                    console.log("enemy spawned");
                 }
             };
             /*
