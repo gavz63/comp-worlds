@@ -17,7 +17,7 @@ class SpeedPotion extends Entity {
               this.game._player.velocity.x = 0;
               this.game._player.velocity.y = 0;
               let that = this;
-              new TimerCallback(this.game, 5, false, function () { that.game.player.speed -= 50; };
+              new TimerCallback(this.game, 5, false, function () { that.game.player.speed -= 50; });
               this.destroy();
           }
         }

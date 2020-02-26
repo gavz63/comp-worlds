@@ -19,7 +19,7 @@ class StarPotion extends Entity {
               new TimerCallback(this.game, 5, false, function () {
               that.game.player.hp = that.game.player.characterClass.stats.maxHP;
               that.game.player.screen = false;
-              that.game.player.hurt = false; };
+              that.game.player.hurt = false; });
               this.destroy();
           }
         }

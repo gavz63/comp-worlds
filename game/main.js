@@ -60,6 +60,7 @@ ASSET_MANAGER.queueDownload("./img/hud/Heart.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChangeDoorsWallsButtons.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChooseYourFighter.png");
 ASSET_MANAGER.queueDownload("./img/hud/ProgressBar.png");
+ASSET_MANAGER.queueDownload("./img/hud/HealthBar.png");
 ASSET_MANAGER.queueDownload("./img/pickups/key.png");
 ASSET_MANAGER.queueDownload("./img/pickups/potions.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/PokeSheet.png");

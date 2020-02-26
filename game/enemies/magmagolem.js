@@ -30,8 +30,10 @@ class MagmaGolem extends Enemy {
         this.isAttacking = false;
         this.goalPoint = null;
         this.dir = null;
-        this.hp = 4;
+        this.hp = 100;
         this.wait();
+        console.log(this.game._ctx);
+        this.healthBar = new HealthBar(this.game, 100, 100, this.game._ctx.canvas.width, this);
     }
 
     update() {
