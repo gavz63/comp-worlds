@@ -29,8 +29,8 @@ class Endless {
             spawnList:
             [Bat.prototype, CactusBoi.prototype, HedgeMonster.prototype,
             PuddleJumper.prototype, Skeleton.prototype, Snek.prototype,
-            StoneGolem.prototype],
-            probs: [50, 10, (this.floorType === 0) ? 1 : 0, 40, 35, 25, 15]
+            StoneGolem.prototype, Turtle.prototype],
+            probs: [50, 10, (this.floorType === 0) ? 1 : 0, 40, 35, 25, 15, 5]
         };
     }
 /*

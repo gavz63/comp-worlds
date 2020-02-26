@@ -161,9 +161,9 @@ class Level {
         this.turrets = levelFile.turretList;
         this.spawnerProjectiles = levelFile.spawnerProjectileList;
         this.buildLevel(levelFile.layout);
-       /* if (levelFile.playerSpawner !== null && levelFile.playerSpawner !== undefined) {
+        if (levelFile.playerSpawner !== null && levelFile.playerSpawner !== undefined) {
             new PlayerSpawner(this.game, levelFile.playerSpawner.maxAtOnce, levelFile.playerSpawner.spawnList, levelFile.playerSpawner.probs);
-        } */
+        }
     }
 	
 	
