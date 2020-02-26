@@ -51,6 +51,7 @@ class Player extends Entity {
 
         this.hurt = false;
         //this.hurt = true;
+        this.invincible = false;
 
         this.progressBar = new ProgressBar(this.game, 0, 0, this.animation._frameWidth, 100 / this.characterClass.stats.specialChargeTime);
         this.progressBar.offsetX = 0;
@@ -315,7 +316,7 @@ class Player extends Entity {
      * @param direction, the direction from which we were hit, so that the player can fly back from the impact.
      */
     takeDmg(dmg, direction) {
-        if (this.hurt !== true) {
+        if (this.hurt !== true && this.invincible !== true) {
             switch (direction) {
                 case DIRECTION_LEFT:
                     this.animation = this.characterClass.animation.dmgFromRight;
@@ -363,7 +364,8 @@ class Player extends Entity {
             }); // stunned
             new TimerCallback(this.game, 3, false, function () {
                 that.hurt = false;
-                that.screen = false;
+                if(!that.invincible)
+                  that.screen = false;
             });        // invincibility
 
 

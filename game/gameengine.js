@@ -70,6 +70,7 @@ class GameEngine {
         this.chars = [];
         this.keyStack = [];
         this.lastChar = null;
+        this.levelReset = false;
 
         this.currentLevel = 0;
         this.levels = [Level1.prototype, Level2.prototype];
@@ -233,7 +234,8 @@ class GameEngine {
         for (let i = 0; i < this._entities.length - 1; i++) {
             this._entities[i] = [];
         }
-        this.timers = []
+        this.timers = [];
+        this.levelReset = true;
     }
 
     /**
@@ -261,6 +263,10 @@ class GameEngine {
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
                 for (var i = 0; i < this._entities.length; i++) {
+                    if(this.resetLevel)
+                    {
+                      break;
+                    }
                     entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
                         if (this.entities[i][j].removeFromWorld) {
@@ -275,7 +281,7 @@ class GameEngine {
                 }
                 var timersCount = this.timers.length;
 
-                for (var i = 0; i < timersCount; i++) {
+                for (var i = 0; i < this.timers.length; i++) {
                     let tim = this.timers[i];
                     if (tim.removeFromWorld) {
                         this.removeTimer(tim);
