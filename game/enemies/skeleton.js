@@ -33,6 +33,7 @@ class Skeleton extends Enemy {
     }
 
     update() {
+        this._myScale[0] = 1.5 * STANDARD_DRAW_SCALE;
         let vecToPlayer = dirV(this, this.game._player);
         let attackVector = normalizeV(vecToPlayer);
 
