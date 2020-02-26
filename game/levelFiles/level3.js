@@ -44,7 +44,7 @@ class Level3 {
                 lockCam: true,
                 dropKey: false,
 				dropPotion: false,
-				zoom: DEFAULT_ZOOM * 5
+				zoom: DEFAULT_ZOOM * 6
 		});
 		
 		this.spawnerList.push (

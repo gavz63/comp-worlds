@@ -1,7 +1,7 @@
 class MagmaGolem extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
-        let spriteSheet = game.AM.getAsset("./img/enemies/StoneGolemSheet.png");
+        let spriteSheet = game.AM.getAsset("./img/enemies/MagmaGolemSheet.png");
         this.myAddScale = 10;
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         this.moveAnimation = new Animation(spriteSheet,
@@ -11,15 +11,15 @@ class MagmaGolem extends Enemy {
         this.attackAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 1}, {x: 4, y: 1}, 8, false, this.myScale);
+            {x: 4, y: 0}, {x: 3, y: 1}, 8, false, this.myScale);
         this.deathAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 3, y: 2}, 10, false, this.myScale);
+            {x: 4, y: 1}, {x: 2, y: 2}, 10, false, this.myScale);
         this.chargeAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 3}, {x: 3, y: 3}, 8, true, this.myScale);
+            {x: 3, y: 2}, {x: 1, y: 3}, 8, true, this.myScale);
 
         this.animation = this.moveAnimation;
 
