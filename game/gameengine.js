@@ -92,8 +92,6 @@ class GameEngine {
         this.game_state = GAME_STATES.CHARACTER_SELECT;
 
         this._sceneManager.LoadLevel(levelFile, npcClasses);
-
-        this.addEntity(this._camera, LAYERS.HUD);
         this._camera.update();
         this.camera.x = 0;
         this.camera.y = this.sceneManager.level.spawn.y * 96;
@@ -111,7 +109,6 @@ class GameEngine {
                 hover = false;
             }
         }
-        new Crosshair(this);
     }
 
     /**
@@ -134,6 +131,8 @@ class GameEngine {
         this._surfaceHeight = this._ctx.canvas.height;
         this.startInput();
         this._clock = new Clock();
+        new Crosshair(this);
+        this.addEntity(this._camera, LAYERS.PRIORITY);
     }
 
     controlsPageInit(ctx) {
@@ -244,8 +243,8 @@ class GameEngine {
 
         let entityCount = this.entities[LAYERS.PRIORITY].length;
         for (let i = 0; i < entityCount; i++) {
-            if (this.entities[LAYERS.PRIORITY][j].removeFromWorld) {
-                this.removeEntity(this.entities[LAYERS.PRIORITY][j]);
+            if (this.entities[LAYERS.PRIORITY][i].removeFromWorld) {
+                this.removeEntity(this.entities[LAYERS.PRIORITY][i]);
                 entityCount = this.entities[LAYERS.PRIORITY].length;
                 i--;
                 continue;
