@@ -2,7 +2,7 @@ class MagmaGolem extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
         let spriteSheet = game.AM.getAsset("./img/enemies/StoneGolemSheet.png");
-        this.myAddScale = 2;
+        this.myAddScale = 10;
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         this.moveAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH,
@@ -25,7 +25,7 @@ class MagmaGolem extends Enemy {
 
         this.speed = 20;
         this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
-        this.radius = STANDARD_ENTITY_RADIUS * 0.8;
+        this.radius = STANDARD_ENTITY_RADIUS * 0.8 * 5;
         this.isWaiting = false;
         this.isAttacking = false;
         this.goalPoint = null;
