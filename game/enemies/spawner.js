@@ -1,6 +1,6 @@
 class RoomSpawner
 {
-	constructor(game, x, y, spawners, room, lockCam, dropKey, dropPotion)
+	constructor(game, x, y, spawners, room, lockCam, dropKey, dropPotion, zoom = -1)
 	{
 		this.game = game;
 		this.x = indexToCoordinate(x);
@@ -11,9 +11,10 @@ class RoomSpawner
 		this.dropPotion = dropPotion;
 		this.finishedCount = 0;
 		this.removeFromWorld = false;
-    this.lastCam = false;
-    this.lockCam = lockCam;
-    this.camLocked = false;
+		this.lastCam = false;
+		this.lockCam = lockCam;
+		this.camLocked = false;
+		this.zoomAmt = zoom
 		
 		this.game.addEntity(this, LAYERS.SPAWNERS);
 	}
@@ -24,23 +25,36 @@ class RoomSpawner
 	
 	update()
 	{
-    if(this.lockCam && this.lastCam != this.camLocked)
-    {
-      this.game.player.camLocked = this.camLocked;
-      this.lastCam = this.camLocked;
-    }
-		if(this.finishedCount === this.spawners.length)
+		if(this.game.player !== null && this.game.player !== undefined)
 		{
-			if(this.dropKey)
+			if(this.lockCam && this.lastCam !== this.camLocked)
 			{
-				//drop Key
-				new Key(this.game, this.x, this.y);
-				
+			  this.game.player.camLocked = this.camLocked;
+			  this.lastCam = this.camLocked;
+			  
+			  if(this.camLocked && this.zoomAmt !== -1)
+			  {
+				  console.log("THIS SHOULDNT HAVE HAPPENED");
+				  this.game._camera._desiredZoom = this.zoomAmt;
+			  }
+			  else if(!this.camLocked)
+			  {
+				  this.game._camera._desiredZoom = DEFAULT_ZOOM;
+			  }
 			}
-			if (this.dropPotion) {
-			    new HealthPotion(this.game, this.x, this.y);
-            }
-			this.destroy();
+			if(this.finishedCount === this.spawners.length)
+			{
+				if(this.dropKey)
+				{
+					//drop Key
+					new Key(this.game, this.x, this.y);
+					
+				}
+				if (this.dropPotion) {
+					new HealthPotion(this.game, this.x, this.y);
+				}
+				this.destroy();
+			}
 		}
 	}
 	

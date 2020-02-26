@@ -4,7 +4,7 @@
 //H Horizontal
 //
 
-class Level3 {
+class LevelTest {
     constructor() {
         this.width = 34;
         this.height = 16;

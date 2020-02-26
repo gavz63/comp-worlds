@@ -1,8 +1,8 @@
 class MagmaGolem extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
-        let spriteSheet = game.AM.getAsset("./img/enemies/StoneGolemSheet.png");
-        this.myAddScale = 2;
+        let spriteSheet = game.AM.getAsset("./img/enemies/MagmaGolemSheet.png");
+        this.myAddScale = 10;
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         this.moveAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH,
@@ -11,27 +11,29 @@ class MagmaGolem extends Enemy {
         this.attackAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 1}, {x: 4, y: 1}, 8, false, this.myScale);
+            {x: 4, y: 0}, {x: 3, y: 1}, 8, false, this.myScale);
         this.deathAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 3, y: 2}, 10, false, this.myScale);
+            {x: 4, y: 1}, {x: 2, y: 2}, 10, false, this.myScale);
         this.chargeAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 3}, {x: 3, y: 3}, 8, true, this.myScale);
+            {x: 3, y: 2}, {x: 1, y: 3}, 8, true, this.myScale);
 
         this.animation = this.moveAnimation;
 
         this.speed = 20;
         this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
-        this.radius = STANDARD_ENTITY_RADIUS * 0.8;
+        this.radius = STANDARD_ENTITY_RADIUS * 0.8 * 5;
         this.isWaiting = false;
         this.isAttacking = false;
         this.goalPoint = null;
         this.dir = null;
-        this.hp = 4;
+        this.hp = 100;
         this.wait();
+        console.log(this.game._ctx);
+        this.healthBar = new HealthBar(this.game, 100, 100, this.game._ctx.canvas.width, this);
     }
 
     update() {

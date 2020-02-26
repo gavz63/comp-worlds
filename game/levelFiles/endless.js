@@ -23,17 +23,26 @@ class Endless {
 		this.spawnerProjectileList = [];
 		this.pickupList = [];
         this.unlockableCharacter = [];
-
         this.playerSpawner = {
             maxAtOnce: 15,
             spawnList:
             [Bat.prototype, CactusBoi.prototype, HedgeMonster.prototype,
             PuddleJumper.prototype, Skeleton.prototype, Snek.prototype,
-            StoneGolem.prototype, Turtle.prototype],
-            probs: [50, 10, (this.floorType === 0) ? 1 : 0, 40, 35, 25, 15, 5]
+            StoneGolem.prototype, Turtle.prototype, Snak.prototype],
+            probs: [50, // Bat
+                10, // Cactus
+                (this.floorType === 0) ? 1 : 0, // Hedge Monster
+                40, // Puddle Jumper
+                35, // Skeleton
+                20, // Snek
+                15, // Stone Golem
+                5, // Turtle
+                5 // Snak
+            ]
         };
     }
-/*
+    
+/* pls dont delete
     buildLevel() {
         let map = [];
     
