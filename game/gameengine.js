@@ -321,6 +321,7 @@ class GameEngine {
         }
         // Clear input
         this._clicks = [];
+        this.click = false;
     }
 
     /**
