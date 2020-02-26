@@ -277,7 +277,7 @@ class Level1
 			list: [Snek.prototype],
 			rand: false,
 			radius: 96,
-			total: 4,
+			total: 1,
 			roomNum: 2,
       delay: 0
 		});		
@@ -290,7 +290,7 @@ class Level1
 			list: [Snek.prototype],
 			rand: false,
 			radius: 96,
-			total: 4,
+			total: 1,
 			roomNum: 2,
       delay: 0
 		});		
@@ -303,7 +303,7 @@ class Level1
 			list: [Snek.prototype],
 			rand: false,
 			radius: 96,
-			total: 4,
+			total: 1,
 			roomNum: 2,
       delay: 0
 		});		
@@ -316,7 +316,7 @@ class Level1
 			list: [Snek.prototype],
 			rand: false,
 			radius: 96,
-			total: 4,
+			total: 1,
 			roomNum: 2,
       delay: 0
 		});
