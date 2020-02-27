@@ -53,11 +53,8 @@ class Player extends Entity {
         //this.hurt = true;
         this.invincible = false;
 
-        this.progressBar = new ProgressBar(this.game, 0, 0, this.animation._frameWidth, 100 / this.characterClass.stats.specialChargeTime);
-        this.progressBar.offsetX = 0;
-        this.progressBar.offsetY = (this.animation._frameHeight + this.progressBar.barFront.animation._height) * 1.1;
+        this.progressBar = new ProgressBar(this.game, 0, this.animation._height * this.animation._scale/4, this.animation._frameWidth * this.animation._scale, this, 100 / this.characterClass.stats.specialChargeTime);
 
-        this.progressBar.attachTo(this);
         this.dead = false;
     }
 
@@ -340,8 +337,11 @@ class Player extends Entity {
                 return;
             } else if (this.hp === 1) {
                 new TimerCallback(this.game, 7, false, function () {
-                    that.hp = 1;
-                    that.hearts[0].set(true);
+					if(that.hp < 1)
+					{
+						that.hp = 1;
+						that.hearts[0].set(true);
+					}
                 });
             }
 
