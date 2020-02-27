@@ -331,6 +331,9 @@ class Player extends Entity {
                 case DIRECTION_DOWN:
                     this.animation = this.characterClass.animation.dmgFromUp;
             }
+			
+			this.animation.unpause();
+			this.animation.resetAnimation();
 
             if (this.hp === 0) {
                 this.dead = true;
@@ -355,15 +358,16 @@ class Player extends Entity {
             this.hp -= dmg;
             this.isTakingDmg = true;
 
-            this.animation.resetAnimation();
+			this.animation.unpause();
+			this.animation.resetAnimation();
 
             this.hurt = true;
             var that = this;
 
             new TimerCallback(this.game, 1, false, function () {
                 that.isTakingDmg = false;
-                that.animation = that.idleAnimation;
-                that.animation.resetAnimation();
+                //that.animation = that.idleAnimation;
+                //that.animation.resetAnimation();
                 that.screen = true;
             }); // stunned
             new TimerCallback(this.game, 3, false, function () {
