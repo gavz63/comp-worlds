@@ -47,7 +47,7 @@ class RoomSpawner
 				if(this.dropKey)
 				{
 					//drop Key
-					new Key(this.game, this.x, this.y);
+					new Key(this.game, this.x, this.y, true);
 					
 				}
 				if (this.dropPotion) {

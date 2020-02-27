@@ -56,6 +56,8 @@ class Player extends Entity {
         this.progressBar = new ProgressBar(this.game, 0, this.animation._height * this.animation._scale/4, this.animation._frameWidth * this.animation._scale, this, 100 / this.characterClass.stats.specialChargeTime);
 
         this.dead = false;
+		
+
     }
 
 
@@ -80,6 +82,8 @@ class Player extends Entity {
             this.hearts[i].x = (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE);
             this.hearts[i].y = 1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE;
         }
+		this.game._ctx.font = "30px Arial";		
+		this.game._ctx.fillText("Hello World", 0, 0);
 
         var that = this;
         //Testing collision with enemies
