@@ -32,6 +32,7 @@ class SceneManager {
 
         remaining.push(new NPC(this.game, this.game.player.characterClass));
         this.game.player.destroy();
+        this.game.player = {x: 0, y: 0};
         //this.game.player.removeFromWorld = true;
         this.game._entities[LAYERS.MAIN].forEach((ent) => {
             if (ent instanceof NPC) {

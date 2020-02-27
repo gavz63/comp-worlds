@@ -81,7 +81,7 @@ class GameEngine {
         this.mousePos = {x: 0, y: 0};
     }
 
-    LoadLevel(levelFile, npcClasses) {
+    LoadLevel(levelFile, npcClasses, init = true) {
         this.player = null;
         if (this.audioManager.music) {
             this.audioManager.pauseMusic();
@@ -90,26 +90,26 @@ class GameEngine {
         this.audioManager.restartMusic();
         this.audioManager.playMusic();
         this.destroyLevel();
-        this.game_state = GAME_STATES.CHARACTER_SELECT;
 
         this._sceneManager.LoadLevel(levelFile, npcClasses);
-        this._camera.update();
-        this.camera.x = 0;
-        this.camera.y = this.sceneManager.level.spawn.y * 96;
+        if (init) {
+            this.camera._x = 0;
+            this.camera._y = this.sceneManager.level.spawn.y * 96;
+            this.switchToCharacterChooserMode(true);
+            let hover = true;
+            this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
+            for (var i = 0; i < npcClasses.length; i++) {
+                this.addEntity(new NPC(this, npcClasses[i], hover), LAYERS.MAIN);
+                if (i === 0) {
+                    hover = false;
+                }
+            }
+        }
 
         new WallHUD(this);
 
         new Floor(this);
         new Wall(this);
-
-        let hover = true;
-        this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
-        for (var i = 0; i < npcClasses.length; i++) {
-            this.addEntity(new NPC(this, npcClasses[i], hover), LAYERS.MAIN);
-            if (i === 0) {
-                hover = false;
-            }
-        }
     }
 
     /**
@@ -261,7 +261,7 @@ class GameEngine {
     
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
-                for (var i = 0; i < this._entities.length; i++) {
+                for (var i = 0; i < this._entities.length - 1; i++) {
                     if(this.resetLevel)
                     {
                       break;
@@ -297,7 +297,7 @@ class GameEngine {
             case GAME_STATES.CHANGING_LEVEL:
             case GAME_STATES.GAME_OVER:
 
-                for (var i = 0; i < this._entities.length; i++) {
+                for (var i = 0; i < this._entities.length - 1; i++) {
                     entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
                         if (this.entities[i][j].removeFromWorld) {
@@ -401,9 +401,8 @@ class GameEngine {
             }
         }
 
-        if (player) player.destroy();
-
-        this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
+        if (player && player instanceof Player) player.destroy();
+        this.game_state = GAME_STATES.CHARACTER_SELECT;
     }
 
     // Getters and setters.

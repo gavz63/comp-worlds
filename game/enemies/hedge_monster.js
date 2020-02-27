@@ -32,6 +32,7 @@ class HedgeMonster extends Enemy {
         this.isAwake = false;
         this.isActivated = false;
         this.speed = 100;
+        this.hp = 15;
     }
 
     update() {
