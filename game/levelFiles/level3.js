@@ -1,6 +1,6 @@
 class Level3 {
     constructor() {
-        this.width = 10;
+        this.width = 11;
         this.height = 10;
         this.floorType = 0;
         this.wallType = 0;
@@ -8,16 +8,16 @@ class Level3 {
         this.musicId = 'churchMusic';
 
         this.layout =
-            "##########" +
-            "S--------#" +
-            "#--------#" +
-            "#--------#" +
-            "#--------#" +
-            "#--------#" +
-            "#--------#" +
-            "#--------#" +
-            "#--------E" +
-            "##########";
+            "##########J" +
+            "S--------#J" +
+            "#--------#J" +
+            "#--------#J" +
+            "#--------#J" +
+            "#--------#J" +
+            "#--------#J" +
+            "#--------#J" +
+            "#--------HE" +
+            "##########J";
 
         this.playerSpawner = null;
 		/*this.playerSpawner = {
@@ -42,24 +42,11 @@ class Level3 {
                 y: 4.5,
                 room: {upperLeft: {x: 1, y: 1}, bottomRight: {x: 8, y: 8}},
                 lockCam: true,
-                dropKey: false,
+                dropKey: true, // drops a key at this. x, y
 				dropPotion: false,
 				zoom: DEFAULT_ZOOM * 6
 		});
-		
-		this.spawnerList.push (
-		{
-			x: 4,
-			y: 4,
-			max: 1,
-			freq: 3,
-			list: [MagmaGolem.prototype],
-			rand: false,
-			radius: 96,
-			total: 1,
-			roomNum: 1,
-			delay: Number.POSITIVE_INFINITY
-		});			
+			
 		this.spawnerList.push (
 		{
 			x: 4.5,

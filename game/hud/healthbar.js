@@ -57,6 +57,7 @@ class HealthBar extends Entity
     super.destroy();
     this.barBack.destroy();
     this.barFront.destroy();
+	this.barOutline.destroy();
   }
 }
 

@@ -32,6 +32,8 @@ class MagmaGolem extends Enemy {
         this.dir = null;
         this.hp = 100;
         this.wait();
+		
+		this.weight = 5;
 
         this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/2, 100, this.game._ctx.canvas.width * 0.9, this);
     }
@@ -107,4 +109,10 @@ class MagmaGolem extends Enemy {
             that.isWaiting = false;
         })
     }
+	
+	destroy()
+	{
+		super.destroy();
+		this.healthBar.destroy();
+	}
 }
