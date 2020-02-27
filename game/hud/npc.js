@@ -87,6 +87,12 @@ class NPC extends Entity {
         this.animation.unpause();
         this.isIdling = true;
     }
+	
+	destroy()
+	{
+		super.destroy();
+		this.idleTimer.destroy();
+	}
 }
 
 function parseNPC(npcs) {
