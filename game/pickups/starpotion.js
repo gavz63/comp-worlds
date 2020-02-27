@@ -13,7 +13,15 @@ class StarPotion extends Entity {
         {
           this.scale[0] = STANDARD_DRAW_SCALE * this.addScale;
           if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
-              console.log("mario star");
+              this.game.player.screen = true;
+              this.game.player.invincible = true;
+              this.game._player.heal(100);
+              let that = this;
+              
+              new TimerCallback(this.game, 10, false, function () {
+              that.game._player.screen = false;
+              that.game._player.invincible = false; });
+              
               this.destroy();
           }
         }
