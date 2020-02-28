@@ -168,10 +168,10 @@ class Projectile extends Entity {
         let that = this;
         
         this.update = function() {};
-        
         if(that.giveBackAmmo)
         {
           that.owner.attackCounter--;
+          that.giveBackAmmo = false;
         }
         
         new TimerCallback(this.game, 0, false, function() {
