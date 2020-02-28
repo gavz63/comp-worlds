@@ -302,7 +302,7 @@ class Level {
     quickCollision(X, Y)
     {
 	  let map = this.mapElementAt({x: X, y: Y});
-	  if(map === "#")
+	  if(map !== "-")
 	  {
 		  return 1;
 	  }

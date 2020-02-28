@@ -68,6 +68,7 @@ ASSET_MANAGER.queueDownload("./img/enemies/StoneGolemSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/MagmaGolemSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/SnekSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/SnakSheet.png");
+ASSET_MANAGER.queueDownload("./img/enemies/SnukSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/CactusBoiSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/CactusMadmanSheet.png");
 ASSET_MANAGER.queueDownload("./img/enemies/HedgeMonster.png");

@@ -26,7 +26,7 @@ class HealthBar extends Entity
   
   update()
   {
-	this.width = this.game._ctx.canvas.width * 0.9;
+	//this.width = this.game._ctx.canvas.width * 0.9;
 	  
     if(this.attached !== null)
     {
@@ -35,8 +35,8 @@ class HealthBar extends Entity
     }
 	else
 	{
-		this.x = this.game._ctx.canvas.width/2;
-		this.y = 100;
+		//this.x = this.game._ctx.canvas.width/2;
+		//this.y = 100;
 	}
   }
   
@@ -143,7 +143,7 @@ class HpBarFront extends Entity
       this.x = this.attached.x - ( (this.attached.width * this.animation._scale) / 2);
       this.y = this.attached.y - ((this.animation._height * this.animation._scale) / 2);
 	  
-	  let t = this.attached.owner.hp / 100;
+	  let t = this.attached.owner.hp / this.attached.owner.maxHp;
 	  this.animation._width = mix(smoothStartN(t, 3), smoothStopN(t, 3), t) * this.attached.width;
   }
 }

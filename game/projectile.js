@@ -166,6 +166,20 @@ class Projectile extends Entity {
 
 }
 
+class HomingProjectile extends Projectile {
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback)
+	{
+		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
+	}
+	update()
+	{
+		let direction = dirV({x: this.x, y: this.y}, {x: this.game.player.x, y: this.game.player.y});
+		direction = normalizeV(direction);
+		this.x += direction.x * this.speed;
+		this.y += direction.y * this.speed;
+	}
+}
+
 class EasingProjectile extends Projectile {
     constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing) {
       super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
