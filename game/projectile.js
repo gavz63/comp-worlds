@@ -14,7 +14,7 @@
  * @constructor
  */
 class Projectile extends Entity {
-    constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback) {
+    constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, deathAnimation = null) {
         super(game, x, y);
 
         this.startX = x;
@@ -40,6 +40,8 @@ class Projectile extends Entity {
 
         this.animation = animation;
         this.animation.resetAnimation();
+        
+        this.deathAnimation = deathAnimation;
 
         this.dmg = dmg;
         this.radius = radius;
@@ -149,12 +151,37 @@ class Projectile extends Entity {
     
     destroy()
     {
-      if(!this.removeFromWorld)
+      if(this.deathAnimation)
       {
-        this.removeFromWorld = true;
-        if(this.giveBackAmmo)
+        this.animation = this.deathAnimation;
+        let that = this;
+        
+        this.update = function() {};
+        
+        if(that.giveBackAmmo)
         {
-          this.owner.attackCounter--;
+          that.owner.attackCounter--;
+        }
+        
+        new TimerCallback(this.game, 0, false, function() {
+          if(that.animation.isDone())
+          {
+            if(!that.removeFromWorld)
+            {
+              that.removeFromWorld = true;
+            }
+          }
+        });
+      }
+      else
+      {
+        if(!this.removeFromWorld)
+        {
+          this.removeFromWorld = true;
+          if(this.giveBackAmmo)
+          {
+            this.owner.attackCounter--;
+          }
         }
       }
     }

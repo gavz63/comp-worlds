@@ -37,6 +37,7 @@ ASSET_MANAGER.queueDownload("./img/enemies/BoneManDeath.png");
 ASSET_MANAGER.queueDownload("./img/enemies/Turtle.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Egg.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Fireball.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/FireballExplodes.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Flame.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Shuriken.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BallPulseBlue.png");
