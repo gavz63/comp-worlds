@@ -23,6 +23,21 @@ class Enemy extends Entity {
             this.spawner.spawn_timer.unpause();
         }
         new Remnant(this.game, this.x, this.y, this.deathAnimation);
+        
+        let random = Math.random()*100;
+        if(random <= 0.5)
+        {
+          new StarPotion(this.game, this.x, this.y);
+        }
+        else if(random <= 1)
+        {
+          new HealthPotion(this.game, this.x, this.y);
+        }
+        else if(random <= 2)
+        {
+          new SpeedPotion(this.game, this.x, this.y);
+        }
+        
         super.destroy();
     }
 

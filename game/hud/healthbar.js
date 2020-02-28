@@ -1,12 +1,12 @@
 class HealthBar extends Entity
 {
-  constructor(game, x, y, width, owner)
+  constructor(game, x, y, scale, owner, count = 0, max = 0)
   {
     super(game, x, y);
     
     this.offsetX = x;
     this.offsetY = y;
-    this.width = width;
+    this.scale = scale;
     this.owner = owner;
     this.healAmt = 0;
     this.attached = null;
@@ -22,11 +22,15 @@ class HealthBar extends Entity
     this.barFront.animation.setFrame(0);
     
     this.game.addEntity(this, LAYERS.HUD);
+	
+	this.width = this.game._ctx.canvas.width * this.scale;
+	this.count = count;
+	this.max = max;
   }
   
   update()
   {
-	//this.width = this.game._ctx.canvas.width * 0.9;
+	this.width = this.game._ctx.canvas.width * this.scale;
 	  
     if(this.attached !== null)
     {
@@ -35,8 +39,16 @@ class HealthBar extends Entity
     }
 	else
 	{
-		//this.x = this.game._ctx.canvas.width/2;
-		//this.y = 100;
+		if(this.scale !== 0.9)
+		{
+			this.x = this.game._ctx.canvas.width/(this.max * 2) + this.game._ctx.canvas.width/(this.max * 2) * (this.count * 2);
+			this.y = 100;
+		}
+		else
+		{
+			this.x = this.game._ctx.canvas.width/2;
+			this.y = 100;
+		}
 	}
   }
   

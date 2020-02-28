@@ -15,12 +15,19 @@ class StarPotion extends Entity {
           if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
               this.game.player.screen = true;
               this.game.player.invincible = true;
-              this.game._player.heal(100);
+              this.game.player.heal(100);
+              that.game._player.velocity.x = 0;
+              that.game._player.velocity.y = 0;
+              this.game.player.speed += 100;
               let that = this;
               
               new TimerCallback(this.game, 10, false, function () {
-              that.game._player.screen = false;
-              that.game._player.invincible = false; });
+                that.game._player.screen = false;
+                that.game._player.invincible = false;
+                that.game._player.velocity.x = 0;
+                that.game._player.velocity.y = 0;
+                that.game.player.speed -= 100;
+              });
               
               this.destroy();
           }

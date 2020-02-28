@@ -13,11 +13,16 @@ class SpeedPotion extends Entity {
         {
           this.scale[0] = STANDARD_DRAW_SCALE * this.addScale;
           if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
-              this.game._player.speed += 50;
+              this.game.player.speed += 100;
               this.game._player.velocity.x = 0;
               this.game._player.velocity.y = 0;
               let that = this;
-              new TimerCallback(this.game, 5, false, function () { that.game.player.speed -= 50; });
+              new TimerCallback(this.game, 15, false, function ()
+              { 
+                that.game._player.velocity.x = 0;
+                that.game._player.velocity.y = 0;
+                that.game.player.speed -= 100;
+              });
               this.destroy();
           }
         }
