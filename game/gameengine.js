@@ -71,7 +71,6 @@ class GameEngine {
         this.chars = [];
         this.keyStack = [];
         this.lastChar = null;
-        this.levelReset = false;
 
         this.currentLevel = 0;
         this.levels = [Level1.prototype, Level2.prototype];
@@ -93,6 +92,7 @@ class GameEngine {
         this.destroyLevel();
 
         this._sceneManager.LoadLevel(levelFile, npcClasses);
+
         if (init) {
             this.camera._x = 0;
             this.camera._y = this.sceneManager.level.spawn.y * 96;
@@ -235,7 +235,6 @@ class GameEngine {
             this._entities[i] = [];
         }
         this.timers = [];
-        this.levelReset = true;
     }
 
     /**
@@ -263,10 +262,7 @@ class GameEngine {
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
                 for (var i = 0; i < this._entities.length - 1; i++) {
-                    if(this.resetLevel)
-                    {
-                      break;
-                    }
+
                     entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
                         if (this.entities[i][j].removeFromWorld) {

@@ -127,7 +127,7 @@ function BlackMage() {
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 			true, player, projectileAnimation,
 			1, 3, 4, that.animation.regProjectileDeath()); // slowed down projectile for debugging
-      projectile.GiveBackAmmo();
+        projectile.GiveBackAmmo();
 	};
 	
 	this.specialAttack = function (player, attackVector)

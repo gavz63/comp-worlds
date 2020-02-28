@@ -5,7 +5,7 @@ class Level3 {
         this.floorType = 0;
         this.wallType = 0;
         this.nextLevel = null;
-        this.musicId = 'churchMusic';
+        this.musicId = 'hedgeMonsterMusic';
 
         this.layout =
             "##########J" +

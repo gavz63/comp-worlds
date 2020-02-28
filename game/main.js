@@ -102,4 +102,4 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.start();
     
     new Crate(gameEngine, 96 * 3, 96* 1.5);
-	});
+});
