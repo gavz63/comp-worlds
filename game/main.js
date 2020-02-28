@@ -35,6 +35,7 @@ ASSET_MANAGER.queueDownload("./img/enemies/BoneManWalk.png");
 ASSET_MANAGER.queueDownload("./img/enemies/BoneManAttack.png");
 ASSET_MANAGER.queueDownload("./img/enemies/BoneManDeath.png");
 ASSET_MANAGER.queueDownload("./img/enemies/Turtle.png");
+ASSET_MANAGER.queueDownload("./img/objects/Crate.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Egg.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Fireball.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/FireballExplodes.png");
@@ -99,4 +100,6 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.AM = ASSET_MANAGER;
     gameEngine.init(ctx);
     gameEngine.start();
+    
+    new Crate(gameEngine, 96 * 3, 96* 1.5);
 	});

@@ -120,6 +120,17 @@ class Projectile extends Entity {
                     }
                 }
             });
+            this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
+                if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
+                    if (circleToCircle(that, elem)) {
+                        if (that.dieOnHit) {
+                            that.destroy();
+                        }
+                        that.done = true;
+                        elem.takeDamage(that.dmg, that.dir, that.knockBack);
+                    }
+                }
+            });
         } else {
             if (circleToCircle(that, that.game.player)) {
                 let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
