@@ -80,13 +80,16 @@ class Camera {
             if (Math.floor(Math.abs(this._desiredLoc.x - this._x)) < 2) {
                 this._x = Math.floor(this._desiredLoc.x);
             } else {
-                this._x += Math.floor((this._desiredLoc.x - this._x) / 5);
+                let t =  (this._desiredLoc.x - this._x) / 5;
+                if (t < 0) {
+                    this._x += Math.floor(t);
+                } else {
+                    this._x += Math.ceil(t);
+                }
             }
             if (Math.floor(Math.abs(this._desiredLoc.y - this._y)) < 2) {
                 this._y = Math.floor(this._desiredLoc.y);
-                console.log("IT SHOULD BE WORKING");
             } else {
-                console.log(this._desiredLoc.y, this._y);
                 let t = (this._desiredLoc.y - this._y) / 5;
                 if (t < 0) {
                     this._y += Math.floor(t);
