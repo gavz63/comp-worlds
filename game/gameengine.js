@@ -350,6 +350,10 @@ class GameEngine {
         this.timers.forEach(function(elem) {
             elem.destroy();
         });
+        this.audioManager.pauseMusic();
+        this.audioManager.setMusic("gameOverMusic");
+        this.audioManager.restartMusic();
+        this.audioManager.playMusic();
         this.addEntity(new GameOver(this), LAYERS.HUD);
     }
 
