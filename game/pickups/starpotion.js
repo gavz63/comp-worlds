@@ -16,8 +16,8 @@ class StarPotion extends Entity {
               this.game.player.screen = true;
               this.game.player.invincible = true;
               this.game.player.heal(100);
-              that.game._player.velocity.x = 0;
-              that.game._player.velocity.y = 0;
+              this.game._player.velocity.x = 0;
+              this.game._player.velocity.y = 0;
               this.game.player.speed += 100;
               let that = this;
               
