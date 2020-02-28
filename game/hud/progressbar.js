@@ -1,6 +1,6 @@
 class ProgressBar extends Entity
 {
-  constructor(game, x, y, width, chargeAmount)
+  constructor(game, x, y, width, owner, chargeAmount)
   {
     super(game, x, y);
     
@@ -10,18 +10,21 @@ class ProgressBar extends Entity
     this.progress = 100;
     this.amt = chargeAmount;
     let that = this;
-    this.attached = null;
+    this.owner = owner;
     this.paused = false;
-    this.barBack = new Bar(this.game, 0, 0, this);
-    this.barBack.isBack = true;
+    this.barBack = new ProgressBarBack(this.game, 0, 0, this);
     this.barBack.animation.setFrame(2);
-    this.barFront = new Bar(this.game, 0, 0, this);
+    this.barFront = new ProgressBarFront(this.game, 0, 0, this);
+	
+	this.myScale = [1];
     
     this.game.addEntity(this, LAYERS.HUD);
   }
   
   update()
   {
+	this.width = this.owner.animation._frameWidth * this.owner.animation._scale
+	  
 	if(!this.paused)
 	{
 		this.progress += this.amt * this.game._clockTick;
@@ -35,22 +38,17 @@ class ProgressBar extends Entity
 	  this.progress = 100;
 	  this.barFront.animation.setFrame(0);
 	}
-    if(this.attached !== null)
-    {
-      this.x = this.attached.x + this.offsetX;
-      this.y = this.attached.y + this.offsetY;
-    }
+	this.x = this.owner.x + this.offsetX;
+	this.y = this.owner.y + this.offsetY;
   }
   
   draw()
-	{
-    this.barBack.display();
-    this.barFront.display();
-	}
-  
-  attachTo(attached)
   {
-    this.attached = attached;
+	this.barBack.display();
+	this.barFront.display();
+	
+	console.log("Diff: " + (this.barBack.y - this.barFront.y));
+	console.log("Height: " + this.barBack.animation._height);
   }
   
   destroy()
@@ -61,23 +59,23 @@ class ProgressBar extends Entity
   }
 }
 
-class Bar extends Entity
+class ProgressBarFront extends Entity
 {
-
   constructor(game, x, y, attached)
   {
     super(game, x, y);
     this.offsetX = x;
     this.offsetY = y;
     this.attached = attached;
-    this.isBack = false;
+	
+	this.myScale = [1];
       
     this.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/ProgressBar.png"),
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 0, y: 2},
-            0, true, attached.myScale);
+            0, true, this.myScale);
 			
-    this.animation._height = this.animation._frameHeight / 10;
+    this.animation._height = this.animation._frameHeight / 5;
     
     this.game.addEntity(this, LAYERS.HUD);
   }
@@ -88,22 +86,61 @@ class Bar extends Entity
   
   display()
   {
-    super.draw();
+	let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+	this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, false);
   }
   
   update()
   {
-      this.x = this.attached.x + this.offsetX;
-      this.y = this.attached.y + this.offsetY;
+      this.myScale[0] = 1;
 	  
-	  if(!this.isBack)
-	  {
-      let t = this.attached.progress / 100;
-      this.animation._width = mix(smoothStartN(t, 3), smoothStopN(t, 3), t) * this.attached.width;
-	  }
-	  else
-	  {
-		  this.animation._width = this.attached.width;
-	  }
+	  let t = this.attached.progress / 100;
+	  this.animation._width = mix(smoothStartN(t, 3), smoothStopN(t, 3), t) * this.attached.width;
+	  
+      this.x = this.attached.x - (this.attached.owner.animation._width) / 2;
+      this.y = this.attached.y - (this.animation._height * this.animation._scale)/2;
+  }
+}
+
+class ProgressBarBack extends Entity
+{
+  constructor(game, x, y, attached)
+  {
+    super(game, x, y);
+    this.offsetX = x;
+    this.offsetY = y;
+    this.attached = attached;
+      
+	this.myScale = [1];
+	  
+    this.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/ProgressBar.png"),
+            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+            {x: 0, y: 0}, {x: 0, y: 2},
+            0, true, this.myScale);
+			
+    this.animation._height = this.animation._frameHeight / 5;
+    
+    this.game.addEntity(this, LAYERS.HUD);
+  }
+  
+  draw()
+  {
+  }
+  
+  display()
+  {
+	let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+	this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, false);
+  }
+  
+  update()
+  {
+				
+	  this.myScale[0] = 1;
+	  
+      this.x = this.attached.x - (this.attached.owner.animation._width) / 2;
+      this.y = this.attached.y - (this.animation._height * this.animation._scale)/2;
+	  
+	  this.animation._width = this.attached.width;
   }
 }

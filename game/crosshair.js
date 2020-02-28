@@ -15,7 +15,7 @@ class Crosshair
 		this.y = 64;
 		this.game = game;
 		
-		game.addEntity(this, LAYERS.HUD);
+		game.addEntity(this, LAYERS.PRIORITY);
 	}
 
 	draw()

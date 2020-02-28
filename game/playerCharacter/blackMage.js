@@ -4,6 +4,7 @@ function BlackMage() {
     var upAndDown = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageUpDownSheet.png");
     var dmgSheet = ASSET_MANAGER.getAsset("./img/player_characters/BlackMageDmgSheet.png");
     var fireball = ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png");
+    var fireballExplodes = ASSET_MANAGER.getAsset("./img/projectiles/FireballExplodes.png");
     var flame = ASSET_MANAGER.getAsset("./img/projectiles/Flame.png");
 
     //Use to access all animations this character has
@@ -97,17 +98,22 @@ function BlackMage() {
             6, false, STANDARD_DRAW_SCALE),
 
         //Projectile animations
-        regProjectile: function () { return new Animation(fireball,
-			16, 16,
-			{x: 0, y: 0}, {x: 3, y: 0},
-			6, true, STANDARD_DRAW_SCALE); },
+      regProjectile: function () { return new Animation(fireball,
+        16, 16,
+        {x: 0, y: 0}, {x: 3, y: 0},
+        6, true, STANDARD_DRAW_SCALE); },
+      
+      regProjectileDeath: function () { return new Animation(fireballExplodes,
+        16, 16,
+        {x: 0, y: 0}, {x: 4, y: 0},
+        30, false, STANDARD_DRAW_SCALE); },
 			
 	
         //Special animations
-        specialProjectile: function () { return new Animation(flame,
-			32, 32,
-			{x: 0, y: 0}, {x: 2, y: 0},
-			8, true, STANDARD_DRAW_SCALE * 3); }
+      specialProjectile: function () { return new Animation(flame,
+        32, 32,
+        {x: 0, y: 0}, {x: 2, y: 0},
+        8, true, STANDARD_DRAW_SCALE * 3); }
     };
 	
 	let that = this;
@@ -120,13 +126,13 @@ function BlackMage() {
 			attackVector,
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 			true, player, projectileAnimation,
-			1, 20, 4); // slowed down projectile for debugging
-      projectile.GiveBackAmmo();
+			1, 3, 4, that.animation.regProjectileDeath()); // slowed down projectile for debugging
+        projectile.GiveBackAmmo();
 	};
 	
 	this.specialAttack = function (player, attackVector)
 	{
-		let projectile = new FlameWall(player.game, player.x + attackVector.x * that.stats.specialSpeed, player.y + attackVector.y * that.stats.specialSpeed, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, that.animation.specialProjectile(), 0.5, 10, 15, function() {}, function(t) { return arch4(smoothStopN(t, 20));}, 0.1, 12);
+		let projectile = new FlameWall(player.game, player.x + attackVector.x * that.stats.specialSpeed, player.y + attackVector.y * that.stats.specialSpeed, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, that.animation.specialProjectile(), 0.5, 11, 15, function() {}, function(t) { return arch4(smoothStopN(t, 20));}, 0.1, 12);
 	};
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);

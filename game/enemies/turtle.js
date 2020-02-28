@@ -31,7 +31,7 @@ class Turtle extends Enemy {
         this.hp = 5;
 
         this.projectileAnimation = new Animation(game.AM.getAsset("./img/projectiles/Egg.png"), 5, 5,
-            {x: 0, y: 0}, {x: 3, y: 0}, 4, true, this._myScale);
+            {x: 0, y: 0}, {x: 3, y: 0}, 4, true, this._myScale, 2);
 
     }
 
@@ -81,7 +81,7 @@ class Turtle extends Enemy {
                 attackVector,
                 250, 2, true, this,
                 this.projectileAnimation,
-                1, 5);
+                1, 5, 2);
         }
     }
 

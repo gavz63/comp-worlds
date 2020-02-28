@@ -53,12 +53,11 @@ class Player extends Entity {
         //this.hurt = true;
         this.invincible = false;
 
-        this.progressBar = new ProgressBar(this.game, 0, 0, this.animation._frameWidth, 100 / this.characterClass.stats.specialChargeTime);
-        this.progressBar.offsetX = 0;
-        this.progressBar.offsetY = (this.animation._frameHeight + this.progressBar.barFront.animation._height) * 1.1;
+        this.progressBar = new ProgressBar(this.game, 0, this.animation._height * this.animation._scale/4, this.animation._frameWidth * this.animation._scale, this, 100 / this.characterClass.stats.specialChargeTime);
 
-        this.progressBar.attachTo(this);
         this.dead = false;
+		
+
     }
 
 
@@ -83,6 +82,8 @@ class Player extends Entity {
             this.hearts[i].x = (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE);
             this.hearts[i].y = 1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE;
         }
+		this.game._ctx.font = "30px Arial";		
+		this.game._ctx.fillText("Hello World", 0, 0);
 
         var that = this;
         //Testing collision with enemies
@@ -330,6 +331,9 @@ class Player extends Entity {
                 case DIRECTION_DOWN:
                     this.animation = this.characterClass.animation.dmgFromUp;
             }
+			
+			this.animation.unpause();
+			this.animation.resetAnimation();
 
             if (this.hp === 0) {
                 this.dead = true;
@@ -354,15 +358,16 @@ class Player extends Entity {
             this.hp -= dmg;
             this.isTakingDmg = true;
 
-            this.animation.resetAnimation();
+			this.animation.unpause();
+			this.animation.resetAnimation();
 
             this.hurt = true;
             var that = this;
 
             new TimerCallback(this.game, 1, false, function () {
                 that.isTakingDmg = false;
-                that.animation = that.idleAnimation;
-                that.animation.resetAnimation();
+                //that.animation = that.idleAnimation;
+                //that.animation.resetAnimation();
                 that.screen = true;
             }); // stunned
             new TimerCallback(this.game, 3, false, function () {

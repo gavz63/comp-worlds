@@ -62,6 +62,32 @@ function clampTop(t)
 	return t;
 }
 
+function bezier3(B, C, t)
+{
+	let s = 1 - t;
+	let t2 = t * t;
+	let s2 = s*s;
+	let t3 = t2 * t;
+	return (3 * B * s2 * t) + (3 * C * s * t2) + t3;
+}
+
+function bezier7(B, C, D, E, F, G, t)
+{
+	let s = 1 - t;
+	let t2 = t * t;
+	let s2 = s*s;
+	let t3 = t2 * t;
+	let s3 = s2 * s;
+	let t4 = t3 * t;
+	let s4 = s3 * s;
+	let t5 = t3 * t2;
+	let s5 = s3 * s2;
+	let t6 = t3 * t3;
+	let s6 = s3 * s3;
+	let t7 = t6 * t;
+	return (7 * B * s6 * t) + (21 * C * s5 * t2) + (35 * D * s4 * t3) + (35 * E * s3 * t4) + (21 * F * s2 * t5) + (7 * G * s * t6) + t7;
+}
+
 function clamp(t)
 {
 	return clampBottom(clampTop(t));
@@ -79,5 +105,5 @@ function bounceClampTop(t)
 
 function bounceClamp(t)
 {
-	return BounceClampTop(BounceClampBottom(t));
+	return bounceClampTop(bounceClampBottom(t));
 }

@@ -9,7 +9,10 @@ class Enemy extends Entity {
         /*this.damageTimer = new TimerCallback(this.game, 1, true, function() { that.hurt = false;
         this.pause();});*/
         this.hurt = false;
+		this.invincible = false;
         this.hp = 1;
+		
+		this.weight = 1;
     }
 
     destroy() {
@@ -20,6 +23,21 @@ class Enemy extends Entity {
             this.spawner.spawn_timer.unpause();
         }
         new Remnant(this.game, this.x, this.y, this.deathAnimation);
+        
+        let random = Math.random()*100;
+        if(random <= 0.5)
+        {
+          new StarPotion(this.game, this.x, this.y);
+        }
+        else if(random <= 1)
+        {
+          new HealthPotion(this.game, this.x, this.y);
+        }
+        else if(random <= 2)
+        {
+          new SpeedPotion(this.game, this.x, this.y);
+        }
+        
         super.destroy();
     }
 
@@ -137,21 +155,23 @@ class Enemy extends Entity {
     
     takeDamage(dmg, dir, knockBack)
     {
-      //if(!this.hurt)
-      //{
-        this.x += dir.x * knockBack;
-        this.y += dir.y * knockBack;
-        this.hp -= dmg;
-        //this.hurt = true;
-        if (this.hp <= 0) {
-            this.destroy();
-        }
-        /*
-        else
-        {
-          this.damageTimer.reset();
-          this.damageTimer.unpause();
-        }*/
-        //}
+      if(!this.hurt)
+      {
+		if(!this.invincible)
+		{
+			this.x += dir.x * knockBack * 1/this.weight;
+			this.y += dir.y * knockBack * 1/this.weight;
+			this.hp -= dmg;
+			this.hurt = true;
+			if (this.hp <= 0) {
+				this.destroy();
+			}
+			else
+			{
+				let that = this;
+				new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
+			}
+		}
+	  }
     }
 }

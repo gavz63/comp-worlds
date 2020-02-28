@@ -16,16 +16,17 @@ const LAYERS = {
     SPAWNERS: 1,
     REMNANTS: 2,
     PUDDLEREMNANTS: 3,
-    ENEMIES: 4,
-    ENEMY_PROJECTILES: 5,
-    PICKUPS: 6,
-    MAIN: 7,
-    PLAYER_PROJECTILES: 8,
-    WALL: 9,
-    DOOR: 10,
-    PARTICLES: 11,
-    HUD: 12,
-    PRIORITY: 13
+    OBJECTS: 4,
+    ENEMIES: 5,
+    ENEMY_PROJECTILES: 6,
+    PICKUPS: 7,
+    MAIN: 8,
+    PLAYER_PROJECTILES: 9,
+    WALL: 10,
+    DOOR: 11,
+    PARTICLES: 12,
+    HUD: 13,
+    PRIORITY: 14
 };
 
 // ORIGINAL LAYERS WERE
@@ -80,7 +81,7 @@ class GameEngine {
         this.mousePos = {x: 0, y: 0};
     }
 
-    LoadLevel(levelFile, npcClasses) {
+    LoadLevel(levelFile, npcClasses, init = true) {
         this.player = null;
         if (this.audioManager.music) {
             this.audioManager.pauseMusic();
@@ -89,29 +90,27 @@ class GameEngine {
         this.audioManager.restartMusic();
         this.audioManager.playMusic();
         this.destroyLevel();
-        this.game_state = GAME_STATES.CHARACTER_SELECT;
 
         this._sceneManager.LoadLevel(levelFile, npcClasses);
 
-        this.addEntity(this._camera, LAYERS.HUD);
-        this._camera.update();
-        this.camera.x = 0;
-        this.camera.y = this.sceneManager.level.spawn.y * 96;
+        if (init) {
+            this.camera._x = 0;
+            this.camera._y = this.sceneManager.level.spawn.y * 96;
+            this.switchToCharacterChooserMode(true);
+            let hover = true;
+            this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
+            for (var i = 0; i < npcClasses.length; i++) {
+                this.addEntity(new NPC(this, npcClasses[i], hover), LAYERS.MAIN);
+                if (i === 0) {
+                    hover = false;
+                }
+            }
+        }
 
         new WallHUD(this);
 
         new Floor(this);
         new Wall(this);
-
-        let hover = true;
-        this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
-        for (var i = 0; i < npcClasses.length; i++) {
-            this.addEntity(new NPC(this, npcClasses[i], hover), LAYERS.MAIN);
-            if (i === 0) {
-                hover = false;
-            }
-        }
-        new Crosshair(this);
     }
 
     /**
@@ -134,6 +133,8 @@ class GameEngine {
         this._surfaceHeight = this._ctx.canvas.height;
         this.startInput();
         this._clock = new Clock();
+        new Crosshair(this);
+        this.addEntity(this._camera, LAYERS.PRIORITY);
     }
 
     controlsPageInit(ctx) {
@@ -233,7 +234,7 @@ class GameEngine {
         for (let i = 0; i < this._entities.length - 1; i++) {
             this._entities[i] = [];
         }
-        this.timers = []
+        this.timers = [];
     }
 
     /**
@@ -244,8 +245,8 @@ class GameEngine {
 
         let entityCount = this.entities[LAYERS.PRIORITY].length;
         for (let i = 0; i < entityCount; i++) {
-            if (this.entities[LAYERS.PRIORITY][j].removeFromWorld) {
-                this.removeEntity(this.entities[LAYERS.PRIORITY][j]);
+            if (this.entities[LAYERS.PRIORITY][i].removeFromWorld) {
+                this.removeEntity(this.entities[LAYERS.PRIORITY][i]);
                 entityCount = this.entities[LAYERS.PRIORITY].length;
                 i--;
                 continue;
@@ -260,7 +261,8 @@ class GameEngine {
     
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
-                for (var i = 0; i < this._entities.length; i++) {
+                for (var i = 0; i < this._entities.length - 1; i++) {
+
                     entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
                         if (this.entities[i][j].removeFromWorld) {
@@ -275,7 +277,7 @@ class GameEngine {
                 }
                 var timersCount = this.timers.length;
 
-                for (var i = 0; i < timersCount; i++) {
+                for (var i = 0; i < this.timers.length; i++) {
                     let tim = this.timers[i];
                     if (tim.removeFromWorld) {
                         this.removeTimer(tim);
@@ -292,7 +294,7 @@ class GameEngine {
             case GAME_STATES.CHANGING_LEVEL:
             case GAME_STATES.GAME_OVER:
 
-                for (var i = 0; i < this._entities.length; i++) {
+                for (var i = 0; i < this._entities.length - 1; i++) {
                     entityCount = this._entities[i].length;
                     for (var j = 0; j < entityCount; j++) {
                         if (this.entities[i][j].removeFromWorld) {
@@ -322,6 +324,7 @@ class GameEngine {
         }
         // Clear input
         this._clicks = [];
+        this.click = false;
     }
 
     /**
@@ -344,6 +347,10 @@ class GameEngine {
         this.timers.forEach(function(elem) {
             elem.destroy();
         });
+        this.audioManager.pauseMusic();
+        this.audioManager.setMusic("gameOverMusic");
+        this.audioManager.restartMusic();
+        this.audioManager.playMusic();
         this.addEntity(new GameOver(this), LAYERS.HUD);
     }
 
@@ -395,9 +402,8 @@ class GameEngine {
             }
         }
 
-        if (player) player.destroy();
-
-        this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
+        if (player && player instanceof Player) player.destroy();
+        this.game_state = GAME_STATES.CHARACTER_SELECT;
     }
 
     // Getters and setters.
@@ -420,12 +426,18 @@ class GameEngine {
 
 // Used in start() to cap framerate.
 window.requestAnimFrame = (function () {
-    return window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.oRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        function (/* function */ callback, /* DOMElement */ element) {
-            window.setTimeout(callback, 1000 / 60);
+    if (sessionStorage.getItem('fps') === '30') {
+        return function (/* function */ callback, /* DOMElement */ element) {
+            window.setTimeout(callback, 1000 / 30);
         };
+    } else {
+        return window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            function (/* function */ callback, /* DOMElement */ element) {
+                window.setTimeout(callback, 1000 / 60);
+            };
+    }
 })();

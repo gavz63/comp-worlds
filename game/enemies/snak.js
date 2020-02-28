@@ -29,8 +29,9 @@ class Snak extends Enemy {
         this.hp = 2;
         
         let that = this;
-        this.attackTimer = new TimerCallback(this.game, 3, true, function () {
+        this.attackTimer = new TimerCallback(this.game, 1, false, function () {
             that.attack();
+			this.attackTimer = new TimerCallback(this.game, 3, true, function () {that.attack()} );
         });
 		
 		this.projectileCount = 21;

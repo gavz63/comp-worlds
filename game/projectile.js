@@ -14,7 +14,7 @@
  * @constructor
  */
 class Projectile extends Entity {
-    constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback) {
+    constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, deathAnimation = null) {
         super(game, x, y);
 
         this.startX = x;
@@ -40,6 +40,8 @@ class Projectile extends Entity {
 
         this.animation = animation;
         this.animation.resetAnimation();
+        
+        this.deathAnimation = deathAnimation;
 
         this.dmg = dmg;
         this.radius = radius;
@@ -118,6 +120,17 @@ class Projectile extends Entity {
                     }
                 }
             });
+            this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
+                if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
+                    if (circleToCircle(that, elem)) {
+                        if (that.dieOnHit) {
+                            that.destroy();
+                        }
+                        that.done = true;
+                        elem.takeDamage(that.dmg, that.dir, that.knockBack);
+                    }
+                }
+            });
         } else {
             if (circleToCircle(that, that.game.player)) {
                 let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
@@ -149,12 +162,37 @@ class Projectile extends Entity {
     
     destroy()
     {
-      if(!this.removeFromWorld)
+      if(this.deathAnimation)
       {
-        this.removeFromWorld = true;
-        if(this.giveBackAmmo)
+        this.animation = this.deathAnimation;
+        let that = this;
+        
+        this.update = function() {};
+        
+        if(that.giveBackAmmo)
         {
-          this.owner.attackCounter--;
+          that.owner.attackCounter--;
+        }
+        
+        new TimerCallback(this.game, 0, false, function() {
+          if(that.animation.isDone())
+          {
+            if(!that.removeFromWorld)
+            {
+              that.removeFromWorld = true;
+            }
+          }
+        });
+      }
+      else
+      {
+        if(!this.removeFromWorld)
+        {
+          this.removeFromWorld = true;
+          if(this.giveBackAmmo)
+          {
+            this.owner.attackCounter--;
+          }
         }
       }
     }
@@ -164,6 +202,20 @@ class Projectile extends Entity {
       this.giveBackAmmo = true;
     }
 
+}
+
+class HomingProjectile extends Projectile {
+	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback)
+	{
+		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
+	}
+	update()
+	{
+		let direction = dirV({x: this.x, y: this.y}, {x: this.game.player.x, y: this.game.player.y});
+		direction = normalizeV(direction);
+		this.x += direction.x * this.speed;
+		this.y += direction.y * this.speed;
+	}
 }
 
 class EasingProjectile extends Projectile {
@@ -328,6 +380,14 @@ class Flame extends EasingProjectile
       }
       this.move();
       this.myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
+	  
+	  let newPos = {x: this.x, y: this.y};
+	  if (this.wallCollision(newPos)) {
+      console.log("destroy special projectile");
+			this.destroy();
+		} else {
+			this.oldPos = newPos;
+		}
   }
 }
 
@@ -335,40 +395,46 @@ class FlameWall extends EasingProjectile
 {
 	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn, length)
 	{
-    super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing);
-    this.timeToSpawn = timeToSpawn;
+		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing);
+		this.timeToSpawn = timeToSpawn;
 		this.count = 1;
 		this.length = length;
 		let that = this;
-    this.myScale[0] = 0;
-    this.animation._scale = this.myScale;
+		this.myScale[0] = 0;
+		this.animation._scale = this.myScale;
 		this.spawnTimer = new TimerCallback(this.game, timeToSpawn, true,
-			function()
-			{
-				if(that.count < that.length)
-				{
-					that.count++;
-          let perp = perpendicularV(that.dir);
-          let offsetX = (that.dir.x * (that.count-1) - perp.x * (that.count-1)/2) * that.speed;
-          let offsetY = (that.dir.y * (that.count-1) - perp.y * (that.count-1)/2) * that.speed;
-					for(let i = 0; i < that.count; i++)
-					{
+      function()
+      {
+        if(that.count < that.length)
+        {
+          that.count++;
+            let perp = perpendicularV(that.dir);
+            let offsetX = (that.dir.x * (that.count-1) - perp.x * (that.count-1)/2) * that.speed;
+            let offsetY = (that.dir.y * (that.count-1) - perp.y * (that.count-1)/2) * that.speed;
+          for(let i = 0; i < that.count; i++)
+          {
             let animation = that.owner.characterClass.animation.specialProjectile();
             new Flame(that.game, that.x + offsetX, that.y + offsetY, that.dir, that.speed, that.lifetime, that.dieOnHit, that.owner, animation, that.dmg, that.radius, that.knockBack, that.move, that.easing);
             offsetX += perp.x * that.speed;
             offsetY += perp.y * that.speed;
           }
-				}
+        }
         else
         {
           this.destroy();
         }
-			}
-		);
+      });
 	}
   update()
   {
     this.myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
+	
+    let newPos = {x: this.x, y: this.y};
+    if (this.wallCollision(newPos)) {
+      this.destroy();
+    } else {
+      this.oldPos = newPos;
+    }
   }
   
   destroy()

@@ -71,36 +71,47 @@ class Camera {
         this._ctx.imageSmoothingEnabled = false;
         if (this._zoom !== this._desiredZoom) {
             if (Math.floor(Math.abs(this._desiredZoom - this._zoom) / 25) < 2) {
-                this._zoom = this._desiredZoom;
+                this._zoom = Math.floor(this._desiredZoom);
             } else {
-                this._zoom += (this._desiredZoom - this._zoom) / 25;
+                this._zoom += Math.floor((this._desiredZoom - this._zoom) / 25);
             }
         }
         if (this._x !== this._desiredLoc.x || this._y !== this._desiredLoc.y) {
             if (Math.floor(Math.abs(this._desiredLoc.x - this._x)) < 2) {
-                this._x = this._desiredLoc.x;
+                this._x = Math.floor(this._desiredLoc.x);
             } else {
-                this._x += (this._desiredLoc.x - this._x) / 5;
+                let t =  (this._desiredLoc.x - this._x) / 5;
+                if (t < 0) {
+                    this._x += Math.floor(t);
+                } else {
+                    this._x += Math.ceil(t);
+                }
             }
             if (Math.floor(Math.abs(this._desiredLoc.y - this._y)) < 2) {
-                this._y = this._desiredLoc.y;
+                this._y = Math.floor(this._desiredLoc.y);
             } else {
-                this._y += (this._desiredLoc.y - this._y) / 5;
+                let t = (this._desiredLoc.y - this._y) / 5;
+                if (t < 0) {
+                    this._y += Math.floor(t);
+                } else {
+                    this._y += Math.ceil(t);
+                }
             }
         }
         STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / this._zoom);
     }
 
     zoomCam(val) {
-        this._desiredZoom = val;
+        this._desiredZoom = Math.floor(val);
     }
 
     moveCam(point) {
-        this._desiredLoc = point;
+        let p = {x: Math.floor(point.x), y: Math.floor(point.y)};
+        this._desiredLoc = p;
     }
 
     get x() {return this._x;}
     get y() {return this._y;}
-    set x(val) {this._x = val; this._desiredLoc.x = val;}
-    set y(val) {this._y = val; this._desiredLoc.y = val;}
+    set x(val) {this._x = Math.floor(val); this._desiredLoc.x = Math.floor(val);}
+    set y(val) {this._y = Math.floor(val); this._desiredLoc.y = Math.floor(val);}
 }

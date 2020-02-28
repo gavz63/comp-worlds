@@ -36,6 +36,7 @@ class GameOver {
             },
             function () {
                 that.game.destroyLevel();
+                that.game.audioManager.pauseMusic();
                 that.game.init(that.game.ctx);
             });
 
