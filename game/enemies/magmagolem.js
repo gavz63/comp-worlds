@@ -1,8 +1,8 @@
 class MagmaGolem extends Enemy {
-    constructor(game, x, y, spawner) {
+    constructor(game, x, y, spawner, scale = 10, count = 0) {
         super(game, x, y, spawner);
         let spriteSheet = game.AM.getAsset("./img/enemies/MagmaGolemSheet.png");
-        this.myAddScale = 10;
+        this.myAddScale = scale;
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         this.moveAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH,
@@ -25,17 +25,30 @@ class MagmaGolem extends Enemy {
 
         this.speed = 20;
         this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
-        this.radius = STANDARD_ENTITY_RADIUS * 0.8 * 5;
+        this.radius = STANDARD_ENTITY_RADIUS * scale/2;
         this.isWaiting = false;
         this.isAttacking = false;
         this.goalPoint = null;
         this.dir = null;
-        this.hp = 100;
+		this.maxHp = 80;
+        this.hp = 80;
         this.wait();
 		
-		this.weight = 5;
+		this.weight = 10;
 
-        this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/2, 100, this.game._ctx.canvas.width * 0.9, this);
+		let healthScale = this.game._ctx.canvas.width * 0.9;
+		if(scale !== 10)
+		{
+			this.maxHp = 25;
+			this.hp = 25;
+			healthScale /= 4;
+			this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/8 + this.game._ctx.canvas.width/8 * (count*2), 100, healthScale, this);
+		}
+		else
+		{
+			this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/2, 100, healthScale, this);
+		}
+        
     }
 
     update() {
@@ -53,11 +66,7 @@ class MagmaGolem extends Enemy {
                 if (this.isCharging) {
                     this.go(this.dir);
                 } else if (this.goalPoint) {
-                    if (this.goalPoint.x === this.game.player.x && this.goalPoint.y === this.game.player.y) {
-                        this.charge();
-                    } else {
-                        this.go(normalizeV(dirV(this, this.goalPoint)));
-                    }
+					this.charge();
                 }
                 let newPos = {x: this.x, y: this.y};
                 if (this.wallCollision(newPos)) {
@@ -77,7 +86,7 @@ class MagmaGolem extends Enemy {
             y: indexToCoordinate(coordinateToIndex(this.game.player.y)),
         };
         this.dir = normalizeV(dirV(this, this.goalPoint));
-        this.speed = 200;
+        this.speed = 250;
         this.isCharging = true;
         this.animation = this.chargeAnimation;
         this.animation.resetAnimation();
@@ -105,7 +114,7 @@ class MagmaGolem extends Enemy {
     wait() {
         this.isWaiting = true;
         let that = this;
-        new TimerCallback(this.game, 1.75, false, function () {
+        new TimerCallback(this.game, 0.25, false, function () {
             that.isWaiting = false;
         })
     }
@@ -114,5 +123,22 @@ class MagmaGolem extends Enemy {
 	{
 		super.destroy();
 		this.healthBar.destroy();
+		
+		if(this.myAddScale === 10)
+		{
+			this.spawner.numOut += 4;
+			new MagmaGolem(this.game, this.x - this.animation._width * this.animation._scale / 8, this.y, this.spawner, 5, 0);
+			new MagmaGolem(this.game, this.x + this.animation._width * this.animation._scale / 8, this.y, this.spawner, 5, 1);
+			new MagmaGolem(this.game, this.x - this.animation._width * this.animation._scale / 8, this.y + this.animation._height * this.animation._scale / 4, this.spawner, 5, 2);
+			new MagmaGolem(this.game, this.x + this.animation._width * this.animation._scale / 8, this.y + this.animation._height * this.animation._scale / 4, this.spawner, 5, 3);
+		}
+		else
+		{
+			this.spawner.numOut += 4;
+			new StoneGolem(this.game, this.x - this.animation._width * this.animation._scale / 8, this.y, this.spawner);
+			new StoneGolem(this.game, this.x + this.animation._width * this.animation._scale / 8, this.y, this.spawner);
+			new StoneGolem(this.game, this.x - this.animation._width * this.animation._scale / 8, this.y + this.animation._height * this.animation._scale / 4, this.spawner);
+			new StoneGolem(this.game, this.x + this.animation._width * this.animation._scale / 8, this.y + this.animation._height * this.animation._scale / 4, this.spawner);
+		}
 	}
 }
