@@ -13,6 +13,7 @@ class Player extends Entity {
         this.characterClass = characterClass;
         this.direction = DIRECTION_RIGHT;
         this.animation = characterClass.animation.idleRight;
+        this.animation.resetAnimation();
         this.animation.pause();
         this._collider = characterClass.collider;
         this.speed = characterClass.stats.speed;
