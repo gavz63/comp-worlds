@@ -245,10 +245,9 @@ class GameEngine {
      */
     update() {
 
-        for (let i = 0; i < this._entities[i].length; i++) {
+        for (let i = 0; i < this.entities[LAYERS.PRIORITY].length; i++) {
             if (this.entities[LAYERS.PRIORITY][i].removeFromWorld) {
                 this.removeEntity(this.entities[LAYERS.PRIORITY][i]);
-                entityCount = this.entities[LAYERS.PRIORITY].length;
                 i--;
                 continue;
             }
