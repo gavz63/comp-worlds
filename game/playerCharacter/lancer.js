@@ -153,15 +153,15 @@ function Lancer() {
 	
 	this.specialAttack = function (player, attackVector)
 	{
-        new TimerCallback(player.game, player.characterClass.stats.specialLifetime, false, function() {
-            player.isAttacking = false;
-            player.animation = player.idleAnimation;
-            player.animation.resetAnimation();
-            player.animation.pause();
-        });
+    new TimerCallback(player.game, player.characterClass.stats.specialLifetime, false, function() {
+        player.isAttacking = false;
+        player.animation = player.idleAnimation;
+        player.animation.resetAnimation();
+        player.animation.pause();
+    });
 
-        let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 1, 85, 5);
-		projectile.attachTo(player);
+    let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 1, 85, 5);
+    projectile.attachTo(player);
 	};
 
     this.collider = new Collider(0, 0, 14, 14, 9, 9, null, 120);
