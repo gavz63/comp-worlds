@@ -59,8 +59,10 @@ class StoneGolem extends Enemy {
                 if (this.wallCollision(newPos)) {
                   this.x = this.oldPos.x;
                   this.y = this.oldPos.y;
-                  
-                  let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: this.spawner.x, y: this.spawner.y}));
+
+                  /* This line was crashing when the golem doesn't have a spawner. */
+                  //let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: this.spawner.x, y: this.spawner.y}));
+                  let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: 0, y: 0}));
                   while(this.wallCollision({x: this.x, y: this.y}))
                   {
                     this.x += towardsCenter.x;

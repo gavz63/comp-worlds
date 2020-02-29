@@ -231,6 +231,7 @@ class Player extends Entity {
 
             // Handle player movement.
             let accelRate = Math.floor(this.speed / ACCELERATION);
+            if (sessionStorage.getItem('fps') === '30') accelRate = Math.floor(accelRate * 1.8);
             while (Math.sqrt((this.velocity.x * this.velocity.x) + (this.velocity.y * this.velocity.y)) > this.speed) {
                 if (this.velocity.x > 0) {
                     this.velocity.x = this.velocity.x - (Math.floor((Math.abs(this.velocity.x) / accelRate) / 2) * accelRate);

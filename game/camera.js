@@ -16,7 +16,8 @@ class Camera {
     /**
      * @param {*} ctx The canvas' 2D context.
      */
-    constructor(ctx) {
+    constructor(game, ctx) {
+        this._game = game;
         this._x = 0;
         this._y = 0;
         this._ctx = ctx;
@@ -70,17 +71,21 @@ class Camera {
         this._ctx.mozImageSmoothingEnabled = false;
         this._ctx.imageSmoothingEnabled = false;
         if (this._zoom !== this._desiredZoom) {
-            if (Math.floor(Math.abs(this._desiredZoom - this._zoom) / 25) < 2) {
+            let zoomSmoothing = 25;
+            if (sessionStorage.getItem('fps') === '30') zoomSmoothing = 15;
+            if (Math.floor(Math.abs(this._desiredZoom - this._zoom) / zoomSmoothing) < 2) { // {60+: 25, 30: 15}
                 this._zoom = Math.floor(this._desiredZoom);
             } else {
-                this._zoom += Math.floor((this._desiredZoom - this._zoom) / 25);
+                this._zoom += Math.floor((this._desiredZoom - this._zoom) / zoomSmoothing); // {60+: 25, 30: 15}
             }
         }
         if (this._x !== this._desiredLoc.x || this._y !== this._desiredLoc.y) {
+            let moveSmoothing = 5;
+            if (sessionStorage.getItem('fps') === '30') moveSmoothing = 2;
             if (Math.floor(Math.abs(this._desiredLoc.x - this._x)) < 2) {
                 this._x = Math.floor(this._desiredLoc.x);
             } else {
-                let t =  (this._desiredLoc.x - this._x) / 5;
+                let t =  (this._desiredLoc.x - this._x) / moveSmoothing; // {60+: 5, 30: 3}
                 if (t < 0) {
                     this._x += Math.floor(t);
                 } else {
@@ -90,7 +95,7 @@ class Camera {
             if (Math.floor(Math.abs(this._desiredLoc.y - this._y)) < 2) {
                 this._y = Math.floor(this._desiredLoc.y);
             } else {
-                let t = (this._desiredLoc.y - this._y) / 5;
+                let t = (this._desiredLoc.y - this._y) / moveSmoothing; // {60+: 5, 30: 3}
                 if (t < 0) {
                     this._y += Math.floor(t);
                 } else {
