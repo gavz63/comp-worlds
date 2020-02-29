@@ -30,18 +30,18 @@ class SceneManager {
         // Remaining party members as NPC's.
         let remaining = [];
 
-        remaining.push(new NPC(this.game, this.game.player.characterClass));
+        remaining.push(new NPC(this.game, this.game.player.characterClass, this.game.player.characterClass.stats.maxHP));
         this.game.player.destroy();
         this.game.player = {x: 0, y: 0};
         //this.game.player.removeFromWorld = true;
         this.game._entities[LAYERS.MAIN].forEach((ent) => {
             if (ent instanceof NPC) {
-                remaining.push(new NPC(this.game, ent.characterClass));
+                remaining.push(new NPC(this.game, ent.characterClass, ent.characterClass.stats.maxHP));
             }
         });
         let that = this;
         this.revived.forEach(function (elem) {
-            remaining.push(new NPC(that.game, elem.characterClass));
+            remaining.push(new NPC(that.game, elem.characterClass, this.game.player.characterClass.stats.maxHP));
         });
 		if(this.levelFile.nextLevel !== null)
 		{
