@@ -100,7 +100,7 @@ class GameEngine {
             let hover = true;
             this.addEntity(new ChooseYourFighter(this), LAYERS.HUD);
             for (var i = 0; i < npcClasses.length; i++) {
-                this.addEntity(new NPC(this, npcClasses[i], hover), LAYERS.MAIN);
+                this.addEntity(new NPC(this, npcClasses[i], npcClasses[i].stats.maxHP, hover), LAYERS.MAIN);
                 if (i === 0) {
                     hover = false;
                 }
@@ -362,7 +362,7 @@ class GameEngine {
             }
         }
         npc.destroy();
-        new Player(this, npc.characterClass);
+        new Player(this, npc.characterClass, npc.hp);
         this.addEntity(new Tutorial(this), LAYERS.HUD);
         this.game_state = GAME_STATES.PLAYING;
     }

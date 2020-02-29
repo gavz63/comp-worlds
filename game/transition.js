@@ -159,7 +159,7 @@ class Transition {
         let hover = true;
         this._game.addEntity(new ChooseYourFighter(this._game), LAYERS.HUD);
         for (var i = 0; i < this._charClassList.length; i++) {
-            this._game.addEntity(new NPC(this._game, this._charClassList[i], hover), LAYERS.MAIN);
+            this._game.addEntity(new NPC(this._game, this._charClassList[i], this._charClassList[i].stats.maxHP, hover), LAYERS.MAIN);
             if (i === 0) {
                 hover = false;
             }

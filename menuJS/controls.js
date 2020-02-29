@@ -60,7 +60,7 @@ ASSET_MANAGER.downloadAll(function () {
             gameEngine.controlsPageInit(ctx);
             gameEngine.start();
 
-            gameEngine.addEntity(new Player(gameEngine, character.class), LAYERS.MAIN);
+            gameEngine.addEntity(new Player(gameEngine, character.class, character.class.stats.maxHP), LAYERS.MAIN);
             gameEngine.entities[LAYERS.HUD].forEach(function (elem) {
                 if (elem instanceof Heart) {
                     elem.removeFromWorld = true;

@@ -23,7 +23,7 @@ class ProgressBar extends Entity
   
   update()
   {
-	this.width = this.owner.animation._frameWidth * this.owner.animation._scale
+	this.width = this.owner.animation._frameWidth * this.owner.animation._scale;
 	  
 	if(!this.paused)
 	{
@@ -47,8 +47,8 @@ class ProgressBar extends Entity
 	this.barBack.display();
 	this.barFront.display();
 	
-	console.log("Diff: " + (this.barBack.y - this.barFront.y));
-	console.log("Height: " + this.barBack.animation._height);
+	//console.log("Diff: " + (this.barBack.y - this.barFront.y));
+	//console.log("Height: " + this.barBack.animation._height);
   }
   
   destroy()

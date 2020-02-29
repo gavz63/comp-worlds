@@ -6,7 +6,7 @@ const ACCELERATION = [15];//Higher = slidey'r
  * @constructor
  */
 class Player extends Entity {
-    constructor(game, characterClass) {
+    constructor(game, characterClass, hp) {
         super(game, indexToCoordinate(game._sceneManager.level.spawn.x), indexToCoordinate(game._sceneManager.level.spawn.y));
         game._player = this;
         this.keys = 0;
@@ -17,15 +17,25 @@ class Player extends Entity {
         this.animation.pause();
         this._collider = characterClass.collider;
         this.speed = characterClass.stats.speed;
-        this.hp = characterClass.stats.maxHP;
+        this.hp = hp;//characterClass.stats.maxHP;
         this.idleAnimation = this.animation;
 
         this.attackCounter = 0;
 
-        this.hearts = [new LastHeart(game, 1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE, 1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE)];
+        this.hearts = [
+            new LastHeart(game,
+                1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE,
+                1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE)
+        ];
         for (let i = 1; i < characterClass.stats.maxHP; i++) {
-            this.hearts[i] = new Heart(game, (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE), 1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE);
+            this.hearts[i] = new Heart(game,
+                (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE),
+                1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE);
         }
+        for (let i = 0; i < this.characterClass.stats.maxHP - this.hp; i++) {
+            this.hearts[this.characterClass.stats.maxHP - i - 1].set(false);
+        }
+        this.hearts[0].set(true);
 
         this.velocity = {x: 0, y: 0};
 
@@ -110,7 +120,7 @@ class Player extends Entity {
         //If x < 0 go back to character chooser
         if (this.x < 0) {
             this.game.game_state = GAME_STATES.CHARACTER_SELECT;
-            this.game.addEntity(new NPC(this.game, this.characterClass), LAYERS.MAIN);
+            this.game.addEntity(new NPC(this.game, this.characterClass, this.hp), LAYERS.MAIN);
             this.game.addEntity(new ChooseYourFighter(this.game), LAYERS.HUD);
 
             for (let i = 0; i < this.game.entities[LAYERS.HUD].length; i++) {
