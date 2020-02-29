@@ -58,7 +58,13 @@ class Level1
       y: 16,
       characterClass: new Lancer()
     });
-    
+
+		this.pickupList.push({
+			x: 3,
+			y: 1,
+			type: SpecialKey.prototype
+		});
+
     this.pickupList.push({
 			x: 5,
 			y: 1,

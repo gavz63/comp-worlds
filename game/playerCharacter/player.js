@@ -10,6 +10,7 @@ class Player extends Entity {
         super(game, indexToCoordinate(game._sceneManager.level.spawn.x), indexToCoordinate(game._sceneManager.level.spawn.y));
         game._player = this;
         this.keys = 0;
+        this.specialKeys = 0;
         this.characterClass = characterClass;
         this.direction = DIRECTION_RIGHT;
         this.animation = characterClass.animation.idleRight;
@@ -406,9 +407,13 @@ class Player extends Entity {
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].destroy();
         }
-
-        for (let i = 0; i < this.keys; i++) {
+        let i = 0;
+        for (i = 0; i < this.keys; i++) {
             new Key(this.game, this.x + 10 * i, this.y + 10 * i);
+        }
+        let x = this.specialKeys + i;
+        for (i; i < x; i++) {
+            new SpecialKey(this.game, this.x + 10 * i, this.y + 10 * i);
         }
 
         if (this.game.game_state != GAME_STATES.CHANGING_LEVEL) {

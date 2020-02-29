@@ -38,9 +38,31 @@ class Key extends Entity {
         if(this.game._player !== undefined && this.falling !== true)
         {
           if (checkCollision({x: this.x, y: this.y}, this.collider, {x: this.game._player.x, y: this.game._player.y}, this.game._player._collider)) {
-              this.game._player.keys += 1;
+              this.giveToPlayer();
               this.destroy();
           }
         }
+    }
+
+    giveToPlayer() {
+        this.game._player.keys += 1;
+    }
+}
+
+class SpecialKey extends Key {
+    constructor(game, x, y, falling = false) {
+        super(game, x, y, falling);
+
+        let fps = 7;
+        if (Math.random() > .5) fps = -7;
+
+        this.animation = new Animation(ASSET_MANAGER.getAsset("./img/pickups/specialKey.png"),
+            32, 32,
+            {x: 0, y: 0}, {x: 7, y: 0},
+            fps, true, this.scale);
+    }
+
+    giveToPlayer() {
+        this.game._player.specialKeys += 1;
     }
 }
