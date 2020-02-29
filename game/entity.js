@@ -34,7 +34,7 @@ class Entity
     let yOffset = 0;
 
     let returnValue = this.game._sceneManager.level.quickCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
-    console.log(returnValue);
+    //console.log(returnValue);
     if(returnValue === true)
     {
       return returnValue;

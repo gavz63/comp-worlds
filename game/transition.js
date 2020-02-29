@@ -64,11 +64,11 @@ class Transition {
                     let linePos = Math.floor(this._npcList.length / 2) - i;
                     desiPos += linePos * 32;
                 }
-                this._npcList[i].x = initPos + (desiPos - initPos) * (this._progress / 100);
+                this._npcList[i].x = initPos + (desiPos - initPos) * (this._progress / 4);
             }
 
-            this._progress++;
-            if (this._progress === 100) {
+            this._progress += this._game._clockTick;
+            if (this._progress >= 4) {
                 this._phase = 2;
                 this._progress = 0;
             }
@@ -89,8 +89,8 @@ class Transition {
                     this._npcList[i].x += linePos * 32;
                 }
             }
-            this._progress++;
-            if (this._progress >= 250) {
+            this._progress += this._game._clockTick;
+            if (this._progress >= 7) {
                 this._phase = 3;
                 this._progress = 0;
                 if(this._nextLevel != null) {
@@ -137,17 +137,17 @@ class Transition {
             }*/
         } else if (this._phase === 3) {
         
-            let ease = smoothStopN(this._progress / 175, 2);
+            let ease = smoothStopN(this._progress / 4, 2);
             this._game._camera.x = this._finalPos[0].orig.x + (this._finalPos[0].goal.x - this._finalPos[0].orig.x) * ease;
             this._game._camera.y = this._finalPos[0].orig.y + (this._finalPos[0].goal.y - this._finalPos[0].orig.y) * ease;
-            this._game._camera.zoomCam(this._finalPos[0].zoom + (DEFAULT_ZOOM - this._finalPos[0].zoom) * smoothStartN(this._progress / 175, 2));
+            this._game._camera.zoomCam(this._finalPos[0].zoom + (DEFAULT_ZOOM - this._finalPos[0].zoom) * smoothStartN(this._progress / 4, 2));
             for (let i = 0; i < this._npcList.length; i++) {
-                this._npcList[i].x = this._finalPos[i + 1].orig.x + (this._finalPos[i + 1].goal.x - this._finalPos[i + 1].orig.x) * ease;
-                this._npcList[i].y = this._finalPos[i + 1].orig.y + (this._finalPos[i + 1].goal.y - this._finalPos[i + 1].orig.y) * ease;
+                this._npcList[i].x = Math.floor(this._finalPos[i + 1].orig.x + (this._finalPos[i + 1].goal.x - this._finalPos[i + 1].orig.x) * ease);
+                this._npcList[i].y = Math.floor(this._finalPos[i + 1].orig.y + (this._finalPos[i + 1].goal.y - this._finalPos[i + 1].orig.y) * ease);
             }
 
-            this._progress++;
-            if (this._progress >= 175) {
+            this._progress += this._game._clockTick;
+            if (this._progress >= 4) {
                 this._phase = null;
                 this.destroy();
             }

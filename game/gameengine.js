@@ -47,8 +47,12 @@ class GameEngine {
      * @param {Level} level The level being played by the main character.
      * @param {[]} spawners The list of spawners that will create enemies.
      */
-    constructor(camera) {
-        this._camera = camera;
+    constructor(ctx) {
+        this._camera = new Camera(this, ctx);
+        this._ctx = ctx;
+        ctx.canvas.click();
+        this._surfaceWidth = this._ctx.canvas.width;
+        this._surfaceHeight = this._ctx.canvas.height;
         this._entities = [];
         this._entities[LAYERS.FLOOR] = [];
         this._entities[LAYERS.REMNANTS] = [];
@@ -62,7 +66,6 @@ class GameEngine {
         this._entities[LAYERS.PARTICLES] = [];
         this._entities[LAYERS.HUD] = [];
         this._entities[LAYERS.PRIORITY] = [];
-        this._ctx = null;
 
         this.timers = [];
         this.click = false;
@@ -117,7 +120,7 @@ class GameEngine {
      * Initializes the game.
      * @param {*} ctx The HTML canvas' 2D context.
      */
-    init(ctx) {
+    init() {
         this.audioManager = new AudioManager();
         //this.LoadLevel(new Level1(), [new BlackMage(), new Ninja()]);
         let level;
@@ -127,10 +130,6 @@ class GameEngine {
             level = new (eval("Level" + sessionStorage.getItem('level')))();
         }
         this.LoadLevel(level, parseNPC(sessionStorage.getItem('npcs')));
-        this._ctx = ctx;
-        ctx.canvas.click();
-        this._surfaceWidth = this._ctx.canvas.width;
-        this._surfaceHeight = this._ctx.canvas.height;
         this.startInput();
         this._clock = new Clock();
         new Crosshair(this);

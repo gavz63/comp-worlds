@@ -1,5 +1,5 @@
 class StoneGolem extends Enemy {
-    constructor(game, x, y, spawner) {
+    constructor(game, x, y, spawner = null) {
         super(game, x, y, spawner);
         let spriteSheet = game.AM.getAsset("./img/enemies/StoneGolemSheet.png");
         this.myAddScale = 2;
@@ -60,14 +60,18 @@ class StoneGolem extends Enemy {
                   this.x = this.oldPos.x;
                   this.y = this.oldPos.y;
                   
-                  let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: this.spawner.x, y: this.spawner.y}));
-                  while(this.wallCollision({x: this.x, y: this.y}))
+                  if(this.spawner)
                   {
-                    this.x += towardsCenter.x;
-                    this.y += towardsCenter.y;
+                    let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: this.spawner.x, y: this.spawner.y}));
+                    while(this.wallCollision({x: this.x, y: this.y}))
+                    {
+                      this.x += towardsCenter.x;
+                      this.y += towardsCenter.y;
+                    }
+                    
+                    this.oldPos = {x: this.x, y: this.y};
                   }
-                  
-                  this.oldPos = {x: this.x, y: this.y};
+            
                     this.attack();
                 } else {
                     this.oldPos = newPos;

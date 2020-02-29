@@ -96,11 +96,10 @@ ASSET_MANAGER.queueDownload("../menuImages/mainpress.png");
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
     let ctx = canvas.getContext('2d');
-    let camera = new Camera(ctx);
 
-    let gameEngine = new GameEngine(camera);
+    let gameEngine = new GameEngine(ctx);
     gameEngine.AM = ASSET_MANAGER;
-    gameEngine.init(ctx);
+    gameEngine.init();
     gameEngine.start();
     
     new Crate(gameEngine, 96 * 3, 96* 1.5);
