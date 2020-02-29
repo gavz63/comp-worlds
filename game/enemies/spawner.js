@@ -14,7 +14,7 @@ class RoomSpawner
 		this.lastCam = false;
 		this.lockCam = lockCam;
 		this.camLocked = false;
-		this.zoomAmt = zoom
+		this.zoomAmt = zoom;
 		
 		this.game.addEntity(this, LAYERS.SPAWNERS);
 	}
@@ -60,6 +60,7 @@ class RoomSpawner
 	
 	destroy()
 	{
+	    this.game._camera._desiredZoom = DEFAULT_ZOOM;
 		this.game.player.camLocked = false;
 		this.removeFromWorld = true;
 	}

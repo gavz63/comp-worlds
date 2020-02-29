@@ -49,6 +49,7 @@ class GameOver {
                     {x: 0, y: 0}, {x: 0, y: 0}, 1, true, 1),
             },
             function () {
+                window.onbeforeunload= null;
                 window.location.href = "../credits.html";
             });
 
@@ -61,6 +62,7 @@ class GameOver {
                     {x: 0, y: 0}, {x: 0, y: 0}, 1, true, 1),
             },
             function () {
+                window.onbeforeunload= null;
                 window.location.href = "../index.html";
             });
     }

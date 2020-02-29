@@ -8,7 +8,7 @@ if (sessionStorage.getItem('master_volume') === null
 }
 
 window.onbeforeunload = function() {
-    //TODO open the pause menu
+    //TODO open pause menu
 
     return "Leaving this page will reset the wizard";
 };

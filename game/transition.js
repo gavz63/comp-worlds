@@ -96,7 +96,8 @@ class Transition {
                 if(this._nextLevel != null) {
 					this._game.LoadLevel(this._nextLevel, this._charClassList, false);
 				} else {
-					window.location.href = "../credits.html";
+                    window.onbeforeunload= null;
+                    window.location.href = "../credits.html";
 				}
                 this._y = this._game.sceneManager.level.spawn.y * 96;
                 this._x = 0;
