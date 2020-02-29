@@ -23,6 +23,7 @@ class WallHUD {
         this._level = game._sceneManager.level;
         this._wallSheet = ASSET_MANAGER.getAsset("./img/map/walls.png");
         this._doorSheet = ASSET_MANAGER.getAsset("./img/map/doors.png");
+        this._specialDoorSheet = ASSET_MANAGER.getAsset("./img/map/specialDoors.png");
         this._removeFromWorld = false;
 
         this._outsideWall1 = new Animation(this._wallSheet, 128, 128, {x: 1, y: 0}, {x: 1, y: 0}, 0, true, WALL_1_SCALE);
@@ -34,6 +35,12 @@ class WallHUD {
         this._outsideHDoor = new Animation(this._doorSheet, 128, 128, {x: 1, y: 0}, {x: 1, y: 0}, 0, true, WALL_2_SCALE);
         this._insideVDoor = new Animation(this._doorSheet, 128, 128, {x: 0, y: 1}, {x: 0, y:1}, 0, true, WALL_2_SCALE);
         this._insideHDoor = new Animation(this._doorSheet, 128, 128, {x: 1, y: 1}, {x: 1, y: 1}, 0, true, WALL_2_SCALE);
+
+        this._outsideCarratDoor = new Animation(this._specialDoorSheet, 128, 128, {x: 0, y: 0}, {x: 0, y: 0}, 0, true, WALL_2_SCALE);
+        this._outsideTildeDoor = new Animation(this._specialDoorSheet, 128, 128, {x: 1, y: 0}, {x: 1, y: 0}, 0, true, WALL_2_SCALE);
+        this._insideCarratDoor = new Animation(this._specialDoorSheet, 128, 128, {x: 0, y: 1}, {x: 0, y:1}, 0, true, WALL_2_SCALE);
+        this._insideTildeDoor = new Animation(this._specialDoorSheet, 128, 128, {x: 1, y: 1}, {x: 1, y: 1}, 0, true, WALL_2_SCALE);
+
 
         this._outsideWall3 = new Animation(this._wallSheet, 128, 128, {x: 3, y: 0}, {x: 3, y: 0}, 0, true, WALL_3_SCALE);
         this._insideWall3 = new Animation(this._wallSheet, 128, 128, {x: 3, y: 1}, {x: 3, y: 1}, 0, true, WALL_3_SCALE);
@@ -67,14 +74,22 @@ class WallHUD {
             if (this._level._wallType === 0) {
                 if (dir === "H") {
                     this._outsideHDoor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
-                } else {
+                } else if (dir === "V") {
                     this._outsideVDoor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
+                } else if (dir === "~") {
+                    this._outsideTildeDoor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
+                } else if (dir === "^") {
+                    this._outsideCarratDoor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
                 }
             } else {
                 if (dir === "H") {
                     this._insideHDoor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
-                } else {
+                } else if (dir === "V") {
                     this._insideVDoor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
+                } else if (dir === "~") {
+                    this._insideTildeDoor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
+                } else if (dir === "^") {
+                    this._insideCarratDoor.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
                 }
             }
         };
