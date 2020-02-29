@@ -61,13 +61,12 @@ class Projectile extends Entity {
           this.myAddScale = this.animation._addScale;
         }
         this.myScale = [this.animation._scale];
-
         
         this.animation._scale = this.myScale;
     }
 
     update() {
-		this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+        this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
         if(this.attached === null)
         {
           this.testCollision();
@@ -542,7 +541,19 @@ class Shuriken extends EasingProjectile
                     }
                 }
             });
-        } else {
+            this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
+                if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
+                    if (circleToCircle(that, elem)) {
+                        if (that.dieOnHit) {
+                            that.destroy();
+                        }
+                        that.done = true;
+                        elem.takeDamage(that.dmg, that.dir, that.knockBack);
+                    }
+                }
+            });
+        } 
+        else {
             if (circleToCircle(that, that.game.player)) {
                 let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
                     x: this.game.player.x,

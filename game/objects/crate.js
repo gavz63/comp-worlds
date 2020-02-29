@@ -27,7 +27,7 @@ class Crate extends Object {
       this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
     
       this.animation.pause();
-      this.animation.setFrame(2 - this.hp);
+      this.animation.setFrame(2 - Math.ceil(this.hp));
     }
 
 }

@@ -157,21 +157,21 @@ class Enemy extends Entity {
     {
       if(!this.hurt)
       {
-		if(!this.invincible)
-		{
-			this.x += dir.x * knockBack * 1/this.weight;
-			this.y += dir.y * knockBack * 1/this.weight;
-			this.hp -= dmg;
-			this.hurt = true;
-			if (this.hp <= 0) {
-				this.destroy();
-			}
-			else
-			{
-				let that = this;
-				new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
-			}
-		}
-	  }
+        if(!this.invincible)
+        {
+          this.x += dir.x * knockBack * 1/this.weight;
+          this.y += dir.y * knockBack * 1/this.weight;
+          this.hp -= dmg;
+          this.hurt = true;
+          if (this.hp <= 0) {
+            this.destroy();
+          }
+          else
+          {
+            let that = this;
+            new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
+          }
+        }
+      }
     }
 }

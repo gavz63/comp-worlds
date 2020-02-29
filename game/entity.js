@@ -24,7 +24,7 @@ class Entity
 		
 		//draw modes
 		
-		this.oldPos = {x: 0, y: 0};
+		this.oldPos = {x: this.x, y: this.y};
 	}
   
   wallCollision(newPos)
@@ -32,23 +32,43 @@ class Entity
     let dir = dirV(this.oldPos, newPos);
     let xOffset = 0;
     let yOffset = 0;
-    if(dir.y < 0)
+
+    let returnValue = this.game._sceneManager.level.quickCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+    console.log(returnValue);
+    if(returnValue === true)
     {
-      yOffset = this.collider._upHit;
+      return returnValue;
     }
-    if(dir.y > 0)
+
+    yOffset = this.collider._upHit;
+    returnValue = this.game._sceneManager.level.quickCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+    if(returnValue === true)
     {
-      yOffset = this.collider._downHit;
+      return returnValue;
     }
-    if(dir.x < 0)
+
+    yOffset = this.collider._downHit;
+    returnValue = this.game._sceneManager.level.quickCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+    if(returnValue === true)
     {
-      xOffset = this.collider._leftHit;
+      return returnValue;
     }
-    if(dir.x > 0)
+
+    xOffset = this.collider._leftHit;
+    returnValue = this.game._sceneManager.level.quickCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+    if(returnValue === true)
     {
-      xOffset = this.collider._rightHit;
+      return returnValue;
     }
-    return this.game._sceneManager.level.quickCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+
+    xOffset = this.collider._rightHit;
+    returnValue = this.game._sceneManager.level.quickCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+    if(returnValue === true)
+    {
+      return returnValue;
+    }
+    
+    return false;
   }
 	
 	setAnimation(spritesheet)

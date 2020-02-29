@@ -23,32 +23,29 @@ class ProgressBar extends Entity
   
   update()
   {
-	this.width = this.owner.animation._frameWidth * this.owner.animation._scale;
-	  
-	if(!this.paused)
-	{
-		this.progress += this.amt * this.game._clockTick;
-	}
-	if (this.progress < 100)
-	{
-	  this.barFront.animation.setFrame(1);
-	}
-	else
-	{
-	  this.progress = 100;
-	  this.barFront.animation.setFrame(0);
-	}
-	this.x = this.owner.x + this.offsetX;
-	this.y = this.owner.y + this.offsetY;
+    this.width = this.owner.animation._frameWidth * this.owner.animation._scale
+      
+    if(!this.paused)
+    {
+      this.progress += this.amt * this.game._clockTick;
+    }
+    if (this.progress < 100)
+    {
+      this.barFront.animation.setFrame(1);
+    }
+    else
+    {
+      this.progress = 100;
+      this.barFront.animation.setFrame(0);
+    }
+    this.x = this.owner.x + this.offsetX;
+    this.y = this.owner.y + this.offsetY;
   }
   
   draw()
   {
-	this.barBack.display();
-	this.barFront.display();
-	
-	//console.log("Diff: " + (this.barBack.y - this.barFront.y));
-	//console.log("Height: " + this.barBack.animation._height);
+    this.barBack.display();
+    this.barFront.display();
   }
   
   destroy()

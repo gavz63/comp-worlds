@@ -4,6 +4,7 @@ function Ninja() {
     var dmgSheet = ASSET_MANAGER.getAsset("./img/player_characters/NinjaDmgSheet.png");
     var shuriken = ASSET_MANAGER.getAsset("./img/projectiles/Shuriken.png");
     var slash = ASSET_MANAGER.getAsset("./img/projectiles/PureSlash.png");
+    var airSlash = ASSET_MANAGER.getAsset("./img/projectiles/AirSlash.png");
 
     //Use to access all animations this character has
     this.animation = {
@@ -102,22 +103,39 @@ function Ninja() {
         24, true, STANDARD_DRAW_SCALE); },
 			
 		//Special Projectile animations
-        specialProjectileUp: function() { return new Animation(slash,
+        specialProjectile1Up: function() { return new Animation(slash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 3, y: 2},
             30, false, STANDARD_DRAW_SCALE*3); },
-        specialProjectileDown: function () { return new Animation(slash,
+        specialProjectile1Down: function () { return new Animation(slash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 3}, {x: 3, y: 3},
             30, false, STANDARD_DRAW_SCALE*3); },
-        specialProjectileLeft: function () { return new Animation(slash,
+        specialProjectile1Left: function () { return new Animation(slash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 3, y: 0},
             30, false, STANDARD_DRAW_SCALE*3); },
-        specialProjectileRight: function () { return new Animation(slash,
+        specialProjectile1Right: function () { return new Animation(slash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 1}, {x: 3, y: 1},
-            30, false, STANDARD_DRAW_SCALE*3); }
+            30, false, STANDARD_DRAW_SCALE*3); },
+
+        specialProjectile2Up: function() { return new Animation(airSlash,
+            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+            {x: 0, y: 1}, {x: 1, y: 1},
+            12, true, STANDARD_DRAW_SCALE, 3); },
+        specialProjectile2Down: function () { return new Animation(airSlash,
+            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+            {x: 0, y: 3}, {x: 1, y: 3},
+            12, true, STANDARD_DRAW_SCALE, 3); },
+        specialProjectile2Left: function () { return new Animation(airSlash,
+            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+            {x: 0, y: 2}, {x: 1, y: 2},
+            12, true, STANDARD_DRAW_SCALE, 3); },
+        specialProjectile2Right: function () { return new Animation(airSlash,
+            STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+            {x: 0, y: 0}, {x: 1, y: 0},
+            12, true, STANDARD_DRAW_SCALE, 3); }
     };
 
 	let that = this;
@@ -130,31 +148,39 @@ function Ninja() {
 				attackVector,
 				player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 				false, player, projectileAnimation,
-				1, 5, 7, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); });
+				1.5, 5, 7, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); });
         projectile.GiveBackAmmo();
 	};
 	
 	this.specialAttack = function (player, attackVector)
 	{
 		let specialAnimation = null;
+    let specialProjectileAnimation = null;
 
 		switch (player.direction) {
 			case DIRECTION_DOWN:
-				specialAnimation = player.characterClass.animation.specialProjectileDown();
+				specialAnimation = player.characterClass.animation.specialProjectile1Down();
+				specialProjectileAnimation = player.characterClass.animation.specialProjectile2Down();
 				break;
 			case DIRECTION_UP:
-				specialAnimation = player.characterClass.animation.specialProjectileUp();
+				specialAnimation = player.characterClass.animation.specialProjectile1Up();
+        specialProjectileAnimation = player.characterClass.animation.specialProjectile2Up();
 				break;
 			case DIRECTION_LEFT:
-				specialAnimation = player.characterClass.animation.specialProjectileLeft();
+				specialAnimation = player.characterClass.animation.specialProjectile1Left();
+        specialProjectileAnimation = player.characterClass.animation.specialProjectile2Left();
 				break;
 			default:
-				specialAnimation = player.characterClass.animation.specialProjectileRight();
+				specialAnimation = player.characterClass.animation.specialProjectile1Right();
+        specialProjectileAnimation = player.characterClass.animation.specialProjectile2Right();
 				break;
-		}		
+		}
 		let projectile = new Slash(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, specialAnimation, 4, 40, 10);
 		projectile.attachTo(player);
 		projectile.hitOnce();
+    
+    let dir = dirToVector(player.direction);
+    new TimerCallback(player.game, 0.15, false, function () {new Projectile(player.game, player.x + dir.x * 50, player.y + dir.y * 50, dir, 300, 0.35, false, player, specialProjectileAnimation, 0.2, 40, 3);})
 	};
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
@@ -163,7 +189,7 @@ function Ninja() {
         maxHP: 1,
         speed: 225,
         melee: false,
-        projectileSpeed: 150,
+        projectileSpeed: 400,
         projectileLifetime: 1,
         specialMelee: true,
         specialSpeed: 10,
