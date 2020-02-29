@@ -12,8 +12,8 @@ class HealthBar extends Entity
     this.attached = null;
     this.paused = false;
 	
-	this.barOutline = new OutlineBar(this.game, 0, 0, this);
-	this.barOutline.animation.setFrame(0);
+    this.barOutline = new OutlineBar(this.game, 0, 0, this);
+    this.barOutline.animation.setFrame(0);
     
     this.barBack = new HpBarBack(this.game, 0, 0, this);
     this.barBack.animation.setFrame(2); // set back to black
@@ -23,9 +23,9 @@ class HealthBar extends Entity
     
     this.game.addEntity(this, LAYERS.HUD);
 	
-	this.width = this.game._ctx.canvas.width * this.scale;
-	this.count = count;
-	this.max = max;
+    this.width = this.game._ctx.canvas.width * this.scale;
+    this.count = count;
+    this.max = max;
   }
   
   update()
@@ -67,9 +67,11 @@ class HealthBar extends Entity
   destroy()
   {
     super.destroy();
+    console.log("got here 1");
     this.barBack.destroy();
     this.barFront.destroy();
-	this.barOutline.destroy();
+    this.barOutline.destroy();
+    console.log("got here 2");
   }
 }
 
