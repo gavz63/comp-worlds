@@ -235,6 +235,8 @@ class GameEngine {
             this._entities[i] = [];
         }
         this.timers = [];
+        this.destroyedLevel = true;
+        console.log("destroyed level");
     }
 
     /**
@@ -243,11 +245,9 @@ class GameEngine {
      */
     update() {
 
-        let entityCount = this.entities[LAYERS.PRIORITY].length;
-        for (let i = 0; i < entityCount; i++) {
+        for (let i = 0; i < this.entities[LAYERS.PRIORITY].length; i++) {
             if (this.entities[LAYERS.PRIORITY][i].removeFromWorld) {
                 this.removeEntity(this.entities[LAYERS.PRIORITY][i]);
-                entityCount = this.entities[LAYERS.PRIORITY].length;
                 i--;
                 continue;
             }
@@ -262,12 +262,9 @@ class GameEngine {
         switch (this.game_state) {
             case GAME_STATES.CHARACTER_SELECT:
                 for (var i = 0; i < this._entities.length - 1; i++) {
-
-                    entityCount = this._entities[i].length;
-                    for (var j = 0; j < entityCount; j++) {
+                    for (var j = 0; j < this._entities[i].length; j++) {
                         if (this.entities[i][j].removeFromWorld) {
                             this.removeEntity(this.entities[i][j]);
-                            entityCount = this.entities[i].length;
                             j--;
                             continue;
                         }
@@ -295,11 +292,9 @@ class GameEngine {
             case GAME_STATES.GAME_OVER:
 
                 for (var i = 0; i < this._entities.length - 1; i++) {
-                    entityCount = this._entities[i].length;
-                    for (var j = 0; j < entityCount; j++) {
+                    for (var j = 0; j < this._entities[i].length; j++) {
                         if (this.entities[i][j].removeFromWorld) {
                             this.removeEntity(this.entities[i][j]);
-                            entityCount = this.entities[i].length;
                             j--;
                             continue;
                         }
