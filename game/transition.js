@@ -27,7 +27,6 @@ class Transition {
     }
 
     update() {
-        console.log(this._progress);
         if (this._phase === 0) {
             this._x += Math.ceil(150 * this._game._clockTick);
             this._game._camera._desiredZoom = (224 * 224);

@@ -41,7 +41,7 @@ class SceneManager {
         });
         let that = this;
         this.revived.forEach(function (elem) {
-            remaining.push(new NPC(that.game, elem.characterClass, this.game.player.characterClass.stats.maxHP));
+            remaining.push(new NPC(that.game, elem.characterClass, that.game._player.characterClass.stats.maxHP));
         });
 		if(this.levelFile.nextLevel !== null)
 		{
