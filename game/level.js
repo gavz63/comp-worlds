@@ -301,13 +301,13 @@ class Level {
     
     quickCollision(X, Y)
     {
-	  let map = this.mapElementAt({x: X, y: Y});
-	  if(map !== "-")
-	  {
-		  return 1;
-	  }
+      let map = this.mapElementAt({x: X, y: Y});
+      if(map !== "-")
+      {
+        return true;
+      }
       
-      return 0;
+      return false;
     }
 
     get spawn() {

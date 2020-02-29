@@ -2,6 +2,18 @@ class MagmaGolem extends Enemy {
     constructor(game, x, y, spawner, scale = 10, count = 0)
     {
       super(game, x, y, spawner);
+      
+      let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: spawner.x, y: spawner.y}));
+      while(this.wallCollision({x: this.x, y: this.y}))
+      {
+        console.log("HELLO WORLD: " + towardsCenter.x + ", " + towardsCenter.y);
+        this.x += towardsCenter.x;
+        this.y += towardsCenter.y;
+      }
+      
+      this.oldPos = {x: this.x, y: this.y};
+
+      
       let spriteSheet = game.AM.getAsset("./img/enemies/MagmaGolemSheet.png");
       this.myAddScale = scale;
       this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
@@ -74,9 +86,20 @@ class MagmaGolem extends Enemy {
               if (this.wallCollision(newPos)) {
                   this.x = this.oldPos.x;
                   this.y = this.oldPos.y;
+                  
+                  let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: this.spawner.x, y: this.spawner.y}));
+                  while(this.wallCollision({x: this.x, y: this.y}))
+                  {
+                    this.x += towardsCenter.x;
+                    this.y += towardsCenter.y;
+                  }
+                  
+                  this.oldPos = {x: this.x, y: this.y};
+                  
                   this.attack();
               } else {
                   this.oldPos = newPos;
+                  
               }
           }
       }
