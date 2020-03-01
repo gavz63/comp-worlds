@@ -16,7 +16,7 @@ class ProgressBar extends Entity
     this.barBack.animation.setFrame(2);
     this.barFront = new ProgressBarFront(this.game, 0, 0, this);
 	
-	this.myScale = [1];
+    this.myScale = [1];
     
     this.game.addEntity(this, LAYERS.HUD);
   }
@@ -40,6 +40,8 @@ class ProgressBar extends Entity
     }
     this.x = this.owner.x + this.offsetX;
     this.y = this.owner.y + this.offsetY;
+    
+
   }
   
   draw()
@@ -65,14 +67,14 @@ class ProgressBarFront extends Entity
     this.offsetY = y;
     this.attached = attached;
 	
-	this.myScale = [1];
+    this.myScale = [1];
       
     this.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/ProgressBar.png"),
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 0, y: 2},
             0, true, this.myScale);
 			
-    this.animation._height = this.animation._frameHeight / 5;
+    this.animation._height = STANDARD_DRAW_SCALE * 2;
     
     this.game.addEntity(this, LAYERS.HUD);
   }
@@ -83,19 +85,23 @@ class ProgressBarFront extends Entity
   
   display()
   {
-	let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
-	this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, false);
+    let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+    this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, false);
   }
   
   update()
   {
-      this.myScale[0] = 1;
-	  
-	  let t = this.attached.progress / 100;
-	  this.animation._width = mix(smoothStartN(t, 3), smoothStopN(t, 3), t) * this.attached.width;
-	  
-      this.x = this.attached.x - (this.attached.owner.animation._width) / 2;
-      this.y = this.attached.y - (this.animation._height * this.animation._scale)/2;
+    this.animation._height = STANDARD_DRAW_SCALE * 2;
+  
+    this.myScale[0] = 1;
+  
+    let t = this.attached.progress / 100;
+    this.animation._width = mix(smoothStartN(t, 3), smoothStopN(t, 3), t) * this.attached.width;
+  
+    this.x = this.attached.x - (this.attached.owner.animation._width) / 2;
+    this.y = this.attached.owner.y + this.attached.owner.animation._height/2 + this.animation._height/2;
+    
+    console.log(this.animation._frameHeight + ", " + this.animation._scale + ", " + this.animation._height);
   }
 }
 
@@ -108,14 +114,14 @@ class ProgressBarBack extends Entity
     this.offsetY = y;
     this.attached = attached;
       
-	this.myScale = [1];
+    this.myScale = [1];
 	  
     this.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/ProgressBar.png"),
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 0, y: 2},
             0, true, this.myScale);
 			
-    this.animation._height = this.animation._frameHeight / 5;
+    this.animation._height = STANDARD_DRAW_SCALE * 2;
     
     this.game.addEntity(this, LAYERS.HUD);
   }
@@ -126,17 +132,18 @@ class ProgressBarBack extends Entity
   
   display()
   {
-	let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
-	this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, false);
+    let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+    this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, false);
   }
   
   update()
   {
-				
+    this.animation._height = STANDARD_DRAW_SCALE * 2;
+
 	  this.myScale[0] = 1;
 	  
-      this.x = this.attached.x - (this.attached.owner.animation._width) / 2;
-      this.y = this.attached.y - (this.animation._height * this.animation._scale)/2;
+    this.x = this.attached.x - (this.attached.owner.animation._width) / 2;
+    this.y = this.attached.owner.y + this.attached.owner.animation._height/2 + this.animation._height/2;
 	  
 	  this.animation._width = this.attached.width;
   }

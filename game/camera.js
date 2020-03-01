@@ -62,48 +62,49 @@ class Camera {
     }
 
     draw(ctx){}
-    update(){
-        this._ctx.canvas.width = window.innerWidth;
-        this._ctx.canvas.height = window.innerHeight;
-        this._width = this._ctx.canvas.width;
-        this._height = this._ctx.canvas.height;
-        this._ctx.webkitImageSmoothingEnabled = false;
-        this._ctx.mozImageSmoothingEnabled = false;
-        this._ctx.imageSmoothingEnabled = false;
-        if (this._zoom !== this._desiredZoom) {
-            let zoomSmoothing = 25;
-            if (sessionStorage.getItem('fps') === '30') zoomSmoothing = 15;
-            if (Math.floor(Math.abs(this._desiredZoom - this._zoom) / zoomSmoothing) < 2) { // {60+: 25, 30: 15}
-                this._zoom = Math.floor(this._desiredZoom);
-            } else {
-                this._zoom += Math.floor((this._desiredZoom - this._zoom) / zoomSmoothing); // {60+: 25, 30: 15}
-            }
-        }
-        if (this._x !== this._desiredLoc.x || this._y !== this._desiredLoc.y) {
-            let moveSmoothing = 5;
-            if (sessionStorage.getItem('fps') === '30') moveSmoothing = 2;
-            if (Math.floor(Math.abs(this._desiredLoc.x - this._x)) < 2) {
-                this._x = Math.floor(this._desiredLoc.x);
-            } else {
-                let t =  (this._desiredLoc.x - this._x) / moveSmoothing; // {60+: 5, 30: 3}
-                if (t < 0) {
-                    this._x += Math.floor(t);
-                } else {
-                    this._x += Math.ceil(t);
-                }
-            }
-            if (Math.floor(Math.abs(this._desiredLoc.y - this._y)) < 2) {
-                this._y = Math.floor(this._desiredLoc.y);
-            } else {
-                let t = (this._desiredLoc.y - this._y) / moveSmoothing; // {60+: 5, 30: 3}
-                if (t < 0) {
-                    this._y += Math.floor(t);
-                } else {
-                    this._y += Math.ceil(t);
-                }
-            }
-        }
-        STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / this._zoom);
+    update()
+    {
+      this._ctx.canvas.width = window.innerWidth;
+      this._ctx.canvas.height = window.innerHeight;
+      this._width = this._ctx.canvas.width;
+      this._height = this._ctx.canvas.height;
+      this._ctx.webkitImageSmoothingEnabled = false;
+      this._ctx.mozImageSmoothingEnabled = false;
+      this._ctx.imageSmoothingEnabled = false;
+      if (this._zoom !== this._desiredZoom) {
+          let zoomSmoothing = 25;
+          if (sessionStorage.getItem('fps') === '30') zoomSmoothing = 15;
+          if (Math.floor(Math.abs(this._desiredZoom - this._zoom) / zoomSmoothing) < 2) { // {60+: 25, 30: 15}
+              this._zoom = Math.floor(this._desiredZoom);
+          } else {
+              this._zoom += Math.floor((this._desiredZoom - this._zoom) / zoomSmoothing); // {60+: 25, 30: 15}
+          }
+      }
+      if (this._x !== this._desiredLoc.x || this._y !== this._desiredLoc.y) {
+          let moveSmoothing = 5;
+          if (sessionStorage.getItem('fps') === '30') moveSmoothing = 2;
+          if (Math.floor(Math.abs(this._desiredLoc.x - this._x)) < 2) {
+              this._x = Math.floor(this._desiredLoc.x);
+          } else {
+              let t =  (this._desiredLoc.x - this._x) / moveSmoothing; // {60+: 5, 30: 3}
+              if (t < 0) {
+                  this._x += Math.floor(t);
+              } else {
+                  this._x += Math.ceil(t);
+              }
+          }
+          if (Math.floor(Math.abs(this._desiredLoc.y - this._y)) < 2) {
+              this._y = Math.floor(this._desiredLoc.y);
+          } else {
+              let t = (this._desiredLoc.y - this._y) / moveSmoothing; // {60+: 5, 30: 3}
+              if (t < 0) {
+                  this._y += Math.floor(t);
+              } else {
+                  this._y += Math.ceil(t);
+              }
+          }
+      }
+      STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / this._zoom);
     }
 
     zoomCam(val) {

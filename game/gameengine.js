@@ -226,6 +226,13 @@ class GameEngine {
             }
         }
         
+        if(this.player)
+        {
+          this._ctx.font = "20px Georgia";
+          this._ctx.fillStyle = "white";
+          let point = this._camera.clickPosTranslation({x: 0, y: 0});
+          this._ctx.fillText("Keys: " + this.player.keys, 0, 20);
+        }
         //this._ctx.restore();
     }
 

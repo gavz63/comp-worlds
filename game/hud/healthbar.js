@@ -30,7 +30,7 @@ class HealthBar extends Entity
   
   update()
   {
-	this.width = this.game._ctx.canvas.width * this.scale;
+    this.width = this.game._ctx.canvas.width * this.scale;
 	  
     if(this.attached !== null)
     {
@@ -54,9 +54,9 @@ class HealthBar extends Entity
   
   draw()
   {	
-	this.barOutline.display();
-	this.barBack.display();
-	this.barFront.display();
+    this.barOutline.display();
+    this.barBack.display();
+    this.barFront.display();
   }
   
   attachTo(attached)
@@ -99,7 +99,7 @@ class OutlineBar extends Entity
 		this.game.addEntity(this, LAYERS.HUD);
 	}
 	
-    draw()
+  draw()
 	{
 	}
 	
@@ -108,14 +108,14 @@ class OutlineBar extends Entity
 		this.animation.drawFrame(this.game._clockTick, this.game._ctx, this.x, this.y, true);
 	}
 	
-    update()
-    {
-	  this.myAddScale = this.attached.width + this.borderSize;
-	  this.myScale[0] = 1;//this.attached.game._ctx.canvas.width;
-	  this.x = this.attached.x + this.offsetX;
-	  this.y = this.attached.y + this.offsetY;
-	  this.animation._width = this.attached.width + this.borderSize * 2;
-    }
+  update()
+  {
+    this.myAddScale = this.attached.width + this.borderSize;
+    this.myScale[0] = 1;//this.attached.game._ctx.canvas.width;
+    this.x = this.attached.x + this.offsetX;
+    this.y = this.attached.y + this.offsetY;
+    this.animation._width = this.attached.width + this.borderSize * 2;
+  }
 }
 
 class HpBarFront extends Entity
@@ -127,8 +127,8 @@ class HpBarFront extends Entity
     this.offsetY = y;
     this.attached = attached;
 	
-	this.myAddScale = this.attached.width;
-	this.myScale = [1];
+    this.myAddScale = this.attached.width;
+    this.myScale = [1];
       
     this.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/HealthBar.png"),
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
@@ -154,8 +154,8 @@ class HpBarFront extends Entity
 	  this.myScale[0] = 1;//this.attached.game._ctx.canvas.width;
 	  this.myAddScale = this.attached.width;
 	  
-      this.x = this.attached.x - ( (this.attached.width * this.animation._scale) / 2);
-      this.y = this.attached.y - ((this.animation._height * this.animation._scale) / 2);
+    this.x = this.attached.x - ( (this.attached.width * this.animation._scale) / 2);
+    this.y = this.attached.y - ((this.animation._height * this.animation._scale) / 2);
 	  
 	  let t = this.attached.owner.hp / this.attached.owner.maxHp;
 	  this.animation._width = mix(smoothStartN(t, 3), smoothStopN(t, 3), t) * this.attached.width;
@@ -171,8 +171,8 @@ class HpBarBack extends Entity
     this.offsetY = y;
     this.attached = attached;
 	
-	this.myAddScale = this.attached.width;
-	this.myScale = [1];
+    this.myAddScale = this.attached.width;
+    this.myScale = [1];
       
     this.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/HealthBar.png"),
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
@@ -198,8 +198,8 @@ class HpBarBack extends Entity
 	  this.myScale[0] = 1;//this.attached.game._ctx.canvas.width;
 	  this.myAddScale = this.attached.width;
 
-      this.x = this.attached.x + this.offsetX;
-      this.y = this.attached.y + this.offsetY;
+    this.x = this.attached.x + this.offsetX;
+    this.y = this.attached.y + this.offsetY;
 	  
 	  this.animation._width = this.attached.width;
   }

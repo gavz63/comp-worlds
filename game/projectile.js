@@ -547,7 +547,9 @@ class Shuriken extends EasingProjectile
                         if (that.dieOnHit) {
                             that.destroy();
                         }
-                        that.done = true;
+                        else{
+                          that.setDone();
+                        }
                         elem.takeDamage(that.dmg, that.dir, that.knockBack);
                     }
                 }

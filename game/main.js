@@ -96,7 +96,7 @@ ASSET_MANAGER.queueDownload("../menuImages/mainpress.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
-    let ctx = canvas.getContext('2d');
+    let ctx = canvas.getContext("2d");
 
     let gameEngine = new GameEngine(ctx);
     gameEngine.AM = ASSET_MANAGER;
