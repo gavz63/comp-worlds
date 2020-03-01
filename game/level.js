@@ -365,6 +365,17 @@ class Level {
 
       return false;
     }
+    
+    quickProjectileCollision(X, Y)
+    {
+      let map = this.mapElementAt({x: X, y: Y});
+      if(map === "#")
+      {
+        return true;
+      }
+
+      return false;
+    }
 
     get spawn() {
         return this._spawn;

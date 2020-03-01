@@ -434,41 +434,41 @@ class Player extends Entity {
      */
     regularAttack() {
 
-        this.game.click = false;
-        this.isAttacking = true;
+      this.game.click = false;
+      this.isAttacking = true;
 
-        let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
+      let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
 		
-		let that = this;
+      let that = this;
 		
-	    console.log(raycast({x: that.x, y: that.y}, cursorCenter, 20, function(pt) { return that.game._sceneManager.level.quickCollision(coordinateToIndex(pt.x), coordinateToIndex(pt.y)); }));
+	    //console.log(raycast({x: that.x, y: that.y}, cursorCenter, 20, function(pt) { return that.game._sceneManager.level.quickCollision(coordinateToIndex(pt.x), coordinateToIndex(pt.y)); }));
 
-        let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
+      let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
 
-        var attackDir = vectorToDir(attackVector);
+      var attackDir = vectorToDir(attackVector);
 
-        switch (attackDir) {
-            case DIRECTION_DOWN:
-                this.animation = this.characterClass.animation.regAttackDown();
-                break;
-            case DIRECTION_UP:
-                this.animation = this.characterClass.animation.regAttackUp();
-                break;
-            case DIRECTION_LEFT:
-                this.animation = this.characterClass.animation.regAttackLeft();
-                break;
-            default:
-                this.animation = this.characterClass.animation.regAttackRight();
-                break;
-        }
+      switch (attackDir) {
+          case DIRECTION_DOWN:
+              this.animation = this.characterClass.animation.regAttackDown();
+              break;
+          case DIRECTION_UP:
+              this.animation = this.characterClass.animation.regAttackUp();
+              break;
+          case DIRECTION_LEFT:
+              this.animation = this.characterClass.animation.regAttackLeft();
+              break;
+          default:
+              this.animation = this.characterClass.animation.regAttackRight();
+              break;
+      }
 
-        this.animation.resetAnimation();
-        this.animation.unpause();
-        this.direction = attackDir;
-        if (this.attackCounter < this.characterClass.stats.maxProjectiles) {
-            this.attackCounter++;
-            this.characterClass.attack(this, attackVector);
-        }
+      this.animation.resetAnimation();
+      this.animation.unpause();
+      this.direction = attackDir;
+      if (this.attackCounter < this.characterClass.stats.maxProjectiles) {
+          this.attackCounter++;
+          this.characterClass.attack(this, attackVector);
+      }
     }
 
     specialAttack() {

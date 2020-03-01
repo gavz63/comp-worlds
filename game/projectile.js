@@ -200,6 +200,50 @@ class Projectile extends Entity {
     {
       this.giveBackAmmo = true;
     }
+    
+    wallCollision(newPos)
+    {
+      let dir = dirV(this.oldPos, newPos);
+      let xOffset = 0;
+      let yOffset = 0;
+
+      let returnValue = this.game._sceneManager.level.quickProjectileCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+      //console.log(returnValue);
+      if(returnValue === true)
+      {
+        return returnValue;
+      }
+
+      yOffset = this.collider._upHit;
+      returnValue = this.game._sceneManager.level.quickProjectileCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+      if(returnValue === true)
+      {
+        return returnValue;
+      }
+
+      yOffset = this.collider._downHit;
+      returnValue = this.game._sceneManager.level.quickProjectileCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+      if(returnValue === true)
+      {
+        return returnValue;
+      }
+
+      xOffset = this.collider._leftHit;
+      returnValue = this.game._sceneManager.level.quickProjectileCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+      if(returnValue === true)
+      {
+        return returnValue;
+      }
+
+      xOffset = this.collider._rightHit;
+      returnValue = this.game._sceneManager.level.quickProjectileCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+      if(returnValue === true)
+      {
+        return returnValue;
+      }
+      
+      return false;
+    }
 
 }
 
@@ -489,10 +533,14 @@ class Shuriken extends EasingProjectile
 	constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn)
 	{
 		super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing, timeToSpawn);
-		this.timer.destroy();
-		let that = this;
-		this.timer = new TimerCallback(this.game, this.lifetime, false, function() {
-            that.setDone();
+    if(this.wallCollision({x: this.x, y: this.y}))
+    {
+      this.destroy();
+    }
+      this.timer.destroy();
+      let that = this;
+      this.timer = new TimerCallback(this.game, this.lifetime, false, function() {
+      that.setDone();
 		});
 		this.done = false;
     
@@ -502,17 +550,18 @@ class Shuriken extends EasingProjectile
   update() {
 		if(!this.done)
 		{
-			this.testCollision();
 			this.move();
 			
 			let newPos = {x: this.x, y: this.y};
-			if (this.wallCollision(newPos)) {
-				this.x = this.oldPos.x;
-				this.y = this.oldPos.y;
+      let backDir = normalizeV(this.dir);
+			while (this.wallCollision({x: this.x, y: this.y})) {
+				this.x -= backDir.x;
+				this.y -= backDir.y;
 				this.setDone();
-			} else {
-				this.oldPos = newPos;
 			}
+      this.testCollision();
+			this.oldPos = newPos;
+			
 		}
 		this.testPlayerCollision();
   }
@@ -527,7 +576,6 @@ class Shuriken extends EasingProjectile
 
         if (this.owner instanceof Player) {
             //For each enemy
-
             this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
                 if (that.done !== true) {
                     if (circleToCircle(that, elem)) {
@@ -535,7 +583,13 @@ class Shuriken extends EasingProjectile
                             that.destroy();
                         }
                         else{
-                          that.setDone();
+                          let backDir = normalizeV(that.dir);
+                          while (circleToCircle(that, elem)) {
+                            console.log("HEY");
+                            that.x -= backDir.x;
+                            that.y -= backDir.y;
+                            that.setDone();
+                          }
                         }
                         elem.takeDamage(that.dmg, that.dir, that.knockBack);
                     }
@@ -548,7 +602,13 @@ class Shuriken extends EasingProjectile
                             that.destroy();
                         }
                         else{
-                          that.setDone();
+                          let backDir = normalizeV(that.dir);
+                          while (circleToCircle(that, elem)) {
+                                                        console.log(backDir.x + ", " + backDir.y);
+                            that.x -= backDir.x;
+                            that.y -= backDir.y;
+                            that.setDone();
+                          }
                         }
                         elem.takeDamage(that.dmg, that.dir, that.knockBack);
                     }
@@ -583,7 +643,7 @@ class Shuriken extends EasingProjectile
 		this.animation.pause();
 		this.done = true;
 		let that = this;
-        new TimerCallback(this.game, this.lifetime * 3, false, function (){ that.destroy(); });
+    new TimerCallback(this.game, this.lifetime * 0.5, false, function (){ that.destroy(); });
 	}
 }
 

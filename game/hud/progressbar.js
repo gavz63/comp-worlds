@@ -100,8 +100,7 @@ class ProgressBarFront extends Entity
   
     this.x = this.attached.x - (this.attached.owner.animation._width) / 2;
     this.y = this.attached.owner.y + this.attached.owner.animation._height/2 + this.animation._height/2;
-    
-    console.log(this.animation._frameHeight + ", " + this.animation._scale + ", " + this.animation._height);
+
   }
 }
 

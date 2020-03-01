@@ -142,14 +142,83 @@ function Ninja() {
 	
 	this.attack = function (player, attackVector)
 	{
-			let projectileAnimation = that.animation.regProjectile();
-			let projectile = new Shuriken(player.game,
-				player.x, player.y,
-				attackVector,
-				player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
-				false, player, projectileAnimation,
-				1.5, 5, 7, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); });
+    let projectileAnimation = that.animation.regProjectile();
+    let perpDir = perpendicularV(attackVector);
+    let count = 1;
+    let pos = {x: player.x + perpDir.x, y: player.y};
+        
+    let spaceBetween = 5;
+        
+    for(let i = 0; i < count; i++)
+    {
+      new TimerCallback(player.game, i * 0.05, false, function () {
+        let projectile = new Shuriken(player.game,
+          pos.x - perpDir.x * i * spaceBetween, pos.y - perpDir.y * i * spaceBetween,
+          attackVector,
+          player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
+          false, player, projectileAnimation,
+          1.5, 1, 7, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); });
+          projectile.GiveBackAmmo();
+      });
+    }
+    
+    
+    /*
+    let perpDir = perpendicularV(attackVector);
+    let pos = {x: player.x + perpDir.x, y: player.y + perpDir.y};
+    
+    let that = this;
+    let spaceBetween = 7;
+    
+    
+    for(let i = 0; i < 3; i++)
+    {
+      new TimerCallback(player.game, i * 0.15, false, function () {
+        let r = raycast({x: pos.x - perpDir.x * i*spaceBetween, y: pos.y - perpDir.y * i*spaceBetween}, {x: pos.x - perpDir.x * i*spaceBetween + attackVector.x, y: pos.y - perpDir.y * i*spaceBetween + attackVector.y}, 0.1, function (pt) 
+          {
+            for(let j = 0; j < player.game.entities[LAYERS.ENEMIES].length; j++)
+            {
+              let elem = player.game.entities[LAYERS.ENEMIES][j];
+              if (elem.removeFromWorld !== true) {
+                    if (circleToCircle(pt, elem)) {
+                        return elem;
+                    }
+              }
+            }
+            for(let j = 0; j < player.game.entities[LAYERS.OBJECTS].length; j++)
+            {
+              let elem = player.game.entities[LAYERS.OBJECTS][j];
+              if (elem.removeFromWorld !== true) {
+                    if (circleToCircle(pt, elem)) {
+                        return elem;
+                    }
+              }
+            }
+            return player.game._sceneManager.level.quickCollision(coordinateToIndex(pt.x), coordinateToIndex(pt.y));
+
+          });
+
+
+        let projectile = new Shuriken(player.game,
+          r.x, r.y,
+          attackVector,
+          player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
+          false, player, projectileAnimation,
+          1.5, 5, 7, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); });
         projectile.GiveBackAmmo();
+        projectile.setDone();
+        
+        if(r.elem !== true && r.elem !== false)
+        {
+          r.elem.takeDamage(1.5, attackVector, 5);
+        }
+      });
+    }
+    
+    console.log(player.attackCounter);
+    new TimerCallback(player.game, 0.5, false, function () {
+      player.attackCounter--;
+    });*/
 	};
 	
 	this.specialAttack = function (player, attackVector)
@@ -189,14 +258,14 @@ function Ninja() {
         maxHP: 1,
         speed: 225,
         melee: false,
-        projectileSpeed: 400,
+        projectileSpeed: 350,
         projectileLifetime: 1,
         specialMelee: true,
         specialSpeed: 10,
         specialLifetime: 0.25,
         specialChargeTime: 1,
         specialChargeFromKill: 0,
-        maxProjectiles: 10,
+        maxProjectiles: 3,
     };
     this.npc = {
         x: -32 - 50,
