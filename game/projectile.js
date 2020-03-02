@@ -139,6 +139,17 @@ class Projectile extends Entity {
                 let attackedFromDir = vectorToDir(attackedFromVector);
                 this.game.player.takeDmg(1, attackedFromDir);
             }
+            this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
+                if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
+                    if (circleToCircle(that, elem)) {
+                        if (that.dieOnHit) {
+                            that.destroy();
+                        }
+                        that.done = true;
+                        elem.takeDamage(that.dmg, that.dir, that.knockBack);
+                    }
+                }
+            });
         }
       }
     }
@@ -258,7 +269,10 @@ class HomingProjectile extends Projectile {
 		direction = normalizeV(direction);
 		this.x += direction.x * this.speed;
 		this.y += direction.y * this.speed;
+    
+    this.testCollision();
 	}
+  
 }
 
 class EasingProjectile extends Projectile {
@@ -697,15 +711,18 @@ class Spin extends Slash
                     }
                 }
             });
-        } else {
-            if (circleToCircle(that, that.game.player)) {
-                let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
-                    x: this.game.player.x,
-                    y: this.game.player.y
-                }));
-                let attackedFromDir = vectorToDir(attackedFromVector);
-                this.game.player.takeDmg(1, attackedFromDir);
-            }
+            this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
+                if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
+                    if (circleToCircle(that, elem)) {
+                        if (that.dieOnHit) {
+                            that.destroy();
+                        }
+                        that.done = true;
+                        elem.takeDamage(that.dmg, that.dir, that.knockBack);
+                    }
+                }
+            });
+            
         }
   }
   
