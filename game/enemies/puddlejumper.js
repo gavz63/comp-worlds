@@ -2,7 +2,7 @@ class PuddleJumper extends Enemy {
     constructor(game, x, y, spawner) {
       console.log("HERE");
         super(game, x, y, spawner);
-        this.myAddScale = 10;
+        this.myAddScale = 1.8;
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         this.moveAnimation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleJumper.png"),
             STANDARD_ENTITY_FRAME_WIDTH,

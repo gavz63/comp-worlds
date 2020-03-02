@@ -89,7 +89,33 @@ function Input() {
 
 			// Temporary
 			if (e.code === "KeyP") {
-				that.sceneManager.levelComplete();
+        that.player.x += 10000;
+        that.sceneManager.levelComplete();
+			}
+			// Temporary
+			if (e.code === "Equal") {
+        if(!that.equals)
+        {
+          that.audioManager.masterVolume += 10;
+          if(that.audioManager.masterVolume > 100)
+          {
+            that.audioManager.masterVolume = 100;
+          }
+          that.equals = true;
+        }
+
+			}
+			// Temporary
+			if (e.code === "Minus") {
+        if(!that.minus)
+        {
+          that.audioManager.masterVolume -= 10;
+          if(that.audioManager.masterVolume < 0)
+          {
+            that.audioManager.masterVolume = 0;
+          }
+          that.minus = true;
+        }
 			}
 			
 			that.chars[e.code] = true;
@@ -154,6 +180,19 @@ function Input() {
 		if (e.code === "KeyL") {
 			that.l = false;
 		}
+    
+        // Temporary
+    if (e.code === "Equal") {
+        that.equals = false;
+        console.log(that.audioManager.masterVolume);
+        that.audioManager.setMasterVolume(that.audioManager.masterVolume);
+    }
+    // Temporary
+    if (e.code === "Minus") {
+        that.minus = false;
+        console.log(that.audioManager.masterVolume);
+        that.audioManager.setMasterVolume(that.audioManager.masterVolume);
+    }
 
 
 		that.chars[e.code] = false;

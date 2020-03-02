@@ -82,6 +82,7 @@ class GameEngine {
 
         this.game_state = GAME_STATES.CHARACTER_SELECT;
         this.mousePos = {x: 0, y: 0};
+        
     }
 
     LoadLevel(levelFile, npcClasses, init = true) {
@@ -129,6 +130,14 @@ class GameEngine {
         } else {
             level = new (eval("Level" + sessionStorage.getItem('level')))();
         }
+        
+        console.log(this.audioManager);
+        
+        this.audioManager.setMasterVolume(parseFloat(sessionStorage.getItem('master_volume')));
+        this.audioManager.setMusicVolume(parseFloat(sessionStorage.getItem('music_volume')));
+        this.audioManager.setSFXVolume(parseFloat(sessionStorage.getItem('gameplay_volume')));
+                        console.log(this.audioManager);
+
         this.LoadLevel(level, parseNPC(sessionStorage.getItem('npcs')));
         this.startInput();
         this._clock = new Clock();
