@@ -5,7 +5,7 @@ class Level4 {
         this.floorType = 0;
         this.wallType = 0;
         this.nextLevel = null;
-        this.musicId = 'hedgeMonsterMusic';
+        this.musicId = 'bossMusic';
 
         this.layout =
             "#--------------#" +
@@ -54,10 +54,10 @@ class Level4 {
                 freq: 3,
                 list: [MagmaGolem.prototype],
                 rand: false,
-                radius: 96,
+                radius: 10000,
                 total: 1,
                 roomNum: 1,
-                delay: 2
+                delay: 0
             });
 
     }

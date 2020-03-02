@@ -12,7 +12,7 @@ if (sessionStorage.getItem('master_volume') === null
 
 function story() {
     sessionStorage.setItem('level', '1');
-    sessionStorage.setItem('npcs', 'Ninja');
+    sessionStorage.setItem('npcs', 'BlackMage');
     // sessionStorage.setItem('level', 'Test');
     // sessionStorage.setItem('npcs', 'BlackMage Lancer Ninja');
     window.location.href = './game/index.html';
