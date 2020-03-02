@@ -74,7 +74,7 @@ class Level1
 		{
 			x: 9.75,
 			y: 2,
-			room: {upperLeft: {x: 7, y: 1}, bottomRight: {x: 12, y: 4}},
+			room: {upperLeft: {x: 6, y: 1}, bottomRight: {x: 13, y: 4}},
       lockCam: true,
 			dropKey: true
 		});
@@ -263,7 +263,7 @@ class Level1
 		{
 			x: 15.5,
 			y: 6.5,
-			room: {upperLeft: {x: 13, y: 5}, bottomRight: {x: 18, y: 9}},
+			room: {upperLeft: {x: 12, y: 5}, bottomRight: {x: 18, y: 9}},
       lockCam: true,
 			dropKey: true
 		});
