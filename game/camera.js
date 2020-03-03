@@ -26,6 +26,7 @@ class Camera {
         this._zoom = DEFAULT_ZOOM;
         this._desiredZoom = DEFAULT_ZOOM;
         this._desiredLoc = {x: this._x, y: this._y};
+        this._shake = null;
     }
 
     /**
@@ -60,6 +61,10 @@ class Camera {
         } else {
             return true;
         }
+    }
+
+    shake(vertShake, horzShake, time) {
+        this._shake = {v: vertShake, h: horzShake, t: time};
     }
 
     draw(ctx){}
@@ -105,6 +110,15 @@ class Camera {
           }
       }
       STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / this._zoom);
+      if (this._shake !== null) {
+        if (this._shake.t > 0) {
+            this._shake.t -= this._game._clockTick;
+            this._desiredLoc.x += Math.floor(Math.random() * this._shake.h) - (this._shake.h / 2);
+            this._desiredLoc.y += Math.floor(Math.random() * this._shake.v) - (this._shake.v / 2);
+        } else {
+            this._shake = null;
+        }
+      }
     }
 
     zoomCam(val) {

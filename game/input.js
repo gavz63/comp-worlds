@@ -90,10 +90,11 @@ function Input() {
 			// Temporary
 			if (e.code === "KeyP") {
         that.player.x += 10000;
-        that.sceneManager.levelComplete();
+		that.sceneManager.levelComplete();
 			}
 			// Temporary
 			if (e.code === "Equal") {
+				that._camera.shake(20, 20, 1);
         if(!that.equals)
         {
           that.audioManager.masterVolume += 10;
@@ -107,6 +108,7 @@ function Input() {
 			}
 			// Temporary
 			if (e.code === "Minus") {
+				that._camera.shake(20, 20, 1);
         if(!that.minus)
         {
           that.audioManager.masterVolume -= 10;
