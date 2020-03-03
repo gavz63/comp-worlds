@@ -20,6 +20,7 @@ class Player extends Entity {
         this.speed = characterClass.stats.speed;
         this.hp = hp;//characterClass.stats.maxHP;
         this.idleAnimation = this.animation;
+        this.falling = false;
 
         this.attackCounter = 0;
 
@@ -46,6 +47,7 @@ class Player extends Entity {
 
         this.screen = false;
         this.camLocked = false;
+        this.addScale = 1;
 
         let that = this;
 
@@ -81,7 +83,7 @@ class Player extends Entity {
             } else {
                 this.animation._screen = false;
             }
-            this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true);
+            this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true, this.addScale);
         }
     }
 
@@ -89,6 +91,16 @@ class Player extends Entity {
      * Part of the game loop, update the player to the position and state it should now be in.
      */
     update() {
+
+        if (this.falling) {
+            let fVect = dirV({x: this.x, y: this.y}, {x: indexToCoordinate(coordinateToIndex(this.x)), y: indexToCoordinate(coordinateToIndex(this.y))});
+            fVect = normalizeV(fVect);
+            this.x += fVect.x * this.game._clockTick * this.characterClass.stats.speed / 2;
+            this.y += fVect.y * this.game._clockTick * this.characterClass.stats.speed / 2;
+            this.addScale -= this.game._clockTick * 3;
+            if (this.addScale < 0) this.addScale = 0;
+            return null;
+        }
 
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].x = (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE);
@@ -277,8 +289,12 @@ class Player extends Entity {
                 this.y += Math.floor(this.velocity.y * this.game._clockTick);
             }
             let newPos = this.game._sceneManager.level.move(this._collider, oldPos, {x: this.x, y: this.y});
-            this.x = newPos.x;
-            this.y = newPos.y;
+            if (newPos === "pitfall") {
+                this.pitfall({x: (oldPos.x - this.x) * 8 + oldPos.x, y: (oldPos.y - this.y) * 8 + oldPos.y});
+            } else {
+                this.x = newPos.x;
+                this.y = newPos.y;
+            }
 
             // Check if reached end of level.
             if (this.game.sceneManager.level.mapElementAt({
@@ -507,5 +523,22 @@ class Player extends Entity {
         } else if (this.characterClass instanceof Lancer) {
             this.isAttacking = false;
         }
+    }
+
+    pitfall(respawnPos) {
+        this.speed = 0;
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+        this.falling = respawnPos;
+        let that = this;
+        new TimerCallback(this.game, 3, false, function () {
+            that.x = that.falling.x;
+            that.y = that.falling.y;
+            that.speed = that.characterClass.stats.speed;
+            that.animation = that.characterClass.animation.idleRight;
+            that.takeDmg(1, DIRECTION_UP);
+            that.falling = false;
+            that.addScale = 1;
+        });
     }
 }

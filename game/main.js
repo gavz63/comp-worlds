@@ -16,6 +16,7 @@ window.onbeforeunload = function() {
 const ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/map/grounds.png");
+ASSET_MANAGER.queueDownload("./img/map/pit.png");
 ASSET_MANAGER.queueDownload("./img/map/walls.png");
 ASSET_MANAGER.queueDownload("./img/map/doors.png");
 ASSET_MANAGER.queueDownload("./img/map/specialDoors.png");
