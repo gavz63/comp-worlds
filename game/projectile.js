@@ -60,7 +60,7 @@ class Projectile extends Entity {
         {
           this.myAddScale = this.animation._addScale;
         }
-        this.myScale = [this.animation._scale];
+        this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         
         this.animation._scale = this.myScale;
     }
