@@ -48,11 +48,11 @@ class Level4 {
 
         this.spawnerList.push (
             {
-                x: 4.5,
-                y: 4.5,
+                x: 7.5,
+                y: 1,
                 max: 1,
                 freq: 3,
-                list: [MagmaGolem.prototype],
+                list: [WoodDragon.prototype],
                 rand: false,
                 radius: 10000,
                 total: 1,
