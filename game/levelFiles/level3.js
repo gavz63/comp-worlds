@@ -1,13 +1,13 @@
 class Level3 {
     constructor() {
-        this.width = 11;
-        this.height = 10;
+        this.width = 15;
+        this.height = 11;
         this.floorType = 0;
         this.wallType = 0;
         this.nextLevel = null;
         this.musicId = 'hedgeMonsterMusic';
 
-        this.layout =
+        /*this.layout =
             "##########J" +
             "S--------#J" +
             "#--------#J" +
@@ -17,7 +17,20 @@ class Level3 {
             "#--------#J" +
             "#--------#J" +
             "#--------HE" +
-            "##########J";
+            "##########J";*/
+
+        this.layout =
+            "oooooo#####oooo" +
+            "oooo###---###oo" +
+            "oooo#-------#oo" +
+            "ooo##-------##o" +
+            "####---------#o" +
+            "S------------HE" +
+            "####---------#o" +
+            "ooo##-------##o" +
+            "oooo#-------#oo" +
+            "oooo###---###oo" +
+            "oooooo#####oooo";
 
         this.playerSpawner = null;
 		/*this.playerSpawner = {
@@ -38,9 +51,9 @@ class Level3 {
         this.unlockableCharacter = [];
 		
         this.roomSpawnerList.push({
-                x: 4.5,
-                y: 4.5,
-                room: {upperLeft: {x: 1, y: 1}, bottomRight: {x: 9, y: 8}},
+                x: 8,
+                y: 5,
+                room: {upperLeft: {x: 3, y: 0}, bottomRight: {x: 14, y: 10}},
                 lockCam: true,
                 dropKey: true, // drops a key at this. x, y
 				dropPotion: false,
@@ -49,8 +62,8 @@ class Level3 {
 			
 		this.spawnerList.push (
 		{
-			x: 4.5,
-			y: 4.5,
+			x: 8,
+			y: 3,
 			max: 1,
 			freq: 0,
 			list: [MagmaGolem.prototype],

@@ -3,6 +3,7 @@
 const MAP_TILES = {
     FLOOR: "-",
     WALL: "#",
+    PIT: "P",
     VERTICAL_DOOR: "V",
     HORIZONTAL_DOOR: "H",
     VERTICAL_SPECIAL_DOOR: "^",
@@ -69,6 +70,9 @@ class Level {
                 }
                 if (type === MAP_TILES.WALL) {
                     this._walls.push({x: j, y: i});
+                }
+                if (type === MAP_TILES.PIT) {
+                    this._pits.push({x: j, y: i});
                 }
                 if (type === MAP_TILES.HORIZONTAL_DOOR) {
                     this._doors.push({x: j, y: i, d: "H"});
@@ -158,6 +162,7 @@ class Level {
         this._floors = [];
         this._walls = [];
         this._doors = [];
+        this._pits = [];
 
         this._exit = null;
         this._wallType = levelFile.wallType;
@@ -195,6 +200,9 @@ class Level {
     }
 
     move(collider, prevPos, newPos) {
+        if (this.mapElementAt({x: coordinateToIndex(newPos.x), y: coordinateToIndex(newPos.y)}) === MAP_TILES.PIT) {
+            return "pitfall";
+        }
         let updatedPos = newPos;
         let origin = {x: coordinateToIndex(prevPos.x), y: coordinateToIndex(prevPos.y)};
 

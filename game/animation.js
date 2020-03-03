@@ -44,7 +44,7 @@ class Animation {
      * @param {*} scale The scaling ratio that you would like your animation to
      *      be drawn with. Throws an exception if scale isn't positive.
      */
-    constructor(spriteSheet, frameWidth, frameHeight, firstFrame, lastFrame, fps, loop, scale, addScale = -1) {
+    constructor(spriteSheet, frameWidth, frameHeight, firstFrame, lastFrame, fps, loop, scale, addScale = 1, color = null) {
         // Check width.
         let i = 0;
         while (i < spriteSheet.width) {
@@ -104,6 +104,7 @@ class Animation {
         this._loop = loop;
         this._scale = scale;
         this._addScale = addScale;
+        this._color = color;
         this._totalFrames = 0;
         this._screen = false;
 
@@ -167,6 +168,18 @@ class Animation {
             this._frameWidth, this._frameHeight, // Size of source sprite.
             drawX, drawY, // Position to draw sprite on the canvas.
             this._width * this._scale, this._height * this._scale); // Size to draw sprite on canvas.
+        
+
+         /* var myImg = ctx.getImageData(drawX, drawY, this._width * this._scale, this._height * this._scale);
+          console.log("GOOD: " + myImg);
+          for (var t=0; t < myImg.data.length; t+=4) {
+             console.log(myImg.data[t]);
+             myImg.data[t]= red | myImg.data[t];
+             myImg.data[t+1]= gr | myImg.data[t+1];
+             myImg.data[t+2]= bl | myImg.data[t+2];
+          }
+          ctx.putImageData(myImg, 0, 0); // Image data is adjusted according to context    */
+        
         
         // Update time.
         if(!this._paused)

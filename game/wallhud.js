@@ -96,7 +96,7 @@ class WallHUD {
 
         for (let i = 1; i < 4; i++) {
             for (let j = 0; j < this._level._walls.length; j++) {
-                if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._walls[j].x), y: indexToCoordinate(this._game._sceneManager.level._walls[j].y)}, 96, 96, STANDARD_DRAW_SCALE * ((.04 * i) / 1.75))) {
+                if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._walls[j].x), y: indexToCoordinate(this._game._sceneManager.level._walls[j].y)}, 96, 96, STANDARD_DRAW_SCALE * (1 + (.04 * i) / 1.75))) {
                     let xDir = (this._game._camera._x > indexToCoordinate(this._game._sceneManager.level._walls[j].x)) ? 1 : -1;
                     let yDir = (this._game._camera._y > indexToCoordinate(this._game._sceneManager.level._walls[j].y)) ? 1 : -1;
                     if (i == 3
@@ -111,7 +111,7 @@ class WallHUD {
             }
             if (i == 2) {
                 for (let k = 0; k < this._level._doors.length; k++) {
-                    if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._doors[k].x), y: indexToCoordinate(this._game._sceneManager.level._doors[k].y)}, 96, 96, STANDARD_DRAW_SCALE * ((.04 * i) / 1.75))) {
+                    if (this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._doors[k].x), y: indexToCoordinate(this._game._sceneManager.level._doors[k].y)}, 96, 96, STANDARD_DRAW_SCALE * (1 + (.04 * i) / 1.75))) {
                         drawDoor(this._game._camera.drawPosTranslation({
                                 x: indexToCoordinate(this._level._doors[k].x),
                                 y: indexToCoordinate(this._level._doors[k].y)},

@@ -26,6 +26,7 @@ class Camera {
         this._zoom = DEFAULT_ZOOM;
         this._desiredZoom = DEFAULT_ZOOM;
         this._desiredLoc = {x: this._x, y: this._y};
+        this._shake = null;
     }
 
     /**
@@ -51,19 +52,23 @@ class Camera {
     }
 
     isOnScreen(pos, width, height, scale) {
-        if ((this.drawPosTranslation({x: pos.x, y: 0}, 1).x + (width * scale) < 0
-        || this.drawPosTranslation({x: pos.x, y: 0}, 1).x - (width * scale) > this._ctx.canvas.width)
-        && (this.drawPosTranslation({x: 0, y: pos.y}, 1).y + (height * scale) < 0
-        || this.drawPosTranslation({x: 0, y: pos.y}, 1).y - (height * scale) > this._ctx.canvas.height)){
+        let screenPos = this.drawPosTranslation({x: pos.x, y: pos.y}, 1);
+        if ((screenPos.x + (width * scale) < 0
+        || screenPos.x - (width * scale) > this._ctx.canvas.width)
+        || (screenPos.y + (height * scale) < 0
+        || screenPos.y - (height * scale) > this._ctx.canvas.height)) {
             return false;
         } else {
             return true;
         }
     }
 
+    shake(vertShake, horzShake, time) {
+        this._shake = {v: vertShake, h: horzShake, t: time};
+    }
+
     draw(ctx){}
-    update()
-    {
+    update() {
       this._ctx.canvas.width = window.innerWidth;
       this._ctx.canvas.height = window.innerHeight;
       this._width = this._ctx.canvas.width;
@@ -105,6 +110,15 @@ class Camera {
           }
       }
       STANDARD_DRAW_SCALE[0] = Math.sqrt((this._height * this._width) / this._zoom);
+      if (this._shake !== null) {
+        if (this._shake.t > 0) {
+            this._shake.t -= this._game._clockTick;
+            this._desiredLoc.x += Math.floor(Math.random() * this._shake.h) - (this._shake.h / 2);
+            this._desiredLoc.y += Math.floor(Math.random() * this._shake.v) - (this._shake.v / 2);
+        } else {
+            this._shake = null;
+        }
+      }
     }
 
     zoomCam(val) {

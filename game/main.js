@@ -16,6 +16,7 @@ window.onbeforeunload = function() {
 const ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./img/map/grounds.png");
+ASSET_MANAGER.queueDownload("./img/map/pit.png");
 ASSET_MANAGER.queueDownload("./img/map/walls.png");
 ASSET_MANAGER.queueDownload("./img/map/doors.png");
 ASSET_MANAGER.queueDownload("./img/map/specialDoors.png");
@@ -37,6 +38,8 @@ ASSET_MANAGER.queueDownload("./img/enemies/BoneManAttack.png");
 ASSET_MANAGER.queueDownload("./img/enemies/BoneManDeath.png");
 ASSET_MANAGER.queueDownload("./img/enemies/Turtle.png");
 ASSET_MANAGER.queueDownload("./img/objects/Crate.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/Arrows.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/Peasants.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Egg.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Fireball.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/FireballExplodes.png");
@@ -57,6 +60,8 @@ ASSET_MANAGER.queueDownload("./img/player_characters/LancerSideToSideSheet.png")
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerSpecialMoveAllDirections.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/LancerDmgSheet.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/King.png");
+ASSET_MANAGER.queueDownload("./img/player_characters/KingDmgSheet.png");
 ASSET_MANAGER.queueDownload("./img/hud/ControllerTutorial.png");
 ASSET_MANAGER.queueDownload("./img/hud/HoverArrow.png");
 ASSET_MANAGER.queueDownload("./img/hud/menucursor.png");
@@ -119,4 +124,12 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.start();
     
     new Crate(gameEngine, 96 * 3, 96* 1.5);
+    new ParticleEmitter(gameEngine, 96 * 3, 96 * 1.5,
+    20,     // rate
+    0, 90,   // dir
+    1, 10,  // speed
+    1, 4,   // lifeTime
+    1, 1,   // size
+    1, 1);  // color
+    console.log("HEY");
 });
