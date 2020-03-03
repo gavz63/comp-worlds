@@ -20,7 +20,7 @@ function story() {
 
 function endless() {
     sessionStorage.setItem('level', 'endless');
-    sessionStorage.setItem('npcs', 'BlackMage Lancer Ninja');
+    sessionStorage.setItem('npcs', 'BlackMage Lancer Ninja King');
     window.location.href = './game/index.html';
 }
 
