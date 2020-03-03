@@ -52,13 +52,13 @@ class Level3 {
 			x: 4.5,
 			y: 4.5,
 			max: 1,
-			freq: 3,
+			freq: 0,
 			list: [MagmaGolem.prototype],
 			rand: false,
-			radius: 96,
+			radius: 10000,
 			total: 1,
 			roomNum: 1,
-			delay: 2
+			delay: 1
 		});	
 
 	}

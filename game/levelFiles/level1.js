@@ -162,6 +162,117 @@ class Level1
       delay: 0
 		});
     
+    this.pickupList.push({
+			x: 7,
+			y: 3.25,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 7.5,
+			y: 3.25,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 8,
+			y: 3.25,
+			type: Crate.prototype
+		}); 
+    this.pickupList.push({
+			x: 8.5,
+			y: 3.25,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 9,
+			y: 3.25,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 9.5,
+			y: 3.25,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 10,
+			y: 3.25,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 10.5,
+			y: 3.25,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 11,
+			y: 3.25,
+			type: Crate.prototype
+		}); 
+    this.pickupList.push({
+			x: 11.5,
+			y: 3.25,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 12,
+			y: 3.25,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 7,
+			y: 2.75,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 7.5,
+			y: 2.75,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 8,
+			y: 2.75,
+			type: Crate.prototype
+		}); 
+    this.pickupList.push({
+			x: 8.5,
+			y: 2.75,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 9,
+			y: 2.75,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 9.5,
+			y: 2.75,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 10,
+			y: 2.75,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 10.5,
+			y: 2.75,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 11,
+			y: 2.75,
+			type: Crate.prototype
+		}); 
+    this.pickupList.push({
+			x: 11.5,
+			y: 2.75,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 12,
+			y: 2.75,
+			type: Crate.prototype
+		});
+    
     //Room 2
     this.turretList.push (
     {
@@ -319,6 +430,26 @@ class Level1
 			total: 1,
 			roomNum: 2,
       delay: 0
+		});
+    this.pickupList.push({
+			x: 15,
+			y: 6,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 16,
+			y: 6,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 15,
+			y: 7,
+			type: Crate.prototype
+		});
+    this.pickupList.push({
+			x: 16,
+			y: 7,
+			type: Crate.prototype
 		});
     
 	

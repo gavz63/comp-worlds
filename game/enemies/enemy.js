@@ -159,16 +159,23 @@ class Enemy extends Entity {
       {
         if(!this.invincible)
         {
+          let checkWalls = true;
+          if(this.wallCollision({x: this.x, y: this.y}))
+          {
+            checkWalls = false;
+          }
           
           this.x += dir.x * knockBack * 1/this.weight;
           this.y += dir.y * knockBack * 1/this.weight;
           
-          while(this.wallCollision({x: this.x, y: this.y}))
+          if(checkWalls)
           {
-            this.x -= dir.x * 0.5;
-            this.y -= dir.y * 0.5;
+            while(this.wallCollision({x: this.x, y: this.y}))
+            {
+              this.x -= dir.x * 0.5;
+              this.y -= dir.y * 0.5;
+            }
           }
-          
           this.hp -= dmg;
           this.hurt = true;
           if (this.hp <= 0) {

@@ -2,10 +2,10 @@ class HealthBar extends Entity
 {
   constructor(game, x, y, scale, owner, count = 0, max = 0)
   {
-    super(game, x, y);
+    super(game, x, 30);
     
     this.offsetX = x;
-    this.offsetY = y;
+    this.offsetY = 30;
     this.scale = scale;
     this.owner = owner;
     this.healAmt = 0;
@@ -42,12 +42,12 @@ class HealthBar extends Entity
 		if(this.scale !== 0.9)
 		{
 			this.x = this.game._ctx.canvas.width/(this.max * 2) + this.game._ctx.canvas.width/(this.max * 2) * (this.count * 2);
-			this.y = 100;
+			this.y = 30;
 		}
 		else
 		{
 			this.x = this.game._ctx.canvas.width/2;
-			this.y = 100;
+			this.y = 30;
 		}
 	}
   }
@@ -94,7 +94,7 @@ class OutlineBar extends Entity
             {x: 0, y: 0}, {x: 0, y: 2},
             0, true, this.myScale);
 			
-		this.animation._height = this.animation._frameHeight * 3 + this.borderSize * 2;
+		this.animation._height = this.animation._frameHeight * 1 + this.borderSize * 2;
     
 		this.game.addEntity(this, LAYERS.HUD);
 	}
@@ -135,7 +135,7 @@ class HpBarFront extends Entity
             {x: 0, y: 0}, {x: 0, y: 2},
             0, true, this.myScale);
 			
-    this.animation._height = this.animation._frameHeight * 3;
+    this.animation._height = this.animation._frameHeight * 1;
     
     this.game.addEntity(this, LAYERS.HUD);
   }
@@ -179,7 +179,7 @@ class HpBarBack extends Entity
             {x: 0, y: 0}, {x: 0, y: 2},
             0, true, this.myScale);
 			
-    this.animation._height = this.animation._frameHeight * 3;
+    this.animation._height = this.animation._frameHeight * 1;
     
     this.game.addEntity(this, LAYERS.HUD);
   }

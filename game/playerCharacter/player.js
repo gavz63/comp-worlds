@@ -117,16 +117,6 @@ class Player extends Entity {
                 that.takeDmg(1, attackedFromDir);
             }
         });
-        this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
-            if (circleToCircle(that, elem)) {
-                //that.destroy(); // this was kinda awesome btw.
-                let attackedFromVector = normalizeV(dirV({x: elem.x, y: elem.y}, {x: that.x, y: that.y}));
-                var attackedFromDir = vectorToDir(attackedFromVector);
-                that.takeDmg(elem.dmg, attackedFromDir);
-                elem.destroy();
-            }
-        });
-
 
         //If x < 0 go back to character chooser
         if (this.x < 0) {

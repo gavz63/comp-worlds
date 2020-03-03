@@ -47,22 +47,32 @@ class RoomSpawner
 				if(this.dropKey)
 				{
 					//drop Key
+          this.lockCam = true;
 					new Key(this.game, this.x, this.y, true);
-					
 				}
 				if (this.dropPotion) {
 					new HealthPotion(this.game, this.x, this.y);
 				}
 				this.destroy();
+        this.update = function () {};
 			}
 		}
 	}
 	
 	destroy()
 	{
-	    this.game._camera._desiredZoom = DEFAULT_ZOOM;
-		this.game.player.camLocked = false;
-		this.removeFromWorld = true;
+    if(this.dropKey)
+    {
+        new TimerCallback(this.game, 2, false, function () { this.game._camera._desiredZoom = DEFAULT_ZOOM;		this.game.player.camLocked = false;
+		this.removeFromWorld = true; });
+    }
+	  else
+    {
+      this.game._camera._desiredZoom = DEFAULT_ZOOM;
+      this.game.player.camLocked = false;
+      this.removeFromWorld = true;
+    }
+
 	}
 }
 

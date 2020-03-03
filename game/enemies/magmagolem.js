@@ -76,7 +76,7 @@ class MagmaGolem extends Enemy {
                   this.wait();
               }
           } else {
-              this.pathfind(1000, 50);
+              this.pathfind(1000000, 5000);
               if (this.isCharging) {
                   this.go(this.dir);
               } else if (this.goalPoint) {
