@@ -335,6 +335,7 @@ class Player extends Entity {
      */
     takeDmg(dmg, direction) {
         if (this.hurt !== true && this.invincible !== true) {
+            this.game._camera.shake(2, 2, .25)
             switch (direction) {
                 case DIRECTION_LEFT:
                     this.animation = this.characterClass.animation.dmgFromRight;
