@@ -1,3 +1,7 @@
+const PHASE = {
+
+};
+
 class WoodDragon extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
@@ -48,14 +52,88 @@ class WoodDragon extends Enemy {
             4, false, this.myBodyScale);
 
         this.animation = this.bodyRightAnimation;
+        this.direction = DIRECTION_RIGHT;
         this.animation.pause();
-        this.head = new WoodDragonHead(this.game, this.x + STANDARD_ENTITY_FRAME_WIDTH * 3 , this.y, this.spawner, this);
+        this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
+        this.head = new WoodDragonHead(this.game, this.x + this.headOffset, this.y, this.spawner, this);
+        //this.leftArm = new WoodDragonLeftArm(this.game, this.x + this.headOffset, this.y )
+
+        let that = this;
+        new TimerCallback(game, 2, true, function() {
+            that.setFacing(that.otherDirection());
+            console.log("heelo");
+        });
     }
 
     update() {
         super.update();
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
         this.myBodyScale[0] = STANDARD_DRAW_SCALE * this.myBodyAddScale;
+        this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
+    }
+
+    draw() {
+        super.draw();
+
+        // this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true, this.addScale);
+    }
+
+    /**
+     * Pass DIRECTION_LEFT or DIRECTION_RIGHT
+     * @param direction
+     */
+    setFacing(direction) {
+        let frame = this.animation.getFrame();
+        let paused = this.animation._paused;
+        if (direction === DIRECTION_RIGHT) {
+            this.direction = DIRECTION_RIGHT;
+            switch (this.animation) {
+                case this.bodyLeftAnimation:
+                    this.animation = this.bodyRightAnimation;
+                    this.head.x = this.x + this.headOffset;
+                    break;
+                case this.shadowLeftAnimation:
+                    this.animation = this.shadowRightAnimation;
+                    break;
+                case this.flyingLeftAnimation:
+                    this.animation = this.flyingRightAnimation;
+                    break;
+                case this.takingOffLeftAnimation:
+                    this.animation = this.takingOffRightAnimation;
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            this.direction = DIRECTION_LEFT;
+            switch (this.animation) {
+                case this.bodyRightAnimation:
+                    this.animation = this.bodyLeftAnimation;
+                    this.head.x = this.x - this.headOffset;
+                    break;
+                case this.shadowRightAnimation:
+                    this.animation = this.shadowLeftAnimation;
+                    break;
+                case this.flyingRightAnimation:
+                    this.animation = this.flyingLeftAnimation;
+                    break;
+                case this.takingOffRightAnimation:
+                    this.animation = this.takingOffLeftAnimation;
+                    break;
+                default:
+                    break;
+            }
+        }
+        this.animation.setFrame(frame);
+        this.animation._paused = paused;
+    }
+
+    otherDirection() {
+        if (this.direction === DIRECTION_RIGHT) {
+            return DIRECTION_LEFT;
+        } else {
+            return DIRECTION_RIGHT;
+        }
     }
 }
 
@@ -109,3 +187,21 @@ class WoodDragonHead extends Enemy {
 
     }
 }
+
+// class WoodDragonArm extends Enemy {
+//     constructor(game, x, y, spawner, head) {
+//         super(game, x, y, spawner);
+//         this.head = head;
+//     }
+//
+//     update() {
+//         super.update();
+//         if (this.head === null) {
+//             this.destroy();
+//         }
+//     }
+// }
+//
+// class WoodDragonLeftArm extends WoodDragonArm {
+//
+// }

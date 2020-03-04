@@ -113,8 +113,8 @@ class Camera {
       if (this._shake !== null) {
         if (this._shake.t > 0) {
             this._shake.t -= this._game._clockTick;
-            this._desiredLoc.x += Math.floor(Math.random() * this._shake.h) - (this._shake.h / 2);
-            this._desiredLoc.y += Math.floor(Math.random() * this._shake.v) - (this._shake.v / 2);
+            this._x += Math.floor(Math.random() * this._shake.h) - (this._shake.h / 2);
+            this._y += Math.floor(Math.random() * this._shake.v) - (this._shake.v / 2);
         } else {
             this._shake = null;
         }

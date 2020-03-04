@@ -127,6 +127,7 @@ class MagmaGolem extends Enemy {
     }
 
     backToNormal() {
+      this.game._camera.shake(10, 5, .5);
       this.speed = 20;
       this.isCharging = false;
       this.isAttacking = false;
