@@ -126,7 +126,7 @@ ASSET_MANAGER.downloadAll(function () {
     new Crate(gameEngine, 96 * 3, 96* 1.5);
     new ParticleEmitter(gameEngine, 96 * 3, 96 * 1.5,
     20,     // rate
-    0, 90,   // dir
+    0, 360,   // dir
     1, 10,  // speed
     1, 4,   // lifeTime
     1, 1,   // size

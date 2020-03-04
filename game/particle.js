@@ -19,6 +19,7 @@ class ParticleEmitter extends Entity
     {
       new Particle(that.game, that.x, that.y, RandomBetween(that.startDir, that.endDir), RandomBetween(that.startSpeed, that.endSpeed), RandomBetween(that.startLifetime, that.endLifetime));
     });
+    this.game.addEntity(this, LAYERS.PARTICLES);
   }
   
   draw()
