@@ -1,6 +1,6 @@
 class ParticleEmitter extends Entity
 {
-  constructor(game, x, y, rate, startPos, endPos, startRange, endRange, startDir, endDir, startSpeed, endSpeed, startLifetime, endLifetime, startSize, endSize, startColor, endColor, attached = null)
+  constructor(game, x, y, rate, startPos, endPos, startRange, endRange, startDir, endDir, startSpeed, endSpeed, startLifetime, endLifetime, startSize, endSize, startScale, endScale, colors, attached = null)
   {
     super(game, x, y);
     this.startPos = startPos;
@@ -15,15 +15,32 @@ class ParticleEmitter extends Entity
     this.endLifetime = endLifetime;
     this.startSize = startSize;
     this.endSize = endSize;
-    this.startColor = startColor;
+    this.startScale = startScale;
+    this.endScale = endScale;
+    this.colors = colors;
+    
     this.attached = attached;
     
     let that = this;
     this.timer = new TimerCallback(this.game, 1/rate, true, function () 
     {
       let pos = RandomBetween(that.startPos, that.endPos);
-      let p = new Particle(that.game, that.x + Math.cos(pos) * RandomBetween(that.startRange, that.endRange), that.y + Math.sin(pos) * RandomBetween(that.startRange, that.endRange), RandomBetween(that.startDir, that.endDir), RandomBetween(that.startSpeed, that.endSpeed), RandomBetween(that.startLifetime, that.endLifetime));
+      let randomColors = [];
+      for(let i = 0; i < that.colors.length; i += 2)
+      {
+        randomColors.push(RandomColorBetween(that.colors[i], that.colors[i+1]));
+      }
+      let p = new Particle(that.game,
+      that.x + Math.cos(pos) * RandomBetween(that.startRange, that.endRange),
+      that.y + Math.sin(pos) * RandomBetween(that.startRange, that.endRange),
+      RandomBetween(that.startDir, that.endDir),
+      RandomBetween(that.startSpeed, that.endSpeed),
+      RandomBetween(that.startLifetime, that.endLifetime),
+      RandomBetween(that.startScale, that.endScale),
+      randomColors);
+      
       p.myAddScale = RandomBetween(that.startSize, that.endSize);
+      p.startScale = p.myAddScale;
     });
     this.game.addEntity(this, LAYERS.PARTICLES);
   }
@@ -49,7 +66,7 @@ class ParticleEmitter extends Entity
 }
 
 class Particle extends Entity {
-    constructor(game, x, y, dir, speed, lifetime, attached = null) {
+    constructor(game, x, y, dir, speed, lifetime, scale, colors, attached = null) {
         super(game, x, y);
 
         this.startX = x;
@@ -58,16 +75,30 @@ class Particle extends Entity {
         this.dx = 0;
         this.dy = 0;
         
-        console.log(dir);
         this.dir = {x: Math.cos(dir / 360 * 2 * Math.PI), y: Math.sin(dir / 360 * 2 * Math.PI)};
         this.speed = speed;
 
         this.lifetime = lifetime;
         
+        this.scale = scale;
+        this.startScale = 1/15;
+        
+        this.colors = colors;
+        this.colorTime = this.lifetime/(this.colors.length-1);
+        this.currentColor = 0;
+        this.nextColor = 1;
+        this.lastColor = this.colors.length-1;
+        
+        if(this.nextColor > this.lastColor)
+        {
+          this.nextColor = this.lastColor;
+        }
+        
         var that = this;
         this.timer = new TimerCallback(that.game, that.lifetime, false, function () {
             that.destroy();
         });
+        
         this.ctx = game.ctx;
         this.attached = attached;
         
@@ -81,6 +112,8 @@ class Particle extends Entity {
         this.animation.pause();
         this.animation.setFrame(0);
         
+        let testColor = MixColor(this.colors[this.currentColor], this.colors[this.nextColor], this.timer.getPercent()).getColor();
+        //this.animation._color = testColor;
         this.game.addEntity(this, LAYERS.PARTICLES);
     }
     
@@ -88,7 +121,19 @@ class Particle extends Entity {
     {
       this.x += this.dir.x * this.speed * this.game._clockTick;
       this.y += this.dir.y * this.speed * this.game._clockTick;
+      if(this.nextColor * this.colorTime < this.timer.getTime())
+      {
+        this.currentColor += 1;
+        this.nextColor += 1;
+        if(this.nextColor > this.lastColor)
+        {
+          this.nextColor = this.lastColor;
+        }
+      }
       
+      this.myAddScale = mix(this.startScale, this.startScale * this.scale, this.timer.getPercent());
+      
+      this.animation._color = MixColor(this.colors[this.currentColor], this.colors[this.nextColor], this.timer.getPercent()).getColor();
       /*
       this.x = this.startX + this.dx;
       this.y = this.startY + this.dy;

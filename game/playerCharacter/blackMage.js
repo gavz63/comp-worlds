@@ -131,15 +131,38 @@ function BlackMage() {
         
       let oppositeDir = Math.atan2(attackVector.y, attackVector.x) * 180 / Math.PI + 180;
         
+      let colors = [];
+      colors.push(new Color(56, 80, 50));
+      colors.push(new Color(42, 80, 50));
+      
+      colors.push(new Color(25, 100, 50));
+      colors.push(new Color(19, 100, 50));
+      
+      colors.push(new Color(25, 100, 50));
+      colors.push(new Color(19, 100, 50));
+      
+      colors.push(new Color(5, 100, 50));
+      colors.push(new Color(20, 100, 50));    
+      
+      colors.push(new Color(0, 100, 50));
+      colors.push(new Color(5, 100, 50));
+      
+      colors.push(new Color(0, 70, 50));
+      colors.push(new Color(0, 20, 10));
+      
+      colors.push(new Color(0, 0, 50));
+      colors.push(new Color(0, 0, 50));
+        
       projectile.particleEmitter = new ParticleEmitter(player.game, player.x, player.y,
-        200,     // rate
+        30,     // rate
         0, 360,   // pos
         0, 10, // pos Range
         oppositeDir + 45, oppositeDir - 45,   // dir
-        1, 200,  // speed
-        0.1, 0.2,   // lifeTime
-        0, 0.3,   // size
-        1, 1,   // color
+        1, 50,  // speed
+        0.1, 2,   // lifeTime
+        0.05, 0.12,   // size
+        0.01, 0.2, // scale
+        colors,   // color
         projectile);  // owner
 	};
 	
@@ -161,7 +184,7 @@ function BlackMage() {
         specialLifetime: 3,
         specialChargeTime: 10,
         specialChargeFromKill: 0,
-        maxProjectiles: 2
+        maxProjectiles: 5
     };
     this.npc = {
         x: -32,

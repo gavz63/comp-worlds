@@ -162,12 +162,11 @@ class Animation {
 		}
     
 
-        
           if(this._color !== null)
           {
-            // step 1: draw in original image
-
-            const c = document.createElement("canvas");
+            if(this._particle === true) // should not be called for now
+            {
+              const c = document.createElement("canvas");
             c.width = this._width * this._scale * addScale;
             c.height = this._height * this._scale * addScale;
             c.ctx = c.getContext("2d"); // attach context to the canvas for eaasy reference
@@ -193,7 +192,23 @@ class Animation {
             
             ctx.drawImage(c, 
               drawX, drawY)
-                        
+            }
+            else
+            {
+            // step 1: draw in original image
+
+              ctx.drawImage(this._spriteSheet,
+                cF.x * this._frameWidth, cF.y * this._frameHeight,  // Sprite's top-left position on sprite sheet.
+                this._frameWidth, this._frameHeight, // Size of source sprite.
+                drawX, drawY, // Position to draw sprite on the canvas.
+                this._width * this._scale * addScale, this._height * this._scale * addScale); // Size to draw sprite on canvas.
+              
+              ctx.fillStyle = this._color;
+              
+              ctx.globalCompositeOperation = "multiply";
+              ctx.fillRect(drawX,drawY,this._width * this._scale * addScale, this._height * this._scale * addScale);
+            }
+             
             /*
             let sat = 255;
             let hue = 255;
