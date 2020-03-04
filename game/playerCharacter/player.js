@@ -93,6 +93,8 @@ class Player extends Entity {
             } else {
                 this.animation._screen = false;
             }
+            this.animation._color = new Color(0, 100, 50).getColor();
+            this.animation._particle = true;
             this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true, this.addScale);
         }
     }
@@ -355,6 +357,7 @@ class Player extends Entity {
      */
     takeDmg(dmg, direction) {
         if (this.hurt !== true && this.invincible !== true) {
+            this.game._camera.shake(2, 2, .25)
             switch (direction) {
                 case DIRECTION_LEFT:
                     this.animation = this.characterClass.animation.dmgFromRight;

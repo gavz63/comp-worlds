@@ -1,13 +1,13 @@
 class Level3 {
     constructor() {
-        this.width = 15;
-        this.height = 11;
+        this.width = 11;
+        this.height = 10;
         this.floorType = 0;
         this.wallType = 0;
         this.nextLevel = null;
         this.musicId = 'hedgeMonsterMusic';
 
-        /*this.layout =
+        this.layout =
             "##########J" +
             "S--------#J" +
             "#--------#J" +
@@ -17,20 +17,7 @@ class Level3 {
             "#--------#J" +
             "#--------#J" +
             "#--------HE" +
-            "##########J";*/
-
-        this.layout =
-            "oooooo#####oooo" +
-            "oooo###---###oo" +
-            "oooo#-------#oo" +
-            "ooo##-------##o" +
-            "####---------#o" +
-            "S------------HE" +
-            "####---------#o" +
-            "ooo##-------##o" +
-            "oooo#-------#oo" +
-            "oooo###---###oo" +
-            "oooooo#####oooo";
+            "##########J";
 
         this.playerSpawner = null;
 		/*this.playerSpawner = {
@@ -51,6 +38,47 @@ class Level3 {
         this.unlockableCharacter = [];
 		
         this.roomSpawnerList.push({
+                x: 4.5,
+                y: 4.5,
+                room: {upperLeft: {x: 1, y: 0}, bottomRight: {x: 11, y: 10}},
+                lockCam: true,
+                dropKey: true, // drops a key at this. x, y
+				dropPotion: false,
+				zoom: DEFAULT_ZOOM * 6
+		});
+			
+		this.spawnerList.push (
+		{
+			x: 4.5,
+			y: 4.5,
+			max: 1,
+			freq: 0,
+			list: [MagmaGolem.prototype],
+			rand: false,
+			radius: 10000,
+			total: 1,
+			roomNum: 1,
+			delay: 1
+		});	
+
+	}
+	/* Round arena
+	this.width = 15;
+        this.height = 11;
+        this.layout =
+            "oooooo#####oooo" +
+            "oooo###---###oo" +
+            "oooo#-------#oo" +
+            "ooo##-------##o" +
+            "####---------#o" +
+            "S------------HE" +
+            "####---------#o" +
+            "ooo##-------##o" +
+            "oooo#-------#oo" +
+            "oooo###---###oo" +
+            "oooooo#####oooo";
+
+	this.roomSpawnerList.push({
                 x: 8,
                 y: 5,
                 room: {upperLeft: {x: 3, y: 0}, bottomRight: {x: 14, y: 10}},
@@ -75,4 +103,5 @@ class Level3 {
 		});	
 
 	}
+	*/
 }

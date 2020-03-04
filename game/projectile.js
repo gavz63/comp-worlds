@@ -59,7 +59,9 @@ class Projectile extends Entity {
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         
         this.animation._scale = this.myScale;
-    }
+        
+        this.particleEmitter = null;
+      }
 
     update() {
         this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
@@ -201,6 +203,10 @@ class Projectile extends Entity {
             this.owner.attackCounter--;
           }
         }
+      }
+      if(this.particleEmitter)
+      {
+        this.particleEmitter.destroy();
       }
     }
     
@@ -495,6 +501,10 @@ class FlameWall extends EasingProjectile
   {
     this.removeFromWorld = true;
     this.owner.progressBar.paused = false;
+    if(this.particleEmitter !== null)
+    {
+      this.particleEmitter.destroy();
+    }
   }
 }
 

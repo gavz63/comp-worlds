@@ -176,6 +176,11 @@ class WoodDragon extends Enemy {
             return DIRECTION_RIGHT;
         }
     }
+    
+    takeDamage(dmg, dir, knockBack)
+    {
+          console.log("Dragon");
+    }
 }
 
 class WoodDragonHead extends Enemy {
@@ -185,7 +190,6 @@ class WoodDragonHead extends Enemy {
         } else {
             super(game, dragon.x + dragon.headOffset, dragon.y, spawner);
         }
-
         this.myScale = dragon.myScale;
         this.myAddScale = dragon.myAddScale;
 
@@ -242,6 +246,11 @@ class WoodDragonHead extends Enemy {
         //super.destroy();
         this.removeFromWorld = true;
     }
+
+    takeDamage(dmg, dir, knockBack)
+    {
+      console.log(dmg);
+    }
 }
 
 class WoodDragonArm {
@@ -288,6 +297,11 @@ class WoodDragonArm {
     destroy() {
 
     }
+
+    takeDamage(dmg, dir, knockBack)
+    {
+      console.log("Arm");
+    }
 }
 
 class WoodDragonLeftArm extends WoodDragonArm {
@@ -304,6 +318,11 @@ class WoodDragonLeftArm extends WoodDragonArm {
     update() {
         super.update();
         this.x = this.head.x - STANDARD_ENTITY_FRAME_WIDTH * 3;
+    }
+    
+    takeDamage(dmg, dir, knockBack)
+    {
+      console.log("Left Arm");
     }
 }
 
@@ -325,5 +344,10 @@ class WoodDragonRightArm extends WoodDragonArm {
     update() {
         super.update();
         this.x = this.head.x + STANDARD_ENTITY_FRAME_WIDTH * 3;
+    }
+    
+    takeDamage(dmg, dir, knockBack)
+    {
+      console.log("Right Arm");
     }
 }
