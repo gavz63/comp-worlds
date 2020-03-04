@@ -1,6 +1,6 @@
 class HealthBar extends Entity
 {
-  constructor(game, x, y, scale, owner, count = 0, max = 0)
+  constructor(game, x, y, scale, owner, name, count = 0, max = 0)
   {
     super(game, x, 30);
     
@@ -8,6 +8,7 @@ class HealthBar extends Entity
     this.offsetY = this.game._ctx.canvas.height - 30;
     this.scale = scale;
     this.owner = owner;
+    this.name = name;
     this.healAmt = 0;
     this.attached = null;
     this.paused = false;
@@ -56,10 +57,14 @@ class HealthBar extends Entity
   }
   
   draw()
-  {	
+  {	  
     this.barOutline.display();
     this.barBack.display();
     this.barFront.display();
+    this.game._ctx.font = "20px Georgia";
+    this.game._ctx.fillStyle = "white";
+    this.game._ctx.textAlign = "center";
+    this.game._ctx.fillText(this.name, this.x, this.y + 5);
   }
   
   attachTo(attached)

@@ -56,11 +56,11 @@ class MagmaGolem extends Enemy {
         this.hp = 25;
         this.maxHp = 25;
         healthScale /= numBars;
-        this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/(numBars * 2) + this.game._ctx.canvas.width/(numBars * 2) * (count*2), 100, healthScale, this, count, numBars);
+        this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/(numBars * 2) + this.game._ctx.canvas.width/(numBars * 2) * (count*2), 100, healthScale, this, "lil' Buddy", count, numBars);
       }
       else
       {
-        this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/2, 100, healthScale, this);
+        this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/2, 100, healthScale, this, "SCOURGE OF THE EAST: Magma Golem");
       }
       console.log("THIS SHOULD HAPPEN");
     }
