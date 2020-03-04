@@ -259,15 +259,6 @@ class GameEngine {
      * needed anymore.
      */
     update() {
-
-        for (let i = 0; i < this.entities[LAYERS.PRIORITY].length; i++) {
-            if (this.entities[LAYERS.PRIORITY][i].removeFromWorld) {
-                this.removeEntity(this.entities[LAYERS.PRIORITY][i]);
-                i--;
-                continue;
-            }
-            this.entities[LAYERS.PRIORITY][i].update();
-        }
         
         if(this.entities[LAYERS.PUDDLEREMNANTS].length >= 90)
         {
@@ -331,6 +322,16 @@ class GameEngine {
                 }
 
                 break;
+        }
+
+        // Do priority layer last.
+        for (let i = 0; i < this.entities[LAYERS.PRIORITY].length; i++) {
+            if (this.entities[LAYERS.PRIORITY][i].removeFromWorld) {
+                this.removeEntity(this.entities[LAYERS.PRIORITY][i]);
+                i--;
+                continue;
+            }
+            this.entities[LAYERS.PRIORITY][i].update();
         }
         // Clear input
         this._clicks = [];
