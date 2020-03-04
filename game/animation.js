@@ -160,15 +160,75 @@ class Animation {
 		{
 			ctx.globalCompositeOperation = "source-over";//color filter
 		}
+    
 
-        // Draw image.
-        ctx.drawImage(this._spriteSheet,
+        
+          if(this._color !== null)
+          {
+            // step 1: draw in original image
+
+            const c = document.createElement("canvas");
+            c.width = this._width * this._scale * addScale;
+            c.height = this._height * this._scale * addScale;
+            c.ctx = c.getContext("2d"); // attach context to the canvas for eaasy reference
+            c.ctx.imageSmoothingEnabled = false;
+            c.ctx.drawImage(this._spriteSheet,
+              cF.x * this._frameWidth, cF.y * this._frameHeight,  // Sprite's top-left position on sprite sheet.
+              this._frameWidth, this._frameHeight, // Size of source sprite.
+              0, 0, // Position to draw sprite on the canvas.
+              this._width * this._scale * addScale, this._height * this._scale * addScale); // Size to draw sprite on canvas.
+            
+            c.ctx.fillStyle = 'red';
+            c.ctx.globalCompositeOperation = "color";
+            c.ctx.fillRect(0,0,c.width,c.height);
+            c.ctx.globalCompositeOperation = "source-over";
+            
+            c.ctx.globalCompositeOperation = "destination-in";
+            c.ctx.drawImage(this._spriteSheet,
+              cF.x * this._frameWidth, cF.y * this._frameHeight,  // Sprite's top-left position on sprite sheet.
+              this._frameWidth, this._frameHeight, // Size of source sprite.
+              0, 0, // Position to draw sprite on the canvas.
+              this._width * this._scale * addScale, this._height * this._scale * addScale); // Size to draw sprite on canvas.
+            c.ctx.globalCompositeOperation = "source-over";
+            
+            ctx.drawImage(c, 
+              drawX, drawY)
+                        
+            /*
+            let sat = 255;
+            let hue = 255;
+            // step 2: adjust saturation (chroma, intensity)
+            ctx.globalCompositeOperation = "saturation";
+            ctx.fillStyle = "hsl(0," + sat + "%, 50%)";  // hue doesn't matter here
+            ctx.fillRect(drawX, drawY, this._width + this._scale * addScale, this._height * this._scale * addScale);
+
+            // step 3: adjust hue, preserve luma and chroma
+            ctx.globalCompositeOperation = "hue";
+            ctx.fillStyle = "hsl(" + hue + ",1%, 50%)";  // sat must be > 0, otherwise won't matter
+            ctx.fillRect(drawX, drawY, this._width + this._scale * addScale, this._height * this._scale * addScale);
+
+            // step 4: in our case, we need to clip as we filled the entire area
+            ctx.globalCompositeOperation = "destination-in";
+            // Draw image.
+            ctx.drawImage(this._spriteSheet,
             cF.x * this._frameWidth, cF.y * this._frameHeight,  // Sprite's top-left position on sprite sheet.
             this._frameWidth, this._frameHeight, // Size of source sprite.
             drawX, drawY, // Position to draw sprite on the canvas.
             this._width * this._scale * addScale, this._height * this._scale * addScale); // Size to draw sprite on canvas.
+            */
+            // step 5: reset comp mode to default
+            ctx.globalCompositeOperation = "source-over";
+          }
+          else
+          {
+            // Draw image.
+            ctx.drawImage(this._spriteSheet,
+            cF.x * this._frameWidth, cF.y * this._frameHeight,  // Sprite's top-left position on sprite sheet.
+            this._frameWidth, this._frameHeight, // Size of source sprite.
+            drawX, drawY, // Position to draw sprite on the canvas.
+            this._width * this._scale * addScale, this._height * this._scale * addScale); // Size to draw sprite on canvas.
+          }
         
-
          /* var myImg = ctx.getImageData(drawX, drawY, this._width * this._scale, this._height * this._scale);
           console.log("GOOD: " + myImg);
           for (var t=0; t < myImg.data.length; t+=4) {

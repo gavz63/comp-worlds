@@ -25,7 +25,10 @@ class Timer
 			this.elapsed += this.game._clockTick;
 			if (this.elapsed >= this.end) {
 				if (this.looping === true) {
-					this.elapsed -= this.end;
+          while(this.elapsed >= this.end && this.end > 0)
+          {
+            this.elapsed -= this.end;
+          }
 				} else {
 					this.destroy();
 				}
@@ -79,8 +82,12 @@ class TimerCallback extends Timer
 			this.elapsed += this.game._clockTick;
 			if (this.elapsed >= this.end) {
 				this.callback();
-				if (this.looping) {
-					this.elapsed -= this.end;
+				if (this.looping === true) {
+          while(this.elapsed >= this.end && this.end > 0)
+          {
+            this.elapsed -= this.end;
+            this.callback();
+          }
 				} else {
 					this.destroy();
 				}

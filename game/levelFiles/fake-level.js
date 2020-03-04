@@ -4,14 +4,15 @@
 //H Horizontal
 //
 
-class LevelFake
+class Level1000
 {
     constructor() {
-        this.width = 34;
-        this.height = 16;
+        this.width = 3;
+        this.height = 1;
         this.floorType = 0;
         this.wallType = 0;
         this.musicId = 'hedgeMazeMusic';
+        this.nextLevel = null;
 
         this.layout =
             "S-E";

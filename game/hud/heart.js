@@ -5,7 +5,17 @@ class Heart extends Entity
     super(game,x,y);
     this.full = true;
     
-    this.myScale = [2*STANDARD_DRAW_SCALE];
+    let ratio = this.game._ctx.canvas.width / this.game._ctx.canvas.height;
+    if(ratio < 1)
+    {
+      ratio = 1/ratio;
+    }
+    if(ratio > 2)
+    {
+      ratio = 2;
+    }
+
+    this.myScale = [2*ratio];
     
     this.animation = new Animation(game.AM.getAsset("./img/hud/Heart.png"),
 			STANDARD_ENTITY_FRAME_WIDTH,
@@ -21,7 +31,16 @@ class Heart extends Entity
   
   update()
   {
-    this.myScale[0] = 2*STANDARD_DRAW_SCALE;
+    let ratio = this.game._ctx.canvas.width / this.game._ctx.canvas.height;
+    if(ratio < 1)
+    {
+      ratio = 1/ratio;
+    }
+    if(ratio > 2)
+    {
+      ratio = 2;
+    }
+    this.myScale[0] = 2*ratio;
   }
   
   draw()

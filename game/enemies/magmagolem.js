@@ -62,7 +62,7 @@ class MagmaGolem extends Enemy {
       {
         this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/2, 100, healthScale, this);
       }
-        
+      console.log("THIS SHOULD HAPPEN");
     }
 
     update() {

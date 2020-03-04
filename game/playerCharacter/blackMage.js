@@ -128,6 +128,19 @@ function BlackMage() {
 			true, player, projectileAnimation,
 			1, 3, 4, that.animation.regProjectileDeath()); // slowed down projectile for debugging
         projectile.GiveBackAmmo();
+        
+      let oppositeDir = Math.atan2(attackVector.y, attackVector.x) * 180 / Math.PI + 180;
+        
+      projectile.particleEmitter = new ParticleEmitter(player.game, player.x, player.y,
+        200,     // rate
+        0, 360,   // pos
+        0, 10, // pos Range
+        oppositeDir + 45, oppositeDir - 45,   // dir
+        1, 200,  // speed
+        0.1, 0.2,   // lifeTime
+        0, 0.3,   // size
+        1, 1,   // color
+        projectile);  // owner
 	};
 	
 	this.specialAttack = function (player, attackVector)

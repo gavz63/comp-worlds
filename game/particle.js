@@ -1,8 +1,12 @@
 class ParticleEmitter extends Entity
 {
-  constructor(game, x, y, rate, startDir, endDir, startSpeed, endSpeed, startLifetime, endLifetime, startSize, endSize, startColor, endColor, attached = null)
+  constructor(game, x, y, rate, startPos, endPos, startRange, endRange, startDir, endDir, startSpeed, endSpeed, startLifetime, endLifetime, startSize, endSize, startColor, endColor, attached = null)
   {
     super(game, x, y);
+    this.startPos = startPos;
+    this.endPos = endPos;
+    this.startRange = startRange;
+    this.endRange = endRange;
     this.startDir = startDir;
     this.endDir = endDir;
     this.startSpeed = startSpeed;
@@ -17,8 +21,11 @@ class ParticleEmitter extends Entity
     let that = this;
     this.timer = new TimerCallback(this.game, 1/rate, true, function () 
     {
-      new Particle(that.game, that.x, that.y, RandomBetween(that.startDir, that.endDir), RandomBetween(that.startSpeed, that.endSpeed), RandomBetween(that.startLifetime, that.endLifetime));
+      let pos = RandomBetween(that.startPos, that.endPos);
+      let p = new Particle(that.game, that.x + Math.cos(pos) * RandomBetween(that.startRange, that.endRange), that.y + Math.sin(pos) * RandomBetween(that.startRange, that.endRange), RandomBetween(that.startDir, that.endDir), RandomBetween(that.startSpeed, that.endSpeed), RandomBetween(that.startLifetime, that.endLifetime));
+      p.myAddScale = RandomBetween(that.startSize, that.endSize);
     });
+    this.game.addEntity(this, LAYERS.PARTICLES);
   }
   
   draw()
@@ -50,7 +57,8 @@ class Particle extends Entity {
 
         this.dx = 0;
         this.dy = 0;
-
+        
+        console.log(dir);
         this.dir = {x: Math.cos(dir / 360 * 2 * Math.PI), y: Math.sin(dir / 360 * 2 * Math.PI)};
         this.speed = speed;
 

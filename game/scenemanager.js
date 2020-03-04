@@ -25,6 +25,10 @@ class SceneManager {
 
         this.game.game_state = GAME_STATES.CHANGING_LEVEL;
 
+        this.game.audioManager.pauseMusic();
+        this.game.audioManager.setMusic('changingLevel');
+        this.game.audioManager.restartMusic();
+        this.game.audioManager.playMusic();
         // Player's final position
         let playPos = {x: this.game.player.x, y: this.game.player.y};
         // Remaining party members as NPC's.
