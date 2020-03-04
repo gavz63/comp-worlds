@@ -171,6 +171,7 @@ class Animation {
             c.width = this._width * this._scale * addScale;
             c.height = this._height * this._scale * addScale;
             c.ctx = c.getContext("2d"); // attach context to the canvas for eaasy reference
+            c.ctx.imageSmoothingEnabled = false;
             c.ctx.drawImage(this._spriteSheet,
               cF.x * this._frameWidth, cF.y * this._frameHeight,  // Sprite's top-left position on sprite sheet.
               this._frameWidth, this._frameHeight, // Size of source sprite.
