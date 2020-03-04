@@ -431,6 +431,38 @@ class Flame extends EasingProjectile
     super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback, move, easing);
     this.myScale[0] = 0;
     this.animation._scale = this.myScale;
+    
+     let oppositeDir = Math.atan2(this.dir.y, this.dir.x) * 180 / Math.PI + 180;
+        
+      let colors = [];
+      
+      colors.push(new Color(25, 100, 50));
+      colors.push(new Color(19, 100, 50));
+      
+      colors.push(new Color(5, 100, 50));
+      colors.push(new Color(20, 100, 50));    
+      
+      colors.push(new Color(0, 100, 50));
+      colors.push(new Color(5, 100, 50));
+      
+      colors.push(new Color(0, 70, 50));
+      colors.push(new Color(0, 20, 10));
+      
+      colors.push(new Color(0, 0, 50));
+      colors.push(new Color(0, 0, 50));
+     
+     this.particleEmitter = new ParticleEmitter(this.game, this.x, this.y,
+        3,     // rate
+        0, 360,   // pos
+        0, 10, // pos Range
+        oppositeDir + 45, oppositeDir - 45,   // dir
+        1, 50,  // speed
+        0.1, 2,   // lifeTime
+        0.05, 0.12,   // size
+        0.01, 0.2, // scale
+        colors,   // color
+        this);  // owner
+    
   }
   
   update() {
@@ -440,6 +472,11 @@ class Flame extends EasingProjectile
       }
       this.move();
       this.myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
+      
+      if(this.timer.getPercent() > 0.25 && this.myScale[0] < 0.01)
+      {
+        this.destroy();
+      }
 	  
 	  let newPos = {x: this.x, y: this.y};
 	  if (this.wallCollision(newPos)) {
@@ -484,11 +521,46 @@ class FlameWall extends EasingProjectile
           this.destroy();
         }
       });
+      let oppositeDir = Math.atan2(this.dir.y, this.dir.x) * 180 / Math.PI + 180;
+        
+      let colors = [];
+      
+      colors.push(new Color(25, 100, 50));
+      colors.push(new Color(19, 100, 50));
+      
+      colors.push(new Color(5, 100, 50));
+      colors.push(new Color(20, 100, 50));    
+      
+      colors.push(new Color(0, 100, 50));
+      colors.push(new Color(5, 100, 50));
+      
+      colors.push(new Color(0, 70, 50));
+      colors.push(new Color(0, 20, 10));
+      
+      colors.push(new Color(0, 0, 50));
+      colors.push(new Color(0, 0, 50));
+     
+     this.particleEmitter = new ParticleEmitter(this.game, this.x, this.y,
+        3,     // rate
+        0, 360,   // pos
+        0, 10, // pos Range
+        oppositeDir + 45, oppositeDir - 45,   // dir
+        1, 50,  // speed
+        0.1, 2,   // lifeTime
+        0.05, 0.12,   // size
+        0.01, 0.2, // scale
+        colors,   // color
+        this);  // owner
 	}
   update()
   {
     this.myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
-	
+  
+    if(this.timer.getPercent() > 0.25 && this.myScale[0] < 0.01)
+    {
+      this.destroy();
+    }
+  
     let newPos = {x: this.x, y: this.y};
     if (this.wallCollision(newPos)) {
       this.destroy();

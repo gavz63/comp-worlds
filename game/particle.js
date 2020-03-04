@@ -112,8 +112,7 @@ class Particle extends Entity {
         this.animation.pause();
         this.animation.setFrame(0);
         
-        let testColor = MixColor(this.colors[this.currentColor], this.colors[this.nextColor], this.timer.getPercent()).getColor();
-        //this.animation._color = testColor;
+        this.animation._color = MixColor(this.colors[this.currentColor], this.colors[this.nextColor], this.timer.getPercent()).getColor();
         this.game.addEntity(this, LAYERS.PARTICLES);
     }
     
