@@ -24,15 +24,25 @@ class Player extends Entity {
 
         this.attackCounter = 0;
 
+        let ratio = this.game._ctx.canvas.width / this.game._ctx.canvas.height;
+        if(ratio < 1)
+        {
+          ratio = 1/ratio;
+        }
+        if(ratio > 2)
+        {
+          ratio = 2;
+        }
+        
         this.hearts = [
             new LastHeart(game,
-                1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE,
-                1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE)
+                1.1 * ratio / 2,
+                1.1 * ratio / 2)
         ];
         for (let i = 1; i < characterClass.stats.maxHP; i++) {
             this.hearts[i] = new Heart(game,
-                (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE),
-                1.1 * STANDARD_ENTITY_FRAME_WIDTH / 2 * STANDARD_DRAW_SCALE);
+                (i + 1) * (1.1 * ratio),
+                1.1 * ratio / 2);
         }
         for (let i = 0; i < this.characterClass.stats.maxHP - this.hp; i++) {
             this.hearts[this.characterClass.stats.maxHP - i - 1].set(false);
@@ -102,9 +112,19 @@ class Player extends Entity {
             return null;
         }
 
+        let ratio = this.game._ctx.canvas.width / this.game._ctx.canvas.height;
+        if(ratio < 1)
+        {
+          ratio = 1/ratio;
+        }
+        if(ratio > 2)
+        {
+          ratio = 2;
+        }
+        
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
-            this.hearts[i].x = (i + 1) * (1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE);
-            this.hearts[i].y = 1.1 * STANDARD_ENTITY_FRAME_WIDTH * STANDARD_DRAW_SCALE;
+            this.hearts[i].x = (i + 0.6) * (35 * ratio);
+            this.hearts[i].y = 20 * ratio;
         }
 
         var that = this;
@@ -429,10 +449,14 @@ class Player extends Entity {
         this.progressBar.destroy();
         this.idleTimer.destroy();
 
+        this.game.entities[LAYERS.HUD].length = 0;
+        
         if (this.dead && this.game.entities[LAYERS.MAIN].length === 1) {
             this.game.gameOver();
         }
         super.destroy();
+        
+
     }
 
     /**
