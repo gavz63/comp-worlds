@@ -105,7 +105,7 @@ function King() {
       specialProjectile: function () { return new Animation(arrows,
         32, 32,
         {x: 0, y: 0}, {x: 2, y: 0},
-        8, true, STANDARD_DRAW_SCALE * 3); }
+        8, true, STANDARD_DRAW_SCALE, 3); }
     };
 	
 	let that = this;

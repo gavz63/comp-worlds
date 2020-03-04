@@ -134,14 +134,13 @@ class Animation {
      * @param {*} center Pass true if you'd like the sprite to be drawn
      *      centered on the posX & posY coordinates.
      */
-    drawFrame(tick, ctx, posX, posY, center, extraScale = 1) {
-
+    drawFrame(tick, ctx, posX, posY, center, addScale = 1) {
         let that = this;
         let drawX = posX;
         let drawY = posY;
         if (center === true) {
-            drawX -= ((that._width * that._scale * extraScale) / 2);
-            drawY -= ((that._height * that._scale * extraScale) / 2);
+            drawX -= ((that._width * that._scale * addScale) / 2);
+            drawY -= ((that._height * that._scale * addScale) / 2);
         }
 		this._center = center;
 
@@ -167,7 +166,7 @@ class Animation {
             cF.x * this._frameWidth, cF.y * this._frameHeight,  // Sprite's top-left position on sprite sheet.
             this._frameWidth, this._frameHeight, // Size of source sprite.
             drawX, drawY, // Position to draw sprite on the canvas.
-            this._width * this._scale * extraScale, this._height * this._scale * extraScale); // Size to draw sprite on canvas.
+            this._width * this._scale * addScale, this._height * this._scale * addScale); // Size to draw sprite on canvas.
         
 
          /* var myImg = ctx.getImageData(drawX, drawY, this._width * this._scale, this._height * this._scale);

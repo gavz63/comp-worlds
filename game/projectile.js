@@ -55,11 +55,7 @@ class Projectile extends Entity {
             this.game.addEntity(this, LAYERS.ENEMY_PROJECTILES);
         }
 	
-        this.myAddScale = 1;
-        if(this.animation._addScale !== -1)
-        {
-          this.myAddScale = this.animation._addScale;
-        }
+        this.myAddScale = this.animation._addScale;
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         
         this.animation._scale = this.myScale;
@@ -138,6 +134,7 @@ class Projectile extends Entity {
                 }));
                 let attackedFromDir = vectorToDir(attackedFromVector);
                 this.game.player.takeDmg(1, attackedFromDir);
+                that.destroy();
             }
             this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
                 if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
@@ -512,6 +509,7 @@ class Slash extends Projectile
 	
 	update()
 	{
+    this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
 		if(!this.hitOnce)
 		{
 			this.testCollision();
@@ -562,6 +560,8 @@ class Shuriken extends EasingProjectile
 	}
 	
   update() {
+    this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+    
 		if(!this.done)
 		{
 			this.move();
@@ -684,6 +684,7 @@ class Spin extends Slash
 	
 	update()
 	{
+    this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
 		this.testProjectileCollision();
 		
 		this.x = this.owner.x + this.dir.x * this.speed;

@@ -120,7 +120,7 @@ function Lancer() {
         specialProjectile: function() { return new Animation(specialSlash,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 3, y: 0},
-            16, true, STANDARD_DRAW_SCALE*6); }
+            16, true, STANDARD_DRAW_SCALE, 6); }
     };
 
 	this.attack = function (player, attackVector)
