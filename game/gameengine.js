@@ -234,13 +234,25 @@ class GameEngine {
                 this._entities[i][j].draw(this._ctx);
             }
         }
-        
-        if(this.player)
+
+        if(this.game_state === GAME_STATES.PLAYING)
         {
+                
+          let ratio = this._ctx.canvas.width / this._ctx.canvas.height;
+          if(ratio < 1)
+          {
+            ratio = 1/ratio;
+          }
+          if(ratio > 2)
+          {
+            ratio = 2;
+          }
+        
+        
           this._ctx.font = "20px Georgia";
           this._ctx.fillStyle = "white";
           let point = this._camera.clickPosTranslation({x: 0, y: 0});
-          this._ctx.fillText("Keys: " + this.player.keys, 0, 20);
+          this._ctx.fillText("Keys: " + this.player.keys, ratio * 10, ratio * 40 + 20);
         }
         //this._ctx.restore();
     }
