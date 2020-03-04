@@ -60,15 +60,7 @@ class Projectile extends Entity {
         
         this.animation._scale = this.myScale;
         
-        this.particleEmitter = 
-        new ParticleEmitter(this.game, 96 * 3, 96 * 1.5,
-        20,     // rate
-        0, 360,   // dir
-        1, 10,  // speed
-        1, 4,   // lifeTime
-        1, 1,   // size
-        1, 1,   // color
-        this);  // owner
+        this.particleEmitter = null;
       }
 
     update() {
@@ -212,7 +204,10 @@ class Projectile extends Entity {
           }
         }
       }
-      this.particleEmitter.destroy();
+      if(this.particleEmitter)
+      {
+        this.particleEmitter.destroy();
+      }
     }
     
     GiveBackAmmo()
@@ -506,6 +501,10 @@ class FlameWall extends EasingProjectile
   {
     this.removeFromWorld = true;
     this.owner.progressBar.paused = false;
+    if(this.particleEmitter !== null)
+    {
+      this.particleEmitter.destroy();
+    }
   }
 }
 
