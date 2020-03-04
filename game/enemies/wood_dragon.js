@@ -56,13 +56,6 @@ class WoodDragon extends Enemy {
         this.animation.pause();
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
         this.head = new WoodDragonHead(this.game, this.x + this.headOffset, this.y, this.spawner, this);
-        //this.leftArm = new WoodDragonLeftArm(this.game, this.x + this.headOffset, this.y )
-
-        let that = this;
-        new TimerCallback(game, 2, true, function() {
-            that.setFacing(that.otherDirection());
-            console.log("heelo");
-        });
     }
 
     update() {
@@ -70,12 +63,6 @@ class WoodDragon extends Enemy {
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
         this.myBodyScale[0] = STANDARD_DRAW_SCALE * this.myBodyAddScale;
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
-    }
-
-    draw() {
-        super.draw();
-
-        // this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true, this.addScale);
     }
 
     /**
@@ -174,34 +161,101 @@ class WoodDragonHead extends Enemy {
         this.animation.pause();
 
         this.dragon = dragon;
+        this.leftArm = new WoodDragonLeftArm(this.game, this.spawner, this);
+        this.rightArm = new WoodDragonRightArm(this.game, this.spawner, this);
 
-        game.addEntity(this, LAYERS.ENEMIES);
+        this.game.addEntity(this, LAYERS.ENEMIES);
     }
 
     update() {
         super.update();
-
+        this.leftArm.update();
+        this.rightArm.update();
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
+    }
 
-
-
+    draw() {
+        this.rightArm.draw();
+        this.leftArm.draw();
+        super.draw();
     }
 }
 
-// class WoodDragonArm extends Enemy {
-//     constructor(game, x, y, spawner, head) {
-//         super(game, x, y, spawner);
-//         this.head = head;
-//     }
-//
-//     update() {
-//         super.update();
-//         if (this.head === null) {
-//             this.destroy();
-//         }
-//     }
-// }
-//
-// class WoodDragonLeftArm extends WoodDragonArm {
-//
-// }
+class WoodDragonArm {
+    constructor(game, x, y, head) {
+        this.game = game;
+        this.x = x;
+        this.y = y;
+        this.myAddScale = 2;
+        this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
+        this.head = head;
+        this.animation = null;
+        this.isAttacking = false;
+
+    }
+
+    update() {
+        this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
+
+        if (this.head === null) {
+            this.destroy();
+        } else {
+            this.y = this.head.y + STANDARD_ENTITY_FRAME_WIDTH * 2;
+            if (this.isAttacking) {
+                if (this.animation.isDone()) {
+                    this.isAttacking = false;
+                    this.animation.resetAnimation();
+                    this.animation.pause();
+                    //TODO create a slash projectile
+                }
+            }
+        }
+    }
+
+    draw() {
+        let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+        this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true);
+    }
+
+    attack() {
+        this.isAttacking = true;
+        this.animation.unpause();
+    }
+}
+
+class WoodDragonLeftArm extends WoodDragonArm {
+    constructor(game, spawner, head) {
+        super(game, head.x - STANDARD_ENTITY_FRAME_WIDTH * 3, head.y + STANDARD_ENTITY_FRAME_WIDTH * 2, head);
+
+        this.animation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/DragonLeftClaw.png"),
+            STANDARD_ENTITY_FRAME_WIDTH * 3, STANDARD_ENTITY_FRAME_WIDTH * 2,
+            {x: 0, y: 0}, {x: 5, y: 0},
+            7, false, this.myScale);
+        this.animation.pause();
+    }
+
+    update() {
+        super.update();
+        this.x = this.head.x - STANDARD_ENTITY_FRAME_WIDTH * 3;
+    }
+}
+
+class WoodDragonRightArm extends WoodDragonArm {
+    constructor(game, spawner, head) {
+        super(game, head.x + STANDARD_ENTITY_FRAME_WIDTH * 3, head.y + STANDARD_ENTITY_FRAME_WIDTH * 2, head);
+
+        this.animation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/DragonRightClaw.png"),
+            STANDARD_ENTITY_FRAME_WIDTH * 3, STANDARD_ENTITY_FRAME_WIDTH * 2,
+            {x: 0, y: 0}, {x: 5, y: 0},
+            7, false, this.myScale);
+        this.animation.pause();
+        let that = this;
+        new TimerCallback(game, 2, true, function() {
+            that.attack();
+        });
+    }
+    update() {
+        super.update();
+        this.x = this.head.x + STANDARD_ENTITY_FRAME_WIDTH * 3;
+    }
+}
