@@ -54,6 +54,9 @@ class WoodDragon extends Enemy {
         this.animation.pause();
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
         this.head = new WoodDragonHead(this.game, this.spawner, this);
+        this.hp = 120;
+        this.maxHp = 120;
+        this.healthBar = new HealthBar(this.game, 0, 100, 0.9, this);
     }
 
     update() {
@@ -180,6 +183,11 @@ class WoodDragon extends Enemy {
     takeDamage(dmg, dir, knockBack)
     {
           console.log("Dragon");
+    }
+
+    destroy() {
+        super.destroy();
+        this.healthBar.destroy();
     }
 }
 
