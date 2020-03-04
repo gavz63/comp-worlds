@@ -98,6 +98,21 @@ ASSET_MANAGER.queueDownload("../menuImages/creditspress.png");
 ASSET_MANAGER.queueDownload("../menuImages/main.png");
 ASSET_MANAGER.queueDownload("../menuImages/mainhover.png");
 ASSET_MANAGER.queueDownload("../menuImages/mainpress.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/WoodDragonHead.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/WoodDragonHeadBreathWeapon.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/WoodDragonHeadBite.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/WoodDragonHeadPostLaunch.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/WoodDragonHeadStunned.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonFlyingLeftFace.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonFlyingRightFace.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonLeftClaw.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonRightClaw.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonShadowLeftFace.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonShadowRightFace.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonTakingOffLeftFace.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonTakingOffRightFace.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/WoodDragonBodyLeftFace.png");
+ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/WoodDragonBodyRightFace.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');

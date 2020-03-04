@@ -135,7 +135,6 @@ class Animation {
      *      centered on the posX & posY coordinates.
      */
     drawFrame(tick, ctx, posX, posY, center, addScale = 1) {
-
         let that = this;
         let drawX = posX;
         let drawY = posY;
