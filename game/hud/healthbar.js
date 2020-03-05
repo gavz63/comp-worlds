@@ -27,13 +27,10 @@ class HealthBar extends Entity
     this.width = this.game._ctx.canvas.width * this.scale;
     this.count = count;
     this.max = max;
-    console.log("HEY BOI");
   }
   
   update()
   {
-      console.log(this.x + ", " + this.y + ", " + this.width);
-
       this.width = this.game._ctx.canvas.width * this.scale;
 	  
     if(this.attached !== null)

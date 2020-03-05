@@ -56,7 +56,7 @@ class WoodDragon extends Enemy {
         this.head = new WoodDragonHead(this.game, this.spawner, this);
         this.hp = 120;
         this.maxHp = 120;
-        this.healthBar = new HealthBar(this.game, 0, 100, 0.9, this);
+        this.healthBar = new HealthBar(this.game, 0, 100, 0.9, this, "HEART OF THE OVERGROWTH: GREAT WOOD DRAGON");
     }
 
     update() {
@@ -257,7 +257,8 @@ class WoodDragonHead extends Enemy {
 
     takeDamage(dmg, dir, knockBack)
     {
-      console.log(dmg);
+        this.dragon.hp -= dmg;
+        console.log(dmg);
     }
 }
 

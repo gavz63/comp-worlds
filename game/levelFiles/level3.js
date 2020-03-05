@@ -4,7 +4,7 @@ class Level3 {
         this.height = 10;
         this.floorType = 0;
         this.wallType = 0;
-        this.nextLevel = null;
+        this.nextLevel = Level4.prototype;
         this.musicId = 'hedgeMonsterMusic';
 
         this.layout =
