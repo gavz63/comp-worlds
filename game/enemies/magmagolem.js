@@ -47,6 +47,8 @@ class MagmaGolem extends Enemy {
       this.hp = 80;
       this.wait();
       let numBars = 2;
+      
+      this.color = null;
 		
       this.weight = 10;
 
@@ -179,9 +181,9 @@ class MagmaGolem extends Enemy {
           {
             let that = this;
             new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
-            this.animation._color = new Color(0, 100, 50).getColor();
+            this.color = new Color(0, 100, 50).getColor();
             if(this.hurtTimer)this.hurtTimer.destroy();
-            this.hurtTimer = new TimerCallback(this.game, 0.25, false, function() {that.animation._color = null;});
+            this.hurtTimer = new TimerCallback(this.game, 0.25, false, function() {that.color = null;});
           }
         }
       }
@@ -189,6 +191,7 @@ class MagmaGolem extends Enemy {
     
     draw()
     {
+      this.animation._color = this.color;
       super.draw();
     }
     
