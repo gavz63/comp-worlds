@@ -436,8 +436,14 @@ class Flame extends EasingProjectile
         
       let colors = [];
       
+      colors.push(new Color(56, 80, 50));
+      colors.push(new Color(19, 80, 50));
+      
       colors.push(new Color(25, 100, 50));
-      colors.push(new Color(19, 100, 50));
+      colors.push(new Color(10, 100, 50));
+      
+      colors.push(new Color(25, 100, 50));
+      colors.push(new Color(10, 100, 50));
       
       colors.push(new Color(5, 100, 50));
       colors.push(new Color(20, 100, 50));    
@@ -452,14 +458,14 @@ class Flame extends EasingProjectile
       colors.push(new Color(0, 0, 50));
      
      this.particleEmitter = new ParticleEmitter(this.game, this.x, this.y,
-        3,     // rate
+        5,     // rate
         0, 360,   // pos
-        0, 10, // pos Range
-        oppositeDir + 45, oppositeDir - 45,   // dir
-        1, 50,  // speed
+        0, 20, // pos Range
+        oppositeDir + 40, oppositeDir - 40,   // dir
+        1, 70,  // speed
         0.1, 2,   // lifeTime
-        0.05, 0.12,   // size
-        0.01, 0.2, // scale
+        0.05, 0.07,   // size
+        0.01, 0.05, // scale
         colors,   // color
         this);  // owner
     
@@ -473,8 +479,10 @@ class Flame extends EasingProjectile
       this.move();
       this.myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
       
-      if(this.timer.getPercent() > 0.25 && this.myScale[0] < 0.01)
+      if(this.timer.getPercent() > 0.1 && this.myScale[0] < 0.01)
       {
+        this.particleEmitter.destroy();
+        console.log("HEY");
         this.destroy();
       }
 	  

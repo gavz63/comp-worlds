@@ -61,6 +61,7 @@ class ParticleEmitter extends Entity
   destroy()
   {
     super.destroy();
+    this.timer.pause();
     this.timer.destroy();
   }
 }
@@ -113,6 +114,7 @@ class Particle extends Entity {
         this.animation.setFrame(0);
         
         this.animation._color = MixColor(this.colors[this.currentColor], this.colors[this.nextColor], this.timer.getPercent()).getColor();
+        this.animation._particle = true;
         this.game.addEntity(this, LAYERS.PARTICLES);
     }
     

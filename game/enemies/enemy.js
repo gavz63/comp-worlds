@@ -9,10 +9,10 @@ class Enemy extends Entity {
         /*this.damageTimer = new TimerCallback(this.game, 1, true, function() { that.hurt = false;
         this.pause();});*/
         this.hurt = false;
-		this.invincible = false;
+        this.invincible = false;
         this.hp = 1;
 		
-		this.weight = 1;
+        this.weight = 1;
     }
 
     destroy() {

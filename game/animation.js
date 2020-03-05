@@ -107,6 +107,7 @@ class Animation {
         this._color = color;
         this._totalFrames = 0;
         this._screen = false;
+        this._particle = false;
 
         // Calculate total frames using row-major order.
         if (this._firstFrame.y < this._lastFrame.y
@@ -164,7 +165,7 @@ class Animation {
 
           if(this._color !== null)
           {
-            if(this._particle === true) // should not be called for now
+            if(this._particle === false) // should not be called for now
             {
               const c = document.createElement("canvas");
             c.width = this._width * this._scale * addScale;
@@ -177,10 +178,9 @@ class Animation {
               0, 0, // Position to draw sprite on the canvas.
               this._width * this._scale * addScale, this._height * this._scale * addScale); // Size to draw sprite on canvas.
             
-            c.ctx.fillStyle = 'red';
+            c.ctx.fillStyle = this._color;
             c.ctx.globalCompositeOperation = "color";
             c.ctx.fillRect(0,0,c.width,c.height);
-            c.ctx.globalCompositeOperation = "source-over";
             
             c.ctx.globalCompositeOperation = "destination-in";
             c.ctx.drawImage(this._spriteSheet,

@@ -80,7 +80,7 @@ class MagmaGolem extends Enemy {
               if (this.isCharging) {
                   this.go(this.dir);
               } else if (this.goalPoint) {
-        this.charge();
+                this.charge();
               }
               let newPos = {x: this.x, y: this.y};
               if (this.wallCollision(newPos)) {
@@ -144,6 +144,55 @@ class MagmaGolem extends Enemy {
           that.isWaiting = false;
       })
     }
+    
+     takeDamage(dmg, dir, knockBack)
+    {
+      if(!this.hurt)
+      {
+        if(!this.invincible)
+        {
+          console.log("HEY");
+          let checkWalls = true;
+          if(this.wallCollision({x: this.x, y: this.y}))
+          {
+            checkWalls = false;
+          }
+          
+          this.x += dir.x * knockBack * 1/this.weight;
+          this.y += dir.y * knockBack * 1/this.weight;
+          
+          if(checkWalls)
+          {
+            while(this.wallCollision({x: this.x, y: this.y}))
+            {
+              this.x -= dir.x * 0.5;
+              this.y -= dir.y * 0.5;
+            }
+          }
+          this.hp -= dmg;
+          this.hurt = true;
+          console.log(this.hurt);
+          if (this.hp <= 0) {
+            this.destroy();
+          }
+          else
+          {
+            let that = this;
+            new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
+            this.animation._color = new Color(0, 100, 50).getColor();
+            if(this.hurtTimer)this.hurtTimer.destroy();
+            this.hurtTimer = new TimerCallback(this.game, 0.25, false, function() {that.animation._color = null;});
+          }
+        }
+      }
+    }
+    
+    draw()
+    {
+      super.draw();
+    }
+    
+
 	
 	destroy()
 	{

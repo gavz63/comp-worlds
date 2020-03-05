@@ -80,8 +80,6 @@ class Player extends Entity {
         this.progressBar = new ProgressBar(this.game, 0, this.animation._height * this.animation._scale/4, this.animation._frameWidth * this.animation._scale, this, 100 / this.characterClass.stats.specialChargeTime);
 
         this.dead = false;
-		
-
     }
 
 
@@ -93,8 +91,7 @@ class Player extends Entity {
             } else {
                 this.animation._screen = false;
             }
-            this.animation._color = new Color(0, 100, 50).getColor();
-            this.animation._particle = true;
+            //this.animation._color = new Color(0, 100, 50).getColor();
             this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true, this.addScale);
         }
     }
