@@ -19,6 +19,7 @@ class Key extends Entity {
 		{
 			this.timer = new TimerCallback(this.game, 2, false, function () {that.falling = false;});
 		}
+      this.destroySounds.push("keyPickup");
     }
 
     update() {

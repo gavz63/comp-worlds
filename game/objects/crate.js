@@ -21,6 +21,10 @@ class Crate extends Object {
         this.collider = new Collider(0, 0, -13, 12, -15, 16, null, 150);
         this.radius = STANDARD_ENTITY_RADIUS - 5;
         this.inRange = false;
+        
+        //this.hitSounds.push("crateHit1");
+        this.hitSounds.push("crateHit2");
+        this.destroySounds.push("crateBroken");
     }
 
     update() {

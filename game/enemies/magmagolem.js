@@ -64,7 +64,13 @@ class MagmaGolem extends Enemy {
       {
         this.healthBar = new HealthBar(this.game, this.game._ctx.canvas.width/2, 100, healthScale, this, "SCOURGE OF THE EAST: MAGMA GOLEM");
       }
-      console.log("THIS SHOULD HAPPEN");
+      
+      this.destroySounds.push("golemDeath");
+      
+      this.hitSounds = [];
+      this.hitSounds.push("golemHit1");
+      this.hitSounds.push("golemHit2");
+      this.hitSounds.push("golemHit3");
     }
 
     update() {
@@ -108,6 +114,7 @@ class MagmaGolem extends Enemy {
     }
 
     charge() {
+      this.game.audioManager.playSound("golemCharge");
       this.goalPoint = {
           x: indexToCoordinate(coordinateToIndex(this.game.player.x)),
           y: indexToCoordinate(coordinateToIndex(this.game.player.y)),
@@ -129,6 +136,8 @@ class MagmaGolem extends Enemy {
     }
 
     backToNormal() {
+      this.game.audioManager.playSound("golemSlam1");
+      this.game.audioManager.playSound("golemSlam2");
       this.game._camera.shake(10, 5, .5);
       this.speed = 20;
       this.isCharging = false;
@@ -179,6 +188,7 @@ class MagmaGolem extends Enemy {
           }
           else
           {
+            this.game.audioManager.playSound(getRandomSound(this.hitSounds));
             let that = this;
             new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
             this.color = new Color(0, 100, 50).getColor();

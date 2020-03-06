@@ -164,6 +164,9 @@ function BlackMage() {
         0.01, 0.2, // scale
         colors,   // color
         projectile);  // owner
+        
+      projectile.hitSounds.push("fireballHit");
+      player.game.audioManager.playSound("fireball");
 	};
 	
 	this.specialAttack = function (player, attackVector)

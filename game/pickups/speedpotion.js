@@ -6,6 +6,7 @@ class SpeedPotion extends Entity {
         this.scale = [STANDARD_DRAW_SCALE * this.addScale];
         this.animation = new Animation(ASSET_MANAGER.getAsset("./img/pickups/potions.png"), 32, 32, {x: 0, y: 0}, {x: 1, y: 0}, 7, true, this.scale);
         this.collider = new Collider(0, 0, 8, 8, 6, 6, 12, Infinity);
+        this.destroySounds.push("potion");
     }
 
     update() {

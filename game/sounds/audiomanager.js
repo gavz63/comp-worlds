@@ -14,14 +14,19 @@ class AudioManager {
     }
 
     setMusic(musicId) {
-        this.music = document.getElementById(musicId);
+        this.music = document.getElementById(musicId).cloneNode(true);
+        this.music.volume = this.musicVolume * this.masterVolume / 100 / 100;
         this.music.muted = false;
     }
     
     playSound(soundId) {
+      if(soundId !== null)
+      {
         let audioFile = document.getElementById(soundId).cloneNode(true);
         audioFile.volume = this.masterVolume * this.sfxVolume / 100 / 100;
+        audioFile.muted = false;
         audioFile.play();
+      }
     }
     
     setMasterVolume(volume)

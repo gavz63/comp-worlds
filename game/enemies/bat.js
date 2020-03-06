@@ -24,6 +24,10 @@ class Bat extends Enemy {
         this.oldCircle = 0;
         this.radius = STANDARD_ENTITY_RADIUS - 5;
         this.inRange = false;
+        
+        //this.destroySounds.push("batDeath1");
+        this.destroySounds.push("batDeath2");
+        //this.destroySounds.push("nothing");
     }
 
     update() {

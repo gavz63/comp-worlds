@@ -61,6 +61,8 @@ class Projectile extends Entity {
         this.animation._scale = this.myScale;
         
         this.particleEmitter = null;
+        
+        this.hitSounds = [];
       }
 
     update() {
@@ -181,6 +183,7 @@ class Projectile extends Entity {
         {
           that.owner.attackCounter--;
           that.giveBackAmmo = false;
+          that.game.audioManager.playSound(getRandomSound(this.hitSounds));
         }
         
         new TimerCallback(this.game, 0, false, function() {
@@ -468,7 +471,6 @@ class Flame extends EasingProjectile
         0.01, 0.05, // scale
         colors,   // color
         this);  // owner
-    
   }
   
   update() {
@@ -559,6 +561,8 @@ class FlameWall extends EasingProjectile
         0.01, 0.2, // scale
         colors,   // color
         this);  // owner
+        
+      this.game.audioManager.playSound("flame");
 	}
   update()
   {

@@ -8,6 +8,8 @@ class PCRemnant extends Entity {
         this.radius = STANDARD_ENTITY_RADIUS;
         game.addEntity(this, LAYERS.PICKUPS);
         console.log(animation._sheetWidth);
+        
+        this.destroySounds.push("keyPickup");
     }
 
     update() {

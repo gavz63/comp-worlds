@@ -13,6 +13,15 @@ class Enemy extends Entity {
         this.hp = 1;
 		
         this.weight = 1;
+        
+        this.layerHit = false;
+        
+        this.hitSounds = [];
+        this.hitSounds.push("hit1");
+        this.hitSounds.push("hit2");
+        this.hitSounds.push("hit3");
+        this.hitSounds.push("hit4");
+        this.hitSounds.push("hit5");
     }
 
     destroy() {
@@ -157,6 +166,10 @@ class Enemy extends Entity {
     {
       if(!this.hurt)
       {
+        if(this.layerHit === true)
+        {
+        this.game.audioManager.playSound(getRandomSound(this.hitSounds));
+        }
         if(!this.invincible)
         {
           let checkWalls = true;
@@ -183,6 +196,10 @@ class Enemy extends Entity {
           }
           else
           {
+            if(this.layerHit === false)
+            {
+            this.game.audioManager.playSound(getRandomSound(this.hitSounds));
+            }
             let that = this;
             new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
           }

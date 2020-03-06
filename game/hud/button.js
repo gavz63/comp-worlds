@@ -13,6 +13,7 @@ class Button {
         this.regularAnimation = animations.regularAnimation;
         this.clickAnimation = animations.clickAnimation;
         this.animation = animations.regularAnimation;
+        this.set = false;
     }
 
     draw() {
@@ -20,6 +21,7 @@ class Button {
     }
 
     update() {
+                      console.log(this.game.audioManager);
         this.x = this.game.ctx.canvas.width/2 + this.xOffset;
         this.y = this.game.ctx.canvas.height/2 + this.yOffset;
         if (pointToSquare(this.game.mousePos, this)) {
@@ -28,9 +30,16 @@ class Button {
                 this.animation = this.clickAnimation;
                 this.callback();
             } else {
+                console.log(this.game.audioManager);
+                if(this.set === false)
+                {
+                  this.game.audioManager.playSound("click");
+                  this.set = true;
+                }
                 this.animation = this.hoverAnimation;
             }
         } else {
+            this.set = false;
             this.animation = this.regularAnimation;
         }
     }

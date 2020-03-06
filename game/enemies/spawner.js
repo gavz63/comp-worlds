@@ -47,6 +47,8 @@ class RoomSpawner
 				if(this.dropKey)
 				{
 					//drop Key
+          let that = this;
+          new TimerCallback(this.game, 0.5, false, function () { that.game.audioManager.playSound("keyDrop"); });
           this.lockCam = true;
 					new Key(this.game, this.x, this.y, true);
 				}

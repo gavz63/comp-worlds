@@ -6,6 +6,7 @@ class StarPotion extends Entity {
         this.scale = [STANDARD_DRAW_SCALE * this.addScale];
         this.animation = new Animation(ASSET_MANAGER.getAsset("./img/pickups/potions.png"), 32, 32, {x: 0, y: 2}, {x: 1, y: 2}, 7, true, this.scale);
         this.collider = new Collider(0, 0, 8, 8, 8, 8, 12, Infinity);
+        this.destroySounds.push("potion");
     }
 
     update() {

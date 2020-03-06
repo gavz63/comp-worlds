@@ -25,6 +25,8 @@ class Entity
 		//draw modes
 		
 		this.oldPos = {x: this.x, y: this.y};
+    
+    this.destroySounds = [];
 	}
   
   wallCollision(newPos)
@@ -79,6 +81,7 @@ class Entity
 	destroy()
 	{
 		this.removeFromWorld = true;
+    this.game.audioManager.playSound(getRandomSound(this.destroySounds));
 	}
 	
 	update()

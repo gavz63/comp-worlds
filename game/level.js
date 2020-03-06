@@ -220,6 +220,7 @@ class Level {
                 collider,
                 {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y)},
                 new Collider(0, 0, 48, 48, 8, 8, null, Infinity))) {
+                    this.game.audioManager.playSound("door");
                     this._map[origin.x][origin.y] = "-";
                     var removeDoor = -1;
                     for (var i = 0; i < this._doors.length; i++) {
@@ -244,6 +245,7 @@ class Level {
                 collider,
                 {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y)},
                 new Collider(0, 0, 8, 8, 48, 48, null, Infinity))) {
+                    this.game.audioManager.playSound("door");
                     this._map[origin.x][origin.y] = "-";
                     var removeDoor = -1;
                     for (var i = 0; i < this._doors.length; i++) {
@@ -268,6 +270,7 @@ class Level {
                     collider,
                     {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y)},
                     new Collider(0, 0, 48, 48, 8, 8, null, Infinity))) {
+                this.game.audioManager.playSound("gate");
                 this._map[origin.x][origin.y] = "-";
                 var removeDoor = -1;
                 for (var i = 0; i < this._doors.length; i++) {
@@ -292,6 +295,7 @@ class Level {
                     collider,
                     {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y)},
                     new Collider(0, 0, 8, 8, 48, 48, null, Infinity))) {
+                this.game.audioManager.playSound("gate");
                 this._map[origin.x][origin.y] = "-";
                 var removeDoor = -1;
                 for (var i = 0; i < this._doors.length; i++) {

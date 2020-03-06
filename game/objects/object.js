@@ -4,6 +4,7 @@ class Object extends Entity {
         this.game.addEntity(this, LAYERS.OBJECTS);
         let that = this;
         this.hp = 2;
+        this.hitSounds = [];
 		
         this.weight = 2;
     }
@@ -36,5 +37,9 @@ class Object extends Entity {
 			if (this.hp <= 0) {
 				this.destroy();
 			}
+      else
+      {
+        this.game.audioManager.playSound(getRandomSound(this.hitSounds));
+      }
     }
 }

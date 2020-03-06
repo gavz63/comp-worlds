@@ -80,6 +80,17 @@ class Player extends Entity {
         this.progressBar = new ProgressBar(this.game, 0, this.animation._height * this.animation._scale/4, this.animation._frameWidth * this.animation._scale, this, 100 / this.characterClass.stats.specialChargeTime);
 
         this.dead = false;
+        
+        this.footStepTimer = null;
+        this.lastHeartTimer = null;
+        
+        this.lastHeartSounds = ["heartBeat"];
+        
+        this.walkSounds = [];
+        this.walkSounds.push("step1");
+        this.walkSounds.push("step2");
+        this.walkSounds.push("step3");
+        
     }
 
 
@@ -175,6 +186,11 @@ class Player extends Entity {
             if (this.game.click || this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking) {
                 //If we're moving
                 if (this.game.keyStack.length > 0 && !this.isAttacking) {
+                    let that = this;
+                    if(this.footStepTimer === null)
+                    {
+                      this.footStepTimer = new TimerCallback(this.game, 0.3, true, function () { that.game.audioManager.playSound(getRandomSound(that.walkSounds)); });
+                    }
 
                     //Set animation to the walking animation
                     if (this.game.lastKey === "KeyW" || this.game.lastKey === "ArrowUp") {
@@ -209,6 +225,11 @@ class Player extends Entity {
             }
             // If game.change was not set, we have been idling
             else {
+                if(this.footStepTimer !== null)
+                {
+                  this.footStepTimer.destroy();
+                  this.footStepTimer = null;
+                }
                 //Make sure we're using the proper idle animation
                 switch (this.direction) {
                     case DIRECTION_RIGHT:
@@ -314,6 +335,14 @@ class Player extends Entity {
                 this.game.sceneManager.levelComplete();
             }
         }
+        else
+        {
+          if(this.footStepTimer !== null)
+          {
+            this.footStepTimer.destroy();
+            this.footStepTimer = null;
+          }
+        }
 
         if (!this.camLocked && this.game.player.removeFromWorld === false) {
             let cOffX = this.game._camera._desiredLoc.x - this.x;
@@ -354,6 +383,7 @@ class Player extends Entity {
      */
     takeDmg(dmg, direction) {
         if (this.hurt !== true && this.invincible !== true) {
+            this.game.audioManager.playSound("impact");
             this.game._camera.shake(2, 2, .25)
             switch (direction) {
                 case DIRECTION_LEFT:
@@ -380,12 +410,16 @@ class Player extends Entity {
                 this.destroy();
                 return;
             } else if (this.hp === 1) {
-                new TimerCallback(this.game, 7, false, function () {
-					if(that.hp < 1)
-					{
-						that.hp = 1;
-						that.hearts[0].set(true);
-					}
+                this.lastHeartTimer = new TimerCallback(this.game, 1, true, function () { that.game.audioManager.playSound("heartBeat"); });
+                new TimerCallback(this.game, 7.5, false, function () {
+                  
+                  that.lastHeartTimer.destroy();
+                  that.lastHeartTimer = null;
+                  if(that.hp < 1)
+                  {
+                    that.hp = 1;
+                    that.hearts[0].set(true);
+                  }
                 });
             }
 
@@ -429,6 +463,11 @@ class Player extends Entity {
     }
 
     destroy() {
+        if(this.footStepTimer !== null)
+        {
+          this.footStepTimer.destroy();
+          this.footStepTimer = null;
+        }
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].destroy();
         }

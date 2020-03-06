@@ -21,6 +21,8 @@ class PuddleJumper extends Enemy {
         this.speed = 300;
         this.directionSet = false;
         this.targetVector = null;
+        
+        this.destroySounds.push("puddleDeath");
     }
 
     update() {
@@ -66,6 +68,8 @@ class LineJumper extends Enemy
         this.dir = {x: 1, y: 0};
         
         this.oldPos = {x: x, y: y};
+        
+        this.destroySounds.push("puddleDeath");
     }
     
     update()

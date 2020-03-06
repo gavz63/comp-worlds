@@ -1,37 +1,44 @@
 class StoneGolem extends Enemy {
     constructor(game, x, y, spawner = null) {
-        super(game, x, y, spawner);
-        let spriteSheet = game.AM.getAsset("./img/enemies/StoneGolemSheet.png");
-        this.myAddScale = 2;
-        this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
-        this.moveAnimation = new Animation(spriteSheet,
-            STANDARD_ENTITY_FRAME_WIDTH,
-            STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 3, y: 0}, 6, true, this.myScale);
-        this.attackAnimation = new Animation(spriteSheet,
-            STANDARD_ENTITY_FRAME_WIDTH,
-            STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 1}, {x: 4, y: 1}, 8, false, this.myScale);
-        this.deathAnimation = new Animation(spriteSheet,
-            STANDARD_ENTITY_FRAME_WIDTH,
-            STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 3, y: 2}, 10, false, this.myScale);
-        this.chargeAnimation = new Animation(spriteSheet,
-            STANDARD_ENTITY_FRAME_WIDTH,
-            STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 3}, {x: 3, y: 3}, 8, true, this.myScale);
+      super(game, x, y, spawner);
+      let spriteSheet = game.AM.getAsset("./img/enemies/StoneGolemSheet.png");
+      this.myAddScale = 2;
+      this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
+      this.moveAnimation = new Animation(spriteSheet,
+          STANDARD_ENTITY_FRAME_WIDTH,
+          STANDARD_ENTITY_FRAME_WIDTH,
+          {x: 0, y: 0}, {x: 3, y: 0}, 6, true, this.myScale);
+      this.attackAnimation = new Animation(spriteSheet,
+          STANDARD_ENTITY_FRAME_WIDTH,
+          STANDARD_ENTITY_FRAME_WIDTH,
+          {x: 0, y: 1}, {x: 4, y: 1}, 8, false, this.myScale);
+      this.deathAnimation = new Animation(spriteSheet,
+          STANDARD_ENTITY_FRAME_WIDTH,
+          STANDARD_ENTITY_FRAME_WIDTH,
+          {x: 0, y: 2}, {x: 3, y: 2}, 10, false, this.myScale);
+      this.chargeAnimation = new Animation(spriteSheet,
+          STANDARD_ENTITY_FRAME_WIDTH,
+          STANDARD_ENTITY_FRAME_WIDTH,
+          {x: 0, y: 3}, {x: 3, y: 3}, 8, true, this.myScale);
 
-        this.animation = this.moveAnimation;
+      this.animation = this.moveAnimation;
 
-        this.speed = 20;
-        this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
-        this.radius = STANDARD_ENTITY_RADIUS * 0.8;
-        this.isWaiting = false;
-        this.isAttacking = false;
-        this.goalPoint = null;
-        this.dir = null;
-        this.hp = 4;
-        this.wait();
+      this.speed = 20;
+      this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
+      this.radius = STANDARD_ENTITY_RADIUS * 0.8;
+      this.isWaiting = false;
+      this.isAttacking = false;
+      this.goalPoint = null;
+      this.dir = null;
+      this.hp = 4;
+      this.wait();
+        
+      this.destroySounds.push("golemDeath");
+      
+      this.hitSounds = [];
+      this.hitSounds.push("golemHit1");
+      this.hitSounds.push("golemHit2");
+      this.hitSounds.push("golemHit3");
     }
 
     update() {
@@ -102,6 +109,9 @@ class StoneGolem extends Enemy {
     }
 
     backToNormal() {
+        this.game.audioManager.playSound("golemSlam1");
+        this.game.audioManager.playSound("golemSlam2");
+        this.game._camera.shake(10, 5, .25);
         this.speed = 20;
         this.isCharging = false;
         this.isAttacking = false;
