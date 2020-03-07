@@ -1,6 +1,15 @@
 const PHASE = {};
 
+/**
+ * This class is the body of the dragon when it is
+ * on the ground. It is the whole dragon when it is flying.
+ *
+ * @author Gavin Montes
+ * */
 class WoodDragon extends Enemy {
+    /**
+     * @inheritDoc
+     */
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
         this.myAddScale = 3;
@@ -12,11 +21,19 @@ class WoodDragon extends Enemy {
             STANDARD_ENTITY_FRAME_WIDTH * 4, STANDARD_ENTITY_FRAME_WIDTH * 4,
             {x: 0, y: 0}, {x: 5, y: 0},
             7, true, this.myScale);
+        this.flyingLeftCollider = new Collider(0, 0,
+            128 * 2, 94 * 2,
+            64 * 2, 96 * 2,
+            null, 150);
 
         this.flyingRightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/DragonFlyingRightFace.png"),
             STANDARD_ENTITY_FRAME_WIDTH * 4, STANDARD_ENTITY_FRAME_WIDTH * 4,
             {x: 0, y: 0}, {x: 5, y: 0},
             7, true, this.myScale);
+        this.flyingRightCollider = new Collider(0, 0,
+            128 * 2, 94 * 2,
+            96 * 2, 64 * 2,
+            null, 150);
 
         this.shadowLeftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/DragonShadowLeftFace.png"),
             STANDARD_ENTITY_FRAME_WIDTH * 4, STANDARD_ENTITY_FRAME_WIDTH * 4,
@@ -41,15 +58,26 @@ class WoodDragon extends Enemy {
         this.bodyLeftAnimation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/WoodDragonBodyLeftFace.png"),
             STANDARD_ENTITY_FRAME_WIDTH * 6, STANDARD_ENTITY_FRAME_WIDTH * 4,
             {x: 0, y: 0}, {x: 3, y: 0},
-            4, false, this.myBodyScale);
+            7, false, this.myBodyScale);
+        this.bodyLeftCollider = new Collider(0, 0,
+            8 * 2, 64 * 2,
+            32 * 2, 84 * 2,
+            null, 150);
 
         this.bodyRightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/WoodDragonBodyRightFace.png"),
             STANDARD_ENTITY_FRAME_WIDTH * 6, STANDARD_ENTITY_FRAME_WIDTH * 4,
             {x: 0, y: 0}, {x: 3, y: 0},
-            4, false, this.myBodyScale);
+            7, false, this.myBodyScale);
+        this.bodyRightCollider = new Collider(0, 0,
+            8 * 2, 64 * 2,
+            84 * 2, 32 * 2,
+            null, 150);
 
-        this.animation = this.bodyRightAnimation;
-        this.direction = DIRECTION_RIGHT;
+
+        this.animation = this.bodyLeftAnimation;
+        this.color = null;
+        this.direction = DIRECTION_LEFT;
+        this.collider = this.bodyLeftCollider;
         this.switchDirectionTimer = null;
         this.animation.pause();
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
@@ -62,38 +90,60 @@ class WoodDragon extends Enemy {
     update() {
         super.update();
         let that = this;
-        if (this.head !== null) {
-            this.head.update();
-        }
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
         this.myBodyScale[0] = STANDARD_DRAW_SCALE * this.myBodyAddScale;
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
 
-        if ((this.game.player.x > this.x && this.direction === DIRECTION_LEFT) ||
-            (this.game.player.x < this.x && this.direction === DIRECTION_RIGHT)) {
+        if (this.isTailWhipping) {
+            if (this.animation.isDone()) {
+                this.isTailWhipping = false;
+                this.animation.resetAnimation();
+                this.animation.pause();
+                //TODO create a slash projectile
+            }
+        }
 
+        if ((this.game.player.x > this.x + 160 && this.direction === DIRECTION_LEFT) ||
+            (this.game.player.x < this.x - 160 && this.direction === DIRECTION_RIGHT)) {
+
+            if (!this.isTailWhipping) {
+                this.tailWhip();
+            }
             if (this.switchDirectionTimer === null) {
                 this.switchDirectionTimer = new TimerCallback(this.game, 1, false, function () {
+                    that.isTailWhipping = false;
+                    that.animation.resetAnimation();
+                    that.animation.pause();
                     that.groundFace(that.otherDirection());
-                    console.log("callback");
                 });
-                console.log("Created timer");
             }
         } else if (this.switchDirectionTimer !== null) {
             this.switchDirectionTimer.destroy();
             this.switchDirectionTimer = null;
         }
+        this.game.entities[LAYERS.PLAYER_PROJECTILES].forEach(function (elem) {
+            if (checkCollision(that, that.collider, elem, elem.collider) && !elem.dying) {
+                elem.destroy();
+                that.takeDamage(elem.dmg, elem.dir, elem.knockBack);
+            }
+        });
     }
 
+    /**
+     * Switch direction when dragon is on the ground.
+     * @param dir DIRECTION_LEFT or DIRECTION_RIGHT. In on the ground mode there are on only 2 directions.
+     */
     groundFace(dir) {
         if (this.animation === this.bodyRightAnimation ||
-        this.animation === this.bodyLeftAnimation) {
+            this.animation === this.bodyLeftAnimation) {
             let that = this;
             switch (dir) {
                 case DIRECTION_RIGHT:
                     this.animation = this.flyingRightAnimation;
-                    new TimerCallback(this.game, 1, false, function() {
+                    this.collider = this.flyingRightCollider;
+                    new TimerCallback(this.game, 1, false, function () {
                         that.animation = that.bodyRightAnimation;
+                        that.collider = that.bodyRightCollider;
                         that.animation.pause();
                         that.head = new WoodDragonHead(that.game, that.spawner, that);
                         that.direction = DIRECTION_RIGHT;
@@ -102,8 +152,10 @@ class WoodDragon extends Enemy {
                     break;
                 case DIRECTION_LEFT:
                     this.animation = this.flyingLeftAnimation;
-                    new TimerCallback(this.game, 1, false, function() {
+                    this.collider = this.flyingLeftCollider;
+                    new TimerCallback(this.game, 1, false, function () {
                         that.animation = that.bodyLeftAnimation;
+                        that.collider = that.bodyLeftCollider;
                         that.animation.pause();
                         that.head = new WoodDragonHead(that.game, that.spawner, that);
                         that.direction = DIRECTION_LEFT;
@@ -122,7 +174,9 @@ class WoodDragon extends Enemy {
             console.log("Calling groundFace() when not on the ground!");
         }
     }
+
     /**
+     * Switches the direction of the dragon's animation.
      * Pass DIRECTION_LEFT or DIRECTION_RIGHT
      * @param direction
      */
@@ -172,6 +226,11 @@ class WoodDragon extends Enemy {
         this.animation._paused = paused;
     }
 
+    draw() {
+        super.draw();
+        this.animation._color = this.color;
+    }
+
     otherDirection() {
         if (this.direction === DIRECTION_RIGHT) {
             return DIRECTION_LEFT;
@@ -179,10 +238,28 @@ class WoodDragon extends Enemy {
             return DIRECTION_RIGHT;
         }
     }
-    
-    takeDamage(dmg, dir, knockBack)
-    {
-          console.log("Dragon");
+
+    tailWhip() {
+        if (this.animation === this.bodyLeftAnimation ||
+            this.animation === this.bodyRightAnimation) {
+
+            this.isTailWhipping = true;
+            this.animation.unpause();
+        }
+    }
+
+    takeDamage(dmg, dir, knockBack) {
+        if (this.hp <= 0) {
+            this.destroy();
+        } else {
+            this.hp -= dmg;
+            let that = this;
+            this.color = new Color(0, 100, 50).getColor();
+            if (this.hurtTimer) this.hurtTimer.destroy();
+            this.hurtTimer = new TimerCallback(this.game, 0.025, false, function () {
+                that.color = null;
+            });
+        }
     }
 
     destroy() {
@@ -200,6 +277,10 @@ class WoodDragonHead extends Enemy {
         }
         this.myScale = dragon.myScale;
         this.myAddScale = dragon.myAddScale;
+        this.collider = new Collider(0, 0,
+            18 * 3, 28 * 3,
+            16 * 3, 18 * 3,
+            null, 150);
 
 
         this.stdAnimation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/WoodDragonHead.png"),
@@ -227,6 +308,7 @@ class WoodDragonHead extends Enemy {
             {x: 0, y: 0}, {x: 3, y: 0},
             4, false, this.myScale);
 
+        this.color = null;
         this.animation = this.stdAnimation;
         this.animation.pause();
 
@@ -237,6 +319,14 @@ class WoodDragonHead extends Enemy {
 
     update() {
         super.update();
+        let that = this;
+        this.game.entities[LAYERS.PLAYER_PROJECTILES].forEach(function (elem) {
+            if (checkCollision(that, that.collider, elem, elem.collider) && !elem.dying) {
+                elem.destroy();
+                that.takeDamage(elem.dmg, elem.dir, elem.knockBack);
+            }
+        });
+
         this.leftArm.update();
         this.rightArm.update();
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
@@ -246,6 +336,7 @@ class WoodDragonHead extends Enemy {
         this.rightArm.draw();
         this.leftArm.draw();
         super.draw();
+        this.animation._color = this.color;
     }
 
     destroy() {
@@ -255,10 +346,18 @@ class WoodDragonHead extends Enemy {
         this.removeFromWorld = true;
     }
 
-    takeDamage(dmg, dir, knockBack)
-    {
-        this.dragon.hp -= dmg;
-        console.log(dmg);
+    takeDamage(dmg, dir, knockBack) {
+        if (this.dragon.hp <= 0) {
+            this.dragon.destroy();
+        } else {
+            this.dragon.hp -= dmg * 2;
+            let that = this;
+            this.color = new Color(0, 100, 50).getColor();
+            if (this.hurtTimer) this.hurtTimer.destroy();
+            this.hurtTimer = new TimerCallback(this.game, 0.025, false, function () {
+                that.color = null;
+            });
+        }
     }
 }
 
@@ -272,7 +371,7 @@ class WoodDragonArm {
         this.head = head;
         this.animation = null;
         this.isAttacking = false;
-
+        this.color = null;
     }
 
     update() {
@@ -282,6 +381,14 @@ class WoodDragonArm {
             this.destroy();
         } else {
             this.y = this.head.y + STANDARD_ENTITY_FRAME_WIDTH * 2;
+            let that = this;
+            this.game.entities[LAYERS.PLAYER_PROJECTILES].forEach(function (elem) {
+                if (checkCollision(that, that.collider, elem, elem.collider) && !elem.dying) {
+                    console.log("COLLISION");
+                    elem.destroy();
+                    that.takeDamage(elem.dmg, elem.dir, elem.knockBack);
+                }
+            });
             if (this.isAttacking) {
                 if (this.animation.isDone()) {
                     this.isAttacking = false;
@@ -296,6 +403,7 @@ class WoodDragonArm {
     draw() {
         let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
         this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true);
+        this.animation._color = this.color;
     }
 
     attack() {
@@ -307,16 +415,28 @@ class WoodDragonArm {
 
     }
 
-    takeDamage(dmg, dir, knockBack)
-    {
-      console.log("Arm");
+    takeDamage(dmg, dir, knockBack) {
+        if (this.head.dragon.hp <= 0) {
+            this.head.dragon.destroy();
+        } else {
+            this.head.dragon.hp -= dmg / 2; //TODO, maybe this is way too low
+            let that = this;
+            this.color = new Color(0, 100, 50).getColor();
+            if (this.hurtTimer) this.hurtTimer.destroy();
+            this.hurtTimer = new TimerCallback(this.game, 0.025, false, function () {
+                that.color = null;
+            });
+        }
     }
 }
 
 class WoodDragonLeftArm extends WoodDragonArm {
     constructor(game, spawner, head) {
         super(game, head.x - STANDARD_ENTITY_FRAME_WIDTH * 3, head.y + STANDARD_ENTITY_FRAME_WIDTH * 2, head);
-
+        this.collider = new Collider(0, 0,
+            18 * 2, 32 * 2,
+            16 * 2, 40 * 2,
+            null, 150);
         this.animation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/DragonLeftClaw.png"),
             STANDARD_ENTITY_FRAME_WIDTH * 3, STANDARD_ENTITY_FRAME_WIDTH * 2,
             {x: 0, y: 0}, {x: 5, y: 0},
@@ -328,17 +448,15 @@ class WoodDragonLeftArm extends WoodDragonArm {
         super.update();
         this.x = this.head.x - STANDARD_ENTITY_FRAME_WIDTH * 3;
     }
-    
-    takeDamage(dmg, dir, knockBack)
-    {
-      console.log("Left Arm");
-    }
 }
 
 class WoodDragonRightArm extends WoodDragonArm {
     constructor(game, spawner, head) {
         super(game, head.x + STANDARD_ENTITY_FRAME_WIDTH * 3, head.y + STANDARD_ENTITY_FRAME_WIDTH * 2, head);
-
+        this.collider = new Collider(0, 0,
+            18 * 2, 32 * 2,
+            40 * 2, 16 * 2,
+            null, 150);
         this.animation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/DragonRightClaw.png"),
             STANDARD_ENTITY_FRAME_WIDTH * 3, STANDARD_ENTITY_FRAME_WIDTH * 2,
             {x: 0, y: 0}, {x: 5, y: 0},
@@ -353,10 +471,5 @@ class WoodDragonRightArm extends WoodDragonArm {
     update() {
         super.update();
         this.x = this.head.x + STANDARD_ENTITY_FRAME_WIDTH * 3;
-    }
-    
-    takeDamage(dmg, dir, knockBack)
-    {
-      console.log("Right Arm");
     }
 }

@@ -49,7 +49,7 @@ class Level4 {
         this.spawnerList.push (
             {
                 x: 7.5,
-                y: 1,
+                y: 4,
                 max: 1,
                 freq: 3,
                 list: [WoodDragon.prototype],
