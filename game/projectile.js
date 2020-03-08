@@ -790,3 +790,63 @@ class Spin extends Slash {
         this.owner.progressBar.paused = false;
     }
 }
+
+class Peasant extends Entity {
+    constructor(game, x, y, owner) {
+        super(game, x, y);
+        this.owner = owner;
+        let peasantID = Math.floor(Math.random() * 5);
+        this.animation = new Animation(game.AM.getAsset("./img/projectiles/Peasants.png"), 16, 16,
+            {x: 0, y: peasantID}, {x: 1, y: peasantID}, 5, true, STANDARD_DRAW_SCALE);
+        this.animation.unpause();
+        this.speed = 100;
+        this.hp = 1;
+        this.dmg = 1;
+        this.collider = new Collider(0, 0, 7, 8, 6, 6, null, 5);
+        this.radius = 8;
+        this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
+
+        this.mobOff = {x: Math.cos(Math.floor(Math.random() * 360)) * 24, y: Math.sin(Math.floor(Math.random() * 360)) * 24};
+        this.targOff = {x: Math.floor(Math.random() * 20) - 10, y: Math.floor(Math.random() * 20) - 10};
+        this.precision = 1;
+    }
+
+    update() {
+        let target = {x: this.owner.x + this.mobOff.x, y: this.owner.y + this.mobOff.y};
+        let dist = 200;
+        this.game.entities[LAYERS.ENEMIES].forEach((e) => {
+            let eD = lengthV({x: e.x - this.x, y: e.y - this.y});
+            if (eD < dist && lengthV({x: e.x - this.owner.x, y: e.y - this.owner.y}) < 250) {
+                target.x = e.x + this.targOff.x;
+                target.y = e.y + this.targOff.y;
+                dist = eD;
+            }
+        });
+        /*this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach((p) => {
+            let pD = lengthV({x: p.x - this.owner.x, y: p.y - this.owner.y});
+            if (pD < dist) {
+                target.x = p.x;
+                target.y = p.y;
+                dist = pD;
+            }
+        });*/
+
+        if (lengthV({x: this.x - target.x, y: this.y - target.y}) > this.precision) {
+            let attackVect = {x: target.x - this.x, y: target.y - this.y};
+            attackVect = normalizeV(attackVect);
+            this.x += attackVect.x * this.speed * this.game._clockTick;
+            this.y += attackVect.y * this.speed * this.game._clockTick;
+        }
+
+
+        this.game.entities[LAYERS.ENEMIES].forEach((e) => {
+            if (this.removeFromWorld !== true && e.removeFromWorld !== true) {
+                if (circleToCircle(this, e)) {
+                    this.destroy();
+                    e.takeDamage(1, {x: 0, y: 0}, false);
+                    this.owner.attackCounter--;
+                }
+            }
+        });
+    }
+}
