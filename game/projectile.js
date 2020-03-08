@@ -171,9 +171,9 @@ class Projectile extends Entity {
     }
 
     destroy() {
+        this.dying = true;
         if (this.deathAnimation) {
             this.animation = this.deathAnimation;
-            this.dying = true;
             let that = this;
 
             this.update = function () {
@@ -559,6 +559,7 @@ class FlameWall extends EasingProjectile {
         if (this.particleEmitter !== null) {
             this.particleEmitter.destroy();
         }
+        this.spawnTimer.destroy();
     }
 }
 
@@ -714,6 +715,8 @@ class Shuriken extends EasingProjectile {
 class Spin extends Slash {
     constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback) {
         super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
+        this.collider = new Collider(0, 0, 64, 64, 64, 64, null, 150);
+
         this.timer.destroy();
         let that = this;
         this.dmgTimer = new TimerCallback(that.game, 0.1, true, function () {
