@@ -111,7 +111,7 @@ function King() {
 	let that = this;
 	
 	this.attack = function (player, attackVector) {
-		
+        new Peasant(player.game, player.x + (attackVector.x * 16), player.y + (attackVector.y * 16), player);
 	};
 	
 	this.specialAttack = function (player, attackVector) {
@@ -122,7 +122,7 @@ function King() {
 
     this.stats = {
         maxHP: 5,
-        speed: 50,
+        speed: 69,
         melee: false,
         projectileSpeed: 300,
         projectileLifetime: 1.5,
@@ -131,7 +131,7 @@ function King() {
         specialLifetime: 3,
         specialChargeTime: 10,
         specialChargeFromKill: 0,
-        maxProjectiles: 2
+        maxProjectiles: 8
     };
     this.npc = {
         x: -32 - 50,
