@@ -231,7 +231,9 @@ class GameEngine {
         //this._ctx.save();
         for (let i = 0; i < this._entities.length; i++) {
             for (let j = 0; j < this._entities[i].length; j++) {
-                this._entities[i][j].draw(this._ctx);
+                if (! this._entities[i][j].dontDraw) {
+                    this._entities[i][j].draw(this._ctx);
+                }
             }
         }
 

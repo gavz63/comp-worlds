@@ -108,7 +108,7 @@ class Projectile extends Entity {
                 //For each enemy
                 this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
                     if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
-                        if (circleToCircle(that, elem)) {
+                        if (circleToCircle(that, elem) || checkCollision(that, that.collider, elem, elem.collider)) {
                             if (that.dieOnHit) {
                                 that.destroy();
                             }

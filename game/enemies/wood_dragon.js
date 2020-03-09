@@ -1,4 +1,18 @@
-const PHASE = {};
+const MODE = {
+    BULLET_HELL: "bullet hell", // Keep behind pits and shoot logs and posts
+    AGGRESSIVE: "aggro", // Up close to player working claw/head/tail machine
+    REST: "break", // Behind middle pit, spawn enemies and heal self
+    SCREEN_WIPE: "armegeddon", // Behind middle pit blow wood chipper blast
+    WAKE_UP: "awaken", // This only happens once at the very beginning of the fight
+};
+
+/* based on health. There are 3 phases that get progressively harder */
+const PHASE = {
+    EASY: [MODE.WAKE_UP,
+        MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE],
+    MEDIUM: [MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.AGGRESSIVE],
+    HARD: [MODE.SCREEN_WIPE, MODE.AGGRESSIVE, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.AGGRESSIVE]
+};
 
 /**
  * This class is the body of the dragon when it is
@@ -86,6 +100,11 @@ class WoodDragon extends Enemy {
         this.maxHp = 180;
         this.hurt = false;
         this.healthBar = new HealthBar(this.game, 0, 100, 0.9, this, "HEART OF THE OVERGROWTH: GREAT WOOD DRAGON");
+
+        this.phase = PHASE.EASY;
+        this.timePerMode = 15;
+        this.mode = this.phase[0];
+        this.side = DIRECTION_UP;
     }
 
     update() {
@@ -123,17 +142,6 @@ class WoodDragon extends Enemy {
             this.switchDirectionTimer.destroy();
             this.switchDirectionTimer = null;
         }
-        this.game.entities[LAYERS.PLAYER_PROJECTILES].forEach(function (elem) {
-            if (!elem.dying) {
-                if (checkCollision(that, that.collider, elem, elem.collider)) {
-                    if (!(elem instanceof Spin)) {
-                        elem.destroy();
-                    }
-                    elem.done = true;
-                    that.takeDamage(elem.dmg, elem.dir, elem.knockBack);
-                }
-            }
-        });
     }
 
     /**
@@ -246,6 +254,21 @@ class WoodDragon extends Enemy {
         }
     }
 
+    /**
+     * Use to pick a behind-the-pits corner to fight from
+     */
+    pickASide() {
+        if (this.side === null) {
+            // Choose the closest side to current position
+        } else {
+            let rand = Math.floor(Math.random() * 2);
+            switch (this.side) {
+                case DIRECTION_RIGHT:
+
+            }
+        }
+    }
+
     tailWhip() {
         if (this.animation === this.bodyLeftAnimation ||
             this.animation === this.bodyRightAnimation) {
@@ -327,25 +350,12 @@ class WoodDragonHead extends Enemy {
         this.dragon = dragon;
         this.leftArm = new WoodDragonLeftArm(this.game, this.spawner, this);
         this.rightArm = new WoodDragonRightArm(this.game, this.spawner, this);
+        this.game.addEntity(this.leftArm, LAYERS.ENEMIES);
+        this.game.addEntity(this.rightArm, LAYERS.ENEMIES);
     }
 
     update() {
         super.update();
-        let that = this;
-        this.game.entities[LAYERS.PLAYER_PROJECTILES].forEach(function (elem) {
-            if (!elem.dying) {
-                if (checkCollision(that, that.collider, elem, elem.collider)) {
-                    if (!(elem instanceof Spin)) {
-                        elem.destroy();
-                    }
-                    elem.done = true;
-                    that.takeDamage(elem.dmg, elem.dir, elem.knockBack);
-                }
-            }
-        });
-
-        this.leftArm.update();
-        this.rightArm.update();
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
     }
 
@@ -394,6 +404,8 @@ class WoodDragonArm {
         this.isAttacking = false;
         this.color = null;
         this.hurt = false;
+
+        this.dontDraw = true;
     }
 
     update() {
@@ -404,19 +416,6 @@ class WoodDragonArm {
         } else {
             this.y = this.head.y + STANDARD_ENTITY_FRAME_WIDTH * 2;
 
-            //Check collision with player projectiles
-            let that = this;
-            this.game.entities[LAYERS.PLAYER_PROJECTILES].forEach(function (elem) {
-                if (!elem.dying) {
-                    if (checkCollision(that, that.collider, elem, elem.collider)) {
-                        if (!(elem instanceof Spin)) {
-                            elem.destroy();
-                        }
-                        elem.done = true;
-                        that.takeDamage(elem.dmg, elem.dir, elem.knockBack);
-                    }
-                }
-            });
             if (this.isAttacking) {
                 if (this.animation.isDone()) {
                     this.isAttacking = false;
@@ -440,7 +439,7 @@ class WoodDragonArm {
     }
 
     destroy() {
-
+        this.removeFromWorld = true;
     }
 
     takeDamage(dmg, dir, knockBack) {

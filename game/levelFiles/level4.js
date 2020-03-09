@@ -10,8 +10,8 @@ class Level4 {
         this.layout =
             "#--------------#" +
             "#--------------#" +
+            "#--------------#" +
             "#-PPPPPPPPPPPP-#" +
-            "#-P----------P-#" +
             "#-P----------P-#" +
             "#-P----------P-#" +
             "##P----------P##" +
@@ -38,7 +38,7 @@ class Level4 {
 
         this.roomSpawnerList.push({
             x: 7.5,
-            y: 3.5,
+            y: 4.7,
             room: {upperLeft: {x: 1, y: 0}, bottomRight: {x: 14, y: 7}},
             lockCam: true,
             dropKey: true, // drops a key at this. x, y
@@ -48,8 +48,8 @@ class Level4 {
 
         this.spawnerList.push (
             {
-                x: 7.5,
-                y: 4,
+                x: 8,
+                y: 5,//1.3,
                 max: 1,
                 freq: 3,
                 list: [WoodDragon.prototype],
