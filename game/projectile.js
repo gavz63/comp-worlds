@@ -860,7 +860,7 @@ class Peasant extends Entity {
 
     update() {
 
-        if (this.game.player.dead) {
+        if (this.game.player.dead || !(this.game.player.characterClass instanceof King) || this.game.game_state !== GAME_STATES.PLAYING) {
             this.removeFromWorld = true;
         }
 
