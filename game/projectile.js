@@ -812,6 +812,12 @@ class Peasant extends Entity {
     }
 
     update() {
+
+        if (this.game.player.dead) {
+            this.removeFromWorld = true;
+        }
+
+
         let target = {x: this.owner.x + this.mobOff.x, y: this.owner.y + this.mobOff.y};
         let dist = 200;
         this.game.entities[LAYERS.ENEMIES].forEach((e) => {
@@ -842,11 +848,57 @@ class Peasant extends Entity {
         this.game.entities[LAYERS.ENEMIES].forEach((e) => {
             if (this.removeFromWorld !== true && e.removeFromWorld !== true) {
                 if (circleToCircle(this, e)) {
-                    this.destroy();
                     e.takeDamage(1, {x: 0, y: 0}, false);
-                    this.owner.attackCounter--;
+                    this.hp--;
+                    if (this.hp <= 0) {
+                        this.destroy();
+                        this.owner.attackCounter--;
+                    }
                 }
             }
         });
+    }
+}
+
+class Hail extends Entity {
+    constructor(game, x, y, owner) {
+        super(game, x, y);
+        this.owner = owner;
+        this.animation = new Animation(game.AM.getAsset("./img/projectiles/Arrows.png"), 256, 256,
+            {x: 0, y: 0}, {x: 4, y: 0}, 12, false, STANDARD_DRAW_SCALE);
+        this.animation.unpause();
+        this.dmg = 1;
+        this.radius = 35;
+        this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
+        this.hit = false;
+        this.grounded = 0;
+    }
+
+    update() {
+        if (!this.hit && this.animation.isDone()) {
+            this.animation.pause();
+            this.animation.setFrame(4);
+            this.hit = true;
+            this.game.entities[LAYERS.ENEMIES].forEach((e) => {
+                if (this.removeFromWorld !== true && e.removeFromWorld !== true) {
+                    if (circleToCircle(this, e)) {
+                        e.takeDamage(10, {x: 0, y: 0}, false);
+                    }
+                }
+            });
+        }
+
+        if (this.hit) {
+            this.grounded += this.game._clockTick;
+            if (this.grounded >= 2) {
+                this.destroy();
+                this.owner.progressBar.paused = false;
+            }
+        }
+    }
+    
+    draw(ctx) {
+        let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
+		this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true, .5);
     }
 }

@@ -115,7 +115,8 @@ function King() {
 	};
 	
 	this.specialAttack = function (player, attackVector) {
-
+        let pos = player.game._camera.clickPosTranslation({x: player.game.mouseX, y: player.game.mouseY});
+        new Hail(player.game, pos.x, pos.y, player);
     };
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
@@ -127,7 +128,7 @@ function King() {
         projectileSpeed: 300,
         projectileLifetime: 1.5,
         specialMelee: false,
-        specialSpeed: 20,
+        specialSpeed: 0,
         specialLifetime: 3,
         specialChargeTime: 10,
         specialChargeFromKill: 0,
