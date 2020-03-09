@@ -91,6 +91,12 @@ class Player extends Entity {
         this.walkSounds.push("step2");
         this.walkSounds.push("step3");
         
+        this.footStepTimer  = null;
+        this.lastHeartTimer = null;
+        this.controlTimer   = null;
+        this.hurtTimer      = null;
+        this.regenTimer     = null;
+        
     }
 
 

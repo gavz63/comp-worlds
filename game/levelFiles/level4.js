@@ -15,7 +15,7 @@ class Level4 {
             "#-P----------P-#" +
             "#-P----------P-#" +
             "##P----------P##" +
-            "S-------------HE" +
+            "S-------------#E" +
             "################";
 
         this.playerSpawner = null;
@@ -29,13 +29,21 @@ class Level4 {
         };*/
 
 
+
+        this.wallSpawnerList = [];
         this.roomSpawnerList = [];
         this.spawnerList = [];
         this.turretList = [];
         this.spawnerProjectileList = [];
         this.pickupList = [];
         this.unlockableCharacter = [];
-
+        
+        this.wallSpawnerList.push({
+           x: 1,
+           y: 7,
+           room: {upperLeft: {x: 2, y: 0}, bottomRight: {x: 15, y: 8}}
+        });
+        
         this.roomSpawnerList.push({
             x: 7.5,
             y: 4.7,

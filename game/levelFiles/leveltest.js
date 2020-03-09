@@ -31,6 +31,7 @@ class LevelTest {
             "#-----------##############-------E" +
             "##################################";
 
+        this.wallSpawnerList = [];
         this.roomSpawnerList = [];
         this.spawnerList = [];
         this.turretList = [];

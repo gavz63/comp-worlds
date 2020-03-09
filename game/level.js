@@ -34,9 +34,9 @@ class Level {
      * @param {array} spawners An array of spawner objects
      */
     constructor(game, level) {
-		this.game = game;
-		this.levelFile = level;
-		this.resetLevel(level);
+      this.game = game;
+      this.levelFile = level;
+      this.resetLevel(level);
     }
 
     /**
@@ -101,12 +101,17 @@ class Level {
             });
         }
 
-		let roomSpawnerList = [];
+    this.wallSpawners.forEach(function (elem)
+    {
+      new WallSpawner(that.game, elem.x, elem.y, elem.room);
+    });
+    
+    let roomSpawnerList = [];
+      
 		this.roomSpawners.forEach(function (elem)
 		{
 			roomSpawnerList.push(new RoomSpawner(that.game, elem.x, elem.y, [], elem.room, elem.lockCam, elem.dropKey, elem.dropPotion, elem.zoom));
 		});
-    console.log(roomSpawnerList);
     this.spawners.forEach(function (elem)
     {
       let owner = null;
@@ -168,12 +173,21 @@ class Level {
         this._wallType = levelFile.wallType;
         this._floorType = levelFile.floorType;
         this.unlockableCharacter = levelFile.unlockableCharacter;
+        if(levelFile.wallSpawnerList === null || levelFile.wallSpawnerList === undefined)
+        {
+          this.wallSpawners = [];
+        }
+        else
+        {
+          this.wallSpawners = levelFile.wallSpawnerList;
+        }
         this.roomSpawners = levelFile.roomSpawnerList;
         this.spawners = levelFile.spawnerList;
         this.pickups = levelFile.pickupList;
         this.turrets = levelFile.turretList;
         this.spawnerProjectiles = levelFile.spawnerProjectileList;
         this.buildLevel(levelFile.layout);
+
         if (levelFile.playerSpawner !== null && levelFile.playerSpawner !== undefined) {
             new PlayerSpawner(this.game, levelFile.playerSpawner.maxAtOnce, levelFile.playerSpawner.spawnList, levelFile.playerSpawner.probs);
         }
