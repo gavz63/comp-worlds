@@ -16,7 +16,7 @@ class LevelTest {
         this.layout =
             "##################################" +
             "########------######----##########" +
-            "S-----------------------------####" +
+            "S-------------#---------------####" +
             "######V#------######----#####-####" +
             "######-########----######---#-####" +
             "######-########---------H-----####" +
@@ -39,11 +39,11 @@ class LevelTest {
         this.unlockableCharacter = [];
 
         this.spawnerList.push({
-            x: 14,
+            x: 10,
             y: 2,
             max: 1,
             freq: 3,
-            list: [Skeleton.prototype],
+            list: [StoneGolem.prototype],
             rand: false,
             radius: 96 * 4,
             total: 1,

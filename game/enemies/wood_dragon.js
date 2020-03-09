@@ -75,7 +75,7 @@ class WoodDragon extends Enemy {
             7, false, this.myBodyScale);
         this.bodyLeftCollider = new Collider(0, 0,
             8 * 2, 64 * 2,
-            32 * 2, 84 * 2,
+            32 * 2, 13 * 2,
             null, 150);
 
         this.bodyRightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/WoodDragonBodyRightFace.png"),
@@ -84,7 +84,7 @@ class WoodDragon extends Enemy {
             7, false, this.myBodyScale);
         this.bodyRightCollider = new Collider(0, 0,
             8 * 2, 64 * 2,
-            84 * 2, 32 * 2,
+            13 * 2, 32 * 2,
             null, 150);
 
 
@@ -108,6 +108,7 @@ class WoodDragon extends Enemy {
     }
 
     update() {
+        console.log(this.hp);
         super.update();
         let that = this;
         console.log(this.hp);
@@ -286,12 +287,10 @@ class WoodDragon extends Enemy {
                 this.hp -= dmg;
                 this.hurt = true;
                 let that = this;
+                this.hurtTimer = new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
                 this.color = new Color(0, 100, 50).getColor();
-                if (this.hurtTimer) this.hurtTimer.destroy();
-                this.hurtTimer = new TimerCallback(this.game, 0.1, false, function () {
-                    that.color = null;
-                    that.hurt = false;
-                });
+                if(this.colorTimer)this.colorTimer.destroy();
+                this.colorTimer = new TimerCallback(this.game, 0.1, false, function() {that.color = null;});
             }
         }
     }
@@ -299,6 +298,8 @@ class WoodDragon extends Enemy {
     destroy() {
         super.destroy();
         this.healthBar.destroy();
+        if (this.hurtTimer) this.hurtTimer.destroy();
+        if (this.colorTimer) this.colorTimer.destroy();
     }
 }
 
@@ -312,7 +313,7 @@ class WoodDragonHead extends Enemy {
         this.myScale = dragon.myScale;
         this.myAddScale = dragon.myAddScale;
         this.collider = new Collider(0, 0,
-            18 * 3, 28 * 3,
+            18 * 3, 30 * 3,
             16 * 3, 18 * 3,
             null, 150);
 
@@ -369,6 +370,9 @@ class WoodDragonHead extends Enemy {
     destroy() {
         this.leftArm.destroy();
         this.rightArm.destroy();
+
+        if (this.hurtTimer) this.hurtTimer.destroy();
+        if (this.colorTimer) this.colorTimer.destroy();
         //super.destroy();
         this.removeFromWorld = true;
     }
@@ -381,12 +385,10 @@ class WoodDragonHead extends Enemy {
                 this.dragon.hp -= dmg * 1.5;
                 this.hurt = true;
                 let that = this;
+                this.hurtTimer = new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
                 this.color = new Color(0, 100, 50).getColor();
-                if (this.hurtTimer) this.hurtTimer.destroy();
-                this.hurtTimer = new TimerCallback(this.game, 0.1, false, function () {
-                    that.color = null;
-                    that.hurt = false;
-                });
+                if(this.colorTimer)this.colorTimer.destroy();
+                this.colorTimer = new TimerCallback(this.game, 0.1, false, function() {that.color = null;});
             }
         }
     }
@@ -404,7 +406,7 @@ class WoodDragonArm {
         this.isAttacking = false;
         this.color = null;
         this.hurt = false;
-
+        this.radius = null;
         this.dontDraw = true;
     }
 
@@ -440,6 +442,9 @@ class WoodDragonArm {
 
     destroy() {
         this.removeFromWorld = true;
+
+        if (this.hurtTimer) this.hurtTimer.destroy();
+        if (this.colorTimer) this.colorTimer.destroy();
     }
 
     takeDamage(dmg, dir, knockBack) {
@@ -448,14 +453,13 @@ class WoodDragonArm {
                 this.head.dragon.destroy();
             } else {
                 this.hurt = true;
-                this.head.dragon.hp -= dmg / 2; //TODO, maybe this is way too low
+                this.head.dragon.hp -= dmg / 4; //TODO, maybe this is way too low
+
                 let that = this;
+                this.hurtTimer = new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
                 this.color = new Color(0, 100, 50).getColor();
-                if (this.hurtTimer) this.hurtTimer.destroy();
-                this.hurtTimer = new TimerCallback(this.game, 0.1, false, function () {
-                    that.color = null;
-                    that.hurt = false;
-                });
+                if(this.colorTimer)this.colorTimer.destroy();
+                this.colorTimer = new TimerCallback(this.game, 0.1, false, function() {that.color = null;});
             }
         }
     }

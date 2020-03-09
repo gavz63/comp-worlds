@@ -187,7 +187,7 @@ function BlackMage() {
         specialLifetime: 3,
         specialChargeTime: 10,
         specialChargeFromKill: 0,
-        maxProjectiles: 5
+        maxProjectiles: 2
     };
     this.npc = {
         x: -32,

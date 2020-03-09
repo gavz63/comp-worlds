@@ -128,8 +128,10 @@ function checkBoxRadiusCollision(box, rad) {
 function checkCollision(pos1, collider1, pos2, collider2) {
     if (collider1._radius && collider2._radius) {
         return checkRadiusCollision(collider1.getRadius(pos1), collider2.getRadius(pos2));
-    } else if (collider1._radius || collider2._radius) {
+    } else if (collider1._radius) {
         return checkBoxRadiusCollision(collider2.getHitBox(pos2), collider1.getRadius(pos1));
+    } else if (collider2._radius) {
+        return checkBoxRadiusCollision(collider1.getHitBox(pos1), collider2.getRadius(pos2));
     } else {
         return checkBoxCollision(collider1.getHitBox(pos1), collider2.getHitBox(pos2));
     }
