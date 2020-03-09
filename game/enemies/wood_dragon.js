@@ -1,4 +1,18 @@
-const PHASE = {};
+const MODE = {
+    BULLET_HELL: "bullet hell", // Keep behind pits and shoot logs and posts
+    AGGRESSIVE: "aggro", // Up close to player working claw/head/tail machine
+    REST: "break", // Behind middle pit, spawn enemies and heal self
+    SCREEN_WIPE: "armegeddon", // Behind middle pit blow wood chipper blast
+    WAKE_UP: "awaken", // This only happens once at the very beginning of the fight
+};
+
+/* based on health. There are 3 phases that get progressively harder */
+const PHASE = {
+    EASY: [MODE.WAKE_UP,
+        MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE],
+    MEDIUM: [MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.AGGRESSIVE],
+    HARD: [MODE.SCREEN_WIPE, MODE.AGGRESSIVE, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.AGGRESSIVE]
+};
 
 /**
  * This class is the body of the dragon when it is
@@ -61,7 +75,7 @@ class WoodDragon extends Enemy {
             7, false, this.myBodyScale);
         this.bodyLeftCollider = new Collider(0, 0,
             8 * 2, 64 * 2,
-            32 * 2, 84 * 2,
+            32 * 2, 13 * 2,
             null, 150);
 
         this.bodyRightAnimation = new Animation(ASSET_MANAGER.getAsset("./img/enemies/WoodDragon/WoodDragonBodyRightFace.png"),
@@ -70,7 +84,7 @@ class WoodDragon extends Enemy {
             7, false, this.myBodyScale);
         this.bodyRightCollider = new Collider(0, 0,
             8 * 2, 64 * 2,
-            84 * 2, 32 * 2,
+            13 * 2, 32 * 2,
             null, 150);
 
 
@@ -82,14 +96,22 @@ class WoodDragon extends Enemy {
         this.animation.pause();
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
         this.head = new WoodDragonHead(this.game, this.spawner, this);
-        this.hp = 120;
-        this.maxHp = 120;
+        this.hp = 180;
+        this.maxHp = 180;
+        this.hurt = false;
         this.healthBar = new HealthBar(this.game, 0, 100, 0.9, this, "HEART OF THE OVERGROWTH: GREAT WOOD DRAGON");
+
+        this.phase = PHASE.EASY;
+        this.timePerMode = 15;
+        this.mode = this.phase[0];
+        this.side = DIRECTION_UP;
     }
 
     update() {
+        console.log(this.hp);
         super.update();
         let that = this;
+        console.log(this.hp);
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
         this.myBodyScale[0] = STANDARD_DRAW_SCALE * this.myBodyAddScale;
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
@@ -121,12 +143,6 @@ class WoodDragon extends Enemy {
             this.switchDirectionTimer.destroy();
             this.switchDirectionTimer = null;
         }
-        this.game.entities[LAYERS.PLAYER_PROJECTILES].forEach(function (elem) {
-            if (checkCollision(that, that.collider, elem, elem.collider) && !elem.dying) {
-                elem.destroy();
-                that.takeDamage(elem.dmg, elem.dir, elem.knockBack);
-            }
-        });
     }
 
     /**
@@ -239,6 +255,21 @@ class WoodDragon extends Enemy {
         }
     }
 
+    /**
+     * Use to pick a behind-the-pits corner to fight from
+     */
+    pickASide() {
+        if (this.side === null) {
+            // Choose the closest side to current position
+        } else {
+            let rand = Math.floor(Math.random() * 2);
+            switch (this.side) {
+                case DIRECTION_RIGHT:
+
+            }
+        }
+    }
+
     tailWhip() {
         if (this.animation === this.bodyLeftAnimation ||
             this.animation === this.bodyRightAnimation) {
@@ -249,22 +280,26 @@ class WoodDragon extends Enemy {
     }
 
     takeDamage(dmg, dir, knockBack) {
-        if (this.hp <= 0) {
-            this.destroy();
-        } else {
-            this.hp -= dmg;
-            let that = this;
-            this.color = new Color(0, 100, 50).getColor();
-            if (this.hurtTimer) this.hurtTimer.destroy();
-            this.hurtTimer = new TimerCallback(this.game, 0.025, false, function () {
-                that.color = null;
-            });
+        if (!this.hurt) {
+            if (this.hp <= 0) {
+                this.destroy();
+            } else {
+                this.hp -= dmg;
+                this.hurt = true;
+                let that = this;
+                this.hurtTimer = new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
+                this.color = new Color(0, 100, 50).getColor();
+                if(this.colorTimer)this.colorTimer.destroy();
+                this.colorTimer = new TimerCallback(this.game, 0.1, false, function() {that.color = null;});
+            }
         }
     }
 
     destroy() {
         super.destroy();
         this.healthBar.destroy();
+        if (this.hurtTimer) this.hurtTimer.destroy();
+        if (this.colorTimer) this.colorTimer.destroy();
     }
 }
 
@@ -278,7 +313,7 @@ class WoodDragonHead extends Enemy {
         this.myScale = dragon.myScale;
         this.myAddScale = dragon.myAddScale;
         this.collider = new Collider(0, 0,
-            18 * 3, 28 * 3,
+            18 * 3, 30 * 3,
             16 * 3, 18 * 3,
             null, 150);
 
@@ -309,26 +344,19 @@ class WoodDragonHead extends Enemy {
             4, false, this.myScale);
 
         this.color = null;
+        this.hurt = false;
         this.animation = this.stdAnimation;
         this.animation.pause();
 
         this.dragon = dragon;
         this.leftArm = new WoodDragonLeftArm(this.game, this.spawner, this);
         this.rightArm = new WoodDragonRightArm(this.game, this.spawner, this);
+        this.game.addEntity(this.leftArm, LAYERS.ENEMIES);
+        this.game.addEntity(this.rightArm, LAYERS.ENEMIES);
     }
 
     update() {
         super.update();
-        let that = this;
-        this.game.entities[LAYERS.PLAYER_PROJECTILES].forEach(function (elem) {
-            if (checkCollision(that, that.collider, elem, elem.collider) && !elem.dying) {
-                elem.destroy();
-                that.takeDamage(elem.dmg, elem.dir, elem.knockBack);
-            }
-        });
-
-        this.leftArm.update();
-        this.rightArm.update();
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
     }
 
@@ -342,21 +370,26 @@ class WoodDragonHead extends Enemy {
     destroy() {
         this.leftArm.destroy();
         this.rightArm.destroy();
+
+        if (this.hurtTimer) this.hurtTimer.destroy();
+        if (this.colorTimer) this.colorTimer.destroy();
         //super.destroy();
         this.removeFromWorld = true;
     }
 
     takeDamage(dmg, dir, knockBack) {
-        if (this.dragon.hp <= 0) {
-            this.dragon.destroy();
-        } else {
-            this.dragon.hp -= dmg * 2;
-            let that = this;
-            this.color = new Color(0, 100, 50).getColor();
-            if (this.hurtTimer) this.hurtTimer.destroy();
-            this.hurtTimer = new TimerCallback(this.game, 0.025, false, function () {
-                that.color = null;
-            });
+        if (!this.hurt) {
+            if (this.dragon.hp <= 0) {
+                this.dragon.destroy();
+            } else {
+                this.dragon.hp -= dmg * 1.5;
+                this.hurt = true;
+                let that = this;
+                this.hurtTimer = new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
+                this.color = new Color(0, 100, 50).getColor();
+                if(this.colorTimer)this.colorTimer.destroy();
+                this.colorTimer = new TimerCallback(this.game, 0.1, false, function() {that.color = null;});
+            }
         }
     }
 }
@@ -372,6 +405,9 @@ class WoodDragonArm {
         this.animation = null;
         this.isAttacking = false;
         this.color = null;
+        this.hurt = false;
+        this.radius = null;
+        this.dontDraw = true;
     }
 
     update() {
@@ -381,14 +417,7 @@ class WoodDragonArm {
             this.destroy();
         } else {
             this.y = this.head.y + STANDARD_ENTITY_FRAME_WIDTH * 2;
-            let that = this;
-            this.game.entities[LAYERS.PLAYER_PROJECTILES].forEach(function (elem) {
-                if (checkCollision(that, that.collider, elem, elem.collider) && !elem.dying) {
-                    console.log("COLLISION");
-                    elem.destroy();
-                    that.takeDamage(elem.dmg, elem.dir, elem.knockBack);
-                }
-            });
+
             if (this.isAttacking) {
                 if (this.animation.isDone()) {
                     this.isAttacking = false;
@@ -412,20 +441,26 @@ class WoodDragonArm {
     }
 
     destroy() {
+        this.removeFromWorld = true;
 
+        if (this.hurtTimer) this.hurtTimer.destroy();
+        if (this.colorTimer) this.colorTimer.destroy();
     }
 
     takeDamage(dmg, dir, knockBack) {
-        if (this.head.dragon.hp <= 0) {
-            this.head.dragon.destroy();
-        } else {
-            this.head.dragon.hp -= dmg / 2; //TODO, maybe this is way too low
-            let that = this;
-            this.color = new Color(0, 100, 50).getColor();
-            if (this.hurtTimer) this.hurtTimer.destroy();
-            this.hurtTimer = new TimerCallback(this.game, 0.025, false, function () {
-                that.color = null;
-            });
+        if (!this.hurt) {
+            if (this.head.dragon.hp <= 0) {
+                this.head.dragon.destroy();
+            } else {
+                this.hurt = true;
+                this.head.dragon.hp -= dmg / 4; //TODO, maybe this is way too low
+
+                let that = this;
+                this.hurtTimer = new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
+                this.color = new Color(0, 100, 50).getColor();
+                if(this.colorTimer)this.colorTimer.destroy();
+                this.colorTimer = new TimerCallback(this.game, 0.1, false, function() {that.color = null;});
+            }
         }
     }
 }

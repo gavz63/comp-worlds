@@ -122,8 +122,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.AM = ASSET_MANAGER;
     gameEngine.init();
     gameEngine.start();
-    
-    new Crate(gameEngine, 96 * 3, 96* 1.5);
+
    /* new ParticleEmitter(gameEngine, 96 * 3, 96 * 1.5,
     20,     // rate
     0, 360,   // dir

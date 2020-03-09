@@ -126,29 +126,35 @@ function Lancer() {
 	this.attack = function (player, attackVector)
 	{	
 		let projectileAnimation = null;
+		let collider = null;
 		switch (player.direction) {
 			case DIRECTION_DOWN:
 				projectileAnimation = player.characterClass.animation.regProjectileDown();
+				collider = new Collider(0, 0, 40, 40, 10, 10, null, 1000);
 				break;
 			case DIRECTION_UP:
 				projectileAnimation = player.characterClass.animation.regProjectileUp();
-				break;
+                collider = new Collider(0, 0, 40, 40, 10, 10, null, 1000);
+                break;
 			case DIRECTION_LEFT:
 				projectileAnimation = player.characterClass.animation.regProjectileLeft();
-				break;
+                collider = new Collider(0, 0, 10, 10, 40, 40, null, 1000);
+                break;
 			default:
 				projectileAnimation = player.characterClass.animation.regProjectileRight();
-				break;
+                collider = new Collider(0, 0, 10, 10, 40, 40, null, 1000);
+                break;
 		}
 		let projectile = new Projectile(player.game,
 			player.x, player.y,
 			attackVector,
 			player.characterClass.stats.projectileSpeed, player.characterClass.stats.projectileLifetime,
 			false, player, projectileAnimation,
-			2, 40, 10); // slowed down projectile for debugging
+			2, null, 10); // slowed down projectile for debugging
       projectile.attachTo(player);
       projectile.hitOnce();
       projectile.GiveBackAmmo();
+      projectile.collider = collider;
 	};
 	
 	this.specialAttack = function (player, attackVector)

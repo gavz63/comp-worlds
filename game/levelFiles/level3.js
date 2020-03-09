@@ -4,7 +4,7 @@ class Level3 {
         this.height = 10;
         this.floorType = 0;
         this.wallType = 0;
-        this.nextLevel = Level4.prototype;
+        this.nextLevel = null;//Level4.prototype;
         this.musicId = 'hedgeMonsterMusic';
 
         this.layout =
@@ -29,7 +29,7 @@ class Level3 {
             probs: [50, 10, 40, 35, 25, 15]
         };*/
 
-
+        this.wallSpawnerList = [];
         this.roomSpawnerList = [];
         this.spawnerList = [];
         this.turretList = [];
@@ -37,15 +37,21 @@ class Level3 {
         this.pickupList = [];
         this.unlockableCharacter = [];
 		
+        this.wallSpawnerList.push({
+           x: 0,
+           y: 1,
+           room: {upperLeft: {x: 1, y: 0}, bottomRight: {x: 11, y: 10}}
+        });
+    
         this.roomSpawnerList.push({
                 x: 4.5,
                 y: 4.5,
                 room: {upperLeft: {x: 1, y: 0}, bottomRight: {x: 11, y: 10}},
                 lockCam: true,
                 dropKey: true, // drops a key at this. x, y
-				dropPotion: false,
-				zoom: DEFAULT_ZOOM * 6
-		});
+                dropPotion: false,
+                zoom: DEFAULT_ZOOM * 6
+        });
 			
 		this.spawnerList.push (
 		{

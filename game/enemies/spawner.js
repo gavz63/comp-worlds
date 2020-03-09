@@ -1,3 +1,45 @@
+class WallSpawner
+{
+  constructor(game, x, y, room)
+  {
+		this.game = game;
+		this.x = indexToCoordinate(x);
+		this.y = indexToCoordinate(y);
+    this.room = room;
+    this.wally = null;
+    
+    this.game.addEntity(this, LAYERS.SPAWNERS);
+  }
+  
+  draw()
+  {
+  }
+  
+  update()
+  {
+    if(this.game.player !== null)
+    {
+      let x = coordinateToIndex(this.game.player.x);
+      let y = coordinateToIndex(this.game.player.y);
+      if(x <= this.room.bottomRight.x && x >= this.room.upperLeft.x && y <= this.room.bottomRight.y && y >= this.room.upperLeft.y)
+      {
+        if(this.wally === null)
+        {
+          this.wally = new WallObject(this.game, coordinateToIndex(this.x), coordinateToIndex(this.y));
+        }
+      }
+      else
+      {
+        if(this.wally !== null)
+        {
+          this.wally.destroy();
+          this.wally = null;
+        }
+      }
+    }
+  }
+}
+
 class RoomSpawner
 {
 	constructor(game, x, y, spawners, room, lockCam, dropKey, dropPotion, zoom = -1)

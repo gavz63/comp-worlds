@@ -190,10 +190,10 @@ class MagmaGolem extends Enemy {
           {
             this.game.audioManager.playSound(getRandomSound(this.hitSounds));
             let that = this;
-            new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
+            this.hurtTimer = new TimerCallback(this.game, 0.01, false, function() {that.hurt = false; });
             this.color = new Color(0, 100, 50).getColor();
-            if(this.hurtTimer)this.hurtTimer.destroy();
-            this.hurtTimer = new TimerCallback(this.game, 0.25, false, function() {that.color = null;});
+            if(this.colorTimer) this.colorTimer.destroy();
+            this.colorTimer = new TimerCallback(this.game, 0.25, false, function() {that.color = null;});
           }
         }
       }
@@ -210,6 +210,8 @@ class MagmaGolem extends Enemy {
 	destroy()
 	{
 		super.destroy();
+		if (this.hurtTimer) this.hurtTimer.destroy();
+		if (this.colorTimer) this.colorTimer.destroy();
 		this.healthBar.destroy();
 		
 		if(this.myAddScale === 10)

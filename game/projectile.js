@@ -26,7 +26,7 @@ class Projectile extends Entity {
         this.dir = dir;
         this.speed = speed;
 
-        this.collider = new Collider(0, 0, -7, 7, -7, 8, null, 150);
+        this.collider = new Collider(0, 0, -7, 7, -7, 8, radius, 150);
         this.lifetime = lifetime;
         this.dieOnHit = dieOnHit;
 
@@ -108,11 +108,20 @@ class Projectile extends Entity {
                 //For each enemy
                 this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
                     if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
-                        if (circleToCircle(that, elem)) {
+                        let collided = false;
+                        if (elem.radius !== null) {
+                            if (circleToCircle(that, elem)) {
+                                collided = true;
+                            }
+                        } else {
+                            if (checkCollision(that, that.collider, elem, elem.collider)) {
+                                collided = true;
+                            }
+                        }
+                        if (collided) {
                             if (that.dieOnHit) {
                                 that.destroy();
                             }
-                            that.done = true;
                             elem.takeDamage(that.dmg, that.dir, that.knockBack);
                         }
                     }
@@ -171,9 +180,9 @@ class Projectile extends Entity {
     }
 
     destroy() {
+        this.dying = true;
         if (this.deathAnimation) {
             this.animation = this.deathAnimation;
-            this.dying = true;
             let that = this;
 
             this.update = function () {
@@ -559,6 +568,7 @@ class FlameWall extends EasingProjectile {
         if (this.particleEmitter !== null) {
             this.particleEmitter.destroy();
         }
+        this.spawnTimer.destroy();
     }
 }
 
@@ -646,19 +656,39 @@ class Shuriken extends EasingProjectile {
             //For each enemy
             this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
                 if (that.done !== true) {
-                    if (circleToCircle(that, elem)) {
-                        if (that.dieOnHit) {
-                            that.destroy();
+                    if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
+                        if (elem.radius !== null) {
+                            if (circleToCircle(that, elem)) {
+                                if (that.dieOnHit) {
+                                    that.destroy();
+                                } else {
+                                    let backDir = normalizeV(that.dir);
+                                    while (circleToCircle(that, elem)) {
+                                        console.log("HEY");
+                                        that.x -= backDir.x;
+                                        that.y -= backDir.y;
+                                        that.setDone();
+                                    }
+                                }
+                                elem.takeDamage(that.dmg, that.dir, that.knockBack);
+                            }
                         } else {
-                            let backDir = normalizeV(that.dir);
-                            while (circleToCircle(that, elem)) {
-                                console.log("HEY");
-                                that.x -= backDir.x;
-                                that.y -= backDir.y;
-                                that.setDone();
+                            if (checkCollision(that, that.collider, elem, elem.collider)) {
+                                if (that.dieOnHit) {
+                                    that.destroy();
+                                } else {
+                                    let backDir = normalizeV(that.dir);
+                                    while (checkCollision(that, that.collider, elem, elem.collider)) {
+                                        console.log("HEY");
+                                        that.x -= backDir.x;
+                                        that.y -= backDir.y;
+                                        that.setDone();
+                                    }
+                                }
+                                elem.takeDamage(that.dmg, that.dir, that.knockBack);
                             }
                         }
-                        elem.takeDamage(that.dmg, that.dir, that.knockBack);
+
                     }
                 }
             });
@@ -714,6 +744,8 @@ class Shuriken extends EasingProjectile {
 class Spin extends Slash {
     constructor(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback) {
         super(game, x, y, dir, speed, lifetime, dieOnHit, owner, animation, dmg, radius, knockback);
+        this.collider = new Collider(0, 0, 64, 64, 64, 64, radius, 150);
+
         this.timer.destroy();
         let that = this;
         this.dmgTimer = new TimerCallback(that.game, 0.1, true, function () {
@@ -752,11 +784,23 @@ class Spin extends Slash {
             this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
                 if (that.removeFromWorld !== true) {
                     let direction = normalizeV(dirV({x: that.x, y: that.y}, {x: elem.x, y: elem.y}));
-                    if (circleToCircle(that, elem)) {
-                        if (that.dieOnHit) {
-                            that.destroy();
+                    if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
+                        let collided = false;
+                        if (elem.radius !== null) {
+                            if (circleToCircle(that, elem)) {
+                                collided = true;
+                            }
+                        } else {
+                            if (checkCollision(that, that.collider, elem, elem.collider)) {
+                                collided = true;
+                            }
                         }
-                        elem.takeDamage(that.dmg, direction, that.knockBack);
+                        if (collided) {
+                            if (that.dieOnHit) {
+                                that.destroy();
+                            }
+                            elem.takeDamage(that.dmg, direction, that.knockBack);
+                        }
                     }
                 }
             });
@@ -802,11 +846,14 @@ class Peasant extends Entity {
         this.speed = 100;
         this.hp = 1;
         this.dmg = 1;
-        this.collider = new Collider(0, 0, 7, 8, 6, 6, null, 5);
+        this.collider = new Collider(0, 0, 7, 8, 6, 6, radius, 5);
         this.radius = 8;
         this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
 
-        this.mobOff = {x: Math.cos(Math.floor(Math.random() * 360)) * 24, y: Math.sin(Math.floor(Math.random() * 360)) * 24};
+        this.mobOff = {
+            x: Math.cos(Math.floor(Math.random() * 360)) * 24,
+            y: Math.sin(Math.floor(Math.random() * 360)) * 24
+        };
         this.targOff = {x: Math.floor(Math.random() * 20) - 10, y: Math.floor(Math.random() * 20) - 10};
         this.precision = 1;
     }

@@ -91,6 +91,12 @@ class Player extends Entity {
         this.walkSounds.push("step2");
         this.walkSounds.push("step3");
         
+        this.footStepTimer  = null;
+        this.lastHeartTimer = null;
+        this.controlTimer   = null;
+        this.hurtTimer      = null;
+        this.regenTimer     = null;
+        
     }
 
 
@@ -140,7 +146,17 @@ class Player extends Entity {
         var that = this;
         //Testing collision with enemies
         this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
-            if (circleToCircle(that, elem)) {
+            let collided = false;
+            if (elem.radius !== null) {
+                if (circleToCircle(that, elem)) {
+                    collided = true;
+                }
+            } else {
+                if (checkCollision(that, that.collider, elem, elem.collider)) {
+                    collided = true;
+                }
+            }
+            if (collided) {
                 //that.destroy(); // this was kinda awesome btw.
                 let attackedFromVector = normalizeV(dirV({x: elem.x, y: elem.y}, {x: that.x, y: that.y}));
                 var attackedFromDir = vectorToDir(attackedFromVector);
@@ -159,7 +175,7 @@ class Player extends Entity {
                     this.game.entities[LAYERS.HUD][i].destroy();
                 }
             }
-            if(this.removeFromWorld != true)
+            if(!this.removeFromWorld)
             {
               this.game.switchToCharacterChooserMode(this);
             }
@@ -411,7 +427,8 @@ class Player extends Entity {
                 return;
             } else if (this.hp === 1) {
                 this.lastHeartTimer = new TimerCallback(this.game, 1, true, function () { that.game.audioManager.playSound("heartBeat"); });
-                new TimerCallback(this.game, 7.5, false, function () {
+
+                this.regenTimer = new TimerCallback(this.game, 7.5, false, function () {
                   
                   that.lastHeartTimer.destroy();
                   that.lastHeartTimer = null;
@@ -435,13 +452,13 @@ class Player extends Entity {
             this.hurt = true;
             var that = this;
 
-            new TimerCallback(this.game, 1, false, function () {
+            this.controlTimer = new TimerCallback(this.game, 1, false, function () {
                 that.isTakingDmg = false;
                 //that.animation = that.idleAnimation;
                 //that.animation.resetAnimation();
                 that.screen = true;
             }); // stunned
-            new TimerCallback(this.game, 3, false, function () {
+            this.hurtTimer = new TimerCallback(this.game, 3, false, function () {
                 that.hurt = false;
                 if(!that.invincible)
                   that.screen = false;
@@ -463,11 +480,13 @@ class Player extends Entity {
     }
 
     destroy() {
-        if(this.footStepTimer !== null)
-        {
-          this.footStepTimer.destroy();
-          this.footStepTimer = null;
-        }
+        this.animation._screen = false;
+        if(this.footStepTimer !== null) this.footStepTimer.destroy();
+        if(this.lastHeartTimer !== null) this.lastHeartTimer.destroy();
+        if(this.controlTimer !== null) this.controlTimer.destroy();
+        if(this.hurtTimer !== null) this.hurtTimer.destroy();
+        if(this.regenTimer !== null) this.regenTimer.destroy();
+
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].destroy();
         }
@@ -480,22 +499,19 @@ class Player extends Entity {
             new SpecialKey(this.game, this.x + 10 * i, this.y + 10 * i);
         }
 
-        if (this.game.game_state != GAME_STATES.CHANGING_LEVEL) {
+        if (this.game.game_state !== GAME_STATES.CHANGING_LEVEL) {
             this.x = 0;
             this.y = this.game.sceneManager.level.spawn.y * 96;
         }
 
         this.progressBar.destroy();
         this.idleTimer.destroy();
-
-        this.game.entities[LAYERS.HUD].length = 0;
         
         if (this.dead && this.game.entities[LAYERS.MAIN].length === 1) {
+            this.game.entities[LAYERS.HUD].length = 0;
             this.game.gameOver();
         }
         super.destroy();
-        
-
     }
 
     /**

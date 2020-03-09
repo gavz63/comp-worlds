@@ -13,6 +13,7 @@ class Enemy extends Entity {
         this.hp = 1;
 		
         this.weight = 1;
+        this.radius = null;
         
         this.layerHit = false;
         
