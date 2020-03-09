@@ -110,7 +110,6 @@ class StoneGolem extends Enemy {
     backToNormal() {
         this.game.audioManager.playSound("golemSlam1");
         this.game.audioManager.playSound("golemSlam2");
-        this.game._camera.shake(10, 5, .25);
         this.speed = 20;
         this.isCharging = false;
         this.isAttacking = false;

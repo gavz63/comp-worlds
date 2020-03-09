@@ -846,7 +846,7 @@ class Peasant extends Entity {
         this.speed = 100;
         this.hp = 1;
         this.dmg = 1;
-        this.collider = new Collider(0, 0, 7, 8, 6, 6, radius, 5);
+        this.collider = new Collider(0, 0, 7, 8, 6, 6, 8, 5);
         this.radius = 8;
         this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
 
@@ -868,31 +868,8 @@ class Peasant extends Entity {
         let target = {x: this.owner.x + this.mobOff.x, y: this.owner.y + this.mobOff.y};
         let dist = 200;
         this.game.entities[LAYERS.ENEMIES].forEach((e) => {
-            let eD = lengthV({x: e.x - this.x, y: e.y - this.y});
-            if (eD < dist && lengthV({x: e.x - this.owner.x, y: e.y - this.owner.y}) < 250) {
-                target.x = e.x + this.targOff.x;
-                target.y = e.y + this.targOff.y;
-                dist = eD;
-            }
-        });
-        /*this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach((p) => {
-            let pD = lengthV({x: p.x - this.owner.x, y: p.y - this.owner.y});
-            if (pD < dist) {
-                target.x = p.x;
-                target.y = p.y;
-                dist = pD;
-            }
-        });*/
-
-        if (lengthV({x: this.x - target.x, y: this.y - target.y}) > this.precision) {
-            let attackVect = {x: target.x - this.x, y: target.y - this.y};
-            attackVect = normalizeV(attackVect);
-            this.x += attackVect.x * this.speed * this.game._clockTick;
-            this.y += attackVect.y * this.speed * this.game._clockTick;
-        }
 
 
-        this.game.entities[LAYERS.ENEMIES].forEach((e) => {
             if (this.removeFromWorld !== true && e.removeFromWorld !== true) {
                 if (circleToCircle(this, e)) {
                     e.takeDamage(1, {x: 0, y: 0}, false);
@@ -903,6 +880,47 @@ class Peasant extends Entity {
                     }
                 }
             }
+
+
+            let eD = lengthV({x: e.x - this.x, y: e.y - this.y});
+            if (eD < dist && lengthV({x: e.x - this.owner.x, y: e.y - this.owner.y}) < 250) {
+                target.x = e.x + this.targOff.x;
+                target.y = e.y + this.targOff.y;
+                dist = eD;
+            }
+        });
+        this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach((p) => {
+
+            if (this.removeFromWorld !== true && p.removeFromWorld !== true) {
+                if (circleToCircle(this, p)) {
+                    p.destroy();
+                    this.hp--;
+                    if (this.hp <= 0) {
+                        this.destroy();
+                        this.owner.attackCounter--;
+                    }
+                }
+            }
+
+
+            let pD = lengthV({x: p.x - this.owner.x, y: p.y - this.owner.y});
+            if (pD < dist) {
+                target.x = p.x;
+                target.y = p.y;
+                dist = pD;
+            }
+        });
+
+        if (lengthV({x: this.x - target.x, y: this.y - target.y}) > this.precision) {
+            let attackVect = {x: target.x - this.x, y: target.y - this.y};
+            attackVect = normalizeV(attackVect);
+            this.x += attackVect.x * this.speed * this.game._clockTick;
+            this.y += attackVect.y * this.speed * this.game._clockTick;
+        }
+
+
+        this.game.entities[LAYERS.ENEMIES].forEach((e) => {
+            
         });
     }
 }
