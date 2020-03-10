@@ -979,7 +979,7 @@ class LogProjectile extends Projectile {
             collider = new Collider(0, 0,
                 8 * 2, 8 * 2,
                 16 * 2, 16 * 2,
-                null, 10);
+                null, Infinity);
         } else {
             animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/LogFlyingVertical.png"),
                 STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
@@ -987,11 +987,29 @@ class LogProjectile extends Projectile {
             collider = new Collider(0, 0,
                 16 * 2, 16 * 2,
                 8 * 2, 8 * 2,
-                null, 10);
+                null, Infinity);
         }
         super(game, x, y, dir, 200, Infinity, false, owner, animation, 0, null, 10);
         this.collider = collider;
         this.radius = null;
+        this.dir = dir;
+    }
+
+    update() {
+        super.update();
+        let that = this;
+        this.game.entities[LAYERS.OBJECTS].forEach(function(elem) {
+            if (elem.collider !== null) {
+                if (checkCollision(that, that.collider, elem, elem.collider)) {
+                    that.destroy();
+                }
+            }
+        });
+        if (checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
+            let newpos = pushCollision(this, this.collider, this.game.player, this.game.player.collider).pos2;
+            this.game.player.x = newpos.x;
+            this.game.player.y = newpos.y;
+        }
     }
 
     destroy() {
