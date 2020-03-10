@@ -2,6 +2,13 @@ class Post extends DestructableObject {
     constructor(game, x, y) {
         super(game, x, y);
         
+        this.targetLocation = {x: x, y: y};
+        
+        //this.y += 2000;
+        
+        new EnemyReticle(this.game, this.targetLocation.x, this.targetLocation.y);
+        this.shadow = new Shadow(this.game, this.targetLocation.x, this.targetLocation.y, this);
+        
         this.myAddScale = 1.5;
         this.myScale = [this.myAddScale * STANDARD_DRAW_SCALE];
         
@@ -18,6 +25,7 @@ class Post extends DestructableObject {
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 1, y: 0}, {x: 8, y: 0}, 7, false, this.myScale);
+        this.deathAnimation.pause();
         this.deathAnimation.setFrame(2);
         
         this.collider = new Collider(0, 0, -13, 12, -15, 16, null, 150);
@@ -46,11 +54,6 @@ class Post extends DestructableObject {
     destroy()
     {
       super.destroy();
-      for(let i = this.postSections.length-1; i >= 0; i--)
-      {
-              console.log(this.hp);
-        this.postSections[i].destroy();
-      }
       this.postSections.length = 0;
     }
     
@@ -58,7 +61,6 @@ class Post extends DestructableObject {
     {
       for(let i = this.postSections.length-1; i >= 0; i--)
       {
-              console.log(this.hp);
         this.postSections[i].display();
       }
       super.draw();
@@ -67,6 +69,10 @@ class Post extends DestructableObject {
     update() {
       console.log(this.hp);
       this.animation.setFrame( Math.floor((6 - this.hp)/2) );
+      for(let i = this.postSections.length-1; i >= 0; i--)
+      {
+        this.postSections[i].update();
+      }
     }
 }
 
@@ -78,8 +84,6 @@ class PostSection extends DestructableObject
     this.owner = owner;
     this.animation = animation;
     this.offset = offset;
-    
-    this.game.addEntity(this, LAYERS.OBJECTS);
   }
   
   takeDamage()
@@ -102,8 +106,11 @@ class PostSection extends DestructableObject
   
   update()
   {
-    this.dir = normalizeV(dirV({x: this.owner.x, y: this.owner.y}, {x: this.game._camera.x, y: this.game._camera.y}));
-    this.x = this.owner.x + this.dir.x * this.myScale[0] * 2 * (Math.floor((this.offset+1)/2) + this.offset);
-    this.y = this.owner.y + this.dir.y * this.myScale[0] * 2 * (Math.floor((this.offset+1)/2) + this.offset);
+    if(this.owner)
+    {
+      this.dir = normalizeV(dirV({x: this.owner.x, y: this.owner.y}, {x: this.game._camera.x, y: this.game._camera.y}));
+      this.x = this.owner.x + this.dir.x * this.myScale[0] * 2 * (Math.floor((this.offset+1)/2) + this.offset);
+      this.y = this.owner.y + this.dir.y * this.myScale[0] * 2 * (Math.floor((this.offset+1)/2) + this.offset);
+    }
   }
 }
