@@ -1,4 +1,4 @@
-class LogObject extends DestructibleObject {
+class LogObject extends DestructableObject {
     constructor(game, x, y, dir) {
         super(game, x, y);
         let animation = null;
