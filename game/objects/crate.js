@@ -1,6 +1,6 @@
 class Crate extends Object {
-    constructor(game, x, y, spawner) {
-        super(game, x, y, spawner);
+    constructor(game, x, y) {
+        super(game, x, y);
         
         this.myAddScale = 3;
         this.myScale = [this.myAddScale * STANDARD_DRAW_SCALE];
