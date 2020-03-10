@@ -106,7 +106,7 @@ class WoodDragon extends Enemy {
         this.animation.pause();
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
         this.head = new WoodDragonHead(this.game, this.spawner, this);
-        this.hp = 180;
+        this.hp = 10;
         this.maxHp = 180;
         this.hurt = false;
         this.healthBar = new HealthBar(this.game, 0, 100, 0.9, this, "HEART OF THE OVERGROWTH: GREAT WOOD DRAGON");
@@ -142,8 +142,6 @@ class WoodDragon extends Enemy {
         this.myBodyScale[0] = STANDARD_DRAW_SCALE * this.myBodyAddScale;
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
 
-        console.log(this.mode);
-        console.log(this.x + ", " + this.y);
         switch (this.mode) {
             case MODE.AGGRESSIVE:
                 this.doGroundMode();
@@ -168,11 +166,9 @@ class WoodDragon extends Enemy {
     doTransition() {
         this.modeTimer.pause();
 
-        console.log("aye lmao");
         if (!this.hasTakenOff || this.isTakingOff) {
             this.doTakeOff();
         } else {
-            console.log("hey");
             if (this.goalPoint === null) {
                 switch (this.phase.modeSet[this.modeSetIndex]) { // The mode we are transitioning to
                     case MODE.AGGRESSIVE:
@@ -474,6 +470,7 @@ class WoodDragon extends Enemy {
     takeDamage(dmg, dir, knockBack) {
         if (!this.hurt) {
             if (this.hp <= 0) {
+                console.log("boop");
                 this.destroy();
             } else {
                 this.hp -= dmg;
@@ -492,10 +489,11 @@ class WoodDragon extends Enemy {
     }
 
     destroy() {
-        super.destroy();
+        //super.destroy();
         this.healthBar.destroy();
         if (this.hurtTimer) this.hurtTimer.destroy();
         if (this.colorTimer) this.colorTimer.destroy();
+        this.game.sceneManager.levelComplete();
     }
 }
 

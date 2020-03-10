@@ -672,7 +672,7 @@ class Shuriken extends EasingProjectile {
                                 }
                                 elem.takeDamage(that.dmg, that.dir, that.knockBack);
                             }
-                        } else {
+                        } else if (elem.collider !== null) {
                             if (checkCollision(that, that.collider, elem, elem.collider)) {
                                 if (that.dieOnHit) {
                                     that.destroy();
@@ -790,7 +790,7 @@ class Spin extends Slash {
                             if (circleToCircle(that, elem)) {
                                 collided = true;
                             }
-                        } else {
+                        } else if (elem.collider !== null){
                             if (checkCollision(that, that.collider, elem, elem.collider)) {
                                 collided = true;
                             }
