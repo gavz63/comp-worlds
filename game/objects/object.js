@@ -1,4 +1,4 @@
-class DestructibleObject extends Entity {
+class DestructableObject extends Entity {
     constructor(game, x, y) {
         super(game, x, y);
         this.game.addEntity(this, LAYERS.OBJECTS);
@@ -41,5 +41,6 @@ class DestructibleObject extends Entity {
       {
         this.game.audioManager.playSound(getRandomSound(this.hitSounds));
       }
+      console.log("DAMAGE");
     }
 }
