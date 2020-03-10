@@ -11,8 +11,8 @@ const MODE = {
 const PHASE = {
     EASY: {
         modeSet: [//MODE.WAKE_UP,
-            MODE.BULLET_HELL,  MODE.BULLET_HELL, MODE.AGGRESSIVE, MODE.AGGRESSIVE/*, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
-        timePerMode: 3
+            MODE.BULLET_HELL,  /*MODE.BULLET_HELL, MODE.AGGRESSIVE, MODE.AGGRESSIVE/*, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
+        timePerMode: 10
     },
     MEDIUM: {
         modeSet: [MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.AGGRESSIVE],
@@ -299,6 +299,7 @@ class WoodDragon extends Enemy {
                 this.animation.resetAnimation();
                 this.animation.pause();
                 //TODO shoot horizontal log
+                new LogProjectile(this.game, this.x, this.y, vector(0, 1), this);
             }
         }
 

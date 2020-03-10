@@ -967,3 +967,35 @@ class Hail extends Entity {
 		this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true, .5);
     }
 }
+
+class LogProjectile extends Projectile {
+    constructor(game, x, y, dir, owner) {
+        let animation = null;
+        let collider = null;
+        if (dir.x > 0) {
+            animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/LogFlyingHorizontal.png"),
+                STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+                {x: 0, y: 0}, {x: 1, y: 0}, 4, true, STANDARD_DRAW_SCALE, 2);
+            collider = new Collider(0, 0,
+                8 * 2, 8 * 2,
+                16 * 2, 16 * 2,
+                null, 10);
+        } else {
+            animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/LogFlyingVertical.png"),
+                STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+                {x: 0, y: 0}, {x: 1, y: 0}, 4, true, STANDARD_DRAW_SCALE, 2);
+            collider = new Collider(0, 0,
+                16 * 2, 16 * 2,
+                8 * 2, 8 * 2,
+                null, 10);
+        }
+        super(game, x, y, dir, 200, Infinity, false, owner, animation, 0, null, 10);
+        this.collider = collider;
+        this.radius = null;
+    }
+
+    destroy() {
+        super.destroy();
+        new LogObject(this.game, this.x, this.y, this.dir);
+    }
+}

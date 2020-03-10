@@ -1,4 +1,4 @@
-class Post extends Object {
+class Post extends DestructibleObject {
     constructor(game, x, y) {
         super(game, x, y);
         

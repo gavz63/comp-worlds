@@ -1,4 +1,4 @@
-class Object extends Entity {
+class DestructibleObject extends Entity {
     constructor(game, x, y) {
         super(game, x, y);
         this.game.addEntity(this, LAYERS.OBJECTS);

@@ -1,4 +1,4 @@
-class Crate extends Object {
+class Crate extends DestructibleObject {
     constructor(game, x, y) {
         super(game, x, y);
         
