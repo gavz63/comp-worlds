@@ -113,7 +113,7 @@ class Projectile extends Entity {
                             if (circleToCircle(that, elem)) {
                                 collided = true;
                             }
-                        } else {
+                        } else if (elem.collider !== null){
                             if (checkCollision(that, that.collider, elem, elem.collider)) {
                                 collided = true;
                             }

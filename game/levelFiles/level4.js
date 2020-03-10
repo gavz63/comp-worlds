@@ -19,17 +19,6 @@ class Level4 {
             "################";
 
         this.playerSpawner = null;
-        /*this.playerSpawner = {
-            maxAtOnce: 1,
-            spawnList:
-            [Bat.prototype, CactusBoi.prototype,
-            PuddleJumper.prototype, Skeleton.prototype, Snek.prototype,
-            StoneGolem.prototype],
-            probs: [50, 10, 40, 35, 25, 15]
-        };*/
-
-
-
         this.wallSpawnerList = [];
         this.roomSpawnerList = [];
         this.spawnerList = [];
@@ -51,13 +40,13 @@ class Level4 {
             lockCam: true,
             dropKey: true, // drops a key at this. x, y
             dropPotion: false,
-            zoom: DEFAULT_ZOOM * 5
+            zoom: DEFAULT_ZOOM * 5.5
         });
 
         this.spawnerList.push (
             {
                 x: 8,
-                y: 5,//1.3,
+                y: 1.3,
                 max: 1,
                 freq: 3,
                 list: [WoodDragon.prototype],
