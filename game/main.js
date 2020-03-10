@@ -123,6 +123,12 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.AM = ASSET_MANAGER;
     gameEngine.init();
     gameEngine.start();
+    
+    for(let i = 0; i < 12; i++)
+    {
+      new Post(gameEngine, 96 * i, 96 * 1.5);
+    }
+
 
    /* new ParticleEmitter(gameEngine, 96 * 3, 96 * 1.5,
     20,     // rate
