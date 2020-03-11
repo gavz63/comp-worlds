@@ -38,6 +38,7 @@ ASSET_MANAGER.queueDownload("./img/enemies/BoneManAttack.png");
 ASSET_MANAGER.queueDownload("./img/enemies/BoneManDeath.png");
 ASSET_MANAGER.queueDownload("./img/enemies/Turtle.png");
 ASSET_MANAGER.queueDownload("./img/objects/Crate.png");
+ASSET_MANAGER.queueDownload("./img/objects/LogPost.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Arrows.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Peasants.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/Egg.png");
@@ -70,6 +71,8 @@ ASSET_MANAGER.queueDownload("./img/hud/ChangeDoorsWallsButtons.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChooseYourFighter.png");
 ASSET_MANAGER.queueDownload("./img/hud/ProgressBar.png");
 ASSET_MANAGER.queueDownload("./img/hud/HealthBar.png");
+ASSET_MANAGER.queueDownload("./img/hud/Shadow.png");
+ASSET_MANAGER.queueDownload("./img/hud/EnemyCrosshair.png");
 ASSET_MANAGER.queueDownload("./img/pickups/key.png");
 ASSET_MANAGER.queueDownload("./img/pickups/specialKey.png");
 ASSET_MANAGER.queueDownload("./img/pickups/potions.png");
@@ -113,6 +116,10 @@ ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonTakingOffLeftFace.pn
 ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/DragonTakingOffRightFace.png");
 ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/WoodDragonBodyLeftFace.png");
 ASSET_MANAGER.queueDownload("./img/enemies/WoodDragon/WoodDragonBodyRightFace.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/LogFlyingVertical.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/LogFlyingHorizontal.png");
+ASSET_MANAGER.queueDownload("./img/objects/LogObjectVertical.png");
+ASSET_MANAGER.queueDownload("./img/objects/LogObjectHorizontal.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');
@@ -122,6 +129,7 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.AM = ASSET_MANAGER;
     gameEngine.init();
     gameEngine.start();
+
 
    /* new ParticleEmitter(gameEngine, 96 * 3, 96 * 1.5,
     20,     // rate

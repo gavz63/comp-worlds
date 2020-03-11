@@ -20,7 +20,7 @@ class Timer
 
 	update()
 	{
-		if (!this.paused) {
+		if (this.paused === false) {
 			//console.log("Timer" + this.id + " Working: " + this.elapsed + " != " + this.end);
 			this.elapsed += this.game._clockTick;
 			if (this.elapsed >= this.end) {
@@ -78,10 +78,9 @@ class TimerCallback extends Timer
 
 	update()
 	{
-		if (!this.paused) {
+		if (this.paused === false) {
 			this.elapsed += this.game._clockTick;
 			if (this.elapsed >= this.end) {
-				this.callback();
 				if (this.looping === true) {
           while(this.elapsed >= this.end && this.end > 0)
           {
@@ -89,6 +88,7 @@ class TimerCallback extends Timer
             this.callback();
           }
 				} else {
+          this.callback();
 					this.destroy();
 				}
 			}
