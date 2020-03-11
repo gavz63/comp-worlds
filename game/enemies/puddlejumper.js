@@ -1,6 +1,5 @@
 class PuddleJumper extends Enemy {
     constructor(game, x, y, spawner) {
-      console.log("HERE");
         super(game, x, y, spawner);
         this.myAddScale = 1.8;
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
@@ -16,7 +15,8 @@ class PuddleJumper extends Enemy {
 
         this.animation = this.moveAnimation;
         
-        this.hp = 0.5
+        this.hp = 0.5;
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, 1, 5);
 
         this.speed = 300;
         this.directionSet = false;

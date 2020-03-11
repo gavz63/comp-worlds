@@ -24,7 +24,7 @@ class Snak extends Enemy {
         this.animation = this.moveAnimation;
         this.speed = 45;
         this.collider = new Collider(0, 0, -8, 14, -14, 13, null, 150);
-        this.radius = STANDARD_ENTITY_RADIUS-10;
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS - 10, 5);
         
         this.hp = 2;
         

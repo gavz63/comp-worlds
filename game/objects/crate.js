@@ -14,12 +14,10 @@ class Crate extends DestructableObject {
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 1, y: 0}, {x: 3, y: 0}, 7, false, this.myScale);
 
-        this.animation = this.animation;
         this.animation.pause();
         this.animation.setFrame(0);
         
-        this.collider = new Collider(0, 0, -13, 12, -15, 16, null, 150);
-        this.radius = STANDARD_ENTITY_RADIUS - 5;
+        this.collider = new Collider(0, 0, -13, 12, -15, 16, STANDARD_ENTITY_RADIUS-5, 150);
         this.inRange = false;
         
         //this.hitSounds.push("crateHit1");

@@ -20,9 +20,8 @@ class Bat extends Enemy {
         this.animation = this.moveAnimation;
 
         this.speed = 100;
-        this.collider = new Collider(0, 0, -13, 12, -15, 16, STANDARD_ENTITY_RADIUS - 5, 150);
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS - 5, 5);
         this.oldCircle = 0;
-        this.radius = STANDARD_ENTITY_RADIUS - 5;
         this.inRange = false;
         
         //this.destroySounds.push("batDeath1");

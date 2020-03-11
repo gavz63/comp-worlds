@@ -44,10 +44,10 @@ class LevelTest {
             y: 2,
             max: 1,
             freq: 3,
-            list: [StoneGolem.prototype],
+            list: [Skeleton.prototype],
             rand: false,
             radius: 96 * 4,
-            total: 1,
+            total: 0,
             roomNum: 0,
             delay: 0
         });

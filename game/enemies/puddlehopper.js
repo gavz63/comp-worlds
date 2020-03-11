@@ -16,7 +16,7 @@ class PuddleHopper extends Enemy {
         this.hp = 0.5
 
         this.speed = 300;
-        this.radius = 1;
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, 1, 5);
         this.directionSet = false;
         this.targetVector = null;
     }

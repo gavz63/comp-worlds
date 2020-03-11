@@ -27,7 +27,7 @@ class CactusMadman extends Enemy {
 
         this.animation = this.moveAnimation;
         this.speed = 40;
-        this.radius = STANDARD_ENTITY_RADIUS;
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS, 5);
         this.isAttacking = false;
     }
 

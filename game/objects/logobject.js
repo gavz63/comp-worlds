@@ -53,7 +53,7 @@ class LogObject extends DestructableObject {
         }
     }
     takeDamage(dmg, dir, knockBack) {
-        super.takeDamage(dmg, dir, knockBack);
+        super.takeDamage(1, dir, knockBack);
         this.animation.setFrame(this.animation.getFrame() + 1);
     }
 }

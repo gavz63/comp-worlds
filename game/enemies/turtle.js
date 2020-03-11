@@ -24,7 +24,7 @@ class Turtle extends Enemy {
         this.animation.unpause();
 
         this.speed = 50;
-        this.radius = STANDARD_ENTITY_RADIUS * 0.5;
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS * 0.5, 5);
         this.reload();
         this.isAttacking = false;
 

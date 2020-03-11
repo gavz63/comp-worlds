@@ -130,19 +130,19 @@ function Lancer() {
 		switch (player.direction) {
 			case DIRECTION_DOWN:
 				projectileAnimation = player.characterClass.animation.regProjectileDown();
-				collider = new Collider(0, 0, 40, 40, 10, 10, null, 1000);
+				collider = new Collider(0, 0, 40, 40, 15, 15, null, 1000);
 				break;
 			case DIRECTION_UP:
 				projectileAnimation = player.characterClass.animation.regProjectileUp();
-                collider = new Collider(0, 0, 40, 40, 10, 10, null, 1000);
+                collider = new Collider(0, 0, 40, 40, 15, 15, null, 1000);
                 break;
 			case DIRECTION_LEFT:
 				projectileAnimation = player.characterClass.animation.regProjectileLeft();
-                collider = new Collider(0, 0, 10, 10, 40, 40, null, 1000);
+                collider = new Collider(0, 0, 15, 15, 40, 40, null, 1000);
                 break;
 			default:
 				projectileAnimation = player.characterClass.animation.regProjectileRight();
-                collider = new Collider(0, 0, 10, 10, 40, 40, null, 1000);
+                collider = new Collider(0, 0, 15, 15, 40, 40, null, 1000);
                 break;
 		}
 		let projectile = new Projectile(player.game,

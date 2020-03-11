@@ -702,7 +702,13 @@ class Shuriken extends EasingProjectile {
             });
             this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
                 if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
-                    if (circleToCircle(that, elem)) {
+                    let collided = false;
+                    if (elem.radius !== null && circleToCircle(that, elem)) {
+                        collided = true;
+                    } else if (elem.collider !== null && checkCollision(that, that.collider, elem, elem.collider)) {
+                        collided = true;
+                    }
+                    if (collided) {
                         if (that.dieOnHit) {
                             that.destroy();
                         } else {

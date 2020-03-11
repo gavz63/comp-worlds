@@ -44,8 +44,7 @@ class Post extends DestructableObject {
         this.deathAnimation.pause();
         this.deathAnimation.setFrame(2);
         
-        //this.collider = new Collider(0, 0, -13, 12, -15, 16, 32, 150);
-        this.radius = 32;
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, 32, 150);
         this.inRange = false;
         this.weight = 10000;
         
@@ -104,6 +103,11 @@ class Post extends DestructableObject {
       {
         this.postSections[i].update();
       }
+        while (checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
+            let vec = normalizeV(dirV(this, this.game.player));
+            this.game.player.x += vec.x;
+            this.game.player.y += vec.y;
+        }
     }
 }
 

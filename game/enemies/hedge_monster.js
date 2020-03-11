@@ -26,7 +26,7 @@ class HedgeMonster extends Enemy {
             this.home = {x: 0, y: 0};
         }
 
-        this.radius = STANDARD_ENTITY_RADIUS * 4;
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS * 4, 5);
         this.width = 96;
         this.isWaking = false;
         this.isAwake = false;
