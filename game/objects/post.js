@@ -4,7 +4,7 @@ class Post extends DestructableObject {
         
         this.targetLocation = {x: x, y: y};
         
-        this.myAddScale = 1.5;
+        this.myAddScale = 3;
         this.myScale = [this.myAddScale * STANDARD_DRAW_SCALE];
         
         this.dir = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game._camera.x, y: this.game._camera.y}));
@@ -15,20 +15,18 @@ class Post extends DestructableObject {
         this.shadow = new Shadow(this.game, this.targetLocation.x, this.targetLocation.y, this);
         
         
-        this.y -= 2000;
+        //this.y -= 2000;
         
-        this.startX = this.x;
-        this.startY = this.y;
+        this.startX = this.x - this.dir.x * 10000;
+        this.startY = this.y - this.dir.y * 10000;
         
         let that = this;
         this.fallingTimer = new TimerCallback(this.game, RandomBetween(5,10), false, function () { that.fallingTimer = null;
           that.x = that.targetLocation.x;
           that.y = that.targetLocation.y;
+          that.fallingSpeed = 1;
           that.crosshair = null;});
-        
-
-        
-
+        this.fallingSpeed = 0;
         
         this.hp = 6;
 
@@ -90,10 +88,15 @@ class Post extends DestructableObject {
     }
     
     update() {
+      
+        this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+      
       if(this.fallingTimer !== null)
       {
         let fallDir = dirV({x: this.startX, y: this.startY}, this.targetLocation);
-        this.y = this.startY + fallDir.y * smoothStartN(this.fallingTimer.getPercent(), 3);
+        this.x = this.startX + fallDir.x * smoothStartN(this.fallingTimer.getPercent(), 2);
+        this.y = this.startY + fallDir.y * smoothStartN(this.fallingTimer.getPercent(), 2);
+        this.fallingSpeed = 10 * smoothStopN(this.fallingTimer.getPercent(), 3);
       }
       this.postSections[this.postSections.length-1].animation.setFrame( Math.floor((6 - this.hp)/2) );
       for(let i = this.postSections.length-1; i >= 0; i--)
@@ -139,9 +142,20 @@ class PostSection extends DestructableObject
   {
     if(this.owner)
     {
-      this.dir = normalizeV(dirV({x: this.owner.x, y: this.owner.y}, {x: this.game._camera.x, y: this.game._camera.y}));
-      this.x = this.owner.x - this.dir.x * this.myScale[0] /3 * 2 * (Math.floor((this.offset+1)/2) + this.offset);
-      this.y = this.owner.y - this.dir.y * this.myScale[0] /3 * 2 * (Math.floor((this.offset+1)/2) + this.offset);
+      this.dir = dirV({x: this.owner.x, y: this.owner.y}, {x: this.game._camera.x, y: this.game._camera.y});
+      this.length = lengthV(this.dir);
+
+      this.dir = normalizeV(this.dir);
+      if(this.owner.fallingSpeed === 1)
+      {
+        this.x = this.owner.x - this.dir.x * this.myScale[0] /3 * 5 * this.length / 480 *  this.owner.fallingSpeed * (Math.floor((this.offset+1)/2) + this.offset);
+        this.y = this.owner.y - this.dir.y * this.myScale[0] /3 * 5 * this.owner.fallingSpeed * (Math.floor((this.offset+1)/2) + this.offset);
+      }
+      else
+      {
+        this.x = this.owner.x - this.dir.x * this.myScale[0] /3 * 2 * this.owner.fallingSpeed * (Math.floor((this.offset+1)/2) + this.offset);
+        this.y = this.owner.y - this.dir.y * this.myScale[0] /3 * 2 * this.owner.fallingSpeed * (Math.floor((this.offset+1)/2) + this.offset);
+      }
     }
   }
 }

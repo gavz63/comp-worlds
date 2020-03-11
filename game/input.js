@@ -78,6 +78,10 @@ function Input() {
 
 			if (e.code === "Space") {
 				that.spacebar = true;
+        for(let i = 0; i < 32; i++)
+         {
+           new Post(that, 96 * (Math.ceil(RandomBetween(3, 13)) - 0.5), 96 * (Math.ceil(RandomBetween(0, 8)) - 0.5));
+         }
 			}
 
 			if (e.code === "KeyL") {

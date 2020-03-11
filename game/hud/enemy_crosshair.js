@@ -6,7 +6,7 @@ class EnemyCrosshair extends Entity
     
     this.owner = owner;
     
-    this.myAddScale = 1.5;
+    this.myAddScale = 3;
     this.myScale = [this.myAddScale * STANDARD_DRAW_SCALE];
     
     this.animation = new Animation(game.AM.getAsset("./img/hud/EnemyCrosshair.png"),

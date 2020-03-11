@@ -127,11 +127,6 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.AM = ASSET_MANAGER;
     gameEngine.init();
     gameEngine.start();
-    
-     for(let i = 0; i < 32; i++)
-     {
-       new Post(gameEngine, 96 * (Math.ceil(RandomBetween(3, 13)) - 0.5), 96 * (Math.ceil(RandomBetween(4, 8)) - 0.5));
-     }
 
 
    /* new ParticleEmitter(gameEngine, 96 * 3, 96 * 1.5,
