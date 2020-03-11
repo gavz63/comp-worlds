@@ -44,10 +44,10 @@ class LogObject extends DestructableObject {
                 }
             }
         });
-        if (checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
-            let newpos = pushCollision(this, this.collider, this.game.player, this.game.player.collider).pos2;
-            this.game.player.x = newpos.x;
-            this.game.player.y = newpos.y;
+        while (checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
+            let vec = normalizeV(dirV(this, this.game.player));
+            this.game.player.x += vec.x;
+            this.game.player.y += vec.y;
         }
     }
 }

@@ -193,6 +193,8 @@ function pushCollision(pos1, collider1, pos2, collider2) {
                 wallDist.push(Math.abs(newPos2.y + collider2._upHit - hb1.top));
 
                 let index = wallDist.indexOf(Math.min(...wallDist));
+                console.log(wallDist);
+                console.log(index);
                 if (index === 0) {
                     newPos2.x = hb1.left - Math.max(collider2._rightHit, collider2._radius);
                 } else if (index === 1) {
