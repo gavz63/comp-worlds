@@ -150,7 +150,7 @@ class PostSection extends DestructableObject
       if(this.owner.fallingSpeed === 1)
       {
         this.x = this.owner.x - this.dir.x * this.myScale[0] /3 * 5 * this.length / 480 *  this.owner.fallingSpeed * (Math.floor((this.offset+1)/2) + this.offset);
-        this.y = this.owner.y - this.dir.y * this.myScale[0] /3 * 5 * this.owner.fallingSpeed * (Math.floor((this.offset+1)/2) + this.offset);
+        this.y = this.owner.y - this.dir.y * this.myScale[0] /3 * 5 * this.length / 480 *  this.owner.fallingSpeed * (Math.floor((this.offset+1)/2) + this.offset);
       }
       else
       {
