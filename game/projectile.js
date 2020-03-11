@@ -106,15 +106,15 @@ class Projectile extends Entity {
 
             if (this.owner instanceof Player) {
                 //For each enemy
-                this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
-                    if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
+                this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
+                    if (that.removeFromWorld !== true && enemy.removeFromWorld !== true) {
                         let collided = false;
-                        if (elem.radius !== null) {
-                            if (circleToCircle(that, elem)) {
+                        if (enemy.radius !== null) {
+                            if (circleToCircle(that, enemy)) {
                                 collided = true;
                             }
-                        } else if (elem.collider !== null) {
-                            if (checkCollision(that, that.collider, elem, elem.collider)) {
+                        } else if (enemy.collider !== null) {
+                            if (checkCollision(that, that.collider, enemy, enemy.collider)) {
                                 collided = true;
                             }
                         }
@@ -122,18 +122,18 @@ class Projectile extends Entity {
                             if (that.dieOnHit) {
                                 that.destroy();
                             }
-                            elem.takeDamage(that.dmg, that.dir, that.knockBack);
+                            enemy.takeDamage(that.dmg, that.dir, that.knockBack);
                         }
                     }
                 });
-                this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
-                    if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
+                this.game.entities[LAYERS.OBJECTS].forEach(function (object) {
+                    if (that.removeFromWorld !== true && object.removeFromWorld !== true) {
                         let collided = false;
-                        if (elem.collider !== null && that.collider !== null &&
-                        checkCollision(that, that.collider, elem, elem.collider)) {
+                        if (object.collider !== null && that.collider !== null &&
+                            checkCollision(that, that.collider, object, object.collider)) {
                             collided = true;
-                        } else if (elem.radius !== null && that.radius !== null &&
-                            circleToCircle(that, elem)) {
+                        } else if (object.radius !== null && that.radius !== null &&
+                            circleToCircle(that, object)) {
                             collided = true;
                         }
                         if (collided) {
@@ -141,7 +141,7 @@ class Projectile extends Entity {
                                 that.destroy();
                             }
                             that.done = true;
-                            elem.takeDamage(that.dmg, that.dir, that.knockBack);
+                            object.takeDamage(that.dmg, that.dir, that.knockBack);
                         }
                     }
                 });
@@ -155,15 +155,14 @@ class Projectile extends Entity {
                     this.game.player.takeDmg(1, attackedFromDir);
                     that.destroy();
                 }
-                this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
-                    if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
-                        if (circleToCircle(that, elem)) {
-                            console.log("collided");
+                this.game.entities[LAYERS.OBJECTS].forEach(function (object) {
+                    if (that.removeFromWorld !== true && object.removeFromWorld !== true) {
+                        if (circleToCircle(that, object)) {
                             if (that.dieOnHit) {
                                 that.destroy();
                             }
                             that.done = true;
-                            elem.takeDamage(that.dmg, that.dir, that.knockBack);
+                            object.takeDamage(that.dmg, that.dir, that.knockBack);
                         }
                     }
                 });

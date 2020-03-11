@@ -37,8 +37,8 @@ class MagmaGolem extends Enemy {
       this.animation = this.moveAnimation;
 
       this.speed = 20;
-      this.collider = new Collider(0, 0, -28, 28, -30, 30, null, 150); // 12,12,14,14
-      this.radius = STANDARD_ENTITY_RADIUS * scale/2;
+      this.collider = new Collider(0, 0, -28, 28, -30, 30, STANDARD_ENTITY_RADIUS * scale/2, 150); // 12,12,14,14
+      //this.radius = STANDARD_ENTITY_RADIUS * scale/2;
       this.isWaiting = false;
       this.isAttacking = false;
       this.goalPoint = null;
