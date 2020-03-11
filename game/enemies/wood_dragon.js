@@ -11,8 +11,8 @@ const MODE = {
 const PHASE = {
     EASY: {
         modeSet: [//MODE.WAKE_UP,
-            MODE.SCREEN_WIPE,  /*MODE.BULLET_HELL, MODE.AGGRESSIVE, MODE.AGGRESSIVE/*, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
-        timePerMode: 10
+            MODE.SCREEN_WIPE,  MODE.BULLET_HELL, MODE.AGGRESSIVE/*, MODE.AGGRESSIVE/*, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
+        timePerMode: 5
     },
     MEDIUM: {
         modeSet: [MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.AGGRESSIVE],
@@ -179,16 +179,15 @@ class WoodDragon extends Enemy {
             }
             let that = this;
             if (this.woodChipTimer === null) {
-                this.woodChipTimer = new TimerCallback(this.game, 1, true, function () {
-                    console.log("callback");
-                    let rotate = 360 / 10;
+                this.woodChipTimer = new TimerCallback(this.game, 0.1, true, function () {
+                    let rotate = 90 / 21;
                     let degreeToRadians = 2 * Math.PI / 360;
-                    for (let i = 0; i < 10; i++) {
-                        new WoodChip(this.game,
-                            this.x, this.y,
+                    for (let i = 0; i < 21; i++) {
+                        new WoodChip(that.game,
+                            that.head.x, that.head.y,
                             normalizeV({
-                                x: Math.cos(i * rotate * degreeToRadians),
-                                y: Math.sin(i * rotate * degreeToRadians)
+                                x: Math.cos((i * rotate + 45) * degreeToRadians),
+                                y: Math.sin((i * rotate + 45) * degreeToRadians)
                             }),
                             that.head);
                     }
@@ -199,6 +198,10 @@ class WoodDragon extends Enemy {
 
     doTransition() {
         this.modeTimer.pause();
+        if (this.woodChipTimer) {
+            this.woodChipTimer.destroy();
+            this.woodChipTimer = null;
+        }
 
         if (!this.hasTakenOff || this.isTakingOff) {
             this.doTakeOff();

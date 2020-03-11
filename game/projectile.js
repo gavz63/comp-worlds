@@ -128,7 +128,15 @@ class Projectile extends Entity {
                 });
                 this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
                     if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
-                        if (circleToCircle(that, elem)) {
+                        let collided = false;
+                        if (elem.collider !== null && that.collider !== null &&
+                        checkCollision(that, that.collider, elem, elem.collider)) {
+                            collided = true;
+                        } else if (elem.radius !== null && that.radius !== null &&
+                            circleToCircle(that, elem)) {
+                            collided = true;
+                        }
+                        if (collided) {
                             if (that.dieOnHit) {
                                 that.destroy();
                             }
@@ -150,6 +158,7 @@ class Projectile extends Entity {
                 this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
                     if (that.removeFromWorld !== true && elem.removeFromWorld !== true) {
                         if (circleToCircle(that, elem)) {
+                            console.log("collided");
                             if (that.dieOnHit) {
                                 that.destroy();
                             }
@@ -975,7 +984,7 @@ class LogProjectile extends Projectile {
         if (dir.x > 0) {
             animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/LogFlyingHorizontal.png"),
                 STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-                {x: 0, y: 0}, {x: 1, y: 0}, 4, true, STANDARD_DRAW_SCALE, 2);
+                {x: 0, y: 0}, {x: 1, y: 0}, 10, true, STANDARD_DRAW_SCALE, 2);
             collider = new Collider(0, 0,
                 8 * 2, 8 * 2,
                 16 * 2, 16 * 2,
@@ -983,7 +992,7 @@ class LogProjectile extends Projectile {
         } else {
             animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/LogFlyingVertical.png"),
                 STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-                {x: 0, y: 0}, {x: 1, y: 0}, 4, true, STANDARD_DRAW_SCALE, 2);
+                {x: 0, y: 0}, {x: 1, y: 0}, 10, true, STANDARD_DRAW_SCALE, 2);
             collider = new Collider(0, 0,
                 16 * 2, 16 * 2,
                 8 * 2, 8 * 2,
@@ -1048,16 +1057,21 @@ class WoodChip extends Projectile {
                     7, true, STANDARD_DRAW_SCALE);
                 break;
         }
-        super(game, x, y, dir, 400, Infinity, false, owner, animation, 0, null, 10);
+        super(game, x, y, dir, 400, Infinity, false, owner, animation, 1, 5, 20);
+
+        this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
+        this.animation._scale = this.myScale;
+        this.collider = new Collider(0, 0, 8, 8, 8, 8, 8, 150);
+
     }
 
-    update() {
-        super.update();
-
+    testCollision() {
         let that = this;
         this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
             if (!(enemy instanceof WoodDragonHead || enemy instanceof WoodDragonArm || enemy instanceof WoodDragon)) {
                 if (enemy.collider !== null && checkCollision(enemy, enemy.collider, that, that.collider)) {
+                    enemy.destroy();
+                } else if (enemy.radius && circleToCircle(that, enemy)) {
                     enemy.destroy();
                 }
             }
@@ -1067,12 +1081,21 @@ class WoodChip extends Projectile {
                 if (object.collider !== null && checkCollision(object, object.collider, that, that.collider)) {
                     object.destroy();
                 }
+            } else {
+                if (circleToCircle(that, object)) {
+                    that.destroy();
+                }
             }
         });
-    }
 
-    destroy() {
-        super.destroy();
-        console.log("bye");
+        if (checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
+            let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
+                x: this.game.player.x,
+                y: this.game.player.y
+            }));
+            let attackedFromDir = vectorToDir(attackedFromVector);
+            this.game.player.takeDmg(1, attackedFromDir);
+            that.destroy();
+        }
     }
 }

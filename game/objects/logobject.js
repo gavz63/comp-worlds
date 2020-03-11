@@ -7,17 +7,17 @@ class LogObject extends DestructableObject {
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
 
         if (dir.x > 0) {
-            animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/LogFlyingHorizontal.png"),
+            animation = new Animation(ASSET_MANAGER.getAsset("./img/objects/LogObjectHorizontal.png"),
                 STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-                {x: 0, y: 0}, {x: 1, y: 0}, 4, true, this.myScale);
+                {x: 0, y: 0}, {x: 2, y: 0}, 1, false, this.myScale);
             collider = new Collider(0, 0,
                 8 * 2, 8 * 2,
                 16 * 2, 16 * 2,
                 null, Infinity);
         } else {
-            animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/LogFlyingVertical.png"),
+            animation = new Animation(ASSET_MANAGER.getAsset("./img/objects/LogObjectVertical.png"),
                 STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-                {x: 0, y: 0}, {x: 1, y: 0}, 4, true, this.myScale);
+                {x: 0, y: 0}, {x: 2, y: 0}, 1, false, this.myScale);
             collider = new Collider(0, 0,
                 16 * 2, 16 * 2,
                 8 * 2, 8 * 2,
@@ -26,12 +26,14 @@ class LogObject extends DestructableObject {
         this.radius = null;
         this.collider = collider;
         this.animation = animation;
+        this.animation.pause();
         this.hitSounds.push("crateHit2");
         this.destroySounds.push("crateBroken");
         this.deathAnimation = new Animation(game.AM.getAsset("./img/objects/Crate.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 1, y: 0}, {x: 3, y: 0}, 7, false, this.myScale);
+        this.hp = 3;
     }
 
     update() {
@@ -49,5 +51,9 @@ class LogObject extends DestructableObject {
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;
         }
+    }
+    takeDamage(dmg, dir, knockBack) {
+        super.takeDamage(dmg, dir, knockBack);
+        this.animation.setFrame(this.animation.getFrame() + 1);
     }
 }
