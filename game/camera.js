@@ -6,7 +6,7 @@ const STANDARD_DRAW_SCALE = [1.75];
 /** The radius of the camera bounding box around the player. */
 const CAMERA_BOUNDING_BOX = 20;
 
-const DEFAULT_ZOOM = (576 * 480);
+var DEFAULT_ZOOM = (576 * 480);
 
 /**
  * The Camera class is used to change which part of the map is being viewed.
@@ -17,6 +17,7 @@ class Camera {
      * @param {*} ctx The canvas' 2D context.
      */
     constructor(game, ctx) {
+        if (sessionStorage.getItem('level') === 'endless') DEFAULT_ZOOM = (704 * 704);
         this._game = game;
         this._x = 0;
         this._y = 0;

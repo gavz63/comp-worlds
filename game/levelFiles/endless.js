@@ -40,9 +40,19 @@ class Endless {
                 5 // Snak
             ]
         };
+
+        let key;
+        do {
+            key = {x: 2 + Math.floor(Math.random() * (this.width - 4)), y: 2 + Math.floor(Math.random() * (this.height - 4))};
+        } while (this.layout.charAt(key.y * this.width + key.x) !== '-');
+        this.pickupList.push({
+              x: key.x,
+              y: key.y,
+              type: Key.prototype
+            });
     }
     
-/* pls dont delete
+
     buildLevel() {
         let map = [];
     
@@ -56,9 +66,6 @@ class Endless {
                 if (x < 2 || x >= this.width - 2 || y < 2 || y >= this.height - 2) {
                     // Outer walls.
                     map[x][y].massID = undefined;
-                } else {
-                    // Generate random walls inside.
-                    if (Math.floor(Math.random() * 2) === 0) map[x][y].tile = "-";
                 }
             }
         }
@@ -67,80 +74,216 @@ class Endless {
         let spawn = {x: 0, y: 2 + Math.floor(Math.random() * (this.height - 4))};
         let exit = {x: this.width - 1, y: 2 + Math.floor(Math.random() * (this.height - 4))};
         map[spawn.x][spawn.y].tile = "S";
-        map[spawn.x][spawn.y].massID = -1;
-        map[spawn.x][spawn.y].massSize = 3;
         map[spawn.x + 1][spawn.y].tile = "-";
-        map[spawn.x + 1][spawn.y].massID = -1;
-        map[spawn.x + 1][spawn.y].massSize = 3;
         map[spawn.x + 2][spawn.y].tile = "-";
-        map[spawn.x + 2][spawn.y].massID = -1;
-        map[spawn.x + 2][spawn.y].massSize = 3;
         map[exit.x][exit.y].tile = "E";
-        map[exit.x][exit.y].massID = -2;
-        map[exit.x][exit.y].massSize = 3;
-        map[exit.x - 1][exit.y].tile = "-";
-        map[exit.x - 1][exit.y].massID = -2;
-        map[exit.x - 1][exit.y].massSize = 3;
+        map[exit.x - 1][exit.y].tile = "H";
         map[exit.x - 2][exit.y].tile = "-";
-        map[exit.x - 2][exit.y].massID = -2;
-        map[exit.x - 2][exit.y].massSize = 3;
 
-        let massCount = 0;
-        for (let y = 2; y < this.height - 2; y++) {
-            for (let x = 2; x < this.width - 2; x++) {
-                if (map[x][y].tile === "-" && map[x][y].massID === null) {
+        // Draws a path.
+        let drawPath = (pos1, pos2) => {
+            let p1 = pos1;
+            let p2 = pos2;
+            if (p1.x > p2.x) {p1 = pos2; p2 = pos1;}
+            let slope = 1;
+            if (p2.x - p1.x !== 0) slope = (p2.y - p1.y) / (p2.x - p1.x);
 
-                    let ids = [];
-                    let neighbors = [];
-                    if (typeof map[x + 1][y].massID === Number && map[x + 1][y].tile === "-") ids.push({id: map[x + 1][y].massID, size: map[x + 1][y].massSize});
-                    if (map[x + 1][y].tile === "-") neighbors.push({x: x + 1, y: y});
-                    if (typeof map[x - 1][y].massID === Number && map[x - 1][y].tile === "-") ids.push({id: map[x - 1][y].massID, size: map[x - 1][y].massSize});
-                    if (map[x - 1][y].tile === "-") neighbors.push({x: x - 1, y: y});
-                    if (typeof map[x][y + 1].massID === Number && map[x][y + 1].tile === "-") ids.push({id: map[x][y + 1].massID, size: map[x][y + 1].massSize});
-                    if (map[x][y + 1].tile === "-") neighbors.push({x: x, y: y + 1});
-                    if (typeof map[x][y - 1].massID === Number && map[x][y - 1].tile === "-") ids.push({id: map[x][y - 1].massID, size: map[x][y - 1].massSize});
-                    if (map[x][y - 1].tile === "-") neighbors.push({x: x, y: y - 1});
-                    if (ids.length === 0) { // No neighbor masses.
-                        if (neighbors.length > 0) { // Not just a dot.
-                            map[x][y].massID = massCount;
-                            map[x][y].massCount = neighbors.length + 1;
-                            neighbors.forEach((n) => {
-                                map[n.x][n.y].massID = massCount;
-                                map[n.x][n.y].massCount = neighbors.length + 1;
-                            });
-                            massCount++;
-                        } else { // Eliminate dots.
-                            map[x][y].tile = "#";
+            for (let x = p1.x; x <= p2.x; x++) {
+                if (x !== p1.x || x === p2.x) {
+                    if (p1.y <= p2.y) {
+                        for (let y = Math.floor(p1.y + (x - 1 - p1.x) * slope); y <= Math.ceil(p2.y - (p2.x - x) * slope); y++) {
+                            if (x > 1 && y > 1 && x < this.width - 2 && y < this.height - 2) map[x][y].tile = "-";
                         }
-                    } else { // Neighbor mass.
-
-                        // Get smallest mass ID.
-                        let newID = 0;
-                        let min = ids[0].id;
-                        let idN = 1;
-                        for (let cnt = 1; cnt < ids.length; cnt++) {
-                            if (ids[cnt].id < min) {
-                                min = ids[cnt].id;
-                                newID = cnt;
-                            } else if (ids[cnt].id === min) {
-                                idN++;
-                            }
+                    } else {
+                        for (let y = Math.ceil(p1.y + (x - 1 - p1.x) * slope); y >= Math.floor(p2.y - (p2.x - x) * slope); y--) {
+                            if (x > 1 && y > 1 && x < this.width - 2 && y < this.height - 2) map[x][y].tile = "-";
                         }
-
-                        // Add all to mass.
-                        map[x][y].massID = min;
-                        map[x][y].massSize = newID.massSize - idN;
-                        neighbors.forEach((n) => {
-                            map[n.x][n.y].massID = min;
-                            map[n.x][n.y].massCount = newID.massSize - idN;
-                        });
                     }
                 }
             }
         }
 
-    
-    
+
+        // Create a room.
+        let createRoom = (pos, size) => {
+            if (pos.x > 1 && pos.y > 1 && pos.x < this.width - 2 && pos.y < this.height - 2) {
+                let p = pos;
+                let s = size;
+                while (pos.x + s.x >= this.width - 2) {
+                    s.x = s.x - 1;
+                }
+                while (pos.y + s.y >= this.height - 2) {
+                    s.y = s.y - 1;
+                }
+
+                for (let y = p.y; y <= p.y + s.y; y++) {
+                    for (let x = p.x; x <= p.x + s.x; x++) {
+                        map[x][y].tile = "-";
+                    }
+                }
+
+                if (s.x > 5 && s.y > 5) {
+                    if (map[p.x - 1][p.y].tile === "#"
+                    && map[p.x][p.y - 1].tile === "#"
+                    && map[p.x - 1][p.y + 1].tile === "#"
+                    && map[p.x + 1][p.y - 1].tile === "#") 
+                        map[p.x][p.y].tile = "#";
+                    if (map[p.x][p.y].tile === "#") map[p.x + 1][p.y].tile = "#";
+                    if (map[p.x][p.y].tile === "#") map[p.x][p.y + 1].tile = "#";
+
+                    if (map[p.x + s.x + 1][p.y].tile === "#"
+                    && map[p.x + s.x][p.y - 1].tile === "#"
+                    && map[p.x + s.x + 1][p.y + 1].tile === "#"
+                    && map[p.x + s.x - 1][p.y - 1].tile === "#") 
+                        map[p.x + s.x][p.y].tile = "#";
+                    if (map[p.x + s.x][p.y].tile === "#") map[p.x + s.x - 1][p.y].tile = "#";
+                    if (map[p.x + s.x][p.y].tile === "#") map[p.x + s.x][p.y + 1].tile = "#";
+
+                    if (map[p.x - 1][p.y + s.y].tile === "#"
+                    && map[p.x][p.y + s.y + 1].tile === "#"
+                    && map[p.x - 1][p.y + s.y - 1].tile === "#"
+                    && map[p.x + 1][p.y + s.y + 1].tile === "#") 
+                        map[p.x][p.y + s.y].tile = "#";
+                    if (map[p.x][p.y + s.y].tile === "#") map[p.x][p.y + s.y - 1].tile = "#";
+                    if (map[p.x][p.y + s.y].tile === "#") map[p.x + 1][p.y + s.y].tile = "#";
+
+                    if (map[p.x + s.x + 1][p.y + s.y].tile === "#"
+                    && map[p.x + s.x][p.y + s.y + 1].tile === "#"
+                    && map[p.x + s.x + 1][p.y + s.y - 1].tile === "#"
+                    && map[p.x + s.x - 1][p.y + s.y + 1].tile === "#") 
+                        map[p.x + s.x][p.y + s.y].tile = "#";
+                    if (map[p.x + s.x][p.y + s.y].tile === "#") map[p.x + s.x - 1][p.y + s.y].tile = "#";
+                    if (map[p.x + s.x][p.y + s.y].tile === "#") map[p.x + s.x][p.y + s.y - 1].tile = "#";
+
+                    let r = Math.random();
+                    for (let y = p.y + 2; y <= p.y + s.y - 2; y++) {
+                        for (let x = p.x + 2; x <=  p.x + s.x - 2; x++) {
+                            if (r > .5) {
+                                map[x][y].tile = "P";
+                            } else {
+                                map[x][y].tile = "#";
+                            }
+                        }
+                    }
+
+                    map[p.x + 2][p.y + 2].tile = "-";
+                    map[p.x + s.x - 2][p.y + 2].tile = "-";
+                    map[p.x + 2][p.y + s.y - 2].tile = "-";
+                    map[p.x + s.x - 2][p.y + s.y - 2].tile = "-";
+                }
+            }
+        };
+
+        // Returns the center of a room.
+        let roomCenter = (room) => {
+            return {x: room.pos.x + Math.floor(room.size.x / 2), y: room.pos.y + Math.floor(room.size.y / 2)};
+        }
+
+
+        // Generate rooms.
+        let rooms = [];
+        let hRooms = Math.floor((this.width - 4) / 10);
+        let vRooms = Math.floor((this.height - 4) / 10);
+        for (let y = 0; y < vRooms; y++) {
+            for (let x = 0; x < hRooms; x++) {
+                let roomWidth = 2 + Math.floor(Math.random() * 8);
+                let roomHeight = 2 + Math.floor(Math.random() * 8);
+                rooms.push({
+                    pos: {
+                        //x: Math.floor((this.width - 4 - 10 * hRooms) / 2) + 2 + 12 * x + Math.floor((10 - roomWidth) / 2),
+                        x: (x * 10) + Math.floor((this.width - (hRooms * 10)) / 2) + Math.floor((10 - roomWidth) / 2),
+                        //y: Math.floor((this.height - 4 - 10 * vRooms) / 2) + 2 + 12 * y + Math.floor((10 - roomHeight) / 2)},
+                        y: (y * 10) + Math.floor((this.height - (vRooms * 10)) / 2 + Math.floor((10 - roomHeight) / 2))},
+                    size: {x: roomWidth, y: roomHeight}, neighbors: [], v: false});
+            }
+        }
+        let checkComplete = () => {
+            rooms.forEach((r) => {
+                r.v = false;
+            });
+            let tally = 1;
+            let cR;
+
+            let queue = [];
+            queue.push(rooms[0]);
+            rooms[0].v = true;
+
+            do {
+                cR = queue.shift();
+                cR.neighbors.forEach((n) => {
+                    if (n.v === false) {
+                        n.v = true;
+                        queue.push(n);
+                        tally++
+                    }
+                });
+            } while (queue.length > 0);
+            return tally >= rooms.length;
+        };
+
+        // Connect spawn and exit to closest rooms.
+        let closest = {room: null, dist: Infinity};
+        rooms.forEach((r) => {
+            let dist = Math.sqrt(Math.pow(spawn.x + 2 - roomCenter(r).x, 2) + Math.pow(spawn.y - roomCenter(r).y, 2));
+            if (dist < closest.dist) {
+                closest.room = r;
+                closest.dist = dist;
+            }
+        });
+        drawPath({x: spawn.x + 2, y: spawn.y}, {x: roomCenter(closest.room).x, y: roomCenter(closest.room).y});
+        let first = closest.room;
+        closest = {room: null, dist: Infinity};
+        rooms.forEach((r) => {
+            let dist = Math.sqrt(Math.pow(exit.x - 2 - roomCenter(r).x, 2) + Math.pow(exit.y - roomCenter(r).y, 2));
+            if (dist < closest.dist) {
+                closest.room = r;
+                closest.dist = dist;
+            }
+        });
+        drawPath({x: exit.x - 2, y: exit.y}, {x: roomCenter(closest.room).x, y: roomCenter(closest.room).y});
+        let last = closest.room;
+
+
+        // Connect all rooms.
+        rooms.forEach((r) => {
+            let choices = [];
+            rooms.forEach((c) => {
+                let alr = false;
+                c.neighbors.forEach((ne) => {
+                    if (ne === r) alr = true;
+                });
+                if (Math.abs(roomCenter(c).x - roomCenter(r).x) < 15 && Math.abs(roomCenter(c).y - roomCenter(r).y) < 15 && c !== r && !alr) choices.push(c);
+            });
+            if (choices.length > 0) {
+                choices = choices[Math.floor(Math.random() * choices.length)];
+                drawPath({x: roomCenter(r).x, y: roomCenter(r).y}, {x: roomCenter(choices).x, y: roomCenter(choices).y});
+                r.neighbors.push(choices);
+                choices.neighbors.push(r);
+            }
+        });
+        while (!checkComplete()) {
+            let a = rooms[Math.floor(Math.random() * rooms.length)];
+            let choices = [];
+            rooms.forEach((c) => {
+                let alr = false;
+                c.neighbors.forEach((ne) => {
+                    if (ne === a) alr = true;
+                });
+                if (Math.abs(roomCenter(c).x - roomCenter(a).x) < 15 && Math.abs(roomCenter(c).y - roomCenter(a).y) < 15 && c !== a && !alr) choices.push(c);
+            });
+            if (choices.length > 0) {
+                choices = choices[Math.floor(Math.random() * choices.length)];
+                drawPath({x: roomCenter(a).x, y: roomCenter(a).y}, {x: roomCenter(choices).x, y: roomCenter(choices).y});
+                a.neighbors.push(choices);
+                choices.neighbors.push(a);
+            }
+        }
+
+        // Draw all rooms.
+        rooms.forEach((r) => {
+            createRoom(r.pos, r.size);
+        });
+
         // Convert to String
         let result = "";
         for (let y = 0; y < this.height; y++) {
@@ -151,7 +294,8 @@ class Endless {
     
         return result;
     }
-    */
+    
+    /*
      //First Attempt
     buildLevel() {
         let map = [];
@@ -251,6 +395,6 @@ class Endless {
         }
     
         return result;
-    }
+    }*/
     
 }
