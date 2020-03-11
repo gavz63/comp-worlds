@@ -71,6 +71,8 @@ ASSET_MANAGER.queueDownload("./img/hud/ChangeDoorsWallsButtons.png");
 ASSET_MANAGER.queueDownload("./img/hud/ChooseYourFighter.png");
 ASSET_MANAGER.queueDownload("./img/hud/ProgressBar.png");
 ASSET_MANAGER.queueDownload("./img/hud/HealthBar.png");
+ASSET_MANAGER.queueDownload("./img/hud/Shadow.png");
+ASSET_MANAGER.queueDownload("./img/hud/EnemyCrosshair.png");
 ASSET_MANAGER.queueDownload("./img/pickups/key.png");
 ASSET_MANAGER.queueDownload("./img/pickups/specialKey.png");
 ASSET_MANAGER.queueDownload("./img/pickups/potions.png");
@@ -126,10 +128,10 @@ ASSET_MANAGER.downloadAll(function () {
     gameEngine.init();
     gameEngine.start();
     
-    // for(let i = 0; i < 12; i++)
-    // {
-    //   new Post(gameEngine, 96 * i, 96 * 1.5);
-    // }
+     for(let i = 0; i < 32; i++)
+     {
+       new Post(gameEngine, 96 * (Math.ceil(RandomBetween(3, 13)) - 0.5), 96 * (Math.ceil(RandomBetween(4, 8)) - 0.5));
+     }
 
 
    /* new ParticleEmitter(gameEngine, 96 * 3, 96 * 1.5,

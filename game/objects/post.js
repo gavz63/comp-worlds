@@ -4,13 +4,31 @@ class Post extends DestructableObject {
         
         this.targetLocation = {x: x, y: y};
         
-        //this.y += 2000;
-        
-        new EnemyReticle(this.game, this.targetLocation.x, this.targetLocation.y);
-        this.shadow = new Shadow(this.game, this.targetLocation.x, this.targetLocation.y, this);
-        
         this.myAddScale = 1.5;
         this.myScale = [this.myAddScale * STANDARD_DRAW_SCALE];
+        
+        this.dir = normalizeV(dirV({x: this.x, y: this.y}, {x: this.game._camera.x, y: this.game._camera.y}));
+        //this.x = this.x - this.dir.x * this.myScale[0]/3 * 2 * (Math.floor((6+1)/2) + 6);
+        //this.y = this.y - this.dir.y * this.myScale[0]/3 * 2 * (Math.floor((6+1)/2) + 6);
+        
+        this.crosshair = new EnemyCrosshair(this.game, this.targetLocation.x, this.targetLocation.y);
+        this.shadow = new Shadow(this.game, this.targetLocation.x, this.targetLocation.y, this);
+        
+        
+        this.y -= 2000;
+        
+        this.startX = this.x;
+        this.startY = this.y;
+        
+        let that = this;
+        this.fallingTimer = new TimerCallback(this.game, RandomBetween(5,10), false, function () { that.fallingTimer = null;
+          that.x = that.targetLocation.x;
+          that.y = that.targetLocation.y;
+          that.crosshair = null;});
+        
+
+        
+
         
         this.hp = 6;
 
@@ -19,7 +37,7 @@ class Post extends DestructableObject {
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 8, y: 0}, 10, true, this.myScale);
         this.animation.pause();
-        this.animation.setFrame(0);
+        this.animation.setFrame(8);
         
         this.deathAnimation = new Animation(game.AM.getAsset("./img/objects/LogPost.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
@@ -41,7 +59,7 @@ class Post extends DestructableObject {
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 8, y: 0}, 10, true, this.myScale);
           a.pause();
-          a.setFrame(i+4);
+          a.setFrame(7 - i);
           this.postSections.push(new PostSection(this.game, 0, 0, this, a, i+1));
         }
         
@@ -59,16 +77,25 @@ class Post extends DestructableObject {
     
     draw()
     {
-      for(let i = this.postSections.length-1; i >= 0; i--)
+      if(this.crosshair !== null)
+      {
+        this.crosshair.display();
+      }
+      super.draw();
+      for(let i = 0; i < this.postSections.length; i++)
       {
         this.postSections[i].display();
       }
-      super.draw();
+
     }
     
     update() {
-      console.log(this.hp);
-      this.animation.setFrame( Math.floor((6 - this.hp)/2) );
+      if(this.fallingTimer !== null)
+      {
+        let fallDir = dirV({x: this.startX, y: this.startY}, this.targetLocation);
+        this.y = this.startY + fallDir.y * smoothStartN(this.fallingTimer.getPercent(), 3);
+      }
+      this.postSections[this.postSections.length-1].animation.setFrame( Math.floor((6 - this.hp)/2) );
       for(let i = this.postSections.length-1; i >= 0; i--)
       {
         this.postSections[i].update();
@@ -81,6 +108,10 @@ class PostSection extends DestructableObject
   constructor(game, x, y, owner, animation, offset)
   {
     super(game, owner.x, owner.y);
+    
+    this.myAddScale = 1.5;
+    this.myScale = [this.myAddScale * STANDARD_DRAW_SCALE];
+    
     this.owner = owner;
     this.animation = animation;
     this.offset = offset;
@@ -109,8 +140,8 @@ class PostSection extends DestructableObject
     if(this.owner)
     {
       this.dir = normalizeV(dirV({x: this.owner.x, y: this.owner.y}, {x: this.game._camera.x, y: this.game._camera.y}));
-      this.x = this.owner.x + this.dir.x * this.myScale[0] * 2 * (Math.floor((this.offset+1)/2) + this.offset);
-      this.y = this.owner.y + this.dir.y * this.myScale[0] * 2 * (Math.floor((this.offset+1)/2) + this.offset);
+      this.x = this.owner.x - this.dir.x * this.myScale[0] /3 * 2 * (Math.floor((this.offset+1)/2) + this.offset);
+      this.y = this.owner.y - this.dir.y * this.myScale[0] /3 * 2 * (Math.floor((this.offset+1)/2) + this.offset);
     }
   }
 }
