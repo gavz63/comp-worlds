@@ -11,8 +11,8 @@ const MODE = {
 const PHASE = {
     EASY: {
         modeSet: [//MODE.WAKE_UP,
-            MODE.BULLET_HELL,  /*MODE.BULLET_HELL, MODE.AGGRESSIVE, MODE.AGGRESSIVE/*, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
-        timePerMode: 10
+            MODE.SCREEN_WIPE,  MODE.BULLET_HELL, MODE.AGGRESSIVE/*, MODE.AGGRESSIVE/*, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
+        timePerMode: 5
     },
     MEDIUM: {
         modeSet: [MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.AGGRESSIVE],
@@ -117,7 +117,7 @@ class WoodDragon extends Enemy {
         this.mode = this.phase.modeSet[this.modeSetIndex];
         let that = this;
         this.modeTimer = new TimerCallback(game, this.phase.timePerMode, true, function () {
-            that.modeSetIndex+= 1;
+            that.modeSetIndex += 1;
             console.log("MSI2: " + that.modeSetIndex);
             if (that.modeSetIndex === that.phase.modeSet.length) {
                 that.modeSetIndex = 0;
@@ -130,10 +130,12 @@ class WoodDragon extends Enemy {
         this.hasTakenOff = false;
         this.isTakingOff = false;
         this.isLanding = false;
+        this.hasBreathed = false;
 
         this.hoverTimer = null;
         this.hoverTimer = null;
         this.landingTimer = null;
+        this.woodChipTimer = null;
     }
 
     update() {
@@ -150,6 +152,7 @@ class WoodDragon extends Enemy {
                 this.doBulletHell();
                 break;
             case MODE.SCREEN_WIPE:
+                this.doScreenWipe();
                 break;
             case  MODE.WAKE_UP:
                 break;
@@ -163,8 +166,42 @@ class WoodDragon extends Enemy {
         }
     }
 
+    doScreenWipe() {
+        if (!this.hasBreathed) {
+            this.head.animation = this.head.breathAnimation;
+            this.head.animation.resetAnimation();
+            this.head.animation.unpause();
+            this.hasBreathed = true;
+        } else {
+            if (this.head.animation.isDone()) {
+                this.head.animation.setFrame(this.head.animation.getLastFrameAsInt());
+                this.head.animation.pause();
+            }
+            let that = this;
+            if (this.woodChipTimer === null) {
+                this.woodChipTimer = new TimerCallback(this.game, 0.1, true, function () {
+                    let rotate = 90 / 21;
+                    let degreeToRadians = 2 * Math.PI / 360;
+                    for (let i = 0; i < 21; i++) {
+                        new WoodChip(that.game,
+                            that.head.x, that.head.y,
+                            normalizeV({
+                                x: Math.cos((i * rotate + 45) * degreeToRadians),
+                                y: Math.sin((i * rotate + 45) * degreeToRadians)
+                            }),
+                            that.head);
+                    }
+                });
+            }
+        }
+    }
+
     doTransition() {
         this.modeTimer.pause();
+        if (this.woodChipTimer) {
+            this.woodChipTimer.destroy();
+            this.woodChipTimer = null;
+        }
 
         if (!this.hasTakenOff || this.isTakingOff) {
             this.doTakeOff();
@@ -198,7 +235,8 @@ class WoodDragon extends Enemy {
     }
 
     doLanding() {
-        if (this.landingTimer) this.landingTimer.destroy(); this.landingTimer = null;
+        if (this.landingTimer) this.landingTimer.destroy();
+        this.landingTimer = null;
         this.mode = this.phase.modeSet[this.modeSetIndex];
         this.hasTakenOff = false;
         this.isTakingOff = false;
@@ -267,7 +305,7 @@ class WoodDragon extends Enemy {
                 this.animation.unpause();
             }
         } else { //Start taking off
-            if ( this.hoverTimer) {
+            if (this.hoverTimer) {
                 this.hoverTimer.destroy();
                 this.hoverTimer = null;
             }

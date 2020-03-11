@@ -44,9 +44,10 @@ class Post extends DestructableObject {
         this.deathAnimation.pause();
         this.deathAnimation.setFrame(2);
         
-        this.collider = new Collider(0, 0, -13, 12, -15, 16, null, 150);
+        //this.collider = new Collider(0, 0, -13, 12, -15, 16, 32, 150);
         this.radius = 32;
         this.inRange = false;
+        this.weight = 10000;
         
         this.postSections = [];
         
