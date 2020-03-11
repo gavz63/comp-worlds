@@ -113,7 +113,7 @@ class Projectile extends Entity {
                             if (circleToCircle(that, elem)) {
                                 collided = true;
                             }
-                        } else if (elem.collider !== null){
+                        } else if (elem.collider !== null) {
                             if (checkCollision(that, that.collider, elem, elem.collider)) {
                                 collided = true;
                             }
@@ -790,7 +790,7 @@ class Spin extends Slash {
                             if (circleToCircle(that, elem)) {
                                 collided = true;
                             }
-                        } else if (elem.collider !== null){
+                        } else if (elem.collider !== null) {
                             if (checkCollision(that, that.collider, elem, elem.collider)) {
                                 collided = true;
                             }
@@ -920,7 +920,7 @@ class Peasant extends Entity {
 
 
         this.game.entities[LAYERS.ENEMIES].forEach((e) => {
-            
+
         });
     }
 }
@@ -961,10 +961,10 @@ class Hail extends Entity {
             }
         }
     }
-    
+
     draw(ctx) {
         let screenPos = this.game._camera.drawPosTranslation({x: this.x, y: this.y}, 1);
-		this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true, .5);
+        this.animation.drawFrame(this.game._clockTick, this.game._ctx, screenPos.x, screenPos.y, true, .5);
     }
 }
 
@@ -998,7 +998,7 @@ class LogProjectile extends Projectile {
     update() {
         super.update();
         let that = this;
-        this.game.entities[LAYERS.OBJECTS].forEach(function(elem) {
+        this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
             if (elem.collider !== null) {
                 if (checkCollision(that, that.collider, elem, elem.collider)) {
                     that.destroy();
@@ -1015,5 +1015,64 @@ class LogProjectile extends Projectile {
     destroy() {
         super.destroy();
         new LogObject(this.game, this.x, this.y, this.dir);
+    }
+}
+
+class WoodChip extends Projectile {
+    constructor(game, x, y, dir, owner) {
+        let animation = null;
+        let rand = Math.floor(Math.random() * 6);
+        switch (rand) {
+            case 1:
+                animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/BallPulseBlue.png"),
+                    STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+                    {x: 0, y: 0}, {x: 3, y: 0},
+                    7, true, STANDARD_DRAW_SCALE);
+                break;
+            case 2:
+                animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/BallPulseGreen.png"),
+                    STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+                    {x: 0, y: 0}, {x: 3, y: 0},
+                    7, true, STANDARD_DRAW_SCALE);
+                break;
+            case 3:
+                animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/BallPulseRed.png"),
+                    STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+                    {x: 0, y: 0}, {x: 3, y: 0},
+                    7, true, STANDARD_DRAW_SCALE);
+                break;
+            default:
+                animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
+                    STANDARD_ENTITY_FRAME_WIDTH / 2, STANDARD_ENTITY_FRAME_WIDTH / 2,
+                    {x: 0, y: 0}, {x: 3, y: 0},
+                    7, true, STANDARD_DRAW_SCALE);
+                break;
+        }
+        super(game, x, y, dir, 400, Infinity, false, owner, animation, 0, null, 10);
+    }
+
+    update() {
+        super.update();
+
+        let that = this;
+        this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
+            if (!(enemy instanceof WoodDragonHead || enemy instanceof WoodDragonArm || enemy instanceof WoodDragon)) {
+                if (enemy.collider !== null && checkCollision(enemy, enemy.collider, that, that.collider)) {
+                    enemy.destroy();
+                }
+            }
+        });
+        this.game.entities[LAYERS.OBJECTS].forEach(function (object) {
+            if (!(object instanceof Post || object instanceof PostSection)) {
+                if (object.collider !== null && checkCollision(object, object.collider, that, that.collider)) {
+                    object.destroy();
+                }
+            }
+        });
+    }
+
+    destroy() {
+        super.destroy();
+        console.log("bye");
     }
 }
