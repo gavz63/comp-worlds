@@ -39,19 +39,21 @@ class LogObject extends DestructableObject {
     update() {
         super.update();
         let that = this;
-        this.game.entities[LAYERS.ENEMIES].forEach(function(enemy) {
+        this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
             if (enemy.collider !== null) {
                 if (checkCollision(that, that.collider, enemy, enemy.collider)) {
                     that.takeDamage(1, {x: 1, y: 0}, 0);
                 }
             }
         });
-        while (checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
+        while (this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
             let vec = normalizeV(dirV(this, this.game.player));
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;
         }
+
     }
+
     takeDamage(dmg, dir, knockBack) {
         super.takeDamage(1, dir, knockBack);
         this.animation.setFrame(this.animation.getFrame() + 1);
