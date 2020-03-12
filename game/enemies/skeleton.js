@@ -20,7 +20,7 @@ class Skeleton extends Enemy {
         this.animation.unpause();
 
         this.speed = 75;
-        this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS * 0.5, 5);
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS * 0.8, 5);
         this.isAttacking = false;
 
         this.hp = 3;
@@ -30,6 +30,7 @@ class Skeleton extends Enemy {
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 3, y: 0}, 10, true, this._myScale);
 
+        this.destroySounds.push("rattle1");
     }
 
     update() {

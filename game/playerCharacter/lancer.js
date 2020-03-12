@@ -155,6 +155,11 @@ function Lancer() {
       projectile.hitOnce();
       projectile.GiveBackAmmo();
       projectile.collider = collider;
+    
+    let pokeSounds = [];
+    pokeSounds.push("poke2");
+    
+    player.game.audioManager.playSound(getRandomSound(pokeSounds));
 	};
 	
 	this.specialAttack = function (player, attackVector)
@@ -168,9 +173,11 @@ function Lancer() {
 
     let projectile = new Spin(player.game, player.x, player.y, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, player.characterClass.animation.specialProjectile(), 1, 85, 5);
     projectile.attachTo(player);
+    
+    player.game.audioManager.playSound("spin");
 	};
 
-    this.collider = new Collider(0, 0, 14, 14, 9, 9, null, 120);
+    this.collider = new Collider(0, 0, 14, 14, 9, 9, 10, 120);
 
     this.stats = {
         maxHP: 3,

@@ -61,7 +61,7 @@ class Turret extends Entity {
             x: Math.cos(this.rotation),
             y: Math.sin(this.rotation)
         };
-        new EasingProjectile(this.game, this.x, this.y, dir1, this.pSpeed, this.pLifeTime, true, this, this.projectileAnimation, 1, 5, 10, this.pMove, this.pEasing);
+        new EasingProjectile(this.game, this.x, this.y, dir1, this.pSpeed, this.pLifeTime, true, this, this.projectileAnimation, 1, 1, 10, this.pMove, this.pEasing);
         if (this.cross) {
             let dir2 = {
                 x: Math.cos(this.rotation + Math.PI * 2 / 4),
@@ -75,9 +75,9 @@ class Turret extends Entity {
                 x: Math.cos(this.rotation + Math.PI * 6 / 4),
                 y: Math.sin(this.rotation + Math.PI * 6 / 4)
             };
-            new EasingProjectile(this.game, this.x, this.y, dir2, this.pSpeed, this.pLifeTime, true, this, this.projectileAnimation, 1, 5, 10, this.pMove, this.pEasing);
-            new EasingProjectile(this.game, this.x, this.y, dir3, this.pSpeed, this.pLifeTime, true, this, this.projectileAnimation, 1, 5, 10, this.pMove, this.pEasing);
-            new EasingProjectile(this.game, this.x, this.y, dir4, this.pSpeed, this.pLifeTime, true, this, this.projectileAnimation, 1, 5, 10, this.pMove, this.pEasing);
+            new EasingProjectile(this.game, this.x, this.y, dir2, this.pSpeed, this.pLifeTime, true, this, this.projectileAnimation, 1, 1, 10, this.pMove, this.pEasing);
+            new EasingProjectile(this.game, this.x, this.y, dir3, this.pSpeed, this.pLifeTime, true, this, this.projectileAnimation, 1, 1, 10, this.pMove, this.pEasing);
+            new EasingProjectile(this.game, this.x, this.y, dir4, this.pSpeed, this.pLifeTime, true, this, this.projectileAnimation, 1, 1, 10, this.pMove, this.pEasing);
         }
     }
 }

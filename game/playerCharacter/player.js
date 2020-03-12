@@ -87,9 +87,19 @@ class Player extends Entity {
         this.lastHeartSounds = ["heartBeat"];
         
         this.walkSounds = [];
-        this.walkSounds.push("step1");
-        this.walkSounds.push("step2");
-        this.walkSounds.push("step3");
+        console.log(this.game._sceneManager.level._floorType);
+        if(this.game._sceneManager.level._floorType)
+        {
+          this.walkSounds.push("step1");
+          this.walkSounds.push("step2");
+          this.walkSounds.push("step3");
+        }
+        else
+        {
+          //this.walkSounds.push("step4");
+          this.walkSounds.push("step5");
+          this.walkSounds.push("step6");
+        }
         
         this.footStepTimer  = null;
         this.lastHeartTimer = null;

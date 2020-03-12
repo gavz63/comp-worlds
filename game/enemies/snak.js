@@ -34,7 +34,9 @@ class Snak extends Enemy {
 			this.attackTimer = new TimerCallback(this.game, 3, true, function () {that.attack()} );
         });
 		
-		this.projectileCount = 21;
+      this.projectileCount = 21;
+      
+      this.destroySounds.push("snakeDeath");
     }
 
     update() {
@@ -47,21 +49,23 @@ class Snak extends Enemy {
 
         if (this.isAttacking) {
             if (this.animation.isDone()) {
-                this.isAttacking = false;
-                this.animation = this.moveAnimation;
-                this.speed = 45;
-				let rotate = 360 / this.projectileCount;
-				let degreeToRadians = 2 * Math.PI / 360;
-                for(let i = 0; i < this.projectileCount; i++)
-				{
-					new Projectile(this.game,
-						this.x, this.y,
-						normalizeV({x: Math.cos(i * rotate * degreeToRadians), y: Math.sin(i * rotate * degreeToRadians)}),
-						100, 5, true,
-						this,
-						this.projectileAnimation, 1, 3, 10);
-				}
+              this.isAttacking = false;
+              this.animation = this.moveAnimation;
+              this.speed = 45;
+              let rotate = 360 / this.projectileCount;
+              let degreeToRadians = 2 * Math.PI / 360;
+              for(let i = 0; i < this.projectileCount; i++)
+              {
+                new Projectile(this.game,
+                  this.x, this.y,
+                  normalizeV({x: Math.cos(i * rotate * degreeToRadians), y: Math.sin(i * rotate * degreeToRadians)}),
+                  100, 5, true,
+                  this,
+                  this.projectileAnimation, 1, 3, 10);
+              }
+              this.game.audioManager.playSound("snakeShot");
             }
+
         }
     }
 

@@ -26,7 +26,7 @@ class Projectile extends Entity {
         this.dir = dir;
         this.speed = speed;
 
-        this.collider = new Collider(0, 0, -7, 7, -7, 8, radius, 150);
+        this.collider = new Collider(0, 0, 7, 7, 7, 8, radius, 150);
         this.lifetime = lifetime;
         this.dieOnHit = dieOnHit;
 
@@ -117,9 +117,11 @@ class Projectile extends Entity {
                     }
                 });
             } else {
+                console.log(that.collider);
+                console.log(that.game.player.collider);
                 if (!that.removeFromWorld && !that.game.player.removeFromWorld &&
-                    that.collider !== null && that.game.player.collider !== null &&
-                    checkCollision(that, that.collider, that.game.player, that.game.player.collider)) {
+                    !that.collider && !that.game.player._collider &&
+                    checkCollision(that, that.collider, that.game.player, that.game.player._collider)) {
                     let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
                         x: this.game.player.x,
                         y: this.game.player.y
@@ -648,7 +650,6 @@ class Shuriken extends EasingProjectile {
                     } else {
                         let backDir = normalizeV(that.dir);
                         while (checkCollision(that, that.collider, elem, elem.collider)) {
-                            console.log("HEY");
                             that.x -= backDir.x;
                             that.y -= backDir.y;
                             that.setDone();
@@ -678,8 +679,8 @@ class Shuriken extends EasingProjectile {
             });
         } else {
             if (!that.removeFromWorld && !that.game.player.removeFromWorld &&
-                that.collider !== null && that.game.player.collider !== null &&
-                checkCollision(that, that.collider, that.game.player, that.game.player.collider)) {
+                that.collider !== null && that.game.player._collider !== null &&
+                checkCollision(that, that.collider, that.game.player, that.game.player._collider)) {
                 let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
                     x: this.game.player.x,
                     y: this.game.player.y
@@ -699,15 +700,20 @@ class Shuriken extends EasingProjectile {
     }
 
     setDone() {
-        this.timer.pause();
-        this.timer.destroy();
-        this.animation.setFrame(6);
-        this.animation.pause();
-        this.done = true;
-        let that = this;
-        new TimerCallback(this.game, this.lifetime * 0.5, false, function () {
-            that.destroy();
-        });
+        if(this.done === false)
+        {
+          this.game.audioManager.playSound(getRandomSound(this.hitSounds));
+        
+          this.timer.pause();
+          this.timer.destroy();
+          this.animation.setFrame(6);
+          this.animation.pause();
+          this.done = true;
+          let that = this;
+          new TimerCallback(this.game, this.lifetime * 0.5, false, function () {
+              that.destroy();
+          });
+        }
     }
 }
 
@@ -958,7 +964,7 @@ class LogProjectile extends Projectile {
                 }
             }
         });
-        while (checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
+        while (checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
             let vec = normalizeV(dirV(this, this.game.player));
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;
@@ -1026,7 +1032,7 @@ class WoodChip extends Projectile {
             }
         });
 
-        if (checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
+        if (checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
             let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
                 x: this.game.player.x,
                 y: this.game.player.y

@@ -159,6 +159,11 @@ function Ninja() {
           false, player, projectileAnimation,
           1.5, 1, 7, EasingProjectile.prototype.line, function(t) { return smoothStopN(t, 4); });
           projectile.GiveBackAmmo();
+          
+        projectile.hitSounds.push("starHit1");
+        projectile.hitSounds.push("starHit2");
+        projectile.hitSounds.push("starHit3");
+    
       });
     }
     
@@ -219,6 +224,8 @@ function Ninja() {
     new TimerCallback(player.game, 0.5, false, function () {
       player.attackCounter--;
     });*/
+    
+    player.game.audioManager.playSound("poke1");
 	};
 	
 	this.specialAttack = function (player, attackVector)
@@ -250,7 +257,9 @@ function Ninja() {
     
     let dir = dirToVector(player.direction);
     new TimerCallback(player.game, 0.15, false, function () {new Projectile(player.game, player.x + dir.x * 50, player.y + dir.y * 50, dir, 300, 0.35, false, player, specialProjectileAnimation, 0.2, 40, 3);})
-	};
+	
+    player.game.audioManager.playSound("swordSwing");
+  };
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
 

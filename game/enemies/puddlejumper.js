@@ -16,7 +16,7 @@ class PuddleJumper extends Enemy {
         this.animation = this.moveAnimation;
         
         this.hp = 0.5;
-        this.collider = new Collider(0, 0, 0, 0, 0, 0, 1, 5);
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, 12, 5);
 
         this.speed = 300;
         this.directionSet = false;

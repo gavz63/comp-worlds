@@ -174,7 +174,7 @@ function BlackMage() {
      let projectile = new FlameWall(player.game, player.x + attackVector.x * that.stats.specialSpeed, player.y + attackVector.y * that.stats.specialSpeed, attackVector, player.characterClass.stats.specialSpeed, player.characterClass.stats.specialLifetime, false, player, that.animation.specialProjectile(), 0.5, 11, 15, function() {}, function(t) { return arch4(smoothStopN(t, 20));}, 0.1, 12);
   };
 
-    this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
+    this.collider = new Collider(0, 0, 14, 15, 10, 10, 10, 150);
 
     this.stats = {
         maxHP: 2,

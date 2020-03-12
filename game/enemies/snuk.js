@@ -32,6 +32,7 @@ class Snuk extends Enemy {
             that.attack();
 			this.attackTimer = new TimerCallback(this.game, 3, true, function () {that.attack()} );
         });
+        this.destroySounds.push("snakeDeath");
     }
 
     update() {
@@ -44,17 +45,18 @@ class Snuk extends Enemy {
 
         if (this.isAttacking) {
             if (this.animation.isDone()) {
-                this.isAttacking = false;
-                this.animation = this.moveAnimation;
-                this.speed = 45;
-				new HomingProjectile(this.game,
-					this.x, this.y,
-					normalizeV({x: 0, y: 0}),
-					1, 7, true,
-					this,
-					this.projectileAnimation, 1, 3, 10);
-
+              this.isAttacking = false;
+              this.animation = this.moveAnimation;
+              this.speed = 45;
+              new HomingProjectile(this.game,
+              this.x, this.y,
+              normalizeV({x: 0, y: 0}),
+              1, 7, true,
+              this,
+              this.projectileAnimation, 1, 3, 10);
+              this.game.audioManager.playSound("snakeShot");
             }
+            
         }
     }
 

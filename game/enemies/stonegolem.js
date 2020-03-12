@@ -24,7 +24,7 @@ class StoneGolem extends Enemy {
       this.animation = this.moveAnimation;
 
       this.speed = 20;
-      this.collider = new Collider(0, 0, 28, 28, 30, 30, null, 150); // 12,12,14,14
+      this.collider = new Collider(0, 0, 26, 26, 28, 28, null, 150); // 12,12,14,14
       this.isWaiting = false;
       this.isAttacking = false;
       this.goalPoint = null;

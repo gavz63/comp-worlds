@@ -803,7 +803,7 @@ class Level1
 			y: 16,
 			max: 1,
 			freq: 4,
-			list: [Snek.prototype],
+			list: [Skeleton.prototype],
 			rand: false,
 			radius: 96,
 			total: 3,

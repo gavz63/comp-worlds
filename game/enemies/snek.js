@@ -32,6 +32,7 @@ class Snek extends Enemy {
             that.attack();
 			this.attackTimer = new TimerCallback(this.game, 3, true, function () {that.attack()} );
         });
+      this.destroySounds.push("snakeDeath");
     }
 
     update() {
@@ -60,7 +61,9 @@ class Snek extends Enemy {
                             this.projectileAnimation, 1, 3, 10);
                     }
                 }
+              this.game.audioManager.playSound("snakeShot");
             }
+
         }
     }
 
