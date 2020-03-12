@@ -29,6 +29,8 @@ class CactusBoi extends Enemy {
         this.speed = 40;
         this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS, 5);
         this.isAttacking = false;
+        
+        this.destroySounds.push("puddleDeath");
     }
 
     update() {
@@ -71,6 +73,7 @@ class CactusBoi extends Enemy {
     }
 
     attack() {
+        this.game.audioManager.playSound("");
         this.animation = this.attackAnimation;
         this.animation.resetAnimation();
         this.isAttacking = true;

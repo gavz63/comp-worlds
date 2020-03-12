@@ -1038,3 +1038,7 @@ class WoodChip extends Projectile {
         }
     }
 }
+
+class ShockWave extends Projectile {
+  
+}
