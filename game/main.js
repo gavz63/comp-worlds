@@ -53,6 +53,7 @@ ASSET_MANAGER.queueDownload("./img/projectiles/PureSlash.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/SpinToWin.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/BoneProjectile.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/AirSlash.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/Shockwave.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageSideToSideSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageUpDownSheet.png");
 ASSET_MANAGER.queueDownload("./img/player_characters/BlackMageDmgSheet.png");

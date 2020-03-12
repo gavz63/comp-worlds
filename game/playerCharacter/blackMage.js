@@ -6,6 +6,7 @@ function BlackMage() {
     var fireball = ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png");
     var fireballExplodes = ASSET_MANAGER.getAsset("./img/projectiles/FireballExplodes.png");
     var flame = ASSET_MANAGER.getAsset("./img/projectiles/Flame.png");
+    var shockwave = ASSET_MANAGER.getAsset("./img/projectiles/Shockwave.png");
 
     //Use to access all animations this character has
     this.animation = {
@@ -113,7 +114,7 @@ function BlackMage() {
       specialProjectile: function () { return new Animation(flame,
         32, 32,
         {x: 0, y: 0}, {x: 2, y: 0},
-        8, true, STANDARD_DRAW_SCALE * 3); }
+        8, true, STANDARD_DRAW_SCALE * 3); },
     };
 	
 	let that = this;

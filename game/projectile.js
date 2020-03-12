@@ -63,6 +63,7 @@ class Projectile extends Entity {
 
         this.hitSounds = [];
         this.dying = false;
+        this.canReflect = true;
     }
 
     update() {
@@ -104,6 +105,8 @@ class Projectile extends Entity {
             }
 
             if (this.owner instanceof Player) {
+              
+                console.log(this.collider._radius);
                 //For each enemy
                 this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
                     if (!that.removeFromWorld && !enemy.removeFromWorld &&
@@ -577,7 +580,7 @@ class Slash extends Projectile {
     testProjectileCollision() {
         let that = this;
         this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
-            if (!that.removeFromWorld && !elem.removeFromWorld &&
+            if (!that.removeFromWorld && !elem.removeFromWorld && elem.canReflect === true &&
                 that.collider && elem.collider &&
                 checkCollision(that, that.collider, elem, elem.collider)) {
                 let p = new Projectile(that.game, elem.x, elem.y, that.dir, that.owner.characterClass.stats.projectileSpeed, 3, true, that.owner, elem.animation, elem.dmg, elem.radius, elem.knockBack);
@@ -1042,6 +1045,33 @@ class WoodChip extends Projectile {
     }
 }
 
-class ShockWave extends Projectile {
-  
+class Shockwave extends Projectile {
+    constructor(game, x, y, owner, animation, time, startScale, endScale)
+    {
+      super(game, x, y, {x: 0, y: 0}, 0, time, true, owner, animation, 1, startScale);
+      this.myAddScale = 0;
+      this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+      this.radius = 0;
+      
+      this.collider = new Collider(0, 0, 7, 7, 7, 8, this.radius, 150);
+      
+      this.startScale = startScale;
+      this.endScale = endScale;
+      
+      this.canReflect = false;
+      
+    }
+    
+    update()
+    {
+      this.myAddScale = this.startScale + (this.endScale - this.startScale) * this.timer.getPercent();
+      this.collider._radius = this.myAddScale * 55;
+      console.log(this.myAddScale);
+      this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+      
+      this.testCollision();
+    }
 }
+
+
+
