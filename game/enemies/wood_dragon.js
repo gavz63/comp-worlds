@@ -11,7 +11,7 @@ const MODE = {
 const PHASE = {
     EASY: {
         modeSet: [//MODE.WAKE_UP,
-            MODE.BULLET_HELL,  MODE.BULLET_HELL, MODE.AGGRESSIVE/*, MODE.AGGRESSIVE/*, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
+            MODE.SCREEN_WIPE,  MODE.BULLET_HELL, MODE.AGGRESSIVE/*, MODE.AGGRESSIVE/*, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
         timePerMode: 5
     },
     MEDIUM: {
@@ -180,14 +180,14 @@ class WoodDragon extends Enemy {
             let that = this;
             if (this.woodChipTimer === null) {
                 this.woodChipTimer = new TimerCallback(this.game, 0.1, true, function () {
-                    let rotate = 90 / 21;
+                    let rotate = 135 / 50;
                     let degreeToRadians = 2 * Math.PI / 360;
-                    for (let i = 0; i < 21; i++) {
+                    for (let i = 0; i < 50; i++) {
                         new WoodChip(that.game,
                             that.head.x, that.head.y,
                             normalizeV({
-                                x: Math.cos((i * rotate + 45) * degreeToRadians),
-                                y: Math.sin((i * rotate + 45) * degreeToRadians)
+                                x: Math.cos((i * rotate + 22.5) * degreeToRadians),
+                                y: Math.sin((i * rotate + 22.5) * degreeToRadians)
                             }),
                             that.head);
                     }

@@ -20,7 +20,7 @@ class LogObject extends DestructableObject {
                 {x: 0, y: 0}, {x: 2, y: 0}, 1, false, this.myScale);
             collider = new Collider(0, 0,
                 16 * 2, 16 * 2,
-                8 * 2, 8 * 2,
+                6 * 2, 6 * 2,
                 null, Infinity);
         }
         this.radius = null;
@@ -59,11 +59,10 @@ class LogObject extends DestructableObject {
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;
         }
-
+        this.animation.setFrame(3 - this.hp);
     }
 
     takeDamage(dmg, dir, knockBack) {
         super.takeDamage(1, dir, knockBack);
-        this.animation.setFrame(this.animation.getFrame() + 1);
     }
 }

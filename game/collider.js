@@ -141,7 +141,7 @@ function checkCollision(pos1, collider1, pos2, collider2) {
  * @param {object} pos1 The {x: , y: } position of the first entity.
  * @param {Collider} collider1 The first entity's collider.
  * @param {object} pos2 The {x: , y: } position of the second entity.
- * @param {collider} collider2 The second entity's collider.
+ * @param {Collider} collider2 The second entity's collider.
  * @returns {object} Returns the new positions for each entity formatted as:
  *      {pos1: {x: , y: }, pos2: {x: , y: }}
  */
