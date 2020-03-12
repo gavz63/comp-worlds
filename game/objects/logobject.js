@@ -51,11 +51,10 @@ class LogObject extends DestructableObject {
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;
         }
-
+        this.animation.setFrame(3 - this.hp);
     }
 
     takeDamage(dmg, dir, knockBack) {
         super.takeDamage(1, dir, knockBack);
-        this.animation.setFrame(this.animation.getFrame() + 1);
     }
 }
