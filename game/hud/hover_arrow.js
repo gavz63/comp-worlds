@@ -6,5 +6,7 @@ class HoverArrow extends Entity {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 5, y: 0},
             9, true, STANDARD_DRAW_SCALE);
+            
+
     }
 }

@@ -1,5 +1,5 @@
 class Post extends DestructableObject {
-    constructor(game, x, y) {
+    constructor(game, x, y, falling = false) {
         super(game, x, y);
 
         this.targetLocation = {x: x, y: y};
@@ -21,7 +21,12 @@ class Post extends DestructableObject {
         this.startY = this.y - this.dir.y * 10000;
 
         let that = this;
-        this.fallingTimer = new TimerCallback(this.game, RandomBetween(5, 10), false, function () {
+        let fallTime = 0;
+        if(falling)
+        {
+          fallTime = RandomBetween(5, 10);
+        }
+        this.fallingTimer = new TimerCallback(this.game, fallTime, false, function () {
             that.fallingTimer = null;
             that.x = that.targetLocation.x;
             that.y = that.targetLocation.y;
@@ -87,24 +92,27 @@ class Post extends DestructableObject {
     update() {
 
         this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
-
-        if (this.fallingTimer !== null) {
-            let fallDir = dirV({x: this.startX, y: this.startY}, this.targetLocation);
-            this.x = this.startX + fallDir.x * smoothStartN(this.fallingTimer.getPercent(), 2);
-            this.y = this.startY + fallDir.y * smoothStartN(this.fallingTimer.getPercent(), 2);
-            this.fallingSpeed = 10 * smoothStopN(this.fallingTimer.getPercent(), 3);
+      
+      if(this.fallingTimer !== null)
+      {
+        let fallDir = dirV({x: this.startX, y: this.startY}, this.targetLocation);
+        this.x = this.startX + fallDir.x * smoothStartN(this.fallingTimer.getPercent(), 2);
+        this.y = this.startY + fallDir.y * smoothStartN(this.fallingTimer.getPercent(), 2);
+        this.fallingSpeed = 10 * smoothStopN(this.fallingTimer.getPercent(), 3);
+      }
+      this.postSections[this.postSections.length-1].animation.setFrame( Math.floor((6 - this.hp)/2) );
+      for(let i = this.postSections.length-1; i >= 0; i--)
+      {
+        this.postSections[i].update();
+      }
+      if(this.game.game_state === GAME_STATES.PLAYING)
+      {
+        while (this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
+            let vec = normalizeV(dirV(this, this.game.player));
+            this.game.player.x += vec.x;
+            this.game.player.y += vec.y;
         }
-        this.postSections[this.postSections.length - 1].animation.setFrame(Math.floor((6 - this.hp) / 2));
-        for (let i = this.postSections.length - 1; i >= 0; i--) {
-            this.postSections[i].update();
-        }
-        if (this.game.player !== null) {
-            while (checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
-                let vec = normalizeV(dirV(this, this.game.player));
-                this.game.player.x += vec.x;
-                this.game.player.y += vec.y;
-            }
-        }
+      }
     }
 }
 

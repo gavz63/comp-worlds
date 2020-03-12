@@ -1,22 +1,22 @@
 class Level4 {
     constructor() {
-        this.width = 16;
+        this.width = 15;
         this.height = 9;
-        this.floorType = 0;
+        this.floorType = 2;
         this.wallType = 0;
-        this.nextLevel = null;
+        this.nextLevel = Level5.prototype;
         this.musicId = 'bossMusic';
 
         this.layout =
-            "#--------------#" +
-            "#--------------#" +
-            "#--------------#" +
-            "#-PPPPPPPPPPPP-#" +
-            "#-P----------P-#" +
-            "#-P----------P-#" +
-            "##P----------P##" +
-            "S-------------#E" +
-            "################";
+            "###############" +
+            "#PP--------PPP#" +
+            "#PP-PPPPPP--PP#" +
+            "P---P----PP-PP#" +            
+            "S-PPP---------E" +
+            "P---P----PP-PP#" +
+            "#PP-PPPPPP--PP#" +
+            "#PP--------PPP#" +
+            "###############";
 
         this.playerSpawner = null;
         this.wallSpawnerList = [];
@@ -27,20 +27,92 @@ class Level4 {
         this.pickupList = [];
         this.unlockableCharacter = [];
         
-        this.wallSpawnerList.push({
-           x: 1,
-           y: 7,
-           room: {upperLeft: {x: 2, y: 0}, bottomRight: {x: 15, y: 8}}
+        this.unlockableCharacter.push(
+        {
+            x: 6.5,
+            y: 4,
+            characterClass: new King()
         });
         
         this.roomSpawnerList.push({
-            x: 7.5,
-            y: 4.7,
-            room: {upperLeft: {x: 1, y: 0}, bottomRight: {x: 14, y: 7}},
+            x: 7,
+            y: 4,
+            room: {upperLeft: {x: 1, y: 0}, bottomRight: {x: 13, y: 8}},
             lockCam: true,
-            dropKey: true, // drops a key at this. x, y
+            dropKey: false, // drops a key at this. x, y
             dropPotion: false,
             zoom: DEFAULT_ZOOM * 5.5
+        });
+        
+        this.pickupList.push({
+          x: 5,
+          y: 3,
+          type: Post.prototype
+        });        
+        this.pickupList.push({
+          x: 5.75,
+          y: 3,
+          type: Post.prototype
+        });        
+        this.pickupList.push({
+          x: 6.5,
+          y: 3,
+          type: Post.prototype
+        });        
+        this.pickupList.push({
+          x: 7.25,
+          y: 3,
+          type: Post.prototype
+        });
+        this.pickupList.push({
+          x: 8,
+          y: 3,
+          type: Post.prototype
+        }); 
+        this.pickupList.push({
+          x: 5,
+          y: 3.66,
+          type: Post.prototype
+        }); 
+        this.pickupList.push({
+          x: 5,
+          y: 4.33,
+          type: Post.prototype
+        });      
+        this.pickupList.push({
+          x: 8,
+          y: 3.66,
+          type: Post.prototype
+        });            
+        this.pickupList.push({
+          x: 8,
+          y: 4.33,
+          type: Post.prototype
+        });       
+        this.pickupList.push({
+          x: 5,
+          y: 5,
+          type: Post.prototype
+        });       
+        this.pickupList.push({
+          x: 5.75,
+          y: 5,
+          type: Post.prototype
+        });
+        this.pickupList.push({
+          x: 6.5,
+          y: 5,
+          type: Post.prototype
+        });
+        this.pickupList.push({
+          x: 7.25,
+          y: 5,
+          type: Post.prototype
+        });
+        this.pickupList.push({
+          x: 8,
+          y: 5,
+          type: Post.prototype
         });
 
         this.spawnerList.push (
@@ -54,7 +126,7 @@ class Level4 {
                 radius: 10000,
                 total: 1,
                 roomNum: 1,
-                delay: 0
+                delay: Math.Infinity
             });
 
     }

@@ -262,6 +262,8 @@ function Ninja() {
   };
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
+    
+    this.sound = "ninja";
 
     this.stats = {
         maxHP: 1,

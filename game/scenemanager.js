@@ -48,14 +48,14 @@ class SceneManager {
         this.revived.forEach(function (elem) {
             remaining.push(new NPC(that.game, elem.characterClass, that.game._player.characterClass.stats.maxHP));
         });
-		if(this.levelFile.nextLevel !== null)
-		{
-			new Transition(this.game, remaining, playPos, new this.levelFile.nextLevel.constructor());
-		}
-		else // end of game. YOU WIN
-		{
-			new Transition(this.game, remaining, playPos, null);
-		}
+        if(this.levelFile.nextLevel !== null)
+        {
+          new Transition(this.game, remaining, playPos, new this.levelFile.nextLevel.constructor());
+        }
+        else // end of game. YOU WIN
+        {
+          new Transition(this.game, remaining, playPos, null);
+        }
         this.revived = [];
     }
 

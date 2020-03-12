@@ -15,6 +15,7 @@ class NPC extends Entity {
         if (this.hover) {
             this.game.addEntity(new HoverArrow(this.game, this.x, this.y - 24), LAYERS.HUD);
         }
+        
     }
 
     setHover() {
@@ -27,6 +28,8 @@ class NPC extends Entity {
         //create a new one and set this entity as the privileged hover npc
         this.game.addEntity(new HoverArrow(this.game, this.x, this.y - 24), LAYERS.HUD);
         this.hover = true;
+        
+        this.game.audioManager.playSound("click");
     }
 
     update() {
@@ -66,6 +69,7 @@ class NPC extends Entity {
                 if (this.game.click) {
                     this.game.click = false;
                     this.game.switchToPlayMode(this);
+                    this.game.audioManager.playSound(this.characterClass.sound);
                 } else if (!this.hover){
                     let i = 0;
                     for (i = 0; i < this.game.entities[LAYERS.HUD].length; i++) {
@@ -79,6 +83,7 @@ class NPC extends Entity {
             }
             if (this.game.spacebar && this.hover) {
                 this.game.switchToPlayMode(this);
+                this.game.audioManager.playSound(this.characterClass.sound);
             }
         }
     }

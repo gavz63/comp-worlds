@@ -528,11 +528,21 @@ class WoodDragon extends Enemy {
     }
 
     destroy() {
+      if(this.removeFromWorld === false)
+      {
         //super.destroy();
+        this.removeFromWorld = true;
         this.healthBar.destroy();
         if (this.hurtTimer) this.hurtTimer.destroy();
         if (this.colorTimer) this.colorTimer.destroy();
         this.game.sceneManager.levelComplete();
+        
+        this.game._entities[LAYERS.ENEMIES].length = 0;
+        this.game._entities[LAYERS.ENEMY_PROJECTILES].length = 0;
+        this.game._entities[LAYERS.OBJECTS].length = 0;
+        
+        console.log("DRAGON DESTROY");
+      }
     }
 }
 
@@ -643,6 +653,8 @@ class WoodDragonHead extends Enemy {
 
         //super.destroy();
         this.removeFromWorld = true;
+        
+        console.log("Head DESTROY");
     }
 
     takeDamage(dmg, dir, knockBack) {
@@ -717,6 +729,8 @@ class WoodDragonArm {
 
         if (this.hurtTimer) this.hurtTimer.destroy();
         if (this.colorTimer) this.colorTimer.destroy();
+        
+        console.log("ARM DESTROY");
     }
 
     takeDamage(dmg, dir, knockBack) {
