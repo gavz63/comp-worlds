@@ -178,6 +178,8 @@ function Lancer() {
 	};
 
     this.collider = new Collider(0, 0, 14, 14, 9, 9, 10, 120);
+    
+    this.sound = "lancer";
 
     this.stats = {
         maxHP: 3,
