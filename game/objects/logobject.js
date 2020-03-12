@@ -20,7 +20,7 @@ class LogObject extends DestructableObject {
                 {x: 0, y: 0}, {x: 2, y: 0}, 1, false, this.myScale);
             collider = new Collider(0, 0,
                 16 * 2, 16 * 2,
-                8 * 2, 8 * 2,
+                6 * 2, 6 * 2,
                 null, Infinity);
         }
         this.radius = null;
