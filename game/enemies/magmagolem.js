@@ -72,6 +72,17 @@ class MagmaGolem extends Enemy {
       this.hitSounds.push("golemHit2");
       this.hitSounds.push("golemHit3");
     }
+    
+    shockwave()
+    {
+      let shockwave = this.game.AM.getAsset("./img/projectiles/Shockwave.png");
+      let shockwaveAnimation = new Animation(shockwave,
+        128, 128,
+        {x: 0, y: 0}, {x: 2, y: 0},
+      8, true, STANDARD_DRAW_SCALE);
+      
+      new Shockwave(this.game, this.x + 96 * this.myAddScale / 10, this.y + 80 * this.myAddScale / 10, this, shockwaveAnimation, 5, 0, 10 * this.myAddScale / 10);
+    }
 
     update() {
       super.update();
@@ -139,6 +150,9 @@ class MagmaGolem extends Enemy {
       this.game.audioManager.playSound("golemSlam1");
       this.game.audioManager.playSound("golemSlam2");
       this.game._camera.shake(10, 5, .5);
+      
+      this.shockwave();
+      
       this.speed = 20;
       this.isCharging = false;
       this.isAttacking = false;

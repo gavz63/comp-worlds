@@ -67,6 +67,7 @@ class Post extends DestructableObject {
             this.postSections.push(new PostSection(this.game, 0, 0, this, a, i + 1));
         }
 
+        new DrawPost(this.game, 0, 0, this);
 
         //this.hitSounds.push("crateHit1");
         this.hitSounds.push("crateHit2");
@@ -83,10 +84,6 @@ class Post extends DestructableObject {
             this.crosshair.display();
         }
         super.draw();
-        for (let i = 0; i < this.postSections.length; i++) {
-            this.postSections[i].display();
-        }
-
     }
 
     update() {
@@ -108,15 +105,45 @@ class Post extends DestructableObject {
       if(this.game.game_state === GAME_STATES.PLAYING)
       {
         while (this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
-            let vec = normalizeV(dirV(this, this.game.player));
-            this.game.player.x += vec.x;
-            this.game.player.y += vec.y;
+          let vec = normalizeV(dirV(this, this.game.player));
+          if(Math.abs(vec.y) > Math.abs(vec.x))
+          {
+            vec.x = 0;
+          }
+          else if(Math.abs(vec.y) < Math.abs(vec.x))
+          {
+            vec.y = 0;
+          }
+          this.game.player.x += vec.x;
+          this.game.player.y += vec.y;
         }
       }
     }
 }
 
-class PostSection extends DestructableObject {
+class DrawPost extends Entity {
+  constructor(game, x, y, owner) 
+  {
+     super(game, x, y);
+     this.owner = owner;
+     
+     this.game.addEntity(this, LAYERS.WALL);
+  }
+  
+  update()
+  {
+  }
+  
+  draw()
+  {
+    for (let i = 0; i < this.owner.postSections.length; i++) {
+        this.owner.postSections[i].display();
+    }
+  }
+
+}
+
+class PostSection extends Entity {
     constructor(game, x, y, owner, animation, offset) {
         super(game, owner.x, owner.y);
 

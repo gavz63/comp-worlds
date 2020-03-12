@@ -347,9 +347,15 @@ class Player extends Entity {
             let newPos = this.game._sceneManager.level.move(this._collider, oldPos, {x: this.x, y: this.y});
             if (newPos === "pitfall") {
                 this.pitfall({x: (oldPos.x - this.x) * 8 + oldPos.x, y: (oldPos.y - this.y) * 8 + oldPos.y});
-            } else {
+            } else if(this.wallCollision({x: this.x, y: this.y}) !== true)
+            {
                 this.x = newPos.x;
                 this.y = newPos.y;
+            }
+            else
+            {
+              this.x = oldPos.x;
+              this.y = oldPos.y;
             }
 
             // Check if reached end of level.

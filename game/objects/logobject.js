@@ -48,6 +48,14 @@ class LogObject extends DestructableObject {
         });
         while (this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
             let vec = normalizeV(dirV(this, this.game.player));
+            if(Math.abs(vec.y) > Math.abs(vec.x))
+            {
+              vec.x = 0;
+            }
+            else if(Math.abs(vec.y) < Math.abs(vec.x))
+            {
+              vec.y = 0;
+            }
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;
         }
