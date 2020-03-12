@@ -123,7 +123,7 @@ function King() {
 
     this.stats = {
         maxHP: 5,
-        speed: 69,
+        speed: 300,//69,
         melee: false,
         projectileSpeed: 300,
         projectileLifetime: 1.5,

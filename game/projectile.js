@@ -107,7 +107,7 @@ class Projectile extends Entity {
                 //For each enemy
                 this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
                     if (!that.removeFromWorld && !enemy.removeFromWorld &&
-                        enemy.collider !== null && that.collider !== null &&
+                        enemy.collider && that.collider &&
                         checkCollision(that, that.collider, enemy, enemy.collider)) {
 
                         if (that.dieOnHit) {
@@ -117,10 +117,8 @@ class Projectile extends Entity {
                     }
                 });
             } else {
-                console.log(that.collider);
-                console.log(that.game.player.collider);
                 if (!that.removeFromWorld && !that.game.player.removeFromWorld &&
-                    !that.collider && !that.game.player._collider &&
+                    that.collider && that.game.player._collider &&
                     checkCollision(that, that.collider, that.game.player, that.game.player._collider)) {
                     let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
                         x: this.game.player.x,
@@ -135,7 +133,7 @@ class Projectile extends Entity {
             // Collide with objects regardless of owner
             this.game.entities[LAYERS.OBJECTS].forEach(function (object) {
                 if (that.removeFromWorld !== true && object.removeFromWorld !== true &&
-                    object.collider !== null && that.collider !== null &&
+                    object.collider && that.collider &&
                     checkCollision(that, that.collider, object, object.collider)) {
 
                     if (that.dieOnHit) {
@@ -580,7 +578,7 @@ class Slash extends Projectile {
         let that = this;
         this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
             if (!that.removeFromWorld && !elem.removeFromWorld &&
-                that.collider !== null && elem.collider !== null &&
+                that.collider && elem.collider &&
                 checkCollision(that, that.collider, elem, elem.collider)) {
                 let p = new Projectile(that.game, elem.x, elem.y, that.dir, that.owner.characterClass.stats.projectileSpeed, 3, true, that.owner, elem.animation, elem.dmg, elem.radius, elem.knockBack);
                 elem.destroy();
@@ -643,7 +641,7 @@ class Shuriken extends EasingProjectile {
             this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
                 if (!that.done &&
                     !that.removeFromWorld && !elem.removeFromWorld &&
-                    elem.collider !== null && that.collider !== null &&
+                    elem.collider && that.collider &&
                     checkCollision(that, that.collider, elem, elem.collider)) {
                     if (that.dieOnHit) {
                         that.destroy();
@@ -660,7 +658,7 @@ class Shuriken extends EasingProjectile {
             });
             this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
                 if (!that.removeFromWorld && !elem.removeFromWorld &&
-                    elem.collider !== null && that.collider !== null &&
+                    elem.collider && that.collider &&
                     checkCollision(that, that.collider, elem, elem.collider)) {
 
                     if (that.dieOnHit) {
@@ -679,7 +677,7 @@ class Shuriken extends EasingProjectile {
             });
         } else {
             if (!that.removeFromWorld && !that.game.player.removeFromWorld &&
-                that.collider !== null && that.game.player._collider !== null &&
+                that.collider && that.game.player._collider &&
                 checkCollision(that, that.collider, that.game.player, that.game.player._collider)) {
                 let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
                     x: this.game.player.x,
@@ -693,26 +691,25 @@ class Shuriken extends EasingProjectile {
 
     testPlayerCollision() {
         if ((this.done || this.timer.getPercent() > 0.3) &&
-            this.collider !== null && this.owner.collider !== null &&
+            this.collider && this.owner.collider &&
             checkCollision(this, this.collider, this.owner, this.owner.collider)) {
             this.destroy();
         }
     }
 
     setDone() {
-        if(this.done === false)
-        {
-          this.game.audioManager.playSound(getRandomSound(this.hitSounds));
-        
-          this.timer.pause();
-          this.timer.destroy();
-          this.animation.setFrame(6);
-          this.animation.pause();
-          this.done = true;
-          let that = this;
-          new TimerCallback(this.game, this.lifetime * 0.5, false, function () {
-              that.destroy();
-          });
+        if (this.done === false) {
+            this.game.audioManager.playSound(getRandomSound(this.hitSounds));
+
+            this.timer.pause();
+            this.timer.destroy();
+            this.animation.setFrame(6);
+            this.animation.pause();
+            this.done = true;
+            let that = this;
+            new TimerCallback(this.game, this.lifetime * 0.5, false, function () {
+                that.destroy();
+            });
         }
     }
 }
@@ -760,7 +757,7 @@ class Spin extends Slash {
             this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
                 let direction = normalizeV(dirV({x: that.x, y: that.y}, {x: elem.x, y: elem.y}));
                 if (!that.removeFromWorld && !elem.removeFromWorld &&
-                    that.collider !== null && elem.collider !== null &&
+                    that.collider && elem.collider &&
                     checkCollision(that, that.collider, elem, elem.collider)) {
                     if (that.dieOnHit) {
                         that.destroy();
@@ -771,7 +768,7 @@ class Spin extends Slash {
             this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
                 let direction = normalizeV(dirV({x: that.x, y: that.y}, {x: elem.x, y: elem.y}));
                 if (!that.removeFromWorld && !elem.removeFromWorld &&
-                    that.collider !== null && elem.collider !== null &&
+                    that.collider && elem.collider &&
                     checkCollision(that, that.collider, elem, elem.collider)) {
                     if (that.dieOnHit) {
                         that.destroy();
@@ -786,7 +783,7 @@ class Spin extends Slash {
         let that = this;
         this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (elem) {
             if (!that.removeFromWorld && !elem.removeFromWorld &&
-                that.collider !== null && elem.collider !== null &&
+                that.collider && elem.collider &&
                 checkCollision(that, that.collider, elem, elem.collider)) {
                 elem.destroy();
             }
@@ -810,7 +807,7 @@ class Peasant extends Entity {
         this.speed = 100;
         this.hp = 1;
         this.dmg = 1;
-        this.collider = new Collider(0, 0, 7, 8, 6, 6, 8, 5);
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, 8, 5);
         this.radius = 8;
         this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
 
@@ -834,15 +831,15 @@ class Peasant extends Entity {
         let that = this;
         this.game.entities[LAYERS.ENEMIES].forEach((e) => {
 
-            if (that.removeFromWorld && e.removeFromWorld &&
-                that.collider !== null && e.collider !== null &&
+            if (!that.removeFromWorld && !e.removeFromWorld &&
+                that.collider && e.collider &&
                 checkCollision(that, that.collider, e, e.collider)) {
 
                 e.takeDamage(1, {x: 0, y: 0}, false);
                 that.hp--;
                 if (that.hp <= 0) {
-                    this.destroy();
-                    this.owner.attackCounter--;
+                    that.destroy();
+                    that.owner.attackCounter--;
                 }
             }
 
@@ -855,14 +852,14 @@ class Peasant extends Entity {
         });
         this.game.entities[LAYERS.ENEMY_PROJECTILES].forEach((p) => {
 
-            if (that.removeFromWorld && p.removeFromWorld &&
-                that.collider !== null && p.collider !== null &&
+            if (!that.removeFromWorld && !p.removeFromWorld &&
+                that.collider && p.collider &&
                 checkCollision(that, that.collider, p, p.collider)) {
                 p.destroy();
-                this.hp--;
-                if (this.hp <= 0) {
-                    this.destroy();
-                    this.owner.attackCounter--;
+                that.hp--;
+                if (that.hp <= 0) {
+                    that.destroy();
+                    that.owner.attackCounter--;
                 }
             }
 
@@ -905,8 +902,8 @@ class Hail extends Entity {
             this.hit = true;
             let that = this;
             this.game.entities[LAYERS.ENEMIES].forEach((e) => {
-                if (that.removeFromWorld && e.removeFromWorld &&
-                    that.collider !== null && e.collider !== null &&
+                if (!that.removeFromWorld && !e.removeFromWorld &&
+                    that.collider && e.collider &&
                     checkCollision(that, that.collider, e, e.collider)) {
                     e.takeDamage(10, {x: 0, y: 0}, false);
                 }
@@ -958,10 +955,8 @@ class LogProjectile extends Projectile {
         super.update();
         let that = this;
         this.game.entities[LAYERS.OBJECTS].forEach(function (elem) {
-            if (elem.collider !== null) {
-                if (checkCollision(that, that.collider, elem, elem.collider)) {
-                    that.destroy();
-                }
+            if (elem.collider && checkCollision(that, that.collider, elem, elem.collider)) {
+                that.destroy();
             }
         });
         while (checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
@@ -1019,14 +1014,14 @@ class WoodChip extends Projectile {
         let that = this;
         this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
             if (!(enemy instanceof WoodDragonHead || enemy instanceof WoodDragonArm || enemy instanceof WoodDragon)) {
-                if (enemy.collider !== null && checkCollision(enemy, enemy.collider, that, that.collider)) {
+                if (enemy.collider && checkCollision(enemy, enemy.collider, that, that.collider)) {
                     enemy.destroy();
                 }
             }
         });
         this.game.entities[LAYERS.OBJECTS].forEach(function (object) {
             if (!(object instanceof Post || object instanceof PostSection)) {
-                if (object.collider !== null && checkCollision(object, object.collider, that, that.collider)) {
+                if (object.collider && checkCollision(object, object.collider, that, that.collider)) {
                     object.destroy();
                 }
             }
