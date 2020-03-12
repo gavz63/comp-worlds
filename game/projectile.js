@@ -1030,7 +1030,7 @@ class WoodChip extends Projectile {
             }
         });
 
-        if (checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
+        if (this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
             let attackedFromVector = normalizeV(dirV({x: this.x, y: this.y}, {
                 x: this.game.player.x,
                 y: this.game.player.y

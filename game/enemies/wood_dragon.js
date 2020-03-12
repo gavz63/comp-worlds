@@ -10,16 +10,15 @@ const MODE = {
 /* based on health. There are 3 phases that get progressively harder */
 const PHASE = {
     EASY: {
-        modeSet: [//MODE.WAKE_UP,
-            MODE.SCREEN_WIPE,  MODE.BULLET_HELL, MODE.AGGRESSIVE/*, MODE.AGGRESSIVE/*, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
-        timePerMode: 5
+        modeSet: [MODE.BULLET_HELL, MODE.AGGRESSIVE, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE],
+        timePerMode: 15
     },
     MEDIUM: {
-        modeSet: [MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.AGGRESSIVE],
+        modeSet: [MODE.REST, MODE.AGGRESSIVE, MODE.BULLET_HELL, /*MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.AGGRESSIVE*/],
         timePerMode: 10
     },
     HARD: {
-        modeSet: [MODE.SCREEN_WIPE, MODE.AGGRESSIVE, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.AGGRESSIVE],
+        modeSet: [MODE.REST, MODE.SCREEN_WIPE, MODE.AGGRESSIVE, /*MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.AGGRESSIVE*/],
         timePerMode: 5
     }
 };
@@ -106,40 +105,74 @@ class WoodDragon extends Enemy {
         this.animation.pause();
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
         this.head = new WoodDragonHead(this.game, this.spawner, this);
-        this.hp = 10;
         this.maxHp = 180;
+        this.hp = this.maxHp;
         this.hurt = false;
         this.healthBar = new HealthBar(this.game, 0, 100, 0.9, this, "HEART OF THE OVERGROWTH: GREAT WOOD DRAGON");
 
-        /* This stuff deals with switching phases and modes. */
-        this.phase = PHASE.EASY;
-        this.modeSetIndex = 0;
-        this.mode = this.phase.modeSet[this.modeSetIndex];
         let that = this;
-        this.modeTimer = new TimerCallback(game, this.phase.timePerMode, true, function () {
-            that.modeSetIndex += 1;
-            console.log("MSI2: " + that.modeSetIndex);
-            if (that.modeSetIndex === that.phase.modeSet.length) {
-                that.modeSetIndex = 0;
-            }
-            console.log("MSI3: " + that.modeSetIndex);
-
+        this.wakeTimer = new TimerCallback(this.game, 3, false, function () {
+            /* This stuff deals with switching phases and modes. */
+            that.phase = PHASE.EASY;
+            that.modeSetIndex = 0;
             that.mode = MODE.TRANSITION;
+            that.modeTimer = new TimerCallback(game, that.phase.timePerMode, true, function () {
+                that.changeMode();
+            });
         });
 
         this.hasTakenOff = false;
         this.isTakingOff = false;
         this.isLanding = false;
         this.hasBreathed = false;
+        this.restProc = false;
 
         this.hoverTimer = null;
         this.hoverTimer = null;
         this.landingTimer = null;
         this.woodChipTimer = null;
+        this.screenWipeTimer = null;
     }
 
+    changeMode() {
+        this.modeSetIndex += 1;
+        if (this.modeSetIndex === this.phase.modeSet.length) {
+            this.modeSetIndex = 0;
+        }
+        this.isTailWhipping = false;
+        this.mode = MODE.TRANSITION;
+    }
+
+    killTimers() {
+        if (this.hurtTimer) this.hurtTimer.destroy();
+        if (this.colorTimer) this.colorTimer.destroy();
+        if (this.modeTimer) this.modeTimer.destroy();
+        if (this.woodChipTimer) this.woodChipTimer.destroy();
+        if (this.hoverTimer) this.hoverTimer.destroy();
+        if (this.landingTimer) this.landingTimer.destroy();
+        if (this.switchDirectionTimer) this.switchDirectionTimer.destroy();
+        if (this.screenWipeTimer) this.screenWipeTimer.destroy();
+    }
     update() {
         super.update();
+        let that = this;
+        if (this.phase === PHASE.EASY && this.hp < this.maxHp * (2 / 3)) {
+            this.killTimers();
+            this.mode = MODE.TRANSITION;
+            this.phase = PHASE.MEDIUM;
+            this.modeSetIndex = 0;
+            this.modeTimer = new TimerCallback(this.game, this.phase.timePerMode, true, function () {
+                that.changeMode();
+            });
+        } else if (this.phase === PHASE.MEDIUM && this.hp < this.maxHp * (1 / 3)) {
+            this.killTimers();
+            this.mode = MODE.TRANSITION;
+            this.phase = PHASE.HARD;
+            this.modeSetIndex = 0;
+            this.modeTimer = new TimerCallback(this.game, this.phase.timePerMode, true, function () {
+                that.changeMode();
+            });
+        }
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
         this.myBodyScale[0] = STANDARD_DRAW_SCALE * this.myBodyAddScale;
         this.headOffset = STANDARD_ENTITY_FRAME_WIDTH * this.myBodyAddScale * 3;
@@ -152,11 +185,39 @@ class WoodDragon extends Enemy {
                 this.doBulletHell();
                 break;
             case MODE.SCREEN_WIPE:
+                if (!this.modeTimer.paused) {
+                    let that = this;
+                    this.modeTimer.pause();
+                    this.screenWipeTimer = new TimerCallback(this.game, 6, false, function () {
+                        that.screenWipeTimer = null;
+                        that.modeTimer.unpause();
+                        that.changeMode();
+                        that.game.entities[LAYERS.OBJECTS].forEach(function (object) {
+                            if (object instanceof Post) {
+                                object.destroy();
+                            }
+                        });
+                    });
+                }
                 this.doScreenWipe();
                 break;
-            case  MODE.WAKE_UP:
-                break;
             case MODE.REST:
+                if (!this.restProc) {
+                    let enemies = [Skeleton.prototype, Snek.prototype, Snak.prototype,
+                        CactusBoi.prototype, StoneGolem.prototype, Bat.prototype];
+                    for (let i = 0; i < 10; i += 2) {
+                        let rand = Math.floor(Math.random() * enemies.length);
+                        new enemies[rand].constructor(this.game, indexToCoordinate(i + 3), indexToCoordinate(4));
+                    }
+                    this.restProc = true;
+                    this.phase.modeSet.shift();
+                }
+                if (this.phase === PHASE.MEDIUM && this.hp < (this.maxHp * (2 / 3)) - 2) {
+                    this.hp+= 0.01;
+                } else if (this.hp < (this.maxHp * (1 / 3)) - 2) {
+                    this.hp += 0.02;
+                }
+
                 break;
             case MODE.TRANSITION:
                 this.doTransition();
@@ -184,7 +245,7 @@ class WoodDragon extends Enemy {
                     let degreeToRadians = 2 * Math.PI / 360;
                     for (let i = 0; i < 50; i++) {
                         new WoodChip(that.game,
-                            that.head.x, that.head.y,
+                            that.head.x, that.head.y + 75,
                             normalizeV({
                                 x: Math.cos((i * rotate + 22.5) * degreeToRadians),
                                 y: Math.sin((i * rotate + 22.5) * degreeToRadians)
@@ -197,6 +258,7 @@ class WoodDragon extends Enemy {
     }
 
     doTransition() {
+        this.restProc = false;
         this.modeTimer.pause();
         if (this.woodChipTimer) {
             this.woodChipTimer.destroy();
@@ -285,6 +347,7 @@ class WoodDragon extends Enemy {
             if (this.isTakingOff && this.animation.isDone()) { //Check if we are done taking off
                 this.isTakingOff = false;
                 switch (this.phase.modeSet[this.modeSetIndex]) {
+                    case MODE.REST:
                     case MODE.AGGRESSIVE:
                         if (this.direction === DIRECTION_RIGHT) {
                             this.animation = this.shadowRightAnimation;
@@ -528,21 +591,18 @@ class WoodDragon extends Enemy {
     }
 
     destroy() {
-      if(this.removeFromWorld === false)
-      {
-        //super.destroy();
-        this.removeFromWorld = true;
-        this.healthBar.destroy();
-        if (this.hurtTimer) this.hurtTimer.destroy();
-        if (this.colorTimer) this.colorTimer.destroy();
-        this.game.sceneManager.levelComplete();
-        
-        this.game._entities[LAYERS.ENEMIES].length = 0;
-        this.game._entities[LAYERS.ENEMY_PROJECTILES].length = 0;
-        this.game._entities[LAYERS.OBJECTS].length = 0;
-        
-        console.log("DRAGON DESTROY");
-      }
+        if (this.removeFromWorld === false) {
+            //super.destroy();
+            this.removeFromWorld = true;
+            this.healthBar.destroy();
+            this.killTimers();
+
+            this.game.sceneManager.levelComplete();
+
+            this.game._entities[LAYERS.ENEMIES].length = 0;
+            this.game._entities[LAYERS.ENEMY_PROJECTILES].length = 0;
+            this.game._entities[LAYERS.OBJECTS].length = 0;
+        }
     }
 }
 
@@ -653,7 +713,7 @@ class WoodDragonHead extends Enemy {
 
         //super.destroy();
         this.removeFromWorld = true;
-        
+
         console.log("Head DESTROY");
     }
 
@@ -708,6 +768,22 @@ class WoodDragonArm {
                     this.animation.resetAnimation();
                     this.animation.pause();
                     //TODO create a slash projectile
+                    if (this.game.player) {
+                        let p = new Projectile(this.game,
+                            this.x, this.y,
+                            normalizeV(dirV(this, this.game.player)),
+                            100, 2, true, this,
+                            new Animation(ASSET_MANAGER.getAsset("./img/projectiles/ClawSlash.png"),
+                                STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+                                {x: 0, y: 0}, {x: 1, y: 0}, 7, true, this.myScale, 3),
+                            1, null, 10);
+                        p.collider = new Collider(0, 0, 16 * 3, 16 * 3, 9 * 3, 9 * 3, null, 15);
+
+                    }
+                }
+            } else {
+                if (this.game.player && lengthV(dirV(this.game.player, this)) < 200) { //TODO tweak range
+                    this.attack();
                 }
             }
         }
@@ -729,8 +805,6 @@ class WoodDragonArm {
 
         if (this.hurtTimer) this.hurtTimer.destroy();
         if (this.colorTimer) this.colorTimer.destroy();
-        
-        console.log("ARM DESTROY");
     }
 
     takeDamage(dmg, dir, knockBack) {
@@ -788,9 +862,6 @@ class WoodDragonRightArm extends WoodDragonArm {
             7, false, this.myScale);
         this.animation.pause();
         let that = this;
-        new TimerCallback(game, 2, true, function () {
-            that.attack();
-        });
     }
 
     update() {
