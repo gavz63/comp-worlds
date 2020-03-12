@@ -1019,7 +1019,11 @@ class WoodChip extends Projectile {
             }
         });
         this.game.entities[LAYERS.OBJECTS].forEach(function (object) {
-            if (!(object instanceof Post || object instanceof PostSection)) {
+            if (object instanceof Post || object instanceof PostSection) {
+                if (object.collider && checkCollision(object, object.collider, that, that.collider)) {
+                    that.destroy();
+                }
+            } else {
                 if (object.collider && checkCollision(object, object.collider, that, that.collider)) {
                     object.destroy();
                 }

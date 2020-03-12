@@ -107,7 +107,7 @@ class Post extends DestructableObject {
       }
       if(this.game.game_state === GAME_STATES.PLAYING)
       {
-        while (this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player.collider)) {
+        while (this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
             let vec = normalizeV(dirV(this, this.game.player));
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;
