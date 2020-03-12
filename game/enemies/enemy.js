@@ -168,7 +168,7 @@ class Enemy extends Entity {
       {
         if(this.layerHit === true)
         {
-          this.game.audioManager.playSound(getRandomSound(this.hitSounds));
+          if (this.hitSounds !== []) this.game.audioManager.playSound(getRandomSound(this.hitSounds));
         }
         if(!this.invincible)
         {

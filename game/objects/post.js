@@ -21,7 +21,7 @@ class Post extends DestructableObject {
         this.startY = this.y - this.dir.y * 10000;
 
         let that = this;
-        let fallTime = 0;
+        let fallTime = 1;
         if(falling)
         {
           fallTime = RandomBetween(5, 10);
@@ -32,6 +32,35 @@ class Post extends DestructableObject {
             that.y = that.targetLocation.y;
             that.fallingSpeed = 1;
             that.crosshair = null;
+            if (that.game.player) {
+                if (!that.removeFromWorld && !that.game.player.removeFromWorld &&
+                    that.game.player.collider && that.collider &&
+                    checkCollision(that, that.collider, that.game.player, that.game.player.collider)) {
+
+                    that.game.player.takeDmg(1, that.dir);
+                }
+            }
+            that.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
+                if (!that.removeFromWorld && !enemy.removeFromWorld &&
+                    enemy.collider && that.collider &&
+                    checkCollision(that, that.collider, enemy, enemy.collider)) {
+
+                    if (that.dieOnHit) {
+                        that.destroy();
+                    }
+                    enemy.takeDamage(that.dmg, that.dir, that.knockBack);
+                }
+            });
+            this.game.entities[LAYERS.OBJECTS].forEach(function (object) {
+                if (that !== object) {
+                    if (that.removeFromWorld !== true && object.removeFromWorld !== true &&
+                        object.collider && that.collider &&
+                        checkCollision(that, that.collider, object, object.collider)) {
+
+                        object.destroy();
+                    }
+                }
+            });
         });
         this.fallingSpeed = 0;
 

@@ -1,11 +1,12 @@
 class EnemyCrosshair extends Entity
 {
-  constructor(game, x, y, owner)
+  constructor(game, x, y, owner, trackPlayer = false)
   {
     super(game, x, y);
     
     this.owner = owner;
-    
+    this.trackPlayer = trackPlayer;
+    this.speed = 100;
     this.myAddScale = 3;
     this.myScale = [this.myAddScale * STANDARD_DRAW_SCALE];
     
@@ -18,9 +19,20 @@ class EnemyCrosshair extends Entity
     
     this.game.addEntity(this, LAYERS.HUD);
   }
-  
+  update() {
+    super.update();
+    if (this.trackPlayer && this.game.player) {
+      let dir = normalizeV(dirV(this, this.game.player));
+      this.x += dir.x * this.game._clockTick * this.speed;
+      this.y += dir.y * this.game._clockTick * this.speed;
+    }
+  }
+
   draw()
   {
+    if (this.trackPlayer) {
+      this.display();
+    }
   }
   
   display()

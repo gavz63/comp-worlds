@@ -241,14 +241,14 @@ class WoodDragon extends Enemy {
             let that = this;
             if (this.woodChipTimer === null) {
                 this.woodChipTimer = new TimerCallback(this.game, 0.1, true, function () {
-                    let rotate = 135 / 50;
+                    let rotate = 180 / 50;
                     let degreeToRadians = 2 * Math.PI / 360;
                     for (let i = 0; i < 50; i++) {
                         new WoodChip(that.game,
                             that.head.x, that.head.y + 75,
                             normalizeV({
-                                x: Math.cos((i * rotate + 22.5) * degreeToRadians),
-                                y: Math.sin((i * rotate + 22.5) * degreeToRadians)
+                                x: Math.cos((i * rotate) * degreeToRadians),
+                                y: Math.sin((i * rotate) * degreeToRadians)
                             }),
                             that.head);
                     }
@@ -314,8 +314,11 @@ class WoodDragon extends Enemy {
                         that.hoverTimer = null;
                         if (that.direction === DIRECTION_LEFT) {
                             that.animation = that.bodyLeftAnimation;
+                            that.collider = that.bodyLeftCollider;
                         } else {
                             that.animation = that.bodyRightAnimation;
+                            that.collider = that.bodyRightCollider;
+
                         }
                         that.animation.resetAnimation();
                         that.animation.pause();
@@ -332,8 +335,10 @@ class WoodDragon extends Enemy {
                 this.isLanding = false;
                 if (this.direction === DIRECTION_LEFT) {
                     this.animation = this.bodyLeftAnimation;
+                    this.collider = this.bodyLeftCollider;
                 } else {
                     this.animation = this.bodyRightAnimation;
+                    this.collider = this.bodyRightCollider;
                 }
                 this.head = new WoodDragonHead(this.game, this.spawner, this);
                 this.modeTimer.reset();
@@ -399,7 +404,6 @@ class WoodDragon extends Enemy {
                 this.isTailWhipping = false;
                 this.animation.resetAnimation();
                 this.animation.pause();
-                //TODO shoot horizontal log
                 new LogProjectile(this.game, this.x, this.y, vector(0, 1), this);
             }
         }
@@ -676,7 +680,14 @@ class WoodDragonHead extends Enemy {
             this.animation.pause();
             this.postLaunchWaiting = true;
             //TODO show post over dragon head then it disappears (eh maybe)
-
+            if (this.game.player) {
+                let enemy_crosshair = new EnemyCrosshair(this.game, this.game.player.x, this.game.player.y, this, true);
+                console.log("yo");
+                new TimerCallback(this.game, 2, false, function() {
+                    enemy_crosshair.destroy();
+                    new Post(that.game, enemy_crosshair.x, enemy_crosshair.y);
+                })
+            }
             let that = this;
             this.postLaunchTimer = new TimerCallback(this.game, 0.75, false, function () {
                 that.animation = that.stdAnimation;
@@ -685,6 +696,7 @@ class WoodDragonHead extends Enemy {
                 that.isPostLaunching = false;
                 that.postLaunchWaiting = false;
                 //TODO create the reticle and its timers
+
             });
         }
     }
