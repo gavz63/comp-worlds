@@ -9,7 +9,7 @@ class PCRemnant extends Entity {
         game.addEntity(this, LAYERS.PICKUPS);
         console.log(animation._sheetWidth);
         
-        this.destroySounds.push("keyPickup");
+        this.destroySounds.push(characterClass.sound);
     }
 
     update() {

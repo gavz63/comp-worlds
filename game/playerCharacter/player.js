@@ -201,7 +201,7 @@ class Player extends Entity {
                 this.isAttacking = false;
             }
             //If we have received input we must be moving and/or attacking
-            if (this.game.click || this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking) {
+            if (this.game.click || this.game.clicking || this.game.w || this.game.a || this.game.s || this.game.d || this.isAttacking) {
                 //If we're moving
                 if (this.game.keyStack.length > 0 && !this.isAttacking) {
                     let that = this;
@@ -233,6 +233,8 @@ class Player extends Entity {
                     } else {
                         this.regularAttack();
                     }
+                } else if (this.game.clicking && !this.isAttacking) {
+                    this.regularAttack();
                 }
 
                 //If we were idle we aren't anymore, so reset the idle timer
