@@ -36,7 +36,7 @@ class Level5 {
         this.roomSpawnerList.push({
             x: 7.5,
             y: 4.7,
-            room: {upperLeft: {x: 1, y: 0}, bottomRight: {x: 14, y: 7}},
+            room: {upperLeft: {x: 1, y: 0}, bottomRight: {x: 15, y: 8}},
             lockCam: true,
             dropKey: true, // drops a key at this. x, y
             dropPotion: false,

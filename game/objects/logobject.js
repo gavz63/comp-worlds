@@ -46,18 +46,30 @@ class LogObject extends DestructableObject {
                 }
             }
         });
-        while (this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
+        while (this.removeFromWorld !== true && this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
             let vec = normalizeV(dirV(this, this.game.player));
-            if(Math.abs(vec.y) > Math.abs(vec.x))
+            if(Math.abs(vec.x) < 0.1)
             {
               vec.x = 0;
             }
-            else if(Math.abs(vec.y) < Math.abs(vec.x))
+            else if(Math.abs(vec.y) < 0.1)
             {
               vec.y = 0;
             }
+
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;
+            while(this.game.player.wallCollision(this.game.player) === true)
+            {
+              if(this.removeFromWorld !== true)
+              {
+                this.game.player.takeDmg(1, vectorToDir(vec));
+                this.destroy();
+              }
+              
+              this.game.player.x -= vec.x;
+              this.game.player.y -= vec.y;
+            }
         }
         this.animation.setFrame(3 - this.hp);
     }
