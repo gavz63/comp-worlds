@@ -121,9 +121,11 @@ function King() {
 
     this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
 
+    this.sound = "";
+
     this.stats = {
         maxHP: 5,
-        speed: 300,//69,
+        speed: 69,
         melee: false,
         projectileSpeed: 300,
         projectileLifetime: 1.5,

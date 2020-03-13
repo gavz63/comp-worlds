@@ -889,6 +889,28 @@ class Peasant extends Entity {
             }
         });
 
+        this.game.entities[LAYERS.OBJECTS].forEach((p) => {
+
+            if (!that.removeFromWorld && !p.removeFromWorld &&
+                that.collider && p.collider &&
+                checkCollision(that, that.collider, p, p.collider)) {
+                p.takeDamage(1, normalizeV(dirV(that, p)), 0);
+                that.hp--;
+                if (that.hp <= 0) {
+                    that.destroy();
+                    that.owner.attackCounter--;
+                }
+            }
+
+
+            let pD = lengthV({x: p.x - that.owner.x, y: p.y - that.owner.y});
+            if (pD < dist) {
+                target.x = p.x;
+                target.y = p.y;
+                dist = pD;
+            }
+        });
+
         if (lengthV({x: this.x - target.x, y: this.y - target.y}) > this.precision) {
             let attackVect = {x: target.x - this.x, y: target.y - this.y};
             attackVect = normalizeV(attackVect);
@@ -902,11 +924,13 @@ class Hail extends Entity {
     constructor(game, x, y, owner) {
         super(game, x, y);
         this.owner = owner;
+        this.myAddScale = 2.5;
+        this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         this.animation = new Animation(game.AM.getAsset("./img/projectiles/Arrows.png"), 256, 256,
-            {x: 0, y: 0}, {x: 4, y: 0}, 12, false, STANDARD_DRAW_SCALE);
+            {x: 0, y: 0}, {x: 4, y: 0}, 12, false, this.myScale);
         this.animation.unpause();
         this.dmg = 1;
-        this.collider = new Collider(0, 0, 0, 0, 0, 0, 35, 35);
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, 35 * 3, 35);
         this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
         this.hit = false;
         this.grounded = 0;
@@ -923,6 +947,13 @@ class Hail extends Entity {
                     that.collider && e.collider &&
                     checkCollision(that, that.collider, e, e.collider)) {
                     e.takeDamage(10, {x: 0, y: 0}, false);
+                }
+            });
+            this.game.entities[LAYERS.OBJECTS].forEach((e) => {
+                if (!that.removeFromWorld && !e.removeFromWorld &&
+                    that.collider && e.collider &&
+                    checkCollision(that, that.collider, e, e.collider)) {
+                    e.destroy();
                 }
             });
         }
