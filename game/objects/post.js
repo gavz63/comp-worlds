@@ -131,9 +131,9 @@ class Post extends DestructableObject {
       {
         this.postSections[i].update();
       }
-      if(this.game.game_state === GAME_STATES.PLAYING)
+      if(this.game.game_state === GAME_STATES.PLAYING && this.fallingTimer === null)
       {
-        while (this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
+        while (this.removeFromWorld !== true && this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
           let vec = normalizeV(dirV(this, this.game.player));
           if(Math.abs(vec.y) > Math.abs(vec.x))
           {
@@ -143,8 +143,22 @@ class Post extends DestructableObject {
           {
             vec.y = 0;
           }
+          
+          this.game.player.takeDmg(1, vectorToDir(vec));
+              
+          if(vec.x === 0 && vec.y === 0)
+          {
+            vec.x = 1;
+          }
+          
           this.game.player.x += vec.x;
           this.game.player.y += vec.y;
+          while(this.game.player.wallCollision(this.game.player) === true)
+            {
+              
+              this.game.player.x -= vec.x;
+              this.game.player.y -= vec.y;
+            }
         }
       }
     }
