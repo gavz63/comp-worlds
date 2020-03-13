@@ -20,7 +20,7 @@ class AudioManager {
     }
     
     playSound(soundId) {
-      if(soundId !== null)
+      if(soundId !== null && soundId !== "")
       {
         let audioFile = document.getElementById(soundId).cloneNode(true);
         audioFile.volume = this.masterVolume * this.sfxVolume / 100 / 100;

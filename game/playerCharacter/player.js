@@ -157,20 +157,12 @@ class Player extends Entity {
         //Testing collision with enemies
         this.game.entities[LAYERS.ENEMIES].forEach(function (elem) {
             let collided = false;
-            if (elem.radius !== null) {
-                if (circleToCircle(that, elem)) {
-                    collided = true;
-                }
-            } else if (elem.collider !== null) {
+            if (elem.collider !== null) {
                 if (checkCollision(that, that.collider, elem, elem.collider)) {
-                    collided = true;
+                    let attackedFromVector = normalizeV(dirV({x: elem.x, y: elem.y}, {x: that.x, y: that.y}));
+                    var attackedFromDir = vectorToDir(attackedFromVector);
+                    that.takeDmg(1, attackedFromDir);
                 }
-            }
-            if (collided) {
-                //that.destroy(); // this was kinda awesome btw.
-                let attackedFromVector = normalizeV(dirV({x: elem.x, y: elem.y}, {x: that.x, y: that.y}));
-                var attackedFromDir = vectorToDir(attackedFromVector);
-                that.takeDmg(1, attackedFromDir);
             }
         });
 

@@ -122,6 +122,7 @@ ASSET_MANAGER.queueDownload("./img/projectiles/LogFlyingHorizontal.png");
 ASSET_MANAGER.queueDownload("./img/objects/LogObjectVertical.png");
 ASSET_MANAGER.queueDownload("./img/objects/LogObjectHorizontal.png");
 ASSET_MANAGER.queueDownload("./img/projectiles/ClawSlash.png");
+ASSET_MANAGER.queueDownload("./img/projectiles/Bite.png");
 
 ASSET_MANAGER.downloadAll(function () {
     let canvas = document.getElementById('gameWorld');

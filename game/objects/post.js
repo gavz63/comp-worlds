@@ -22,9 +22,8 @@ class Post extends DestructableObject {
 
         let that = this;
         let fallTime = 1;
-        if(falling)
-        {
-          fallTime = RandomBetween(5, 10);
+        if (falling) {
+            fallTime = RandomBetween(5, 10);
         }
         this.fallingTimer = new TimerCallback(this.game, fallTime, false, function () {
             that.fallingTimer = null;
@@ -33,15 +32,38 @@ class Post extends DestructableObject {
             that.fallingSpeed = 1;
             that.crosshair = null;
             if (that.game.player) {
-                if (!that.removeFromWorld && !that.game.player.removeFromWorld &&
+                while (!that.removeFromWorld && !that.game.player.removeFromWorld &&
                     that.game.player.collider && that.collider &&
                     checkCollision(that, that.collider, that.game.player, that.game.player.collider)) {
 
+                    let vec = normalizeV(dirV(that, that.game.player));
+                    if (Math.abs(vec.y) > Math.abs(vec.x)) {
+                        vec.x = 0;
+                    } else if (Math.abs(vec.y) < Math.abs(vec.x)) {
+                        vec.y = 0;
+                    }
+                    if (vec.x === 0 && vec.y === 0) {
+                        vec.x = 1;
+                    }
+
+                    that.game.player.x += vec.x;
+                    that.game.player.y += vec.y;
+
                     that.game.player.takeDmg(1, that.dir);
+                    if (that.game.player.wallCollision(that.game.player)) {
+
+                        that.game.player.x -= vec.x;
+                        that.game.player.y -= vec.y;
+                        that.destroy();
+                    }
                 }
             }
+
+
+
             that.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
-                if (!that.removeFromWorld && !enemy.removeFromWorld &&
+                if (!(enemy instanceof WoodDragon || enemy instanceof WoodDragonHead || enemy instanceof WoodDragonArm) &&
+                    !that.removeFromWorld && !enemy.removeFromWorld &&
                     enemy.collider && that.collider &&
                     checkCollision(that, that.collider, enemy, enemy.collider)) {
 
@@ -118,71 +140,51 @@ class Post extends DestructableObject {
     update() {
 
         this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
-      
-      if(this.fallingTimer !== null)
-      {
-        let fallDir = dirV({x: this.startX, y: this.startY}, this.targetLocation);
-        this.x = this.startX + fallDir.x * smoothStartN(this.fallingTimer.getPercent(), 2);
-        this.y = this.startY + fallDir.y * smoothStartN(this.fallingTimer.getPercent(), 2);
-        this.fallingSpeed = 10 * smoothStopN(this.fallingTimer.getPercent(), 3);
-      }
-      this.postSections[this.postSections.length-1].animation.setFrame( Math.floor((6 - this.hp)/2) );
-      for(let i = this.postSections.length-1; i >= 0; i--)
-      {
-        this.postSections[i].update();
-      }
-      if(this.game.game_state === GAME_STATES.PLAYING && this.fallingTimer === null)
-      {
-        while (this.removeFromWorld !== true && this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
-          let vec = normalizeV(dirV(this, this.game.player));
-          if(Math.abs(vec.y) > Math.abs(vec.x))
-          {
-            vec.x = 0;
-          }
-          else if(Math.abs(vec.y) < Math.abs(vec.x))
-          {
-            vec.y = 0;
-          }
-          
-          this.game.player.takeDmg(1, vectorToDir(vec));
-              
-          if(vec.x === 0 && vec.y === 0)
-          {
-            vec.x = 1;
-          }
-          
-          this.game.player.x += vec.x;
-          this.game.player.y += vec.y;
-          while(this.game.player.wallCollision(this.game.player) === true)
-            {
-              
-              this.game.player.x -= vec.x;
-              this.game.player.y -= vec.y;
+
+        if (this.fallingTimer !== null) {
+            let fallDir = dirV({x: this.startX, y: this.startY}, this.targetLocation);
+            this.x = this.startX + fallDir.x * smoothStartN(this.fallingTimer.getPercent(), 2);
+            this.y = this.startY + fallDir.y * smoothStartN(this.fallingTimer.getPercent(), 2);
+            this.fallingSpeed = 10 * smoothStopN(this.fallingTimer.getPercent(), 3);
+        } else if (this.game.game_state === GAME_STATES.PLAYING) {
+            while (this.removeFromWorld !== true && this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
+                let vec = normalizeV(dirV(this, this.game.player));
+                if (Math.abs(vec.y) > Math.abs(vec.x)) {
+                    vec.x = 0;
+                } else if (Math.abs(vec.y) < Math.abs(vec.x)) {
+                    vec.y = 0;
+                }
+                if (vec.x === 0 && vec.y === 0) {
+                    vec.x = 1;
+                }
+
+                this.game.player.x += vec.x;
+                this.game.player.y += vec.y;
             }
         }
-      }
+        this.postSections[this.postSections.length - 1].animation.setFrame(Math.floor((6 - this.hp) / 2));
+        for (let i = this.postSections.length - 1; i >= 0; i--) {
+            this.postSections[i].update();
+        }
     }
 }
 
 class DrawPost extends Entity {
-  constructor(game, x, y, owner) 
-  {
-     super(game, x, y);
-     this.owner = owner;
-     
-     this.game.addEntity(this, LAYERS.WALL);
-  }
-  
-  update()
-  {
-  }
-  
-  draw()
-  {
-    for (let i = 0; i < this.owner.postSections.length; i++) {
-        this.owner.postSections[i].display();
+    constructor(game, x, y, owner) {
+        super(game, x, y);
+        this.owner = owner;
+
+        this.game.addEntity(this, LAYERS.WALL);
     }
-  }
+
+    update() {
+    }
+
+    draw() {
+        for (let i = 0; i < this.owner.postSections.length; i++) {
+            this.owner.postSections[i].display();
+        }
+    }
 
 }
 

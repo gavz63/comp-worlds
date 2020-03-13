@@ -10,7 +10,7 @@ const MODE = {
 /* based on health. There are 3 phases that get progressively harder */
 const PHASE = {
     EASY: {
-        modeSet: [MODE.BULLET_HELL, MODE.AGGRESSIVE, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE],
+        modeSet: [MODE.BULLET_HELL, MODE.SCREEN_WIPE/*, MODE.AGGRESSIVE, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE*/],
         timePerMode: 15
     },
     MEDIUM: {
@@ -145,7 +145,10 @@ class WoodDragon extends Enemy {
 
     killTimers() {
         if (this.hurtTimer) this.hurtTimer.destroy();
-        if (this.colorTimer) this.colorTimer.destroy();
+        if (this.colorTimer) {
+            this.colorTimer.destroy();
+            this.color = null;
+        }
         if (this.modeTimer) this.modeTimer.destroy();
         if (this.woodChipTimer) this.woodChipTimer.destroy();
         if (this.hoverTimer) this.hoverTimer.destroy();
@@ -158,7 +161,7 @@ class WoodDragon extends Enemy {
         let that = this;
         if (this.screenWipeTimer !== null) {
             this.screenWipeTimer.destroy();
-            this.screenWipeTimer === null;
+            this.screenWipeTimer = null;
         }
         this.screenWipeTimer = new TimerCallback(this.game, 6, false, function () {
             that.screenWipeTimer = null;
@@ -174,6 +177,10 @@ class WoodDragon extends Enemy {
                     p.destroy();
                 }
             });
+            if (that.woodChipTimer !== null) {
+                that.woodChipTimer.destroy();
+                that.woodChipTimer = null;
+            }
         });
     }
 
@@ -215,9 +222,9 @@ class WoodDragon extends Enemy {
 
                     let postExists = false;
                     this.game.entities[LAYERS.OBJECTS].forEach(function (o) {
-                       if (o instanceof Post) {
-                           postExists = true;
-                       }
+                        if (o instanceof Post) {
+                            postExists = true;
+                        }
                     });
 
                     if (postExists) {
@@ -243,7 +250,7 @@ class WoodDragon extends Enemy {
                     this.phase.modeSet.shift();
                 }
                 if (this.phase === PHASE.MEDIUM && this.hp < (this.maxHp * (2 / 3)) - 2) {
-                    this.hp+= 0.01;
+                    this.hp += 0.01;
                 } else if (this.hp < (this.maxHp * (1 / 3)) - 2) {
                     this.hp += 0.02;
                 }
@@ -289,6 +296,10 @@ class WoodDragon extends Enemy {
 
     doTransition() {
         this.restProc = false;
+        if (this.head !== null) {
+            this.head.destroy();
+            this.head = null;
+        }
         this.modeTimer.pause();
         if (this.woodChipTimer) {
             this.woodChipTimer.destroy();
@@ -352,7 +363,12 @@ class WoodDragon extends Enemy {
                         }
                         that.animation.resetAnimation();
                         that.animation.pause();
+                        if (that.head !== null) {
+                            that.head.destroy();
+                            that.head = null;
+                        }
                         that.head = new WoodDragonHead(that.game, that.spawner, that);
+
                         that.isLanding = false;
                         that.goalPoint = null;
                     });
@@ -372,6 +388,10 @@ class WoodDragon extends Enemy {
                 }
                 this.animation.resetAnimation();
                 this.animation.pause();
+                if (this.head !== null) {
+                    this.head.destroy();
+                    this.head = null;
+                }
                 this.head = new WoodDragonHead(this.game, this.spawner, this);
                 this.modeTimer.reset();
                 this.modeTimer.unpause();
@@ -381,7 +401,7 @@ class WoodDragon extends Enemy {
 
     doTakeOff() {
         if (this.hasTakenOff) { // If we have started taking off
-            this.animation.unpause()
+            this.animation.unpause();
             if (this.isTakingOff && this.animation.isDone()) { //Check if we are done taking off
                 this.isTakingOff = false;
                 switch (this.phase.modeSet[this.modeSetIndex]) {
@@ -456,8 +476,8 @@ class WoodDragon extends Enemy {
     }
 
     doGroundMode() {
-        if ((this.game.player.x > this.x + 160 && this.direction === DIRECTION_LEFT) ||
-            (this.game.player.x < this.x - 160 && this.direction === DIRECTION_RIGHT)) {
+        if ((this.game.player.x > this.x + 50 && this.direction === DIRECTION_LEFT) ||
+            (this.game.player.x < this.x - 50 && this.direction === DIRECTION_RIGHT)) {
 
             if (!this.isTailWhipping) { //TODO only tail whip when player is in range of tail
                 this.tailWhip();
@@ -466,7 +486,19 @@ class WoodDragon extends Enemy {
                     this.isTailWhipping = false;
                     this.animation.resetAnimation();
                     this.animation.pause();
-                    //TODO shoot tail slash the reflects projectiles
+                    if (this.direction === DIRECTION_LEFT) {
+                        new Projectile(this.game, this.x + 300, this.y, {x:1, y:0}, 100, 0.25,
+                            false, this, new Animation(ASSET_MANAGER.getAsset("./img/projectiles/PureSlash.png"),
+                                STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+                                {x: 0, y: 1}, {x: 3, y: 1},
+                                30, false, STANDARD_DRAW_SCALE, 10), 1, 120, 100);
+                    } else {
+                        new Projectile(this.game, this.x - 350, this.y + 20, {x:0, y:1}, 100, 0.25,
+                            false, this, new Animation(ASSET_MANAGER.getAsset("./img/projectiles/PureSlash.png"),
+                                STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
+                                {x: 0, y: 0}, {x: 3, y: 0},
+                                30, false, STANDARD_DRAW_SCALE, 10), 1, 120, 100);
+                    }
                 }
             }
             if (this.switchDirectionTimer === null) {
@@ -478,9 +510,23 @@ class WoodDragon extends Enemy {
                     that.groundFace(that.otherDirection());
                 });
             }
-        } else if (this.switchDirectionTimer !== null) {
-            this.switchDirectionTimer.destroy();
-            this.switchDirectionTimer = null;
+        } else {
+            if (this.switchDirectionTimer !== null) {
+                this.switchDirectionTimer.destroy();
+                this.switchDirectionTimer = null;
+            }
+            if (this.head !== null && lengthV(dirV(this.head, this.game.player)) > 245) {
+                this.go(normalizeV(dirV(this, this.game.player)));
+            }
+        }
+        if (this.head !== null && !this.head.isBiting) {
+            if (this.game.player && lengthV(dirV(this.game.player, this.head)) < 150) {
+                this.head.bite();
+            }
+        }
+        if (this.animation.isDone()) {
+            this.animation.resetAnimation();
+            this.animation.pause();
         }
     }
 
@@ -499,6 +545,7 @@ class WoodDragon extends Enemy {
                     new TimerCallback(this.game, 1, false, function () {
                         that.animation = that.bodyRightAnimation;
                         that.collider = that.bodyRightCollider;
+                        that.animation.resetAnimation();
                         that.animation.pause();
                         that.head = new WoodDragonHead(that.game, that.spawner, that);
                         that.direction = DIRECTION_RIGHT;
@@ -511,6 +558,7 @@ class WoodDragon extends Enemy {
                     new TimerCallback(this.game, 1, false, function () {
                         that.animation = that.bodyLeftAnimation;
                         that.collider = that.bodyLeftCollider;
+                        that.animation.resetAnimation();
                         that.animation.pause();
                         that.head = new WoodDragonHead(that.game, that.spawner, that);
                         that.direction = DIRECTION_LEFT;
@@ -523,8 +571,10 @@ class WoodDragon extends Enemy {
             }
             this.animation.setFrame(4);
             this.animation.unpause();
-            this.head.destroy();
-            this.head = null;
+            if (this.head !== null) {
+                this.head.destroy();
+                this.head = null;
+            }
         } else {
             console.log("Calling groundFace() when not on the ground!");
         }
@@ -696,6 +746,7 @@ class WoodDragonHead extends Enemy {
         this.isPostLaunching = false;
         this.postLaunchTimer = null;
         this.postLaunchWaiting = false;
+        this.isBiting = false;
     }
 
     update() {
@@ -705,16 +756,17 @@ class WoodDragonHead extends Enemy {
         } else {
             this.x = this.dragon.x + this.dragon.headOffset;
         }
+        this.y = this.dragon.y;
+
         this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
 
         if (this.isPostLaunching && this.animation.isDone() && !this.postLaunchWaiting) {
             this.animation.setFrame(this.animation.getLastFrameAsInt());
             this.animation.pause();
             this.postLaunchWaiting = true;
-            //TODO show post over dragon head then it disappears (eh maybe)
             if (this.game.player) {
                 let enemy_crosshair = new EnemyCrosshair(this.game, this.game.player.x, this.game.player.y, this, true);
-                new TimerCallback(this.game, 2, false, function() {
+                new TimerCallback(this.game, 2, false, function () {
                     enemy_crosshair.destroy();
                     new Post(that.game, enemy_crosshair.x, enemy_crosshair.y, true);
                 })
@@ -727,6 +779,12 @@ class WoodDragonHead extends Enemy {
                 that.isPostLaunching = false;
                 that.postLaunchWaiting = false;
             });
+        } else if (this.isBiting) {
+            if (this.animation.isDone()) {
+                this.animation = this.stdAnimation;
+                this.animation.pause();
+                this.isBiting = false;
+            }
         }
     }
 
@@ -735,6 +793,24 @@ class WoodDragonHead extends Enemy {
         this.animation.resetAnimation();
         this.animation.unpause();
         this.isPostLaunching = true;
+        this.isBiting = false;
+    }
+
+    bite() {
+        this.animation = this.biteAnimation;
+        this.animation.resetAnimation();
+        this.animation.unpause();
+        this.isPostLaunching = false;
+        this.isBiting = true;
+
+        let projectile = new Projectile(this.game, this.x, this.x, {x: 0, y: 1}, 50,
+            1, false, this,
+            new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Bite.png"),
+                STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH * 2,
+                {x: 0, y: 0}, {x: 10, y: 0}, 10, false, this.myScale, 3),
+            1, null);
+        projectile.collider = new Collider(0, 0, 10, 10, 10, 10, null, 5);
+        projectile.attachTo(this);
     }
 
     draw() {
@@ -823,7 +899,7 @@ class WoodDragonArm {
                     }
                 }
             } else {
-                if (this.game.player && lengthV(dirV(this.game.player, this)) < 200) { //TODO tweak range
+                if (this.game.player && lengthV(dirV(this.game.player, this)) < 200) {
                     this.attack();
                 }
             }

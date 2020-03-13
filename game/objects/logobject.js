@@ -59,17 +59,17 @@ class LogObject extends DestructableObject {
 
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;
-            while(this.game.player.wallCollision(this.game.player) === true)
-            {
-              if(this.removeFromWorld !== true)
-              {
-                this.game.player.takeDmg(1, vectorToDir(vec));
-                this.destroy();
-              }
-              
-              this.game.player.x -= vec.x;
-              this.game.player.y -= vec.y;
-            }
+            // while(this.game.player.wallCollision(this.game.player))
+            // {
+            //   if(this.removeFromWorld !== true)
+            //   {
+            //     this.game.player.takeDmg(1, vectorToDir(vec));
+            //     this.destroy();
+            //   }
+            //
+            //   this.game.player.x -= vec.x;
+            //   this.game.player.y -= vec.y;
+            // }
         }
         this.animation.setFrame(3 - this.hp);
     }
