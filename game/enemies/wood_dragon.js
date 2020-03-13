@@ -14,11 +14,11 @@ const PHASE = {
         timePerMode: 15
     },
     MEDIUM: {
-        modeSet: [MODE.REST, MODE.AGGRESSIVE, MODE.BULLET_HELL, /*MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.AGGRESSIVE*/],
+        modeSet: [MODE.REST, MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.SCREEN_WIPE],
         timePerMode: 10
     },
     HARD: {
-        modeSet: [MODE.REST, MODE.SCREEN_WIPE, MODE.AGGRESSIVE, /*MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.AGGRESSIVE*/],
+        modeSet: [MODE.REST, MODE.SCREEN_WIPE, MODE.AGGRESSIVE, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.BULLET_HELL, MODE.AGGRESSIVE],
         timePerMode: 5
     }
 };
@@ -153,6 +153,30 @@ class WoodDragon extends Enemy {
         if (this.switchDirectionTimer) this.switchDirectionTimer.destroy();
         if (this.screenWipeTimer) this.screenWipeTimer.destroy();
     }
+
+    createScreenWipeTimer() {
+        let that = this;
+        if (this.screenWipeTimer !== null) {
+            this.screenWipeTimer.destroy();
+            this.screenWipeTimer === null;
+        }
+        this.screenWipeTimer = new TimerCallback(this.game, 6, false, function () {
+            that.screenWipeTimer = null;
+            that.modeTimer.unpause();
+            that.changeMode();
+            that.game.entities[LAYERS.OBJECTS].forEach(function (object) {
+                if (object instanceof Post) {
+                    object.destroy();
+                }
+            });
+            that.game.entities[LAYERS.ENEMY_PROJECTILES].forEach(function (p) {
+                if (p instanceof WoodChip) {
+                    p.destroy();
+                }
+            });
+        });
+    }
+
     update() {
         super.update();
         let that = this;
@@ -188,16 +212,22 @@ class WoodDragon extends Enemy {
                 if (!this.modeTimer.paused) {
                     let that = this;
                     this.modeTimer.pause();
-                    this.screenWipeTimer = new TimerCallback(this.game, 6, false, function () {
-                        that.screenWipeTimer = null;
-                        that.modeTimer.unpause();
-                        that.changeMode();
-                        that.game.entities[LAYERS.OBJECTS].forEach(function (object) {
-                            if (object instanceof Post) {
-                                object.destroy();
-                            }
-                        });
+
+                    let postExists = false;
+                    this.game.entities[LAYERS.OBJECTS].forEach(function (o) {
+                       if (o instanceof Post) {
+                           postExists = true;
+                       }
                     });
+
+                    if (postExists) {
+                        this.createScreenWipeTimer();
+                    } else {
+                        this.head.postLaunch();
+                        new TimerCallback(this.game, 3.1, false, function () {
+                            that.createScreenWipeTimer();
+                        });
+                    }
                 }
                 this.doScreenWipe();
                 break;
@@ -340,6 +370,8 @@ class WoodDragon extends Enemy {
                     this.animation = this.bodyRightAnimation;
                     this.collider = this.bodyRightCollider;
                 }
+                this.animation.resetAnimation();
+                this.animation.pause();
                 this.head = new WoodDragonHead(this.game, this.spawner, this);
                 this.modeTimer.reset();
                 this.modeTimer.unpause();
@@ -348,7 +380,8 @@ class WoodDragon extends Enemy {
     }
 
     doTakeOff() {
-        if (this.hasTakenOff) {
+        if (this.hasTakenOff) { // If we have started taking off
+            this.animation.unpause()
             if (this.isTakingOff && this.animation.isDone()) { //Check if we are done taking off
                 this.isTakingOff = false;
                 switch (this.phase.modeSet[this.modeSetIndex]) {
@@ -370,7 +403,6 @@ class WoodDragon extends Enemy {
                         break;
                 }
                 this.animation.resetAnimation();
-                this.animation.unpause();
             }
         } else { //Start taking off
             if (this.hoverTimer) {
@@ -682,7 +714,6 @@ class WoodDragonHead extends Enemy {
             //TODO show post over dragon head then it disappears (eh maybe)
             if (this.game.player) {
                 let enemy_crosshair = new EnemyCrosshair(this.game, this.game.player.x, this.game.player.y, this, true);
-                console.log("yo");
                 new TimerCallback(this.game, 2, false, function() {
                     enemy_crosshair.destroy();
                     new Post(that.game, enemy_crosshair.x, enemy_crosshair.y);
@@ -695,8 +726,6 @@ class WoodDragonHead extends Enemy {
                 that.postLaunchTimer = null;
                 that.isPostLaunching = false;
                 that.postLaunchWaiting = false;
-                //TODO create the reticle and its timers
-
             });
         }
     }
