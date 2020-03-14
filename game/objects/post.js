@@ -147,6 +147,17 @@ class Post extends DestructableObject {
             this.y = this.startY + fallDir.y * smoothStartN(this.fallingTimer.getPercent(), 2);
             this.fallingSpeed = 10 * smoothStopN(this.fallingTimer.getPercent(), 3);
         } else if (this.game.game_state === GAME_STATES.PLAYING) {
+            let that = this;
+            if (this.game.sceneManager.level.mapElementAt({x: coordinateToIndex(this.x), y: coordinateToIndex(this.y)}) === "P") {
+                this.destroy();
+            }
+            this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
+                if (!that.removeFromWorld && enemy.collider !== null) {
+                    if (checkCollision(that, that.collider, enemy, enemy.collider)) {
+                        that.takeDamage(1, {x: 1, y: 0}, 0);
+                    }
+                }
+            });
             while (this.removeFromWorld !== true && this.game.player && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
                 let vec = normalizeV(dirV(this, this.game.player));
                 if (Math.abs(vec.y) > Math.abs(vec.x)) {
@@ -162,9 +173,11 @@ class Post extends DestructableObject {
                 this.game.player.y += vec.y;
             }
         }
-        this.postSections[this.postSections.length - 1].animation.setFrame(Math.floor((6 - this.hp) / 2));
-        for (let i = this.postSections.length - 1; i >= 0; i--) {
-            this.postSections[i].update();
+        if (!this.removeFromWorld) {
+            this.postSections[this.postSections.length - 1].animation.setFrame(Math.floor((6 - this.hp) / 2));
+            for (let i = this.postSections.length - 1; i >= 0; i--) {
+                this.postSections[i].update();
+            }
         }
     }
 }
