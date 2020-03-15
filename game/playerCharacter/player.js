@@ -25,15 +25,13 @@ class Player extends Entity {
         this.attackCounter = 0;
 
         let ratio = this.game._ctx.canvas.width / this.game._ctx.canvas.height;
-        if(ratio < 1)
-        {
-          ratio = 1/ratio;
+        if (ratio < 1) {
+            ratio = 1 / ratio;
         }
-        if(ratio > 2)
-        {
-          ratio = 2;
+        if (ratio > 2) {
+            ratio = 2;
         }
-        
+
         this.hearts = [
             new LastHeart(game,
                 1.1 * ratio / 2,
@@ -77,36 +75,33 @@ class Player extends Entity {
         //this.hurt = true;
         this.invincible = false;
 
-        this.progressBar = new ProgressBar(this.game, 0, this.animation._height * this.animation._scale/4, this.animation._frameWidth * this.animation._scale, this, 100 / this.characterClass.stats.specialChargeTime);
+        this.progressBar = new ProgressBar(this.game, 0, this.animation._height * this.animation._scale / 4, this.animation._frameWidth * this.animation._scale, this, 100 / this.characterClass.stats.specialChargeTime);
 
         this.dead = false;
-        
+
         this.footStepTimer = null;
         this.lastHeartTimer = null;
-        
+
         this.lastHeartSounds = ["heartBeat"];
-        
+
         this.walkSounds = [];
         console.log(this.game._sceneManager.level._floorType);
-        if(this.game._sceneManager.level._floorType)
-        {
-          this.walkSounds.push("step1");
-          this.walkSounds.push("step2");
-          this.walkSounds.push("step3");
+        if (this.game._sceneManager.level._floorType) {
+            this.walkSounds.push("step1");
+            this.walkSounds.push("step2");
+            this.walkSounds.push("step3");
+        } else {
+            //this.walkSounds.push("step4");
+            this.walkSounds.push("step5");
+            this.walkSounds.push("step6");
         }
-        else
-        {
-          //this.walkSounds.push("step4");
-          this.walkSounds.push("step5");
-          this.walkSounds.push("step6");
-        }
-        
-        this.footStepTimer  = null;
+
+        this.footStepTimer = null;
         this.lastHeartTimer = null;
-        this.controlTimer   = null;
-        this.hurtTimer      = null;
-        this.regenTimer     = null;
-        
+        this.controlTimer = null;
+        this.hurtTimer = null;
+        this.regenTimer = null;
+
     }
 
 
@@ -129,7 +124,10 @@ class Player extends Entity {
     update() {
 
         if (this.falling) {
-            let fVect = dirV({x: this.x, y: this.y}, {x: indexToCoordinate(coordinateToIndex(this.x)), y: indexToCoordinate(coordinateToIndex(this.y))});
+            let fVect = dirV({x: this.x, y: this.y}, {
+                x: indexToCoordinate(coordinateToIndex(this.x)),
+                y: indexToCoordinate(coordinateToIndex(this.y))
+            });
             fVect = normalizeV(fVect);
             this.x += fVect.x * this.game._clockTick * this.characterClass.stats.speed / 2;
             this.y += fVect.y * this.game._clockTick * this.characterClass.stats.speed / 2;
@@ -139,15 +137,13 @@ class Player extends Entity {
         }
 
         let ratio = this.game._ctx.canvas.width / this.game._ctx.canvas.height;
-        if(ratio < 1)
-        {
-          ratio = 1/ratio;
+        if (ratio < 1) {
+            ratio = 1 / ratio;
         }
-        if(ratio > 2)
-        {
-          ratio = 2;
+        if (ratio > 2) {
+            ratio = 2;
         }
-        
+
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].x = (i + 0.6) * (35 * ratio);
             this.hearts[i].y = 20 * ratio;
@@ -177,9 +173,8 @@ class Player extends Entity {
                     this.game.entities[LAYERS.HUD][i].destroy();
                 }
             }
-            if(!this.removeFromWorld)
-            {
-              this.game.switchToCharacterChooserMode(this);
+            if (!this.removeFromWorld) {
+                this.game.switchToCharacterChooserMode(this);
             }
             return;
         }
@@ -205,9 +200,10 @@ class Player extends Entity {
                 //If we're moving
                 if (this.game.keyStack.length > 0 && !this.isAttacking) {
                     let that = this;
-                    if(this.footStepTimer === null)
-                    {
-                      this.footStepTimer = new TimerCallback(this.game, 0.3, true, function () { that.game.audioManager.playSound(getRandomSound(that.walkSounds)); });
+                    if (this.footStepTimer === null) {
+                        this.footStepTimer = new TimerCallback(this.game, 0.3, true, function () {
+                            that.game.audioManager.playSound(getRandomSound(that.walkSounds));
+                        });
                     }
 
                     //Set animation to the walking animation
@@ -245,10 +241,9 @@ class Player extends Entity {
             }
             // If game.change was not set, we have been idling
             else {
-                if(this.footStepTimer !== null)
-                {
-                  this.footStepTimer.destroy();
-                  this.footStepTimer = null;
+                if (this.footStepTimer !== null) {
+                    this.footStepTimer.destroy();
+                    this.footStepTimer = null;
                 }
                 //Make sure we're using the proper idle animation
                 switch (this.direction) {
@@ -341,15 +336,16 @@ class Player extends Entity {
             let newPos = this.game._sceneManager.level.move(this._collider, oldPos, {x: this.x, y: this.y});
             if (newPos === "pitfall") {
                 this.pitfall({x: (oldPos.x - this.x) * 8 + oldPos.x, y: (oldPos.y - this.y) * 8 + oldPos.y});
-            } else if(this.wallCollision({x: this.x, y: this.y}) !== true)
-            {
+            } else if (!this.wallCollision({x: this.x, y: this.y})) {
                 this.x = newPos.x;
                 this.y = newPos.y;
-            }
-            else
-            {
-              this.x = oldPos.x;
-              this.y = oldPos.y;
+            } else if (!this.wallCollision({x:oldPos.x, y:this.y})) {
+                this.x = oldPos.x;
+            } else if (!this.wallCollision({x:this.x, y:oldPos.y})) {
+                this.y = oldPos.y;
+            } else {
+                this.x = oldPos.x;
+                this.y = oldPos.y;
             }
 
             // Check if reached end of level.
@@ -360,14 +356,11 @@ class Player extends Entity {
                 if (sessionStorage.getItem('level') !== 'endless') sessionStorage.setItem('level', "" + (eval(sessionStorage.getItem('level')) + 1));
                 this.game.sceneManager.levelComplete();
             }
-        }
-        else
-        {
-          if(this.footStepTimer !== null)
-          {
-            this.footStepTimer.destroy();
-            this.footStepTimer = null;
-          }
+        } else {
+            if (this.footStepTimer !== null) {
+                this.footStepTimer.destroy();
+                this.footStepTimer = null;
+            }
         }
 
         if (!this.camLocked && this.game.player.removeFromWorld === false) {
@@ -424,9 +417,9 @@ class Player extends Entity {
                 case DIRECTION_DOWN:
                     this.animation = this.characterClass.animation.dmgFromUp;
             }
-			
-			this.animation.unpause();
-			this.animation.resetAnimation();
+
+            this.animation.unpause();
+            this.animation.resetAnimation();
 
             if (this.hp === 0) {
                 this.dead = true;
@@ -436,17 +429,18 @@ class Player extends Entity {
                 this.destroy();
                 return;
             } else if (this.hp === 1) {
-                this.lastHeartTimer = new TimerCallback(this.game, 1, true, function () { that.game.audioManager.playSound("heartBeat"); });
+                this.lastHeartTimer = new TimerCallback(this.game, 1, true, function () {
+                    that.game.audioManager.playSound("heartBeat");
+                });
 
                 this.regenTimer = new TimerCallback(this.game, 7.5, false, function () {
-                  
-                  that.lastHeartTimer.destroy();
-                  that.lastHeartTimer = null;
-                  if(that.hp < 1)
-                  {
-                    that.hp = 1;
-                    that.hearts[0].set(true);
-                  }
+
+                    that.lastHeartTimer.destroy();
+                    that.lastHeartTimer = null;
+                    if (that.hp < 1) {
+                        that.hp = 1;
+                        that.hearts[0].set(true);
+                    }
                 });
             }
 
@@ -456,8 +450,8 @@ class Player extends Entity {
             this.hp -= dmg;
             this.isTakingDmg = true;
 
-			this.animation.unpause();
-			this.animation.resetAnimation();
+            this.animation.unpause();
+            this.animation.resetAnimation();
 
             this.hurt = true;
             var that = this;
@@ -470,8 +464,8 @@ class Player extends Entity {
             }); // stunned
             this.hurtTimer = new TimerCallback(this.game, 3, false, function () {
                 that.hurt = false;
-                if(!that.invincible)
-                  that.screen = false;
+                if (!that.invincible)
+                    that.screen = false;
             });        // invincibility
 
 
@@ -491,11 +485,11 @@ class Player extends Entity {
 
     destroy() {
         this.animation._screen = false;
-        if(this.footStepTimer !== null) this.footStepTimer.destroy();
-        if(this.lastHeartTimer !== null) this.lastHeartTimer.destroy();
-        if(this.controlTimer !== null) this.controlTimer.destroy();
-        if(this.hurtTimer !== null) this.hurtTimer.destroy();
-        if(this.regenTimer !== null) this.regenTimer.destroy();
+        if (this.footStepTimer !== null) this.footStepTimer.destroy();
+        if (this.lastHeartTimer !== null) this.lastHeartTimer.destroy();
+        if (this.controlTimer !== null) this.controlTimer.destroy();
+        if (this.hurtTimer !== null) this.hurtTimer.destroy();
+        if (this.regenTimer !== null) this.regenTimer.destroy();
 
         for (let i = 0; i < this.characterClass.stats.maxHP; i++) {
             this.hearts[i].destroy();
@@ -516,7 +510,7 @@ class Player extends Entity {
 
         this.progressBar.destroy();
         this.idleTimer.destroy();
-        
+
         if (this.dead && this.game.entities[LAYERS.MAIN].length === 1) {
             this.game.entities[LAYERS.HUD].length = 0;
             this.game.gameOver();
@@ -529,41 +523,41 @@ class Player extends Entity {
      */
     regularAttack() {
 
-      this.game.click = false;
-      this.isAttacking = true;
+        this.game.click = false;
+        this.isAttacking = true;
 
-      let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
-		
-      let that = this;
-		
-	    //console.log(raycast({x: that.x, y: that.y}, cursorCenter, 20, function(pt) { return that.game._sceneManager.level.quickCollision(coordinateToIndex(pt.x), coordinateToIndex(pt.y)); }));
+        let cursorCenter = this.game._camera.clickPosTranslation({x: this.game.mouseX, y: this.game.mouseY});
 
-      let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
+        let that = this;
 
-      var attackDir = vectorToDir(attackVector);
+        //console.log(raycast({x: that.x, y: that.y}, cursorCenter, 20, function(pt) { return that.game._sceneManager.level.quickCollision(coordinateToIndex(pt.x), coordinateToIndex(pt.y)); }));
 
-      switch (attackDir) {
-          case DIRECTION_DOWN:
-              this.animation = this.characterClass.animation.regAttackDown();
-              break;
-          case DIRECTION_UP:
-              this.animation = this.characterClass.animation.regAttackUp();
-              break;
-          case DIRECTION_LEFT:
-              this.animation = this.characterClass.animation.regAttackLeft();
-              break;
-          default:
-              this.animation = this.characterClass.animation.regAttackRight();
-              break;
-      }
+        let attackVector = normalizeV(dirV({x: this.x, y: this.y}, cursorCenter));
 
-      this.animation.resetAnimation();
-      this.animation.unpause();
-      this.direction = attackDir;
-      if (this.attackCounter < this.characterClass.stats.maxProjectiles) {
-          this.attackCounter++;
-          this.characterClass.attack(this, attackVector);
-      }
+        var attackDir = vectorToDir(attackVector);
+
+        switch (attackDir) {
+            case DIRECTION_DOWN:
+                this.animation = this.characterClass.animation.regAttackDown();
+                break;
+            case DIRECTION_UP:
+                this.animation = this.characterClass.animation.regAttackUp();
+                break;
+            case DIRECTION_LEFT:
+                this.animation = this.characterClass.animation.regAttackLeft();
+                break;
+            default:
+                this.animation = this.characterClass.animation.regAttackRight();
+                break;
+        }
+
+        this.animation.resetAnimation();
+        this.animation.unpause();
+        this.direction = attackDir;
+        if (this.attackCounter < this.characterClass.stats.maxProjectiles) {
+            this.attackCounter++;
+            this.characterClass.attack(this, attackVector);
+        }
     }
 
     specialAttack() {

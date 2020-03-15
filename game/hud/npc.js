@@ -68,6 +68,7 @@ class NPC extends Entity {
             if (pointToCircle(cursorCenter, this, this.radius)) {
                 if (this.game.click) {
                     this.game.click = false;
+                    this.game.clicking = false;
                     this.game.switchToPlayMode(this);
                     this.game.audioManager.playSound(this.characterClass.sound);
                 } else if (!this.hover){

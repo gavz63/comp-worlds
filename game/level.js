@@ -348,7 +348,7 @@ class Level {
                 let c = pushCollision({x: updatedPos.x, y: updatedPos.y},
                     collider,
                     {x: indexToCoordinate(origin.x), y: indexToCoordinate(origin.y - 1)},
-                    new Collider(0, 0, 48, 48, 48, 48, null, Infinity));
+                    new Collider(0, 0, 48, 48, 48, 48, null, 0));
                 updatedPos.x = c.pos1.x;
                 updatedPos.y = c.pos1.y;
             }

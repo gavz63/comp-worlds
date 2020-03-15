@@ -29,7 +29,6 @@ class HedgeMonster extends Enemy {
         this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS * 4, 5);
         this.width = 96;
         this.isWaking = false;
-        this.isAwake = false;
         this.isActivated = false;
         this.speed = 100;
         this.hp = 15;
@@ -48,7 +47,7 @@ class HedgeMonster extends Enemy {
                 this.animation = this.moveAnimation;
                 this.animation.unpause();
             }
-        } else if (dist < this.radius * 2) {
+        } else if (dist < this.collider.getRadius() * 2) {
             this.pathfind(500, 20);
             if (this.goalPoint &&
                 this.goalPoint.x === this.game.player.x &&
@@ -83,6 +82,13 @@ class HedgeMonster extends Enemy {
         this.animation = this.wakeAnimation;
         this.animation.resetAnimation();
         this.animation.pause();
+    }
+
+    takeDamage(dmg, dir, knockBack) {
+        super.takeDamage(dmg, dir, knockBack);
+        if (!this.isActivated && !this.isWaking) {
+            this.wakeUp();
+        }
     }
 
     destroy() {
