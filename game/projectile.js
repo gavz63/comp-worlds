@@ -926,7 +926,7 @@ class Hail extends Entity {
         this.owner = owner;
         this.myAddScale = 2.5;
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
-        this.animation = new Animation(game.AM.getAsset("./img/projectiles/Arrows.png"), 256, 256,
+        this.animation = new Animation(game.AM.getAsset("./img/projectiles/arrows.png"), 256, 256,
             {x: 0, y: 0}, {x: 4, y: 0}, 12, false, this.myScale);
         this.animation.unpause();
         this.dmg = 1;
