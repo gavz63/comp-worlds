@@ -62,14 +62,14 @@ class StoneGolem extends Enemy {
                     }
                 }
                 let newPos = {x: this.x, y: this.y};
-                if (this.wallCollision(newPos)) {
+                if (this.wallCollision(newPos) || this.doorCollision(newPos)) {
                   this.x = this.oldPos.x;
                   this.y = this.oldPos.y;
                   
                   if(this.spawner)
                   {
                     let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: this.spawner.x, y: this.spawner.y}));
-                    while(this.wallCollision({x: this.x, y: this.y}))
+                    while(this.wallCollision(this) || this.doorCollision(this))
                     {
                       this.x += towardsCenter.x;
                       this.y += towardsCenter.y;
