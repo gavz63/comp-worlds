@@ -72,6 +72,50 @@ class Entity
     
     return false;
   }
+
+    doorCollision(newPos)
+    {
+        let dir = dirV(this.oldPos, newPos);
+        let xOffset = 0;
+        let yOffset = 0;
+
+        let returnValue = this.game._sceneManager.level.quickDoorCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+        //console.log(returnValue);
+        if(returnValue === true)
+        {
+            return returnValue;
+        }
+
+        yOffset = this.collider._upHit;
+        returnValue = this.game._sceneManager.level.quickDoorCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+        if(returnValue === true)
+        {
+            return returnValue;
+        }
+
+        yOffset = this.collider._downHit;
+        returnValue = this.game._sceneManager.level.quickDoorCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+        if(returnValue === true)
+        {
+            return returnValue;
+        }
+
+        xOffset = this.collider._leftHit;
+        returnValue = this.game._sceneManager.level.quickDoorCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+        if(returnValue === true)
+        {
+            return returnValue;
+        }
+
+        xOffset = this.collider._rightHit;
+        returnValue = this.game._sceneManager.level.quickDoorCollision(coordinateToIndex(newPos.x + xOffset), coordinateToIndex(newPos.y + yOffset));
+        if(returnValue === true)
+        {
+            return returnValue;
+        }
+
+        return false;
+    }
 	
 	setAnimation(spritesheet)
 	{

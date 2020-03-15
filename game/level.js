@@ -391,6 +391,17 @@ class Level {
 
       return false;
     }
+
+    quickDoorCollision(X, Y)
+    {
+        let map = this.mapElementAt({x: X, y: Y});
+        if(map === "V" || map === "H" || map === "~" || map === "^")
+        {
+            return true;
+        }
+
+        return false;
+    }
     
     quickProjectileCollision(X, Y)
     {

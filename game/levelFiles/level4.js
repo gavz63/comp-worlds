@@ -45,8 +45,8 @@ class Level4 {
         });
         
         this.pickupList.push({
-          x: 5,
-          y: 3,
+          x: 4.99,
+          y: 2.99,
           type: Post.prototype
         });        
         this.pickupList.push({
@@ -65,8 +65,8 @@ class Level4 {
           type: Post.prototype
         });
         this.pickupList.push({
-          x: 8,
-          y: 3,
+          x: 8.01,
+          y: 2.99,
           type: Post.prototype
         }); 
         this.pickupList.push({

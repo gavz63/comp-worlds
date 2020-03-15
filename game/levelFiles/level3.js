@@ -45,12 +45,12 @@ class Level3 {
     
         this.roomSpawnerList.push({
                 x: 4.5,
-                y: 4.5,
+                y: 5.2,
                 room: {upperLeft: {x: 1, y: 0}, bottomRight: {x: 11, y: 10}},
                 lockCam: true,
                 dropKey: true, // drops a key at this. x, y
                 dropPotion: false,
-                zoom: DEFAULT_ZOOM * 6
+                zoom: DEFAULT_ZOOM * 7
         });
 			
 		this.spawnerList.push (

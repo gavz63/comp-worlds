@@ -81,7 +81,7 @@ class MagmaGolem extends Enemy {
         {x: 0, y: 0}, {x: 2, y: 0},
       8, true, STANDARD_DRAW_SCALE);
       
-      new Shockwave(this.game, this.x + 96 * this.myAddScale / 10, this.y + 80 * this.myAddScale / 10, this, shockwaveAnimation, 5, 0, 10 * this.myAddScale / 10);
+      new Shockwave(this.game, this.x + 96 * this.myAddScale / 10, this.y + 80 * this.myAddScale / 10, this, shockwaveAnimation, 3, 0, 4 * this.myAddScale / 10);
     }
 
     update() {
@@ -102,12 +102,12 @@ class MagmaGolem extends Enemy {
                 this.charge();
               }
               let newPos = {x: this.x, y: this.y};
-              if (this.wallCollision(newPos)) {
+              if (this.wallCollision(newPos) || this.doorCollision(newPos)) {
                   this.x = this.oldPos.x;
                   this.y = this.oldPos.y;
                   
                   let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: this.spawner.x, y: this.spawner.y}));
-                  while(this.wallCollision({x: this.x, y: this.y}))
+                  while(this.wallCollision({x: this.x, y: this.y}) || this.doorCollision({x: this.x, y: this.y}))
                   {
                     this.x += towardsCenter.x;
                     this.y += towardsCenter.y;
