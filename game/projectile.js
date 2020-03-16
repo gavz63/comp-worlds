@@ -105,8 +105,6 @@ class Projectile extends Entity {
             }
 
             if (this.owner instanceof Player) {
-
-                console.log(this.collider._radius);
                 //For each enemy
                 this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
                     if (!that.removeFromWorld && !enemy.removeFromWorld &&
@@ -460,7 +458,6 @@ class Flame extends EasingProjectile {
 
         if (this.timer.getPercent() > 0.1 && this.myScale[0] < 0.01) {
             this.particleEmitter.destroy();
-            console.log("HEY");
             this.destroy();
         }
 
@@ -1030,39 +1027,44 @@ class LogProjectile extends Projectile {
 
 class WoodChip extends Projectile {
     constructor(game, x, y, dir, owner) {
-        let animation = null;
-        let rand = Math.floor(Math.random() * 6);
-        switch (rand) {
-            case 1:
-                animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/BallPulseBlue.png"),
+        let animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Woodchips.png"),
                     STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
                     {x: 0, y: 0}, {x: 3, y: 0},
                     7, true, STANDARD_DRAW_SCALE);
-                break;
-            case 2:
-                animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/BallPulseGreen.png"),
-                    STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-                    {x: 0, y: 0}, {x: 3, y: 0},
-                    7, true, STANDARD_DRAW_SCALE);
-                break;
-            case 3:
-                animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/BallPulseRed.png"),
-                    STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-                    {x: 0, y: 0}, {x: 3, y: 0},
-                    7, true, STANDARD_DRAW_SCALE);
-                break;
-            default:
-                animation = new Animation(ASSET_MANAGER.getAsset("./img/projectiles/Fireball.png"),
-                    STANDARD_ENTITY_FRAME_WIDTH / 2, STANDARD_ENTITY_FRAME_WIDTH / 2,
-                    {x: 0, y: 0}, {x: 3, y: 0},
-                    7, true, STANDARD_DRAW_SCALE);
-                break;
-        }
-        super(game, x, y, dir, 400, Infinity, false, owner, animation, 1, 5, 20);
+        let choice = Math.floor(dir/(180/5));
+
+        animation.pause();
+        let degreeToRadians = 2 * Math.PI / 360;
+        let vectorDirections = normalizeV({
+                                x: Math.cos(dir * degreeToRadians),
+                                y: Math.sin(dir * degreeToRadians)
+                            });
+        super(game, x, y, vectorDirections, 400, Infinity, false, owner, animation, 1, 5, 20);
 
         this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         this.animation._scale = this.myScale;
         this.collider = new Collider(0, 0, 8, 8, 8, 8, 8, 150);
+            
+        switch (choice) {
+          case 0:
+              animation.setFrame(4);
+              break;
+          case 1:
+              console.log(1);
+              animation.setFrame(3);
+              break;
+          case 2:
+                          console.log(2);
+              animation.setFrame(2);
+              break;
+          case 3:
+                          console.log(3);
+              animation.setFrame(1);
+              break;
+          default:
+              animation.setFrame(0);
+              break;
+        }
 
     }
 

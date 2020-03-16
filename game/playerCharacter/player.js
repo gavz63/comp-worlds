@@ -599,6 +599,7 @@ class Player extends Entity {
     }
 
     pitfall(respawnPos) {
+      console.log("fell");
         this.speed = 0;
         this.velocity.x = 0;
         this.velocity.y = 0;
