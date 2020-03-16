@@ -12,6 +12,7 @@ class Remnant extends Entity
   
   update = function ()
   {
+    this.myScale[0] = STANDARD_DRAW_SCALE * this.myAddScale;
     if(this.animation.isDone())
     {
       this.animation.pause();

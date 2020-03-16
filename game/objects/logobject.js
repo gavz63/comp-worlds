@@ -38,6 +38,8 @@ class LogObject extends DestructableObject {
 
     update() {
         super.update();
+        this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+
         let that = this;
         this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
             if (enemy.collider !== null) {
