@@ -436,7 +436,7 @@ class Flame extends EasingProjectile {
         colors.push(new Color(0, 0, 50));
         colors.push(new Color(0, 0, 50));
 
-        this.particleEmitter = new ParticleEmitter(this.game, this.x, this.y,
+        /*this.particleEmitter = new ParticleEmitter(this.game, this.x, this.y,
             5,     // rate
             0, 360,   // pos
             0, 20, // pos Range
@@ -446,7 +446,7 @@ class Flame extends EasingProjectile {
             0.05, 0.07,   // size
             0.01, 0.05, // scale
             colors,   // color
-            this);  // owner
+            this);  // owner*/
     }
 
     update() {
@@ -457,7 +457,7 @@ class Flame extends EasingProjectile {
         this.myScale[0] = this.easing(this.timer.getPercent()) * 3 * STANDARD_DRAW_SCALE;
 
         if (this.timer.getPercent() > 0.1 && this.myScale[0] < 0.01) {
-            this.particleEmitter.destroy();
+            //this.particleEmitter.destroy();
             this.destroy();
         }
 
@@ -516,7 +516,7 @@ class FlameWall extends EasingProjectile {
         colors.push(new Color(0, 0, 50));
         colors.push(new Color(0, 0, 50));
 
-        this.particleEmitter = new ParticleEmitter(this.game, this.x, this.y,
+        /*this.particleEmitter = new ParticleEmitter(this.game, this.x, this.y,
             3,     // rate
             0, 360,   // pos
             0, 10, // pos Range
@@ -526,7 +526,7 @@ class FlameWall extends EasingProjectile {
             0.05, 0.12,   // size
             0.01, 0.2, // scale
             colors,   // color
-            this);  // owner
+            this);  // owner*/
 
         this.game.audioManager.playSound("flame");
     }
@@ -550,7 +550,7 @@ class FlameWall extends EasingProjectile {
         this.removeFromWorld = true;
         this.owner.progressBar.paused = false;
         if (this.particleEmitter !== null) {
-            this.particleEmitter.destroy();
+            //this.particleEmitter.destroy();
         }
         this.spawnTimer.destroy();
     }
