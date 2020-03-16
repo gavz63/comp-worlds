@@ -29,10 +29,12 @@ class LogObject extends DestructableObject {
         this.animation.pause();
         this.hitSounds.push("crateHit2");
         this.destroySounds.push("crateBroken");
-        this.deathAnimation = new Animation(game.AM.getAsset("./img/objects/Crate.png"),
+        this.deathAnimation = new Animation(game.AM.getAsset("./img/objects/LogPost.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 1, y: 0}, {x: 3, y: 0}, 7, false, this.myScale);
+        this.deathAnimation.pause();
+        this.deathAnimation.setFrame(2);
         this.hp = 3;
     }
 

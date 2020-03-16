@@ -10,7 +10,7 @@ const MODE = {
 /* based on health. There are 3 phases that get progressively harder */
 const PHASE = {
     EASY: {
-        modeSet: [MODE.SCREEN_WIPE, MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE],
+        modeSet: [MODE.BULLET_HELL, MODE.AGGRESSIVE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.BULLET_HELL, MODE.SCREEN_WIPE, MODE.AGGRESSIVE],
         timePerMode: 15
     },
     MEDIUM: {
