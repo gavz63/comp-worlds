@@ -21,6 +21,8 @@ class EnemyCrosshair extends Entity
   }
   update() {
     super.update();
+    this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+
     if (this.trackPlayer && this.game.player) {
       let dir = normalizeV(dirV(this, this.game.player));
       this.x += dir.x * this.game._clockTick * this.speed;

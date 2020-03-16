@@ -29,17 +29,17 @@ class LogObject extends DestructableObject {
         this.animation.pause();
         this.hitSounds.push("crateHit2");
         this.destroySounds.push("crateBroken");
-        this.deathAnimation = new Animation(game.AM.getAsset("./img/objects/LogPost.png"),
+        this.deathAnimation = new Animation(game.AM.getAsset("./img/objects/LogObjectVertical.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 1, y: 0}, {x: 3, y: 0}, 7, false, this.myScale);
-        this.deathAnimation.pause();
-        this.deathAnimation.setFrame(2);
+            {x: 2, y: 0}, {x: 4, y: 0}, 7, false, this.myScale);
         this.hp = 3;
     }
 
     update() {
         super.update();
+        this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+
         let that = this;
         this.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
             if (enemy.collider !== null) {

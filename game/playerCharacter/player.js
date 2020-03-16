@@ -604,8 +604,10 @@ class Player extends Entity {
         this.velocity.x = 0;
         this.velocity.y = 0;
         this.falling = respawnPos;
+        this.invincible = true;
         let that = this;
         new TimerCallback(this.game, 3, false, function () {
+            that.invincible = false;
             that.x = that.falling.x;
             that.y = that.falling.y;
             that.speed = that.characterClass.stats.speed;
