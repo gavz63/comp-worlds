@@ -21,7 +21,7 @@ class Post extends DestructableObject {
         this.startY = this.y - this.dir.y * 10000;
 
         let that = this;
-        let fallTime = 1;
+        let fallTime = 0;
         if (falling) {
             fallTime = RandomBetween(5, 10);
         }
@@ -31,7 +31,7 @@ class Post extends DestructableObject {
             that.y = that.targetLocation.y;
             that.fallingSpeed = 1;
             that.crosshair = null;
-            if (that.game.player) {
+            if (that.game.player && falling === true) {
                 while (!that.removeFromWorld && !that.game.player.removeFromWorld &&
                     that.game.player.collider && that.collider &&
                     checkCollision(that, that.collider, that.game.player, that.game.player.collider)) {
@@ -60,29 +60,31 @@ class Post extends DestructableObject {
             }
 
 
+            if(falling === true)
+            {
+              that.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
+                  if (!(enemy instanceof WoodDragon || enemy instanceof WoodDragonHead || enemy instanceof WoodDragonArm) &&
+                      !that.removeFromWorld && !enemy.removeFromWorld &&
+                      enemy.collider && that.collider &&
+                      checkCollision(that, that.collider, enemy, enemy.collider)) {
 
-            that.game.entities[LAYERS.ENEMIES].forEach(function (enemy) {
-                if (!(enemy instanceof WoodDragon || enemy instanceof WoodDragonHead || enemy instanceof WoodDragonArm) &&
-                    !that.removeFromWorld && !enemy.removeFromWorld &&
-                    enemy.collider && that.collider &&
-                    checkCollision(that, that.collider, enemy, enemy.collider)) {
+                      if (that.dieOnHit) {
+                          that.destroy();
+                      }
+                      enemy.takeDamage(that.dmg, that.dir, that.knockBack);
+                  }
+              });
+              this.game.entities[LAYERS.OBJECTS].forEach(function (object) {
+                  if (that !== object) {
+                      if (that.removeFromWorld !== true && object.removeFromWorld !== true &&
+                          object.collider && that.collider &&
+                          checkCollision(that, that.collider, object, object.collider)) {
 
-                    if (that.dieOnHit) {
-                        that.destroy();
-                    }
-                    enemy.takeDamage(that.dmg, that.dir, that.knockBack);
-                }
-            });
-            this.game.entities[LAYERS.OBJECTS].forEach(function (object) {
-                if (that !== object) {
-                    if (that.removeFromWorld !== true && object.removeFromWorld !== true &&
-                        object.collider && that.collider &&
-                        checkCollision(that, that.collider, object, object.collider)) {
-
-                        object.destroy();
-                    }
-                }
-            });
+                          object.destroy();
+                      }
+                  }
+              });
+            }
         });
         this.fallingSpeed = 0;
 
@@ -228,6 +230,8 @@ class PostSection extends Entity {
     }
 
     update() {
+        this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
+      
         if (this.owner) {
             this.dir = dirV({x: this.owner.x, y: this.owner.y}, {x: this.game._camera.x, y: this.game._camera.y});
             this.length = lengthV(this.dir);
