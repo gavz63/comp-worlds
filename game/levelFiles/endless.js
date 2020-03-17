@@ -12,8 +12,10 @@ class Endless {
         } else {
             this.wallType = 1;
         }
-		this.nextLevel = Endless.prototype;
-		this.musicId = 'hedgeMazeMusic';
+        this.nextLevel = Endless.prototype;
+        let songs = ['bossMusic', 'hedgeMazeMusic', 'hedgeMonsterMusic', 'churchMusic', 'gameOverMusic', 'peaceful'];
+        this.musicId = songs[Math.floor(Math.random() * songs.length)];
+        
 
 		this.layout = this.buildLevel();
 
@@ -49,7 +51,19 @@ class Endless {
               x: key.x,
               y: key.y,
               type: Key.prototype
+        });
+
+        for (let i = 0; i < 3; i++) {
+            let box;
+            do {
+                box = {x: 2 + Math.floor(Math.random() * (this.width - 4)), y: 2 + Math.floor(Math.random() * (this.height - 4))};
+            } while (this.layout.charAt(box.y * this.width + box.x) !== '-' || (box.x === key.x && box.y === key.y));
+            this.pickupList.push({
+                x: box.x,
+                y: box.y,
+                type: Crate.prototype
             });
+        }
     }
     
 
