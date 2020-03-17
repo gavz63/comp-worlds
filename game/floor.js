@@ -173,7 +173,7 @@ class Floor {
                 this._woodSpawn.drawFrame(this._game._clockTick, ctx, pos.x, pos.y, true);
             }
         }
-        if (this._game._sceneManager.level.exit && this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._exit.x), y: indexToCoordinate(this._game._sceneManager.level._exit.y)}, 96, 96, STANDARD_DRAW_SCALE)) {
+        if (this._game._sceneManager.level._exit && this._game._camera.isOnScreen({x: indexToCoordinate(this._game._sceneManager.level._exit.x), y: indexToCoordinate(this._game._sceneManager.level._exit.y)}, 96, 96, STANDARD_DRAW_SCALE)) {
             let pos = this._game._camera.drawPosTranslation({x: indexToCoordinate(this._game._sceneManager.level._exit.x),
                 y: indexToCoordinate(this._game._sceneManager.level._exit.y)}, 1);
             if (this._game._sceneManager.level._floorType === 0) {
