@@ -177,7 +177,7 @@ function Lancer() {
     player.game.audioManager.playSound("spin");
 	};
 
-    this.collider = new Collider(0, 0, 14, 14, 9, 9, 10, 120);
+    this.collider = new Collider(0, 0, 14, 14, 9, 9, null, 120);
     
     this.sound = "lancer";
 

@@ -321,7 +321,7 @@ class Player extends Entity {
                 this.velocity.x = this.velocity.x - accelRate;
             }
 
-            let oldPos = {x: this.x, y: this.y};
+            let oldPos = {x: this.x, y: this.y}; // Where we were
 
             if (this.velocity.x > 0) {
                 this.x += Math.ceil(this.velocity.x * this.game._clockTick);
@@ -334,18 +334,12 @@ class Player extends Entity {
                 this.y += Math.floor(this.velocity.y * this.game._clockTick);
             }
             let newPos = this.game._sceneManager.level.move(this._collider, oldPos, {x: this.x, y: this.y});
+            //Updated position considering wall and door collision
             if (newPos === "pitfall") {
                 this.pitfall({x: (oldPos.x - this.x) * 8 + oldPos.x, y: (oldPos.y - this.y) * 8 + oldPos.y});
-            } else if (!this.wallCollision({x: this.x, y: this.y})) {
+            } else {
                 this.x = newPos.x;
                 this.y = newPos.y;
-            } else if (!this.wallCollision({x:oldPos.x, y:this.y})) {
-                this.x = oldPos.x;
-            } else if (!this.wallCollision({x:this.x, y:oldPos.y})) {
-                this.y = oldPos.y;
-            } else {
-                this.x = oldPos.x;
-                this.y = oldPos.y;
             }
 
             // Check if reached end of level.

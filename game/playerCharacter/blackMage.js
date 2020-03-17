@@ -177,7 +177,7 @@ function BlackMage() {
   
   this.sound = "blackMage";
 
-    this.collider = new Collider(0, 0, 14, 15, 10, 10, 10, 150);
+    this.collider = new Collider(0, 0, 14, 15, 10, 10, null, 150);
 
     this.stats = {
         maxHP: 2,

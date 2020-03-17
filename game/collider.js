@@ -149,7 +149,7 @@ function pushCollision(pos1, collider1, pos2, collider2) {
     let newPos1 = pos1;
     let newPos2 = pos2;
     while (checkCollision(pos1, collider1, pos2, collider2)) {
-        let hb1 = collider2.getHitBox(newPos2);
+        let hb1 = collider1.getHitBox(newPos1);
         let hb2 = collider2.getHitBox(newPos2);
         if (collider1._weight < collider2._weight) {
             
@@ -162,15 +162,15 @@ function pushCollision(pos1, collider1, pos2, collider2) {
                 let wallDist = [];
                 wallDist.push(Math.abs(newPos1.x + collider1._rightHit - hb2.left));
                 wallDist.push(Math.abs(newPos1.x - collider1._leftHit - hb2.right));
-                wallDist.push(Math.abs(newPos1.y - collider1._downHit - hb2.bottom));
-                wallDist.push(Math.abs(newPos1.y + collider1._upHit - hb2.top));
+                wallDist.push(Math.abs(newPos1.y - collider1._upHit - hb2.bottom));
+                wallDist.push(Math.abs(newPos1.y + collider1._downHit - hb2.top));
 
                 let index = wallDist.indexOf(Math.min(...wallDist));
                 if (index === 0) {
                     newPos1.x = hb2.left - Math.max(collider1._rightHit, collider1._radius);
                 } else if (index === 1) {
                     newPos1.x = hb2.right + Math.max(collider1._leftHit, collider1._radius);
-                } else if (index === 2) {
+                } else if (index === 2) { //Our top collided w their bottom
                     newPos1.y = hb2.bottom + Math.max(collider1._upHit, collider1._radius);
                 } else {
                     newPos1.y = hb2.top - Math.max(collider1._downHit, collider1._radius);
