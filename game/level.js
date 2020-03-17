@@ -97,7 +97,7 @@ class Level {
             this.unlockableCharacter.forEach(function (elem)
             {
                 console.log(elem.characterClass);
-                new PCRemnant(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y), elem.characterClass, elem.characterClass.animation.dmgFromRight);
+                new PCRemnant(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y), elem.characterClass, elem.characterClass.animation.dmgFromRight());
             });
         }
 
@@ -395,7 +395,7 @@ class Level {
     quickDoorCollision(X, Y)
     {
         let map = this.mapElementAt({x: X, y: Y});
-        if(map === "V" || map === "H" || map === "~" || map === "^")
+        if(map === "V" || map === "H" || map === "~" || map === "^" || map === "P")
         {
             return true;
         }

@@ -27,10 +27,10 @@ function BlackMage() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 3}, {x: 5, y: 3},
             6, false, STANDARD_DRAW_SCALE); },
-        dmgFromLeft: new Animation(dmgSheet,
+        dmgFromLeft: function() { return new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 1}, {x: 5, y: 1},
-            6, false, STANDARD_DRAW_SCALE),
+            6, false, STANDARD_DRAW_SCALE); },
 
         //Right facing animations
         idleRight: new Animation(sideToSide,
@@ -49,10 +49,10 @@ function BlackMage() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 7}, {x: 5, y: 7},
             6, false, STANDARD_DRAW_SCALE); },
-        dmgFromRight: new Animation(dmgSheet,
+        dmgFromRight: function() { return new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 5, y: 0},
-            6, false, STANDARD_DRAW_SCALE),
+            6, false, STANDARD_DRAW_SCALE); },
 
         //Up facing animations
         idleUp: new Animation(upAndDown,
@@ -71,10 +71,10 @@ function BlackMage() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 3}, {x: 5, y: 3},
             6, false, STANDARD_DRAW_SCALE); },
-        dmgFromUp: new Animation(dmgSheet,
+        dmgFromUp: function() { return new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 3}, {x: 5, y: 3},
-            6, false, STANDARD_DRAW_SCALE),
+            6, false, STANDARD_DRAW_SCALE); },
 
         //Down facing animations
         idleDown: new Animation(upAndDown,
@@ -93,10 +93,10 @@ function BlackMage() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 7}, {x: 5, y: 7},
             6, false, STANDARD_DRAW_SCALE); },
-        dmgFromDown: new Animation(dmgSheet,
+        dmgFromDown: function() { return new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 5, y: 2},
-            6, false, STANDARD_DRAW_SCALE),
+            6, false, STANDARD_DRAW_SCALE); },
 
         //Projectile animations
       regProjectile: function () { return new Animation(fireball,

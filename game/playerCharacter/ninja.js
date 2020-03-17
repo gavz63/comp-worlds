@@ -25,10 +25,10 @@ function Ninja() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 5, y: 10}, {x: 4, y: 11},
             10, false, STANDARD_DRAW_SCALE); },
-        dmgFromLeft: new Animation(dmgSheet,
+        dmgFromLeft: function() { return new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 3}, {x: 5, y: 3},
-            6, false, STANDARD_DRAW_SCALE),
+            6, false, STANDARD_DRAW_SCALE);},
 
         //Right facing animations
         idleRight: new Animation(spriteSheet,
@@ -47,10 +47,10 @@ function Ninja() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 5, y: 5}, {x: 4, y: 6},
             10, false, STANDARD_DRAW_SCALE); },
-        dmgFromRight: new Animation(dmgSheet,
+        dmgFromRight: function() { return new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 1}, {x: 5, y: 1},
-            6, false, STANDARD_DRAW_SCALE),
+            6, false, STANDARD_DRAW_SCALE);},
 
         //Up facing animations
         idleUp: new Animation(spriteSheet,
@@ -69,10 +69,10 @@ function Ninja() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 1, y: 8}, {x: 4, y: 8},
             10, false, STANDARD_DRAW_SCALE); },
-        dmgFromUp: new Animation(dmgSheet,
+        dmgFromUp: function() { return new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 5, y: 2},
-            6, false, STANDARD_DRAW_SCALE),
+            6, false, STANDARD_DRAW_SCALE);},
 
         //Down facing animations
         idleDown: new Animation(spriteSheet,
@@ -91,10 +91,10 @@ function Ninja() {
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 2, y: 1}, {x: 5, y: 1},
             10, false, STANDARD_DRAW_SCALE); },
-        dmgFromDown: new Animation(dmgSheet,
+        dmgFromDown: function() { return new Animation(dmgSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 5, y: 0},
-            6, false, STANDARD_DRAW_SCALE),
+            6, false, STANDARD_DRAW_SCALE);},
 
         //Projectile animations
         regProjectile: function () { return new Animation(shuriken,

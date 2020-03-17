@@ -49,7 +49,7 @@ class Post extends DestructableObject {
                     that.game.player.x += vec.x;
                     that.game.player.y += vec.y;
 
-                    that.game.player.takeDmg(1, that.dir);
+                    that.game.player.takeDmg(1, vectorToDir(that.dir));
                     if (that.game.player.wallCollision(that.game.player)) {
 
                         that.game.player.x -= vec.x;

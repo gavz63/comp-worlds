@@ -760,7 +760,7 @@ class WoodDragonHead extends Enemy {
             this.animation.setFrame(this.animation.getLastFrameAsInt());
             this.animation.pause();
             this.postLaunchWaiting = true;
-            if (this.game.player) {
+            if (!this.game.player.removeFromWorld) {
                 let enemy_crosshair = new EnemyCrosshair(this.game, this.game.player.x, this.game.player.y, this, true);
                 new TimerCallback(this.game, 2, false, function () {
                     enemy_crosshair.destroy();

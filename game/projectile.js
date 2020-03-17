@@ -1003,7 +1003,8 @@ class LogProjectile extends Projectile {
                 that.destroy();
             }
         });
-        while (!this.removeFromWorld && checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
+        while (!this.removeFromWorld && this.game.player &&
+        checkCollision(this, this.collider, this.game.player, this.game.player._collider)) {
             let vec = normalizeV(dirV(this, this.game.player));
             this.game.player.x += vec.x;
             this.game.player.y += vec.y;

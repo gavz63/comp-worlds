@@ -396,20 +396,26 @@ class Player extends Entity {
      */
     takeDmg(dmg, direction) {
         if (this.hurt !== true && this.invincible !== true) {
+            if (this.isIdling) {
+                this.isIdling = false;
+                this.idleTimer.reset();
+                this.animation.resetAnimation();
+                this.animation.pause();
+            }
             this.game.audioManager.playSound("impact");
-            this.game._camera.shake(2, 2, .25)
+            this.game._camera.shake(2, 2, .25);
             switch (direction) {
                 case DIRECTION_LEFT:
-                    this.animation = this.characterClass.animation.dmgFromRight;
+                    this.animation = this.characterClass.animation.dmgFromRight();
                     break;
                 case DIRECTION_RIGHT:
-                    this.animation = this.characterClass.animation.dmgFromLeft;
+                    this.animation = this.characterClass.animation.dmgFromLeft();
                     break;
                 case DIRECTION_UP:
-                    this.animation = this.characterClass.animation.dmgFromDown;
+                    this.animation = this.characterClass.animation.dmgFromDown();
                     break;
                 case DIRECTION_DOWN:
-                    this.animation = this.characterClass.animation.dmgFromUp;
+                    this.animation = this.characterClass.animation.dmgFromUp();
             }
 
             this.animation.unpause();
@@ -478,7 +484,7 @@ class Player extends Entity {
     }
 
     destroy() {
-        this.animation._screen = false;
+        this.screen = false;
         if (this.footStepTimer !== null) this.footStepTimer.destroy();
         if (this.lastHeartTimer !== null) this.lastHeartTimer.destroy();
         if (this.controlTimer !== null) this.controlTimer.destroy();
