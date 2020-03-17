@@ -132,7 +132,7 @@ function King() {
         specialMelee: false,
         specialSpeed: 0,
         specialLifetime: 3,
-        specialChargeTime: 10,
+        specialChargeTime: 7,
         specialChargeFromKill: 0,
         maxProjectiles: 8
     };

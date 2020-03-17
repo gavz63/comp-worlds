@@ -140,8 +140,8 @@ class Animation {
         let drawX = posX;
         let drawY = posY;
         if (center === true) {
-            drawX -= ((that._width * that._scale * addScale) / 2);
-            drawY -= ((that._height * that._scale * addScale) / 2);
+            drawX -= ((this._width * this._scale * addScale) / 2);
+            drawY -= ((this._height * this._scale * addScale) / 2);
         }
 		this._center = center;
 

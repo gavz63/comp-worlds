@@ -911,8 +911,25 @@ class Peasant extends Entity {
         if (lengthV({x: this.x - target.x, y: this.y - target.y}) > this.precision) {
             let attackVect = {x: target.x - this.x, y: target.y - this.y};
             attackVect = normalizeV(attackVect);
-            this.x += attackVect.x * this.speed * this.game._clockTick;
-            this.y += attackVect.y * this.speed * this.game._clockTick;
+            let newX = this.x + attackVect.x * this.speed * this.game._clockTick;
+            let newY = this.y + attackVect.y * this.speed * this.game._clockTick;
+            if (this.game._sceneManager.level.mapElementAt({x: coordinateToIndex(newX), y: coordinateToIndex(newY)}) === MAP_TILES.PIT) {
+                let attackVect = {x: target.x - this.x, y: 0};
+                attackVect = normalizeV(attackVect);
+                newX = this.x + attackVect.x * this.speed * this.game._clockTick;
+                newY = this.y;
+                if (this.game._sceneManager.level.mapElementAt({x: coordinateToIndex(newX), y: coordinateToIndex(newY)}) === MAP_TILES.PIT) {
+                    let attackVect = {x: 0, y: target.y - this.y};
+                    attackVect = normalizeV(attackVect);
+                    newX = this.x;
+                    newY = this.y + attackVect.y * this.speed * this.game._clockTick;
+                    if (this.game._sceneManager.level.mapElementAt({x: coordinateToIndex(newX), y: coordinateToIndex(newY)}) === MAP_TILES.PIT) {
+                        newY = this.y;
+                    }
+                }
+            }
+            this.x = newX;
+            this.y = newY;
         }
     }
 }
@@ -921,13 +938,13 @@ class Hail extends Entity {
     constructor(game, x, y, owner) {
         super(game, x, y);
         this.owner = owner;
-        this.myAddScale = 2.5;
-        this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
+        // this.myAddScale = 2.5;
+        // this.myScale = [STANDARD_DRAW_SCALE * this.myAddScale];
         this.animation = new Animation(game.AM.getAsset("./img/projectiles/arrows.png"), 256, 256,
-            {x: 0, y: 0}, {x: 4, y: 0}, 12, false, this.myScale);
+            {x: 0, y: 0}, {x: 4, y: 0}, 12, false, STANDARD_DRAW_SCALE);
         this.animation.unpause();
         this.dmg = 1;
-        this.collider = new Collider(0, 0, 0, 0, 0, 0, 35 * 3, 35);
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, 50, 35);
         this.game.addEntity(this, LAYERS.PLAYER_PROJECTILES);
         this.hit = false;
         this.grounded = 0;
