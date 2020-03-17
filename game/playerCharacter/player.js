@@ -435,7 +435,7 @@ class Player extends Entity {
 
                 this.regenTimer = new TimerCallback(this.game, 7.5, false, function () {
 
-                    that.lastHeartTimer.destroy();
+                    if (that.lastHeartTimer) that.lastHeartTimer.destroy();
                     that.lastHeartTimer = null;
                     if (that.hp < 1) {
                         that.hp = 1;

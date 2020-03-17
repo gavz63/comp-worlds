@@ -6,6 +6,7 @@ class Level4 {
         this.wallType = 0;
         this.nextLevel = Level5.prototype;
         this.musicId = 'bossMusic';
+        this.message = "You enter a church and find the king unconscious.";
 
         this.layout =
             "###############" +

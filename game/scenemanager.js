@@ -21,6 +21,23 @@ class SceneManager {
         sessionStorage.setItem('npcs', string_npcs);
     }
 
+    endGame() {
+
+        this.game.audioManager.pauseMusic();
+        this.game.audioManager.setMusic('changingLevel');
+        this.game.audioManager.restartMusic();
+        this.game.audioManager.playMusic();
+        window.onbeforeunload = null;
+        this.game._camera.shake(15, 10, 10);
+        let that = this;
+        new TimerCallback(this.game, 5, false, function () {
+            that.game._camera.zoomCam(DEFAULT_ZOOM * 50);
+        });
+        new TimerCallback(this.game, 5, false, function () {
+            window.location.href = '../credits.html';
+        });
+    }
+
     levelComplete() {
 
         this.game.game_state = GAME_STATES.CHANGING_LEVEL;

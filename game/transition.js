@@ -5,7 +5,6 @@ class Transition {
         game.game_state = GAME_STATES.CHANGING_LEVEL;
         this._npcList = npcList;
         this._charClassList = [];
-        let that = this;
         npcList.forEach((npc) => {
             npc.animation = npc.characterClass.animation.walkingRight;
             this._charClassList.push(npc.characterClass);
@@ -18,15 +17,32 @@ class Transition {
         this._phase = 0;
         this._progress = 0;
         this._finalPos = [];
+        this._text = "";
+        if (nextLevel && nextLevel.message !== undefined) {
+            this._text = nextLevel.message;
+        }
     }
 
     draw(ctx) {
+
+        // Draw text.
+        if (this._phase > 1 && this._phase < 3) {
+            let size = Math.floor(32 * STANDARD_DRAW_SCALE / 4);
+            ctx.font = size + 'px Candara';
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = 'center';
+            ctx.fillText(this._text, ctx.canvas.width / 2, (ctx.canvas.height / 2) + (32 * STANDARD_DRAW_SCALE));
+        }
+
+
+        // Draw characters.
         this._npcList.forEach((npc) => {
             npc.draw(ctx);
         });
     }
 
     update() {
+        // Update characters.
         if (this._phase === 0) {
             this._x += Math.ceil(150 * this._game._clockTick);
             this._game._camera._desiredZoom = (224 * 224);

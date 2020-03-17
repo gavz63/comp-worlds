@@ -6,6 +6,7 @@ class Level5 {
         this.wallType = 0;
         this.nextLevel = null;
         this.musicId = 'bossMusic';
+        this.message = "The end is near.";
 
         this.layout =
             "#--------------#" +
@@ -15,7 +16,7 @@ class Level5 {
             "#-P----------P-#" +
             "#-P----------P-#" +
             "##P----------P##" +
-            "S-------------#E" +
+            "S-------------##" +
             "################";
 
         this.playerSpawner = null;

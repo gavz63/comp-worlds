@@ -12,6 +12,7 @@ class Level2 {
         this.wallType = 0;
         this.nextLevel = Level3.prototype;
         this.musicId = 'hedgeMazeMusic';
+        this.message = "You step outside and see hedges everywhere.";
 
         this.layout =
             "##################################" +

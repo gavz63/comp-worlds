@@ -8,6 +8,7 @@ class Level1
 		this.wallType = 1;
 		this.nextLevel = Level2.prototype;
 		this.musicId = 'churchMusic';
+		this.message = "You and your party split up.";
 
 		this.layout = 
 		"####################" +

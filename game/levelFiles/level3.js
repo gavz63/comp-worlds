@@ -6,6 +6,7 @@ class Level3 {
         this.wallType = 0;
         this.nextLevel = Level4.prototype;
         this.musicId = 'hedgeMonsterMusic';
+        this.message = "The ground begins to shake...";
 
         this.layout =
             "##########J" +

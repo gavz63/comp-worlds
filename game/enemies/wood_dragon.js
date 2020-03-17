@@ -679,7 +679,7 @@ class WoodDragon extends Enemy {
             this.healthBar.destroy();
             this.killTimers();
 
-            this.game.sceneManager.levelComplete();
+            this.game.sceneManager.endGame();
 
             this.game._entities[LAYERS.ENEMIES].length = 0;
             this.game._entities[LAYERS.ENEMY_PROJECTILES].length = 0;
