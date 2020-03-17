@@ -1,6 +1,8 @@
 class NPC extends Entity {
     constructor(game, characterClass, hp, hover = false) {
-        super(game, characterClass.npc.x , characterClass.npc.y + (game.sceneManager.level.spawn.y * 96));
+        let spawnOff = 0;
+        if (game.sceneManager.level && game.sceneManager.level.spawn) spawnOff = game.sceneManager.level.spawn.y * 96;
+        super(game, characterClass.npc.x , characterClass.npc.y + spawnOff);
         this.characterClass = characterClass;
         this.hp = hp;
         this.animation = characterClass.animation.idleRight;

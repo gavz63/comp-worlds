@@ -149,7 +149,7 @@ class Animation {
         let cF;
 		if(this._paused !== true && this._paused !== false)
 		{
-			console.log(this._paused);
+			//console.log(this._paused);
 		}
 		cF = this.currentFrame();
         

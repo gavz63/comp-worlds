@@ -55,14 +55,17 @@ class GameEngine {
         this._surfaceHeight = this._ctx.canvas.height;
         this._entities = [];
         this._entities[LAYERS.FLOOR] = [];
+        this._entities[LAYERS.SPAWNERS] = [];
         this._entities[LAYERS.REMNANTS] = [];
         this._entities[LAYERS.PUDDLEREMNANTS] = [];
+        this._entities[LAYERS.OBJECTS] = [];
         this._entities[LAYERS.ENEMIES] = [];
         this._entities[LAYERS.ENEMY_PROJECTILES] = [];
         this._entities[LAYERS.PICKUPS] = [];
-        this._entities[LAYERS.PLAYER_PROJECTILES] = [];
         this._entities[LAYERS.MAIN] = [];
+        this._entities[LAYERS.PLAYER_PROJECTILES] = [];
         this._entities[LAYERS.WALL] = [];
+        this._entities[LAYERS.DOOR] = [];
         this._entities[LAYERS.PARTICLES] = [];
         this._entities[LAYERS.HUD] = [];
         this._entities[LAYERS.PRIORITY] = [];
@@ -122,26 +125,27 @@ class GameEngine {
      * @param {*} ctx The HTML canvas' 2D context.
      */
     init() {
-        this.audioManager = new AudioManager();
-        //this.LoadLevel(new Level1(), [new BlackMage(), new Ninja()]);
-        let level;
-        if (sessionStorage.getItem('level') === 'endless') {
-            level = new Endless();
-        } else {
-            level = new (eval("Level" + sessionStorage.getItem('level')))();
-        }
-        
-        console.log(this.audioManager);
-        
-        this.audioManager.setMasterVolume(parseFloat(sessionStorage.getItem('master_volume')));
-        this.audioManager.setMusicVolume(parseFloat(sessionStorage.getItem('music_volume')));
-        this.audioManager.setSFXVolume(parseFloat(sessionStorage.getItem('gameplay_volume')));
-                        console.log(this.audioManager);
-
-        this.LoadLevel(level, parseNPC(sessionStorage.getItem('npcs')));
         this.startInput();
         this._clock = new Clock();
         new Crosshair(this);
+        if (sessionStorage.getItem('level') === '0') {
+            new Story(this);
+        } else {
+            this.audioManager = new AudioManager();
+            //this.LoadLevel(new Level1(), [new BlackMage(), new Ninja()]);
+            let level;
+            if (sessionStorage.getItem('level') === 'endless') {
+                level = new Endless();
+            } else {
+                level = new (eval("Level" + sessionStorage.getItem('level')))();
+            }
+            
+            this.audioManager.setMasterVolume(parseFloat(sessionStorage.getItem('master_volume')));
+            this.audioManager.setMusicVolume(parseFloat(sessionStorage.getItem('music_volume')));
+            this.audioManager.setSFXVolume(parseFloat(sessionStorage.getItem('gameplay_volume')));
+
+            this.LoadLevel(level, parseNPC(sessionStorage.getItem('npcs')));
+        }
         this.addEntity(this._camera, LAYERS.PRIORITY);
     }
 
@@ -265,7 +269,6 @@ class GameEngine {
         }
         this.timers = [];
         this.destroyedLevel = true;
-        console.log("destroyed level");
     }
 
     /**

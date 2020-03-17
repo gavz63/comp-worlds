@@ -51,7 +51,6 @@ class SceneManager {
         // Remaining party members as NPC's.
         let remaining = [];
 
-        console.log(this.game.player);
         remaining.push(new NPC(this.game, this.game.player.characterClass, this.game.player.characterClass.stats.maxHP));
         this.game.player.destroy();
         this.game.player = {x: 0, y: 0};
