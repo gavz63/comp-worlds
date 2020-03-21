@@ -3,6 +3,7 @@ class GameOver {
         this.game = game;
         this.x = game.ctx.canvas.width/2;
         this.y = game.ctx.canvas.height/2 - 200;
+        this.game.sceneManager.revived = [];
 
         this._myScale = [STANDARD_DRAW_SCALE * 4];
         this.animation = new Animation(ASSET_MANAGER.getAsset("./img/hud/GameOver.png"),
