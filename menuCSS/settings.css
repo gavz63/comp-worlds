@@ -70,10 +70,83 @@ button {
     background: url(../menuImages/fps60press.png);
 }
 
+#sfxDown {
+    width: 8vw;
+    height: 8vw;
+    background: url(../menuImages/minus.png);
+}
+
+#sfxDown:hover {
+    background: url(../menuImages/minushover.png);
+}
+
+#sfxDown:active {
+    background: url(../menuImages/minuspress.png);
+}
+
+#sfxUp {
+    width: 8vw;
+    height: 8vw;
+    background: url(../menuImages/plus.png);
+}
+
+#sfxUp:hover {
+    background: url(../menuImages/plushover.png);
+}
+
+#sfxUp:active {
+    background: url(../menuImages/pluspress.png);
+}
+
+#musicDown {
+    width: 8vw;
+    height: 8vw;
+    background: url(../menuImages/minus.png);
+}
+
+#musicDown:hover {
+    background: url(../menuImages/minushover.png);
+}
+
+#musicDown:active {
+    background: url(../menuImages/minuspress.png);
+}
+
+#musicUp {
+    width: 8vw;
+    height: 8vw;
+    background: url(../menuImages/plus.png);
+}
+
+#musicUp:hover {
+    background: url(../menuImages/plushover.png);
+}
+
+#musicUp:active {
+    background: url(../menuImages/pluspress.png);
+}
+
+#sfxVolume {
+    width: 8vw;
+    height: 8vw;
+}
+
+#musicVolume {
+    width: 8vw;
+    height: 8vw;
+}
+
 #main, #main:hover, #main:active,
 #fps30, #fps30:hover, #fps30:active,
-#fps60, #fps60:hover, #fps60:active {
+#fps60, #fps60:hover, #fps60:active,
+#sfxDown, #sfxDown:hover, #sfxDown:active,
+#sfxUp, #sfxUp:hover, #sfxUp:active,
+#sfxVolume, #sfxVolume:hover, #sfxVolume:active,
+#musicDown, #musicDown:hover, #musicDown:active,
+#musicUp, #musicUp:hover, #musicUp:active,
+#musicVolume, #musicVolume:hover, #musicVolume:active {
     background-size: contain;
+    background-color: rgba(0, 0, 0, 0);
     /*position: absolute;*/
     /*top: 80%;*/
     /*left: 50%;*/

@@ -72,11 +72,11 @@ class HealthBar extends Entity
   destroy()
   {
     super.destroy();
-    console.log("got here 1");
+    //console.log("got here 1");
     this.barBack.destroy();
     this.barFront.destroy();
     this.barOutline.destroy();
-    console.log("got here 2");
+    //console.log("got here 2");
   }
 }
 

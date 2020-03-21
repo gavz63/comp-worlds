@@ -96,7 +96,7 @@ class Level {
         if (this.unlockableCharacter) {
             this.unlockableCharacter.forEach(function (elem)
             {
-                console.log(elem.characterClass);
+                //console.log(elem.characterClass);
                 new PCRemnant(that.game, indexToCoordinate(elem.x), indexToCoordinate(elem.y), elem.characterClass, elem.characterClass.animation.dmgFromRight());
             });
         }

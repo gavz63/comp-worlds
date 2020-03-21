@@ -463,7 +463,7 @@ class Flame extends EasingProjectile {
 
         let newPos = {x: this.x, y: this.y};
         if (this.wallCollision(newPos)) {
-            console.log("destroy special projectile");
+            //console.log("destroy special projectile");
             this.destroy();
         } else {
             this.oldPos = newPos;
@@ -680,7 +680,7 @@ class Shuriken extends EasingProjectile {
                     } else {
                         let backDir = normalizeV(that.dir);
                         while (circleToCircle(that, elem)) {
-                            console.log(backDir.x + ", " + backDir.y);
+                            //console.log(backDir.x + ", " + backDir.y);
                             that.x -= backDir.x;
                             that.y -= backDir.y;
                             that.setDone();
@@ -1068,15 +1068,15 @@ class WoodChip extends Projectile {
               animation.setFrame(4);
               break;
           case 1:
-              console.log(1);
+              //console.log(1);
               animation.setFrame(3);
               break;
           case 2:
-                          console.log(2);
+                          //console.log(2);
               animation.setFrame(2);
               break;
           case 3:
-                          console.log(3);
+                          //console.log(3);
               animation.setFrame(1);
               break;
           default:
@@ -1138,7 +1138,7 @@ class Shockwave extends Projectile {
     update() {
         this.myAddScale = this.startScale + (this.endScale - this.startScale) * this.timer.getPercent();
         this.collider._radius = this.myAddScale * 55;
-        console.log(this.myAddScale);
+        //console.log(this.myAddScale);
         this.myScale[0] = this.myAddScale * STANDARD_DRAW_SCALE;
 
         this.testCollision();

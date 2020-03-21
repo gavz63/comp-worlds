@@ -6,7 +6,7 @@ class MagmaGolem extends Enemy {
       let towardsCenter = normalizeV(dirV({x: this.x, y: this.y}, {x: spawner.x, y: spawner.y}));
       while(this.wallCollision({x: this.x, y: this.y}))
       {
-        console.log("HELLO WORLD: " + towardsCenter.x + ", " + towardsCenter.y);
+        //console.log("HELLO WORLD: " + towardsCenter.x + ", " + towardsCenter.y);
         this.x += towardsCenter.x;
         this.y += towardsCenter.y;
       }
@@ -176,7 +176,7 @@ class MagmaGolem extends Enemy {
       {
         if(!this.invincible)
         {
-          console.log("HEY");
+          //console.log("HEY");
           let checkWalls = true;
           if(this.wallCollision({x: this.x, y: this.y}))
           {
@@ -196,7 +196,7 @@ class MagmaGolem extends Enemy {
           }
           this.hp -= dmg;
           this.hurt = true;
-          console.log(this.hurt);
+          //console.log(this.hurt);
           if (this.hp <= 0) {
             this.destroy();
           }

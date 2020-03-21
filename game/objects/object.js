@@ -41,6 +41,6 @@ class DestructableObject extends Entity {
       {
         this.game.audioManager.playSound(getRandomSound(this.hitSounds));
       }
-      console.log("DAMAGE");
+      //console.log("DAMAGE");
     }
 }

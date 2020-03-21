@@ -21,7 +21,7 @@ class Button {
     }
 
     update() {
-                      console.log(this.game.audioManager);
+                      //console.log(this.game.audioManager);
         this.x = this.game.ctx.canvas.width/2 + this.xOffset;
         this.y = this.game.ctx.canvas.height/2 + this.yOffset;
         if (pointToSquare(this.game.mousePos, this)) {
@@ -30,7 +30,7 @@ class Button {
                 this.animation = this.clickAnimation;
                 this.callback();
             } else {
-                console.log(this.game.audioManager);
+                //console.log(this.game.audioManager);
                 if(this.set === false)
                 {
                   this.game.audioManager.playSound("click");

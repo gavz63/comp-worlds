@@ -85,7 +85,7 @@ class Player extends Entity {
         this.lastHeartSounds = ["heartBeat"];
 
         this.walkSounds = [];
-        console.log(this.game._sceneManager.level._floorType);
+        //console.log(this.game._sceneManager.level._floorType);
         if (this.game._sceneManager.level._floorType) {
             this.walkSounds.push("step1");
             this.walkSounds.push("step2");
@@ -599,7 +599,7 @@ class Player extends Entity {
     }
 
     pitfall(respawnPos) {
-      console.log("fell");
+      //console.log("fell");
         this.speed = 0;
         this.velocity.x = 0;
         this.velocity.y = 0;

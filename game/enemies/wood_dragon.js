@@ -562,7 +562,7 @@ class WoodDragon extends Enemy {
                     });
                     break;
                 default:
-                    console.log("INVALID DIRECTION");
+                    //console.log("INVALID DIRECTION");
                     break;
             }
             this.animation.setFrame(4);
@@ -572,7 +572,7 @@ class WoodDragon extends Enemy {
                 this.head = null;
             }
         } else {
-            console.log("Calling groundFace() when not on the ground!");
+            //console.log("Calling groundFace() when not on the ground!");
         }
     }
 
@@ -642,7 +642,7 @@ class WoodDragon extends Enemy {
             this.isTailWhipping = true;
             this.animation.unpause();
         } else {
-            console.log("Calling tail whip while not on ground!");
+            //console.log("Calling tail whip while not on ground!");
         }
     }
 
@@ -654,7 +654,7 @@ class WoodDragon extends Enemy {
     takeDamage(dmg, dir, knockBack) {
         if (!this.hurt) {
             if (this.hp <= 0) {
-                console.log("boop");
+                //console.log("boop");
                 this.destroy();
             } else {
                 this.hp -= dmg;
@@ -827,7 +827,7 @@ class WoodDragonHead extends Enemy {
         //super.destroy();
         this.removeFromWorld = true;
 
-        console.log("Head DESTROY");
+        //console.log("Head DESTROY");
     }
 
     takeDamage(dmg, dir, knockBack) {

@@ -17,7 +17,7 @@ class SceneManager {
         });
 
         string_npcs = string_npcs.join(" ");
-        console.log(string_npcs);
+        //console.log(string_npcs);
         sessionStorage.setItem('npcs', string_npcs);
     }
 

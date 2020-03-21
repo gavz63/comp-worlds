@@ -83,6 +83,7 @@ function Input() {
             //     that.sceneManager.levelComplete();
             // }
             // Temporary
+            /*
             if (e.code === "Equal") {
                 //that._camera.shake(20, 20, 1);
                 if (!that.equals) {
@@ -105,6 +106,7 @@ function Input() {
                     that.minus = true;
                 }
             }
+            */
 
             that.chars[e.code] = true;
             that.keyStack.push(e.code); // keystack tracks the order keys are pressed
@@ -158,18 +160,18 @@ function Input() {
             that.l = false;
         }
 
+        /*
         // Temporary
         if (e.code === "Equal") {
             that.equals = false;
-            console.log(that.audioManager.masterVolume);
             that.audioManager.setMasterVolume(that.audioManager.masterVolume);
         }
         // Temporary
         if (e.code === "Minus") {
             that.minus = false;
-            console.log(that.audioManager.masterVolume);
             that.audioManager.setMasterVolume(that.audioManager.masterVolume);
         }
+        */
 
 
         that.chars[e.code] = false;

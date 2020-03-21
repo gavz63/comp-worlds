@@ -76,7 +76,7 @@ class RoomSpawner
 			  
 			  if(this.camLocked && this.zoomAmt !== -1)
 			  {
-				  console.log("THIS SHOULDNT HAVE HAPPENED");
+				  //console.log("THIS SHOULDNT HAVE HAPPENED");
 				  this.game._camera._desiredZoom = this.zoomAmt;
 			  }
 			  else if(!this.camLocked)
