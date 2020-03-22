@@ -217,24 +217,9 @@ class WoodDragon extends Enemy {
                 break;
             case MODE.SCREEN_WIPE:
                 if (!this.modeTimer.paused) {
-                    let that = this;
                     this.modeTimer.pause();
 
-                    let postExists = false;
-                    this.game.entities[LAYERS.OBJECTS].forEach(function (o) {
-                        if (o instanceof Post) {
-                            postExists = true;
-                        }
-                    });
-
-                    if (postExists) {
-                        this.createScreenWipeTimer();
-                    } else {
-                        this.head.postLaunch();
-                        new TimerCallback(this.game, 3.1, false, function () {
-                            that.createScreenWipeTimer();
-                        });
-                    }
+                    this.createScreenWipeTimer();
                 }
                 this.doScreenWipe();
                 break;

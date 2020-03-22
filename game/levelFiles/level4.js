@@ -127,8 +127,165 @@ class Level4 {
                 radius: 10000,
                 total: 1,
                 roomNum: 1,
-                delay: Math.Infinity
+                delay: Infinity
+            });
+        this.spawnerList.push (
+            {
+                x: 13,
+                y: 3.65,
+                max: 1,
+                freq: 3,
+                list: [BoneMan.prototype],
+                rand: false,
+                radius: 10000,
+                total: 1,
+                roomNum: 1,
+                delay: 0
+            });
+        this.spawnerList.push (
+            {
+                x: 13,
+                y: 4.15,
+                max: 1,
+                freq: 3,
+                list: [BoneMan.prototype],
+                rand: false,
+                radius: 10000,
+                total: 1,
+                roomNum: 1,
+                delay: 0
+            });
+        this.spawnerList.push (
+            {
+                x: 12.5,
+                y: 3.65,
+                max: 1,
+                freq: 3,
+                list: [BoneMan.prototype],
+                rand: false,
+                radius: 10000,
+                total: 1,
+                roomNum: 1,
+                delay: 0
+            });
+        this.spawnerList.push (
+            {
+                x: 12.5,
+                y: 4.15,
+                max: 1,
+                freq: 3,
+                list: [BoneMan.prototype],
+                rand: false,
+                radius: 10000,
+                total: 1,
+                roomNum: 1,
+                delay: 0
             });
 
+        this.spawnerList.push (
+            {
+                x: 10,
+                y: 8,
+                max: 0,
+                freq: 2,
+                list: [Bat.prototype],
+                rand: false,
+                radius: 100,
+                total: 10,
+                roomNum: 1,
+                delay: 0
+            });
+        this.spawnerList.push (
+            {
+                x: 9,
+                y: 8,
+                max: 0,
+                freq: 2,
+                list: [Bat.prototype],
+                rand: false,
+                radius: 100,
+                total: 10,
+                roomNum: 1,
+                delay: 0
+            });
+        this.spawnerList.push (
+            {
+                x: 8,
+                y: 8,
+                max: 0,
+                freq: 2,
+                list: [Bat.prototype],
+                rand: false,
+                radius: 100,
+                total: 10,
+                roomNum: 1,
+                delay: 0
+            });
+        this.spawnerList.push (
+            {
+                x: 7,
+                y: 8,
+                max: 0,
+                freq: 2,
+                list: [Bat.prototype],
+                rand: false,
+                radius: 100,
+                total: 10,
+                roomNum: 1,
+                delay: 0
+            });
+        this.spawnerList.push (
+            {
+                x: 6,
+                y: 8,
+                max: 0,
+                freq: 2,
+                list: [Bat.prototype],
+                rand: false,
+                radius: 100,
+                total: 10,
+                roomNum: 1,
+                delay: 0
+            });
+
+        this.spawnerList.push (
+            {
+                x: 10,
+                y: 1,
+                max: 1,
+                freq: 2,
+                list: [StoneGolem.prototype],
+                rand: false,
+                radius: 100,
+                total: 1,
+                roomNum: 1,
+                delay: 0
+            });
+        this.spawnerList.push (
+            {
+                x: 9,
+                y: 1,
+                max: 1,
+                freq: 2,
+                list: [StoneGolem.prototype],
+                rand: false,
+                radius: 100,
+                total: 1,
+                roomNum: 1,
+                delay: 0
+            });
+        this.spawnerList.push (
+            {
+                x: 8,
+                y: 1,
+                max: 1,
+                freq: 2,
+                list: [StoneGolem.prototype],
+                rand: false,
+                radius: 100,
+                total: 1,
+                roomNum: 1,
+                delay: 0
+            });
     }
 }

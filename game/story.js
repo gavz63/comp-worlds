@@ -43,6 +43,14 @@ class Story {
 
         let c = new BlackMage();
         let remaining = [new NPC(this._game, c, c.stats.maxHP)];
+
+        // c = new Lancer();
+        // remaining.push(new NPC(this._game, c, c.stats.maxHP));
+        // c = new King();
+        // remaining.push(new NPC(this._game, c, c.stats.maxHP));
+        // c = new Ninja();
+        // remaining.push(new NPC(this._game, c, c.stats.maxHP));
+
         this._game._camera._zoom = (224 * 224);
         this._game._camera._desiredZoom = (224 * 224);
         let trans = new Transition(this._game, remaining, {x: 0, y: 0}, new level.constructor());
