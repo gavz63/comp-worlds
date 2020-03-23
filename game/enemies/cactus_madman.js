@@ -2,7 +2,7 @@ class CactusMadman extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
 
-        let spriteSheet = game.AM.getAsset("./img/enemies/CactusBoiSheet.png");
+        let spriteSheet = game.AM.getAsset("./img/enemies/CactusMadmanSheet.png");
         let projectile = game.AM.getAsset("./img/projectiles/CactusSpine.png");
 
         this.moveAnimation = new Animation(spriteSheet,
@@ -17,7 +17,7 @@ class CactusMadman extends Enemy {
 
         this.deathAnimation = new Animation(spriteSheet,
             STANDARD_ENTITY_FRAME_WIDTH, STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 2}, {x: 2, y: 2},
+            {x: 2, y: 1}, {x: 1, y: 3},
             3, false, STANDARD_DRAW_SCALE);
 
         this.projectileAnimation = new Animation(projectile,
@@ -26,9 +26,10 @@ class CactusMadman extends Enemy {
             3, false, STANDARD_DRAW_SCALE);
 
         this.animation = this.moveAnimation;
-        this.speed = 40;
+        this.speed = 70;
         this.collider = new Collider(0, 0, 0, 0, 0, 0, STANDARD_ENTITY_RADIUS, 5);
         this.isAttacking = false;
+        this.hp = 7;
     }
 
     update() {
@@ -37,12 +38,21 @@ class CactusMadman extends Enemy {
 
         if (this.isAttacking) {
             if (this.animation.isDone()) {
+                
+
+                this.pathfind(1000, 50);
+                if (this.goalPoint) {
+                    this.go(normalizeV(dirV(this, this.goalPoint)));
+                }
+
+
+
                 this.isAttacking = false;
                 for (let i = -1; i < 1.5; i += 0.5) {
                     for (let j = -1; j < 1.5; j += 0.5) {
                         new Projectile(this.game,
                             this.x, this.y,
-                            {x: i, y: j},
+                            {x: i * (Math.random() * 2), y: (Math.random() * 2) * j},
                             300, 0.3, true, this,
                             this.projectileAnimation,
                             1, 2);

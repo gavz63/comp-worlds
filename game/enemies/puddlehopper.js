@@ -4,32 +4,38 @@ class PuddleHopper extends Enemy {
         this.moveAnimation = new Animation(this.game.AM.getAsset("./img/enemies/PuddleHopper.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 2, y: 5}, 12, true, STANDARD_DRAW_SCALE);
+            {x: 0, y: 0}, {x: 1, y: 2}, 12, true, STANDARD_DRAW_SCALE);
         this.attackAnimation = null;
         this.deathAnimation = new Animation(this.game.AM.getAsset("./img/enemies/HopperDeath.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
-            {x: 0, y: 0}, {x: 4, y: 0}, 12, false, STANDARD_DRAW_SCALE);
+            {x: 0, y: 0}, {x: 0, y: 1}, 12, false, STANDARD_DRAW_SCALE);
 
         this.animation = this.moveAnimation;
 
         this.hp = 0.5;
 
         this.speed = 300;
-        this.collider = new Collider(0, 0, 0, 0, 0, 0, 1, 5);
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, 6, 5);
         this.directionSet = false;
         this.targetVector = null;
+        this.destroySounds.push("puddleDeath");
     }
 
     update() {
-        if (!this.directionSet) {
+        if (this.animation._elapsedTime > this.animation._totalTime / 2) {
 
-            this.pathfind(1000, 50);
-            this.directionSet = true;
-        }
+            if (!this.directionSet) {
 
-        if (this.goalPoint) {
-            this.go(normalizeV(dirV(this, this.goalPoint)));
+                this.pathfind(1000, 50);
+                this.directionSet = true;
+            }
+
+            if (this.goalPoint) {
+                this.go(normalizeV(dirV(this, this.goalPoint)));
+            }
+        } else {
+            this.directionSet = false;
         }
     }
 }

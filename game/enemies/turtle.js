@@ -37,9 +37,9 @@ class Turtle extends Enemy {
 
     update() {
         this._myScale[0] = 1.5 * STANDARD_DRAW_SCALE;
-        if (this.isAttacking && this.animation.isDone()) {
+        if (this.isAttacking && (this.animation.isDone() || !this.game._camera.isOnScreen({x: this.x, y: this.y}, 60, 60, STANDARD_DRAW_SCALE))) {
             this.reload();
-        } else if (this.reloading && this.animation.isDone()) {
+        } else if (this.reloading && (this.animation.isDone() || !this.game._camera.isOnScreen({x: this.x, y: this.y}, 60, 60, STANDARD_DRAW_SCALE))) {
             this.walk();
         } else if (!this.reloading && !this.isAttacking) {
             this.pathfind(1000, 50);

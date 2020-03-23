@@ -53,9 +53,9 @@ class Skeleton extends Enemy {
             }
         } else {
             this.pathfind(1000, 50);
-            if (lengthV(vecToPlayer) > 125 ||
+            if (this.goalPoint !== null && (lengthV(vecToPlayer) > 125 ||
                 (this.goalPoint.x === this.game.player.x &&
-                    this.goalPoint === this.game.player.y)) {
+                    this.goalPoint === this.game.player.y))) {
 
                 if (this.waitTimer) {
                     this.waitTimer.destroy();

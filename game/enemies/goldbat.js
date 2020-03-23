@@ -2,32 +2,36 @@ class GoldBat extends Enemy {
     constructor(game, x, y, spawner) {
         super(game, x, y, spawner);
         this.circle = Math.floor(Math.random() * 360);
-        this.myScale = [2 * STANDARD_DRAW_SCALE];
+        this.myScale = [4 * STANDARD_DRAW_SCALE];
 
-        this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
+        this.moveAnimation = new Animation(game.AM.getAsset("./img/enemies/GoldBat.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 0}, {x: 3, y: 0}, 10, true, this.myScale);
-        this.attackAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
+        this.attackAnimation = new Animation(game.AM.getAsset("./img/enemies/GoldBat.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 1}, {x: 3, y: 1}, 10, true, this.myScale);
-        this.deathAnimation = new Animation(game.AM.getAsset("./img/enemies/Bat.png"),
+        this.deathAnimation = new Animation(game.AM.getAsset("./img/enemies/GoldBat.png"),
             STANDARD_ENTITY_FRAME_WIDTH,
             STANDARD_ENTITY_FRAME_WIDTH,
             {x: 0, y: 2}, {x: 3, y: 2}, 10, false, this.myScale);
 
         this.animation = this.moveAnimation;
 
-        this.speed = 100;
-        this.collider = new Collider(0, 0, -13, 12, -15, 16, null, 150);
+        this.speed = 125;
+        this.collider = new Collider(0, 0, 0, 0, 0, 0, 2 * (STANDARD_ENTITY_RADIUS - 5), 5);
         this.oldCircle = 0;
-        this.radius = STANDARD_ENTITY_RADIUS - 5;
         this.inRange = false;
+        this.hp = 3;
+        
+        //this.destroySounds.push("batDeath1");
+        this.destroySounds.push("batDeath1");
+        //this.destroySounds.push("nothing");
     }
 
     update() {
-        this.myScale[0] = 2 * STANDARD_DRAW_SCALE;
+        this.myScale[0] = 4 * STANDARD_DRAW_SCALE;
         this.pathfind(1000, 50);
         if (this.goalPoint) {
             let vec = dirV(this, this.goalPoint);
@@ -59,8 +63,8 @@ class GoldBat extends Enemy {
             this.circle = (this.circle + this.speed * this.game._clockTick) % 360;
         }
         this.go(normalizeV(dirV(this, {
-            x: this.game.player.x + (Math.cos((this.circle / 180) * Math.PI)) * (75),
-            y: this.game.player.y + (Math.sin((this.circle / 180) * Math.PI)) * 75
+            x: this.game.player.x + (Math.cos((this.circle / 180) * Math.PI)) * (15),
+            y: this.game.player.y + (Math.sin((this.circle / 180) * Math.PI)) * 15
         })));
     }
 }

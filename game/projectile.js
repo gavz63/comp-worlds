@@ -818,7 +818,7 @@ class Peasant extends Entity {
         this.animation = new Animation(game.AM.getAsset("./img/projectiles/Peasants.png"), 16, 16,
             {x: 0, y: peasantID}, {x: 1, y: peasantID}, 5, true, STANDARD_DRAW_SCALE);
         this.animation.unpause();
-        this.speed = 100;
+        this.speed = 110 + Math.floor(Math.random() * 5);
         this.hp = 1;
         this.dmg = 1;
         this.collider = new Collider(0, 0, 0, 0, 0, 0, 8, 5);
@@ -835,7 +835,9 @@ class Peasant extends Entity {
 
     update() {
 
-        if (this.game.player.dead || !(this.game.player.characterClass instanceof King) || this.game.game_state !== GAME_STATES.PLAYING) {
+        if (this.game.player.dead
+        || !(this.game.player.characterClass instanceof King)
+        || this.game.game_state !== GAME_STATES.PLAYING) {
             this.removeFromWorld = true;
         }
 
@@ -924,6 +926,21 @@ class Peasant extends Entity {
                     newX = this.x;
                     newY = this.y + attackVect.y * this.speed * this.game._clockTick;
                     if (this.game._sceneManager.level.mapElementAt({x: coordinateToIndex(newX), y: coordinateToIndex(newY)}) === MAP_TILES.PIT) {
+                        newY = this.y;
+                    }
+                }
+            }
+            if (this.game._sceneManager.level.mapElementAt({x: coordinateToIndex(newX), y: coordinateToIndex(newY)}) === MAP_TILES.WALL) {
+                let attackVect = {x: target.x - this.x, y: 0};
+                attackVect = normalizeV(attackVect);
+                newX = this.x + attackVect.x * this.speed * this.game._clockTick;
+                newY = this.y;
+                if (this.game._sceneManager.level.mapElementAt({x: coordinateToIndex(newX), y: coordinateToIndex(newY)}) === MAP_TILES.WALL) {
+                    let attackVect = {x: 0, y: target.y - this.y};
+                    attackVect = normalizeV(attackVect);
+                    newX = this.x;
+                    newY = this.y + attackVect.y * this.speed * this.game._clockTick;
+                    if (this.game._sceneManager.level.mapElementAt({x: coordinateToIndex(newX), y: coordinateToIndex(newY)}) === MAP_TILES.WALL) {
                         newY = this.y;
                     }
                 }
